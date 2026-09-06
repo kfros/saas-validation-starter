@@ -1,3 +1,8 @@
+---
+trigger: always_on
+description: Project Validation Workspace Rules
+---
+
 # SaaS Validation Workspace Rule
 
 Apply this rule to all Stage 1 validation work in this workspace.
