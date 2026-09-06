@@ -34,7 +34,14 @@ business_constraints:
     - remote sales
     - self-service where feasible
   founder_model: solo technical founder with coding/research agents
-  mvp_preference: constrained workflow, no full presentation editor
+  mvp_constraints:
+  - buildable by solo technical founder with coding/research agents
+  - no full presentation editor
+  - native editable PPTX preferred
+  
+research_rules:
+  arpu_target_is_not_evidence: true
+  do_not_reject_lower_observed_wtp_during_research: true
 
 initial_candidate_icps:
   - B2B SaaS account executives
