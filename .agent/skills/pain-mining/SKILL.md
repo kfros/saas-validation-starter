@@ -54,7 +54,12 @@ All records start with `audit_status: PENDING`.
 
 ## Minimum target
 
-Attempt to collect at least 25 candidate pain records so the Auditor can reject weak/duplicate items while still allowing the Stage 1 G1 target to be tested.
+Target up to 25 credible candidate pain records.
+
+This is a research target, not a mandatory completion count. Never retry indefinitely, lower evidence quality, or invent alternative scraping infrastructure merely to reach the target.
+
+If tool limits prevent reaching 25, stop with the credible records
+already collected and report the shortfall and blocker.
 
 Do not manufacture volume. If fewer credible records exist, report that as a finding.
 

@@ -42,6 +42,8 @@ All records start `audit_status: PENDING`.
 
 ## Target
 
-Seek at least 10 candidate money records spanning at least 3 distinct money-signal categories when evidence exists.
+Target up to 10 candidate money records spanning at least 3 distinct money-signal categories when evidence exists.
+This is a research target, not a mandatory completion count. Never retry indefinitely, lower evidence quality, or invent alternative scraping infrastructure merely to reach the target.
+If tool limits prevent reaching 10, stop with the credible records already collected and report the shortfall and blocker.
 
 Do not issue a PASS/FAIL verdict.

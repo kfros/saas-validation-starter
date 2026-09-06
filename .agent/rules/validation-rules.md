@@ -31,3 +31,21 @@ Apply this rule to all Stage 1 validation work in this workspace.
 22. Preserve negative evidence even when it weakens the proposed product.
 23. Keep outputs machine-readable where a schema is defined.
 24. Before claiming a threshold is met, deduplicate by `independence_key`.
+## Tool failure and resource exhaustion policy
+
+25. Do not attempt to bypass unavailable or rate-limited research tools by building ad-hoc web scrapers, search-engine scrapers, browser replacements, or HTTP crawling scripts.
+26. Python and terminal tools may be used for local data processing, validation, deduplication, and file generation. They must not be used as a replacement for the browser or web research tools unless the research skill explicitly requires it.
+27. On HTTP 429, resource-limit, quota-limit, or equivalent browser/tool exhaustion:
+* do not retry the same operation more than once;
+* do not repeatedly switch between alternative scraping approaches;
+* preserve all evidence already collected;
+* record the blocker in the agent's output;
+* complete the run with the evidence available so far.
+28. After 3 consecutive research-tool failures, stop discovery work for that run. Do not attempt further workaround chains.
+29. Minimum evidence targets are targets, not completion requirements. Never weaken evidence standards or enter a retry loop merely to reach a numeric target.
+30. If a research run is prevented from reaching its target because of tool/resource limits, explicitly report:
+* records collected;
+* records still needed to reach the target;
+* blocked source types;
+* the tool/resource failure that caused the interruption.
+31. A partially completed, well-sourced dataset is preferable to an artificially completed or workaround-generated dataset.
