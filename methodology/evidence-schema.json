@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.example/saas-validation/evidence.schema.json",
+  "title": "SaaS Validation Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "idea",
+    "type",
+    "observed_at",
+    "source_type",
+    "source_tier",
+    "source_url",
+    "observation",
+    "interpretation",
+    "polarity",
+    "strength",
+    "independence_key",
+    "agent",
+    "audit_status"
+  ],
+  "properties": {
+    "id": {"type": "string", "minLength": 3},
+    "idea": {"type": "string", "minLength": 2},
+    "type": {
+      "type": "string",
+      "enum": ["market", "pain", "wtp", "recurrence", "workflow", "gap", "reachability", "substitute", "risk"]
+    },
+    "subtype": {"type": ["string", "null"]},
+    "observed_at": {"type": "string", "format": "date"},
+    "source_date": {"type": ["string", "null"], "format": "date"},
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "official_docs", "official_pricing", "company_site", "user_review", "reddit", "community_post",
+        "linkedin", "job_posting", "freelance_listing", "interview", "industry_report", "news",
+        "app_store", "marketplace", "seo_blog", "aggregator", "other"
+      ]
+    },
+    "source_tier": {"type": "string", "enum": ["A", "B", "C"]},
+    "source_url": {"type": "string", "minLength": 8},
+    "source_excerpt": {"type": ["string", "null"], "maxLength": 500},
+    "author_or_entity": {"type": ["string", "null"]},
+    "icp": {"type": ["string", "null"]},
+    "role": {"type": ["string", "null"]},
+    "company": {"type": ["string", "null"]},
+    "company_size": {"type": ["string", "null"]},
+    "industry": {"type": ["string", "null"]},
+    "geography": {"type": ["string", "null"]},
+    "observation": {"type": "string", "minLength": 10},
+    "interpretation": {"type": "string", "minLength": 3},
+    "recurrence": {
+      "type": ["string", "null"],
+      "enum": [null, "per_opportunity", "per_client", "daily", "weekly", "monthly", "quarterly", "ad_hoc", "one_time", "unknown"]
+    },
+    "money_signal": {
+      "type": ["string", "null"],
+      "enum": [null, "actual_purchase", "paid_pilot", "saas_spend", "employee_time", "contractor_spend", "agency_spend", "dedicated_role", "stated_wtp", "competitor_price", "unknown"]
+    },
+    "money_amount": {"type": ["number", "null"], "minimum": 0},
+    "money_currency": {"type": ["string", "null"]},
+    "money_period": {"type": ["string", "null"]},
+    "polarity": {"type": "string", "enum": ["supports", "contradicts", "neutral"]},
+    "strength": {"type": "integer", "minimum": 1, "maximum": 5},
+    "independence_key": {"type": "string", "minLength": 3},
+    "agent": {"type": "string", "minLength": 2},
+    "audit_status": {"type": "string", "enum": ["PENDING", "VERIFIED", "PARTIALLY_VERIFIED", "REJECTED"]},
+    "audit_reason": {"type": ["string", "null"]}
+  }
+}

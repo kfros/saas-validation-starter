@@ -1,0 +1,54 @@
+idea_id: deck-automation
+name: Vertical B2B deck / sales-collateral automation
+stage: 1
+status: research
+
+hypothesis: >-
+  B2B teams that regularly create customer-specific sales decks spend meaningful recurring time adapting
+  PowerPoint presentations to individual opportunities. Existing presentation AI tools do not fully solve
+  the workflow because teams require company-specific templates, trusted source material, accurate client
+  customization, and reliably editable native PPTX output. A sufficiently painful segment can justify a
+  B2B SaaS price materially above low-cost consumer presentation subscriptions.
+
+falsification_conditions:
+  - The workflow is infrequent for plausible target segments.
+  - Existing tools already solve the complete workflow with acceptable quality and low friction.
+  - Manual work is too small or cheap to create meaningful willingness to pay.
+  - Corporate-template or editable-PPTX requirements are not important to users.
+  - Plausible buyers are hard to identify or reach without enterprise procurement-heavy sales.
+  - Security, privacy, or data-access requirements make a solo-founder SMB product impractical.
+
+initial_market_scope:
+  geography: Global English-speaking
+  business_type: B2B
+  company_segment: SMB and mid-market
+  exclusions:
+    - Fortune 500 as initial ICP
+    - procurement-heavy enterprise as initial ICP
+    - heavily regulated workflows requiring substantial compliance work before pilot
+
+business_constraints:
+  target_eventual_arpu_usd_monthly_min: 100
+  acquisition_preference:
+    - founder-led outbound
+    - remote sales
+    - self-service where feasible
+  founder_model: solo technical founder with coding/research agents
+  mvp_preference: constrained workflow, no full presentation editor
+
+initial_candidate_icps:
+  - B2B SaaS account executives
+  - sales enablement teams
+  - boutique consultancies
+  - agencies producing client decks
+  - professional-services firms
+  - commercial real-estate teams
+
+core_unknowns:
+  - Which ICP creates customer-specific decks most frequently?
+  - How much manual time does each deck require?
+  - Which parts of the workflow are repetitive versus creative?
+  - How important is native editable PPTX?
+  - How important are corporate templates and brand rules?
+  - Which existing tools are tried and abandoned, and why?
+  - Who owns the budget for solving this problem?
