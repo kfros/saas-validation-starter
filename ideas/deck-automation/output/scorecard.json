@@ -1,0 +1,243 @@
+{
+  "idea_id": "deck-automation",
+  "audit_date": "2026-09-07",
+  "verdict": "CONDITIONAL PASS",
+  "verdict_rationale": "All factual thresholds for pain (35 independent records), recurrence (66 records), existing spend/WTP (37 records across 8 categories), solution gaps (18 records), and reachability (APMP 11k+ members) are met or exceeded with VERIFIED Tier A evidence. However, Gate 6 fails for the generic B2B SaaS AE sales deck wedge due to enterprise enablement incumbents (Highspot AutoDocs, Seismic LiveDocs), web proposal displacement (Storydoc, Qwilr), and efficient 10-15 minute master template workarounds. PASS is granted conditionally upon redefining the target wedge to Boutique Consultancies or CRE / APMP Proposal Teams (where Highspot/Seismic are unserved/unaffordable and native PPTX is mandatory) and verifying whether the OpenXML layout engine limits satisfy practitioner formatting expectations in Stage 2 interviews.",
+  "condition": "Explicitly narrow the initial ICP away from general B2B SaaS Account Executives to either (a) Boutique Consultancies / Professional Services or (b) Commercial Real Estate Brokerage / APMP Bid Teams, and validate in Stage 2 interviews that server-side OpenXML template generation solves their formatting pain without requiring a full interactive slide editor.",
+  "dimension_scores": {
+    "pain_strength": 5,
+    "recurrence_confidence": 5,
+    "revealed_wtp": 5,
+    "current_solution_gap": 5,
+    "icp_clarity": 4,
+    "reachability": 4,
+    "substitute_risk": 2,
+    "evidence_quality": 5,
+    "source_diversity": 4,
+    "overall_confidence": 4
+  },
+  "gate_results": {
+    "G1_concrete_pain": {
+      "status": "PASS",
+      "verified_count": 35,
+      "target_icp_count": 29,
+      "threshold": ">=20 verified records (>=10 target ICP)",
+      "confidence": "HIGH",
+      "strongest_evidence_ids": [
+        "ev-pain-consulting-thirty-percent-time",
+        "ev-pain-consulting-client-theme-rework",
+        "ev-pain-revops-sfdc-to-slides-manual-drain",
+        "ev-wf-cre-assembly-line-redlining",
+        "ev-wf-msp-qbr-multi-tool-drain"
+      ],
+      "strongest_contradictory_ids": [
+        "ev-pain-rep-disdain-for-decks",
+        "ev-pain-master-template-workaround",
+        "ev-pain-faang-no-deck-workflow"
+      ],
+      "unknowns": [
+        "Exact percentage of time spent on narrative structuring vs. rote mechanical layout formatting across specific boutique consultancies."
+      ]
+    },
+    "G2_recurrence": {
+      "status": "PASS",
+      "confidence": "HIGH",
+      "verified_count": 66,
+      "threshold": ">=MEDIUM confidence",
+      "distribution": {
+        "per_opportunity": 28,
+        "monthly": 17,
+        "daily": 6,
+        "weekly": 5,
+        "one_time": 4,
+        "quarterly": 2,
+        "per_client": 2,
+        "ad_hoc": 1,
+        "unknown": 1
+      },
+      "strongest_evidence_ids": [
+        "ev-pain-consulting-thirty-percent-time",
+        "ev-pain-sales-qbr-hours-editing",
+        "ev-pain-pptx-master-slide-corruption",
+        "ev-wf-cre-om-turnaround-investor",
+        "ev-wf-agency-rfp-resource-drain"
+      ],
+      "strongest_contradictory_ids": [
+        "ev-pain-faang-no-deck-workflow"
+      ],
+      "unknowns": [
+        "Monthly deal/deck volume variability between junior boutique consultancies versus senior partner practices."
+      ]
+    },
+    "G3_existing_spend_wtp": {
+      "status": "PASS",
+      "confidence": "HIGH",
+      "verified_count": 37,
+      "categories_count": 8,
+      "threshold": ">=5 verified records from >=2 distinct categories",
+      "categories_breakdown": {
+        "competitor_price": 11,
+        "employee_time": 8,
+        "dedicated_role": 6,
+        "contractor_spend": 4,
+        "agency_spend": 3,
+        "saas_spend": 3,
+        "actual_purchase": 1,
+        "stated_wtp": 1
+      },
+      "strongest_evidence_ids": [
+        "ev-wtp-superside-minimum-annual",
+        "ev-wtp-24slides-pricing-models",
+        "ev-wtp-ziprecruiter-powerpoint-designer-salary",
+        "ev-wtp-reddit-powerpoint-cleanup-hourly-rates",
+        "ev-wtp-upwork-presentation-designer-hourly"
+      ],
+      "strongest_contradictory_ids": [
+        "ev-wtp-reddit-startups-low-wtp-diy",
+        "ev-skp-thinkcell-consulting",
+        "ev-skp-storydoc-web-collateral"
+      ],
+      "unknowns": [
+        "Budget authority and discretionary spending limit of boutique consultancy engagement managers without partner sign-off."
+      ]
+    },
+    "G4_repeatable_gap": {
+      "status": "PASS",
+      "confidence": "HIGH",
+      "verified_count": 18,
+      "threshold": ">=10 verified records clustered around repeatable problems",
+      "clusters": {
+        "export_fidelity_corruption": 8,
+        "corporate_template_non_compliance": 4,
+        "multi_source_opportunity_context_limits": 2,
+        "other_technical_workflow_breaks": 4
+      },
+      "strongest_evidence_ids": [
+        "ev-mkt-copilot-single-file-limitation",
+        "ev-mkt-storydoc-format-barrier",
+        "ev-pain-gamma-export-corrupted-content",
+        "ev-pain-gamma-ignores-corporate-templates",
+        "ev-gap-beautifulai-export-templates-jeff",
+        "ev-gap-copilot-desktop-custom-template-failure"
+      ],
+      "strongest_contradictory_ids": [
+        "ev-skp-openxml-pptx-layout-engine"
+      ],
+      "unknowns": [
+        "Whether a server-side OpenXML engine without font metrics can achieve acceptable layout quality across diverse corporate master templates."
+      ]
+    },
+    "G5_icp_reachability": {
+      "status": "PASS",
+      "confidence": "MEDIUM",
+      "threshold": ">=MEDIUM confidence",
+      "verified_roles_count": 42,
+      "primary_channels": [
+        "Association of Proposal Management Professionals (APMP, 11,000+ members)",
+        "LinkedIn Sales Enablement and CRE Marketing Specialist roles",
+        "r/consulting, r/CommercialRealEstate, r/sales, r/revops professional communities"
+      ],
+      "strongest_evidence_ids": [
+        "ev-wf-reachability-apmp-association",
+        "ev-wf-cre-marketing-coordinator-role",
+        "ev-wf-enablement-governance-translation",
+        "ev-pain-revops-sfdc-to-slides-manual-drain"
+      ],
+      "strongest_contradictory_ids": [],
+      "unknowns": [
+        "Cold outbound conversion benchmark for boutique consultancy founders/partners vs. CRE brokerage marketing directors."
+      ]
+    },
+    "G6_killer_substitute": {
+      "status": "CONDITIONAL PASS",
+      "confidence": "MEDIUM",
+      "threshold": "No low-friction substitute solving proposed workflow sufficiently well at price destroying value prop",
+      "substitute_threat_assessment": "Killer substitute risk is SEVERE for generic B2B SaaS Account Executives (Highspot AutoDocs, Seismic LiveDocs at the enterprise tier; Storydoc, Qwilr at the web tier; 10-15 minute master PPT templates at the low tier). However, for Boutique Consultancies and CRE/Proposal Teams, enterprise tools are inaccessible ($70k-$180k floors), web links are prohibited by clients, and manual design spend ($899-$15k/mo) persists.",
+      "strongest_evidence_ids": [
+        "ev-mkt-highspot-contract-floor",
+        "ev-mkt-storydoc-format-barrier",
+        "ev-gap-storydoc-no-pptx-export-nasrullah"
+      ],
+      "strongest_contradictory_ids": [
+        "ev-mkt-highspot-autodocs",
+        "ev-mkt-seismic-livedocs",
+        "ev-skp-showpad-acb",
+        "ev-skp-thinkcell-consulting",
+        "ev-skp-storydoc-web-collateral",
+        "ev-pain-master-template-workaround"
+      ],
+      "unknowns": [
+        "Whether think-cell will launch automated AI slide assembly, closing the gap for management consultancies."
+      ]
+    }
+  },
+  "strongest_positive_evidence": [
+    "ev-mkt-copilot-single-file-limitation",
+    "ev-mkt-storydoc-format-barrier",
+    "ev-pain-gamma-export-corrupted-content",
+    "ev-pain-gamma-ignores-corporate-templates",
+    "ev-gap-beautifulai-export-templates-jeff",
+    "ev-pain-revops-sfdc-to-slides-manual-drain",
+    "ev-wtp-superside-minimum-annual",
+    "ev-wtp-24slides-pricing-models",
+    "ev-wf-cre-designer-indesign-bottleneck",
+    "ev-wf-reachability-apmp-association"
+  ],
+  "strongest_negative_evidence": [
+    "ev-mkt-highspot-autodocs",
+    "ev-mkt-seismic-livedocs",
+    "ev-skp-showpad-acb",
+    "ev-skp-thinkcell-consulting",
+    "ev-skp-openxml-pptx-layout-engine",
+    "ev-pain-rep-disdain-for-decks",
+    "ev-pain-master-template-workaround",
+    "ev-pain-faang-no-deck-workflow",
+    "ev-skp-storydoc-web-collateral",
+    "ev-wtp-reddit-startups-low-wtp-diy"
+  ],
+  "candidate_icps": [
+    {
+      "name": "Boutique Strategy & Management Consultancies (5-50 FTEs)",
+      "viability": "HIGH",
+      "rationale": "Decks are the core deliverable; consultants report spending 30% of their workday formatting PowerPoint; teams pay $899-$15k/mo to presentation agencies (24Slides, Superside); web links are rejected by corporate clients who mandate editable PPTX adhering to client brand guidelines."
+    },
+    {
+      "name": "Commercial Real Estate (CRE) Brokerage Teams & Analysts",
+      "viability": "HIGH",
+      "rationale": "Brokerages produce recurring 30-50 page Offering Memorandums (OMs) combining rent rolls, property financials, and maps; teams employ full-time in-house graphic designers ($89k salary) or marketing coordinators solely to build OMs; incumbents like Buildout still require 12 hours of manual assembly."
+    },
+    {
+      "name": "Mid-Market RFP / Bid Proposal Teams (APMP Members)",
+      "viability": "MEDIUM",
+      "rationale": "High-frequency formal RFP pitches requiring multi-source synthesis (case studies, technical specs, pricing tables); reachable via APMP (11k+ members); but proposal workflows frequently involve complex Word/PDF documents alongside presentations."
+    },
+    {
+      "name": "B2B SaaS Account Executives / Sales Enablement",
+      "viability": "LOW / FAILED AS INITIAL WEDGE",
+      "rationale": "Enterprise enablement suites (Highspot AutoDocs, Seismic LiveDocs, Showpad ACB) already solve dynamic CRM-to-PPTX assembly for enterprise; AEs report 10-15 minute master template workarounds; modern consultative selling increasingly bypasses decks; web proposal links (Storydoc, Qwilr) are displacing PPTX."
+    }
+  ],
+  "candidate_wedges": [
+    {
+      "name": "Boutique Consulting Client Theme & Data Injector",
+      "description": "Native PowerPoint add-in or CLI workflow that ingests Excel/data tables and interview transcripts, automatically mapping and recoloring them directly into client-branded PowerPoint master templates without layout corruption."
+    },
+    {
+      "name": "CRE Offering Memorandum (OM) Automated Assembler",
+      "description": "Automated workflow taking property financial models (rent rolls, lease comps) and property imagery into standardized brokerage PowerPoint/OM master templates, bypassing the InDesign specialist bottleneck."
+    }
+  ],
+  "top_unknowns": [
+    "Technical viability: Can server-side OpenXML generation (python-pptx) reliably handle variable-length text autofit and shape wrapping in arbitrary corporate templates without font metrics and without violating solo founder MVP limits?",
+    "Budget ownership: In boutique consultancies (10-50 people), do engagement managers have discretionary card-spend authority ($100-$300/mo) or does software require managing partner / IT consensus?",
+    "Template variance: How customized are boutique consultancy decks from engagement to engagement versus variations of a firm-standard 40-slide master?",
+    "Willingness to replace agency retainers: Will firms paying $899-$15,000/month for human slide designers trust automated software to generate final client-facing decks?"
+  ],
+  "stage2_questions": [
+    "When you adapt a presentation for a client or pitch, exactly how many minutes are spent on narrative/content drafting versus mechanical layout formatting, shape alignment, and recoloring?",
+    "What specific tool stack do you use today to build client decks (PowerPoint desktop, Google Slides, think-cell, InDesign, Figma), and what happens when you try to export or share with clients?",
+    "Have you tested generative presentation tools (Gamma, Beautiful.ai, Pitch, Copilot)? What specific failure caused you to keep or abandon them?",
+    "If a software tool could populate your corporate PowerPoint template from your data/notes with 100% layout fidelity, who at your firm would approve paying $150-$300/month for it?",
+    "For CRE brokers: How many Offering Memorandums does your brokerage produce each month, how many hours does each OM require from coordinators and graphic designers, and why is Buildout or InDesign still manual?"
+  ]
+}
