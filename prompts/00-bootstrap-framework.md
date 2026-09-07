@@ -12,8 +12,8 @@ Create:
 - methodology/evidence-schema.json
 - methodology/stage1-gates.md
 - methodology/scoring.md
-- .agents/rules/validation-rules.md
-- workspace Agent Skills under .agents/skills/ for:
+- .agent/rules/validation-rules.md
+- workspace Agent Skills under .agent/skills/ for:
   1. market-research
   2. pain-mining
   3. wtp-research

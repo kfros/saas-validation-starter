@@ -37,8 +37,8 @@ Only audited VERIFIED evidence may influence the Stage 1 verdict.
 
 ```text
 methodology/                    Methodology, evidence schema and gates
-.agents/rules/                  Antigravity workspace rules
-.agents/skills/                 Antigravity Agent Skills
+.agent/rules/                   Antigravity workspace rules
+.agent/skills/                  Antigravity Agent Skills
 ideas/deck-automation/          First validation target
   raw/                          Independent agent outputs
   evidence/                     Audited canonical evidence

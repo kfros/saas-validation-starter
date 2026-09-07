@@ -22,8 +22,8 @@ git commit -m "Bootstrap SaaS validation pipeline"
 3. Choose **Add Folder** and select the `saas-validation-starter` root.
 4. Create the project.
 
-Antigravity indexes workspace skills from `.agents/skills/<skill-name>/SKILL.md`.
-Workspace rules live under `.agents/rules`.
+Antigravity indexes workspace skills from `.agent/skills/<skill-name>/SKILL.md`.
+Workspace rules live under `.agent/rules`.
 
 ## 2. Configure safety for this research project
 
@@ -39,7 +39,7 @@ Research needs web/browser access, but it does not need arbitrary access to the 
 ## 3. Make the workspace Rule Always On
 
 Open the Agent panel's **...** menu -> **Customizations** -> **Rules**.
-Confirm the workspace rule in `.agents/rules/validation-rules.md` is visible.
+Confirm the workspace rule in `.agent/rules/validation-rules.md` is visible.
 Set it to **Always On**.
 
 This is important. Do not rely only on the launch prompt to enforce evidence discipline.
@@ -59,8 +59,8 @@ You should see workspace skills such as:
 
 If they do not appear:
 
-- confirm the Project root is the folder containing `.agents`;
-- confirm each skill is exactly `.agents/skills/<name>/SKILL.md`;
+- confirm the Project root is the folder containing `.agent`;
+- confirm each skill is exactly `.agent/skills/<name>/SKILL.md`;
 - reopen/reload the Project if needed.
 
 ## 5. Human pre-flight: inspect the hypothesis
@@ -90,7 +90,7 @@ Use **Local Mode** for all five.
 
 Why Local Mode here: all five agents need to contribute to the same active repository, and this starter pack gives each one a distinct write directory, so there should be no file collision. New Worktree Mode gives stronger isolation but then you must merge five worktrees before auditing.
 
-Create five separate conversations:
+Create five separate conversations. Use Flash Medium for Market, Pain, and Workflow. Use High reasoning for WTP and Skeptic, where classification and adversarial comparison are more demanding.
 
 ### Conversation A — Market
 
@@ -110,6 +110,7 @@ Create five separate conversations:
 1. `/browser`
 2. `/wtp-research`
 3. Paste `prompts/12-run-wtp.md` body.
+4. If Antigravity requests terminal permission, allow only the exact local validator command printed in the prompt for this run. Reject `python -c`, inline `jsonschema`, cache inspection, and web-retrieval commands.
 
 ### Conversation D — Workflow / ICP
 
@@ -122,6 +123,7 @@ Create five separate conversations:
 1. `/browser`
 2. `/skeptic-research`
 3. Paste `prompts/14-run-skeptic.md` body.
+4. Apply the same exact-command permission rule as for WTP.
 
 Allow Chrome debugging/browser permission when Antigravity requests it.
 
@@ -143,9 +145,9 @@ If validation fails, ask only the responsible research conversation to repair it
 
 ## 8. Run the Evidence Auditor
 
-Create a fresh conversation after the five research agents finish.
+Create a fresh conversation with High reasoning after the five research agents finish.
 
-Do not ask it to do discovery research.
+Enable `/browser` only so the Auditor can reopen URLs already recorded in evidence. Do not ask it to do discovery research.
 Invoke `/evidence-audit` and paste the body of `prompts/20-run-auditor.md`.
 
 If Antigravity needs to open already-recorded URLs for verification, allow that. The Auditor is forbidden from finding replacement sources.
@@ -174,7 +176,7 @@ If you find a material audit error, correct the evidence/audit status before the
 
 ## 10. Run the Judge
 
-Create a new conversation.
+Create a new conversation with High reasoning.
 
 **Do not use `/browser`.**
 
