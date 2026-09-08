@@ -1,0 +1,382 @@
+{
+  "idea_id": "multi-brand-content",
+  "evaluation_date": "2026-09-08",
+  "verdict": "INSUFFICIENT EVIDENCE",
+  "rationale": "The Stage 1 evaluation for scope MULTIBRAND-OPERATOR-01 results in INSUFFICIENT EVIDENCE because zero evidence records in the audited dataset are verified as IN_SCOPE for the target buyer profile. While 41 practitioner records describe social media content production and multi-client workflows (with 38 verified records across 35 independent entities), none explicitly substantiate all five operational scope criteria: an external service provider, multiple unrelated client brands, recurring static content/revision work, owner-operator hands-on involvement, and confirmed SMB clientele. In strict adherence to workspace validation rules (never invent a fact, UNKNOWN is a valid result, do not fabricate SMB focus or buyer authority), these practitioner records remain UNKNOWN scope. Consequently, Gates G1 through G5 have an independent in-scope count of 0 and cannot pass. Furthermore, because no in-scope records exist to substantiate decisive contradictions, Gates G1 through G5 cannot fail. Gate G6 (No killer substitute) is evaluated as UNKNOWN because serious incumbents (Canva Pro/Business, Planable, Adobe Express) and stitched manual workflows demonstrate high observed sufficiency and low friction in practice, while key operational gaps (detached Bulk Create output, lack of dynamic revision propagation, and version desynchronization) remain unresolved threats rather than proven monopolies or disqualifying substitutes. With six gates UNKNOWN and zero gates FAIL, the canonical decision is INSUFFICIENT EVIDENCE, and Stage 2 prospect mining or interviews are not authorized.",
+  "stage2_authorized": false,
+  "evaluated_scope": {
+    "scope_id": "MULTIBRAND-OPERATOR-01"
+  },
+  "condition": null,
+  "dataset_summary": {
+    "by_audit_status": {
+      "PARTIALLY_VERIFIED": 5,
+      "PENDING": 0,
+      "REJECTED": 6,
+      "VERIFIED": 60
+    },
+    "by_provider_form": {
+      "AGENCY": {
+        "records": 20,
+        "verified_independence_keys": 16,
+        "verified_records": 19
+      },
+      "SOLO": {
+        "records": 6,
+        "verified_independence_keys": 6,
+        "verified_records": 6
+      },
+      "UNKNOWN": {
+        "records": 45,
+        "verified_independence_keys": 27,
+        "verified_records": 35
+      }
+    },
+    "by_scope": {
+      "IN_SCOPE": {
+        "records": 0,
+        "verified_independence_keys": 0,
+        "verified_records": 0
+      },
+      "OUT_OF_SCOPE": {
+        "records": 30,
+        "verified_independence_keys": 14,
+        "verified_records": 22
+      },
+      "UNKNOWN": {
+        "records": 41,
+        "verified_independence_keys": 35,
+        "verified_records": 38
+      }
+    },
+    "total_records": 71,
+    "verified_independence_keys": 49
+  },
+  "dimension_scores": {
+    "pain_strength": 1,
+    "recurrence_confidence": 1,
+    "revealed_wtp": 1,
+    "current_solution_gap": 1,
+    "icp_clarity": 1,
+    "reachability": 1,
+    "substitute_risk": 1,
+    "evidence_quality": 2,
+    "source_diversity": 2,
+    "overall_confidence": 1
+  },
+  "scope_integrity_notes": [
+    "Target scope MULTIBRAND-OPERATOR-01 requires five concurrent criteria: external service provider (not in-house), multiple unrelated client brands, recurring static content/revision work, owner-operator hands-on production or revision role, and confirmed SMB clientele.",
+    "Zero records in the dataset meet all five criteria with verified primary evidence; by_scope.IN_SCOPE contains 0 records and 0 verified independence keys.",
+    "41 practitioner records remain in UNKNOWN scope because source texts do not explicitly verify hands-on ownership and SMB client focus; per validation rules, missing attributes cannot be inferred or upgraded.",
+    "30 records are OUT_OF_SCOPE: 28 software vendor documentation/pricing records (Canva, Adobe, Planable, Kontentino, SocialPilot, Buffer, Predis.ai, Ocoya, Abyssale, Bannerbear, PostFlow, Juicer) and 2 explicitly excluded single-brand practitioners (mb-wtp-005 single-brand business owner, mb-pain-017 in-house marketing employee).",
+    "No pooling of solo freelancer signals and agency signals is permitted to manufacture a passing gate; both sub-segments remain unattributed to confirmed in-scope status."
+  ],
+  "candidate_scope_assessments": [
+    {
+      "scope_id": "INHOUSE-MARKETING-01",
+      "status": "UNVALIDATED",
+      "reason": "Single-brand in-house corporate or nonprofit marketing teams managing internal social channels with multi-tiered compliance review. Excluded from MULTIBRAND-OPERATOR-01 due to single-brand context and absence of multi-client tenant switching."
+    },
+    {
+      "scope_id": "LARGE-AGENCY-DEPT-01",
+      "status": "UNVALIDATED",
+      "reason": "Mid-to-large digital agencies (50+ employees) with specialized departmental roles (dedicated copywriters, art directors, account managers), formal SSO/security procurement, and complex billing infrastructure. Excluded from owner-led SMB provider focus."
+    }
+  ],
+  "strongest_positive_evidence": [
+    "mb-pain-015",
+    "mb-pain-009",
+    "mb-pain-005",
+    "mb-pain-018",
+    "mb-wtp-009",
+    "mb-wtp-006"
+  ],
+  "strongest_negative_evidence": [
+    "mb-pain-002",
+    "mb-pain-011",
+    "mb-skeptic-011",
+    "mb-skeptic-008",
+    "mb-pain-016",
+    "mb-wtp-010",
+    "mb-skeptic-007",
+    "mb-skeptic-013"
+  ],
+  "top_unknowns": [
+    "Whether independent SMM providers and small agency owners experiencing content production pain predominantly serve SMB clients versus mid-market or internal brands",
+    "Whether hands-on agency owners are willing to pay for dedicated production software out of internal operating margins rather than passing tool fees directly to clients",
+    "Whether the version control desynchronization between static graphic exports and scheduling queues is acute enough to force adoption of a new authoring tool",
+    "Whether the observed sufficiency of collaborative Canva documents and standard templates caps willingness to adopt specialized multi-brand software",
+    "What unit economics and price ceiling apply to a standalone multi-brand engine given incumbent pricing ($18/mo Canva Pro, $25/user/mo Business, $39-$59/workspace Planable)"
+  ],
+  "gates": {
+    "G1": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "At least 20 independent VERIFIED experienced production-pain signals in scope (MULTIBRAND-OPERATOR-01).",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "counted_evidence_reasons": {},
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "mb-pain-001",
+          "reason": "Practitioner manages ~5 clients in Canva experiencing multi-brand switching; excluded because SMB clientele and owner-operator status are unconfirmed (UNKNOWN scope)."
+        },
+        {
+          "evidence_id": "mb-pain-005",
+          "reason": "Agency practitioner reports weekly retainer revision toil as hidden margin killer; excluded because hands-on owner role and SMB clientele are unconfirmed (UNKNOWN scope)."
+        },
+        {
+          "evidence_id": "mb-pain-009",
+          "reason": "Agency graphic designer reports copy-paste formatting corruption and repetitive date/avatar updates; excluded because author is an employee designer and SMB clientele is unconfirmed (UNKNOWN scope)."
+        },
+        {
+          "evidence_id": "mb-pain-015",
+          "reason": "Small agency operator reports Canva static export desynchronization with scheduling queue; excluded because hands-on owner status and SMB clientele are unconfirmed (UNKNOWN scope)."
+        },
+        {
+          "evidence_id": "mb-pain-017",
+          "reason": "In-house marketing practitioner scheduling for internal nonprofit; decisively excluded as OUT_OF_SCOPE (single-brand internal team)."
+        },
+        {
+          "evidence_id": "mb-pain-018",
+          "reason": "Agency designer reports degraded client asset onboarding (scanned PDFs in Word); excluded because owner-operator status and SMB focus are unconfirmed (UNKNOWN scope)."
+        }
+      ],
+      "confidence": "UNKNOWN",
+      "material_unknowns": [
+        "Whether the experienced pain points (batch revision toil, formatting corruption, version desynchronization) apply to owner-operators specifically serving SMB clients versus general agency employees or in-house marketers",
+        "Whether multi-client brand context switching is an acute bottleneck for owner-operators or an accepted minor friction handled by existing browser tabs and Canva folders",
+        "Whether hands-on owner-operators experience sufficient cumulative delay from static deliverable rework to seek a dedicated point solution"
+      ],
+      "provider_form_breakdown": {
+        "AGENCY": 0,
+        "SOLO": 0,
+        "UNKNOWN": 0
+      }
+    },
+    "G2": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "At least MEDIUM confidence the core production/revision job recurs often enough for a SaaS relationship for the target ICP.",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "counted_evidence_reasons": {},
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "mb-pain-005",
+          "reason": "Reports weekly retainer content cycles and revision rounds; excluded from counted recurrence because provider scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-wtp-008",
+          "reason": "Agency operator produces 30+ statics and 50+ reels monthly across 5 accounts; excluded because provider scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-wtp-009",
+          "reason": "Documents recurring monthly production commitment of 25-45+ hours per client; excluded because provider scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-skeptic-007",
+          "reason": "Freelancer batches weekly content for multiple clients in a few hours using Canva templates; excluded because provider scope is UNKNOWN."
+        }
+      ],
+      "confidence": "UNKNOWN",
+      "material_unknowns": [
+        "Whether owner-operators serving SMBs experience recurring weekly/monthly revision cycles or primarily ad-hoc project delivery",
+        "Whether static post and carousel production recurs with enough frequency and volume on SMB retainers to justify dedicated software versus occasional template tweaks",
+        "Whether recurrence of publishing (e.g. daily posting) translates into recurring operator drafting work rather than one-time upfront batching"
+      ],
+      "provider_form_breakdown": {
+        "AGENCY": 0,
+        "SOLO": 0,
+        "UNKNOWN": 0
+      }
+    },
+    "G3": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "At least 5 independent eligible signals from at least 2 normalized spend families (paid_tool_or_pilot, internal_labor, outsourced_labor) in scope.",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "counted_evidence_reasons": {},
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "mb-wtp-001",
+          "reason": "Practitioner pays $120/year legacy Canva Teams for multi-brand asset storage; excluded because practitioner agency/freelancer status and SMB focus are unconfirmed (UNKNOWN scope)."
+        },
+        {
+          "evidence_id": "mb-wtp-002",
+          "reason": "Agency designer plans to buy Canva Business and pass cost to clients; excluded because stated purchase intent is not revealed spend and scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-wtp-003",
+          "reason": "SMM provider pays $200 for 100-account publishing tool (Postmypost); excluded because scope is UNKNOWN and spend is for scheduling/publishing rather than content engine."
+        },
+        {
+          "evidence_id": "mb-wtp-005",
+          "reason": "Small business owner canceled Canva over $500/yr price and switched to Adobe Express ($100/yr); decisively excluded as OUT_OF_SCOPE (single-brand business owner)."
+        },
+        {
+          "evidence_id": "mb-wtp-006",
+          "reason": "NYC agency owner paid contractor $1,500/month for social content production; excluded because SMB clientele is not verified (UNKNOWN scope)."
+        },
+        {
+          "evidence_id": "mb-wtp-008",
+          "reason": "Agency operator expends dedicated employee time producing 80+ monthly assets across 5 accounts; excluded because operator is an employee and scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-wtp-009",
+          "reason": "Solo SMM spends 25-45+ hours per client per month on static/carousel production; excluded because SMB clientele is unconfirmed (UNKNOWN scope) and hours cannot be arbitrarily monetized."
+        },
+        {
+          "evidence_id": "mb-wtp-010",
+          "reason": "Practitioner uses Canva free tier ($0) for client ad campaigns; excluded as contradictory evidence against WTP in UNKNOWN scope."
+        }
+      ],
+      "confidence": "UNKNOWN",
+      "material_unknowns": [
+        "Whether owner-led providers are willing to pay for content production software out of agency margins or only accept pass-through client tool costs",
+        "What unit price ceiling applies to multi-brand production tools given incumbent pricing ($18/mo Canva Pro, $25/user/mo Business, $39-$59/workspace Planable)",
+        "Whether heavy operator production labor (25-45 hrs/mo/client) translates into willingness to purchase a new SaaS tool or is accepted as inherent service craftsmanship"
+      ],
+      "provider_form_breakdown": {
+        "AGENCY": 0,
+        "SOLO": 0,
+        "UNKNOWN": 0
+      },
+      "breakdown_by_category": {}
+    },
+    "G4": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "At least 10 independent experienced gaps in one or few coherent clusters in scope.",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "counted_evidence_reasons": {},
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "mb-pain-009",
+          "reason": "Formatting corruption when moving copy from Slides to Figma and repetitive avatar/date edits; excluded because scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-pain-011",
+          "reason": "Team using shared Canva document workaround; excluded because scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-pain-015",
+          "reason": "Static PNG export decoupled from scheduling queue led to outdated graphic publication; excluded because scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-pain-018",
+          "reason": "Corrupted client asset onboarding requiring manual logo recreation; excluded because scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-skeptic-006",
+          "reason": "Duplicate entity of mb-pain-015 detailing static export queue failure; excluded because scope is UNKNOWN."
+        }
+      ],
+      "confidence": "UNKNOWN",
+      "material_unknowns": [
+        "Whether the observed gap of static exports decoupling from downstream schedulers is solved by native scheduling tools or requires a new production engine",
+        "Whether the batch revision propagation gap in Canva Bulk Create is an acute daily blocker or a minor occasional inconvenience for owner-operators",
+        "Whether client onboarding asset friction (degraded logos/colors) can even be addressed by software without human intervention"
+      ],
+      "provider_form_breakdown": {
+        "AGENCY": 0,
+        "SOLO": 0,
+        "UNKNOWN": 0
+      },
+      "clusters": {}
+    },
+    "G5": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "At least MEDIUM confidence in a practical route to identifiable matching buyers in scope (MULTIBRAND-OPERATOR-01).",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "counted_evidence_reasons": {},
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "mb-workflow-001",
+          "reason": "Boutique agency (QuimbyDigital) active on Reddit r/SocialMediaMarketing; excluded from counted reachability because scope is UNKNOWN."
+        },
+        {
+          "evidence_id": "mb-workflow-003",
+          "reason": "Practitioner discusses Recur Post for small agencies; excluded because scope is UNKNOWN."
+        }
+      ],
+      "confidence": "UNKNOWN",
+      "material_unknowns": [
+        "Whether owner-operators serving SMBs can be reliably distinguished on public platforms (LinkedIn, Clutch) from in-house marketers, creator influencers, and enterprise agency staff",
+        "What conversion and response rates founder-led outreach can achieve with small agency owners on social media production topics",
+        "Whether freelance SMMs and boutique agency owners exhibit different reachability and response characteristics across professional communities"
+      ],
+      "provider_form_breakdown": {
+        "AGENCY": 0,
+        "SOLO": 0,
+        "UNKNOWN": 0
+      }
+    },
+    "G6": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "No evidenced sufficient low-friction substitute; material unresolved threats stay UNKNOWN.",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "counted_evidence_reasons": {},
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "mb-skeptic-001",
+          "reason": "Canva Pro ($18/mo) and Business ($25/user/mo) provide cheap multi-brand kits and templates; observed as strong substitute with high adoption, but bulk revision propagation and version sync remain unresolved."
+        },
+        {
+          "evidence_id": "mb-skeptic-002",
+          "reason": "Canva Bulk Create generates up to 300 designs from CSV; output is detached, leaving revision propagation unresolved."
+        },
+        {
+          "evidence_id": "mb-skeptic-004",
+          "reason": "Planable workspaces ($33-$59/workspace/mo) provide multi-client approval routing with unlimited guest review; lacks native graphic authoring, leaving composite stack friction unresolved."
+        },
+        {
+          "evidence_id": "mb-skeptic-007",
+          "reason": "Freelance SMM creates weekly batches across multiple clients in a few hours using Canva templates; demonstrates high observed sufficiency of manual template workflows, but client scale limits remain unverified."
+        },
+        {
+          "evidence_id": "mb-skeptic-008",
+          "reason": "Agency marketer observed that automated content generation collapsed client engagement; shows severe automation backlash, challenging standalone AI production tools."
+        },
+        {
+          "evidence_id": "mb-skeptic-011",
+          "reason": "Agency operator reports internal production runs smoothly in Trello, while the real bottleneck is client asset/approval latency; challenges the value proposition of drafting speed."
+        },
+        {
+          "evidence_id": "mb-skeptic-013",
+          "reason": "Agency team uses a single shared Canva document formatted as mock posts for real-time client collaboration; demonstrates that live web links bypass file export friction, threatening flat-pack handoffs."
+        },
+        {
+          "evidence_id": "mb-market-007",
+          "reason": "Adobe Express Teams ($6.49/seat/mo) syncs CC Libraries across brands; layout-level revision propagation across generated variants remains unresolved."
+        },
+        {
+          "evidence_id": "mb-market-018",
+          "reason": "Predis.ai ($24-$212/mo) generates brief-to-post batches with brand colors; outputs flat raster images with no dynamic template propagation and high editing friction."
+        },
+        {
+          "evidence_id": "mb-market-020",
+          "reason": "Abyssale ($36/seat/mo) provides dynamic template revision propagation; tailored for ad banners rather than organic social workflows and client review UX."
+        }
+      ],
+      "confidence": "UNKNOWN",
+      "material_unknowns": [
+        "Whether the existing composite stack (Canva for design + Planable for client approval + Trello for workflow) is observed as sufficient by owner-operators despite lack of unified integration",
+        "Whether Canva's lack of dynamic revision propagation in Bulk Create causes enough recurring rework to justify adopting a dedicated third-party tool",
+        "Whether target buyers prefer live collaborative canvas links (Canva) over structured reviewable export packs and client approval portals",
+        "Whether the low pricing ceiling established by Canva ($18-$25/mo) and Planable ($39-$59/workspace) allows viable unit economics for a standalone multi-brand engine"
+      ],
+      "provider_form_breakdown": {
+        "AGENCY": 0,
+        "SOLO": 0,
+        "UNKNOWN": 0
+      }
+    }
+  }
+}
