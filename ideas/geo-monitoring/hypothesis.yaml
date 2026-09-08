@@ -1,0 +1,92 @@
+idea_id: geo-monitoring
+name: Agency-first GEO / AI-search visibility monitoring
+stage: 1
+status: not_started
+scope_id: GEO-AGENCY-01
+version: 1
+
+# All assertions below are hypotheses, not market findings or founder-approved facts.
+hypothesis: >-
+  Small independent SEO agencies with recurring SMB client engagements spend
+  meaningful recurring effort checking brand visibility in AI answers and
+  turning inconsistent observations into defensible client reports. They may
+  pay for multi-client monitoring that preserves inspectable answer/source
+  evidence, separates noise from comparable changes, and produces a concise
+  report linked to a concrete agency decision. Existing trackers, SEO suites,
+  and manual checks may already solve this sufficiently; research must test that.
+
+initial_candidate_icps:
+  - GEO-AGENCY-01
+primary_icp:
+  organization: Independent SEO agency with 2-20 staff serving SMB clients on recurring engagements
+  buyer: Owner, agency managing director, or head of SEO with purchasing authority
+  operator: SEO specialist or account manager preparing client reporting
+  deliverable_language: English
+  geography: English-serving agencies; do not infer country from language
+  scope_evidence: >-
+    Agency status, small-business size, recurring client work, and the relevant
+    job must be supported. Unknown attributes stay unknown. An explicit same-company
+    linkage to separately VERIFIED profile records may establish scope; document
+    the linkage in scope-map.json, never fabricate fields on the original record.
+
+core_job:
+  trigger: Recurring client review or a material suspected visibility change
+  inputs:
+    - Client brand/domain, explicitly identified competitors, agreed prompt sample
+    - Named engine/product surface, language, and any actually supported locale
+  workflow:
+    - Capture comparable observations with date, surface, and sampling context
+    - Inspect mentions, citations, and changes without claiming population-wide reach
+    - Review uncertainty and false alerts before including findings in a report
+    - Deliver a client report and identify the actual decision it supports
+  output: Inspectable per-client visibility/change report; export format remains an unknown
+  proposed_wedge: Evidence-backed recurring client reporting with noise-aware change review
+  differentiation_status: UNVALIDATED; multi-client and reporting features are not assumed unique
+
+initial_market_scope:
+  business_type: B2B
+  company_segment: Micro/small independent agencies
+  exclusions:
+    - In-house enterprise marketing and procurement-heavy enterprise buyers
+    - Direct-to-SMB brand-owner product as a substitute ICP
+    - Solo consultants as automatically equivalent to an agency
+    - General social listening or traditional rank tracking without AI-answer workflow
+    - Autonomous SEO/GEO content creation or publishing
+    - Guaranteed recommendations, rankings, referrals, or revenue uplift
+
+business_constraints:
+  founder_model: Solo technical founder with agents
+  target_eventual_arpu_usd_monthly_min: 100
+  billing_unit_hypothesis: Agency account, not per client or per seat
+  acquisition_preference: [founder-led outbound, remote sales, self-service]
+  mvp_constraints:
+    - Narrow engine/surface coverage is acceptable if buyer requirements support it
+    - No proprietary general search index, full SEO suite, or content editor
+    - No reliance on evading access controls, CAPTCHAs, or platform restrictions
+    - Commercial data access and sustainable sampling costs must be investigated
+
+research_rules:
+  arpu_target_is_not_evidence: true
+  do_not_reject_lower_observed_wtp_during_research: true
+  do_not_pool_other_icps: true
+  canonical_methodology: methodology/stage1-gates.md
+  canonical_schema: methodology/evidence-schema.json
+  protocol: ideas/geo-monitoring/research-protocol.md
+
+falsification_conditions:
+  - Buyers only want a one-off audit, and repeat monitoring has little decision value
+  - Existing trackers, bundled SEO tools, or manual checks are sufficiently good and cheap
+  - Experienced reporting pain or actual job-specific spend is negligible
+  - Agency demand is primarily for content execution rather than monitoring/reporting
+  - Required measurements cannot be obtained credibly through a viable authorized route
+  - Sampling and support costs defeat economics at evidenced buyer prices
+  - Buyers require enterprise controls or acquisition channels outside founder constraints
+
+core_unknowns:
+  - Is recurring report preparation a concrete experienced problem for this exact ICP?
+  - What action, client deliverable, or budget decision follows the measurement?
+  - What is paid today for monitoring/reporting, separately from writing/SEO retainers?
+  - Why would buyers switch from named current alternatives or manual checks?
+  - Which engine surfaces, freshness, sampling, locale, and export capabilities matter?
+  - Is there a viable data-access and unit-economics path without platform evasion?
+  - Where can the actual budget owners be discovered and contacted?
