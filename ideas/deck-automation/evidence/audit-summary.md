@@ -1,210 +1,206 @@
-# Stage 1 Evidence Audit Summary — Vertical B2B Deck / Sales-Collateral Automation
+# Stage 1 Evidence Audit Summary — Deck Automation
 
-**Idea ID:** `deck-automation`  
-**Audit Date:** 2026-09-06  
-**Auditor:** Evidence Auditor Agent  
-**Methodology Rules Applied:** `methodology/evidence-schema.json`, `methodology/evidence-standard.md`, `methodology/stage1-gates.md`, `validation-rules.md`  
-**Decision Status:** Canonical Audit Completed (No PASS/FAIL Issued)
+**Audit Date**: 2026-09-07  
+**Audited Target**: `ideas/deck-automation`  
+**Audited Artifact**: `ideas/deck-automation/evidence/evidence.jsonl`  
+**Total Records Audited**: 88  
 
 ---
 
-## 1. Executive Summary & Audit Metrics
+## 1. Executive Status Overview
 
-The Stage 1 evidence audit reviewed **88 raw evidence records** collected across five independent research streams (`market-research`, `pain-mining`, `skeptic-research`, `workflow-mapping`, and `wtp-research`).
-
-Every record was audited for schema conformity, URL validity, source accessibility, factual fidelity, independence of claims, recency, and accurate field attribution.
-
-### Overall Status Breakdown
-
-| Audit Status | Record Count | Percentage | Definition / Disposition |
+| Audit Status | Count | Percentage | Description |
 | :--- | :---: | :---: | :--- |
-| **`VERIFIED`** | **66** | **75.0%** | Source inspectable, supports the material observation, accurate attribution, unique independent claim. |
-| **`PARTIALLY_VERIFIED`** | **9** | **10.2%** | Core observation supported, but specific fields (e.g. money amount unit errors, vendor ARR, unverified pricing, generic search URL, or low recency) contain defects. |
-| **`REJECTED`** | **13** | **14.8%** | Cross-agent duplicates without independent value (7), untraceable root URLs lacking post/article paths (5), or severe money misattribution (1). |
-| **Total** | **88** | **100.0%** | **Full raw evidence corpus audited** |
-
-> [!IMPORTANT]
-> In strict compliance with Workspace Rule 20 and Stage 1 Gate Methodology, **the Stage 1 Judge may use ONLY the 66 records marked `VERIFIED`**. The 9 `PARTIALLY_VERIFIED` and 13 `REJECTED` records are cataloged here and in `high-impact-review.md` for transparency and human spot-checking, but must not carry Gate thresholds.
+| **VERIFIED** | **52** | 59.1% | Page directly supports all material claims, source identity, and semantic classification. |
+| **PARTIALLY_VERIFIED** | **12** | 13.6% | Page supports a core fact, but a material field, amount, recurrence, or attribution is overstated/mismatched. |
+| **REJECTED** | **24** | 27.3% | Broken URL (404/DNS), duplicate claim, non-atomic bundle, or unsupported observation. |
+| **PENDING** | **0** | 0.0% | No records blocked by tool failure; all available canonical URLs were inspected via browser subagent. |
+| **Total** | **88** | 100.0% | Complete raw dataset evaluated. |
 
 ---
 
-## 2. Rejection Analysis (13 Records)
+## 2. Audit Breakdown by Field & Dimension
 
-The 13 rejected records fall into three distinct failure categories:
+### 2.1 Status by Semantic Type
 
-### Category A: Cross-Agent Duplicates Without Independent Value (7 records)
-Multiple agents inspected the identical source URL, thread, or comment, producing redundant records that repeat the same underlying claim under different record IDs. Counting these would violate Rule 7 ("Do not count duplicated, syndicated, or repeated claims as independent evidence").
+| Semantic Type | VERIFIED | PARTIALLY_VERIFIED | REJECTED | Total Raw |
+| :--- | :---: | :---: | :---: | :---: |
+| **gap** | 10 | 0 | 7 | 17 |
+| **market** | 4 | 3 | 1 | 8 |
+| **pain** | 7 | 2 | 0 | 9 |
+| **reachability** | 0 | 1 | 0 | 1 |
+| **risk** | 3 | 0 | 0 | 3 |
+| **substitute** | 9 | 0 | 2 | 11 |
+| **workflow** | 11 | 3 | 9 | 23 |
+| **wtp** | 8 | 3 | 5 | 16 |
+| **Total** | **52** | **12** | **24** | **88** |
 
-1. **`ev-skp-seismic-livedocs`** (skeptic-research)
-   * *URL:* `https://developer.seismic.com`
-   * *Reason:* Redundant duplicate of `ev-mkt-seismic-livedocs` (`https://seismic.com/product/livedocs/`). Cites a generic developer portal root to document the same LiveDocs PPT plugin capability already verified from the canonical product page.
-2. **`ev-skp-highspot-salesforce`** (skeptic-research)
-   * *URL:* `https://www.highspot.com`
-   * *Reason:* Redundant duplicate of `ev-mkt-highspot-autodocs` (`https://highspot.com/capabilities/content-management/autodocs/`). Cites the root homepage to assert Highspot dynamic templates, which is already verified from the primary AutoDocs capability page.
-3. **`ev-skp-m365-copilot-pricing-anchor`** (skeptic-research)
-   * *URL:* `https://www.microsoft.com/en-us/microsoft-365/enterprise/copilot-for-microsoft-365`
-   * *Reason:* Exact duplicate of `ev-mkt-m365-copilot-pricing`. Both records cite the identical Microsoft pricing page and quote the exact $30/user/month annual add-on price.
-4. **`ev-skp-reddit-sales-minimal-decks`** (skeptic-research)
-   * *URL:* `https://www.reddit.com/r/sales/comments/148jm0y/presentation_decks/`
-   * *Reason:* Composite duplicate conflation. Conflates comments from two distinct commenters (`imfatterthanyou` regarding conversational selling and `elguiri` regarding 10-15 min master template customization) into a single composite observation under one author tag. Both underlying comments are already independently verified in `ev-pain-rep-disdain-for-decks` and `ev-pain-master-template-workaround`.
-5. **`ev-wf-saas-am-qbr-hours-editing`** (workflow-mapping)
-   * *URL:* `https://www.reddit.com/r/sales/comments/148jm0y/presentation_decks/`
-   * *Reason:* Exact duplicate of `ev-pain-sales-qbr-hours-editing`. Same Reddit comment by user `theflatlanderz` reporting hours spent manually editing presentation templates for QBRs.
-6. **`ev-wf-saas-ae-master-slide-workaround`** (workflow-mapping)
-   * *URL:* `https://www.reddit.com/r/sales/comments/148jm0y/presentation_decks/`
-   * *Reason:* Exact duplicate of `ev-pain-master-template-workaround`. Same Reddit comment by user `elguiri` describing a 100-slide master template with 6 mandatory slides taking 10-15 minutes.
-7. **`ev-wf-saas-ae-conversational-rejection`** (workflow-mapping)
-   * *URL:* `https://www.reddit.com/r/sales/comments/148jm0y/presentation_decks/`
-   * *Reason:* Exact duplicate of `ev-pain-rep-disdain-for-decks`. Same Reddit comment by user `imfatterthanyou` arguing that decks do not close deals and prospects ignore them.
+### 2.2 Status by Source Tier
 
-### Category B: Inaccessible / Untraceable Root URLs Lacking Post/Article Path (5 records)
-These records fail Rule 3 ("Every factual evidence record requires a source URL") and Rule 4 ("Open and inspect the source. Search-result snippets do not count as evidence"). Citing a root homepage or subreddit root prevents independent verification of the claimed quote or fact.
+| Source Tier | VERIFIED | PARTIALLY_VERIFIED | REJECTED | Total |
+| :--- | :---: | :---: | :---: | :---: |
+| **Tier A** (Official docs, pricing, first-hand reviews, practitioner posts) | 46 | 11 | 21 | 78 |
+| **Tier B** (Procurement reports, specialized aggregators, secondary threads) | 6 | 1 | 3 | 10 |
+| **Tier C** (Unverified blogs, general SEO) | 0 | 0 | 0 | 0 |
+| **Total** | **52** | **12** | **24** | **88** |
 
-8. **`ev-skp-reddit-consulting-mitochondria`** (skeptic-research)
-   * *URL:* `https://www.reddit.com/r/consulting/`
-   * *Reason:* Subreddit homepage root without a thread ID or post slug. The quote comparing AI slides to "a fourth-grade presentation on mitochondria" cannot be traced or verified against a specific post.
-9. **`ev-skp-reddit-ai-deslop-rebuild`** (skeptic-research)
-   * *URL:* `https://www.reddit.com/r/ProductivityApps/`
-   * *Reason:* Subreddit homepage root without a thread ID or post slug. Synthesis of the "generate-then-rebuild" cycle is untraceable to a primary post.
-10. **`ev-skp-security-nda-soc2-blocker`** (skeptic-research)
-    * *URL:* `https://www.forbes.com`
-    * *Reason:* Root domain of Forbes without an article path. Claims regarding enterprise bilateral NDAs, SOC 2 Type II, and vendor risk assessments represent unsourced commentary rather than inspected reporting.
-11. **`ev-skp-buyer-revops-procurement`** (skeptic-research)
-    * *URL:* `https://www.salesforce.com`
-    * *Reason:* Root domain of Salesforce without an article, report, or whitepaper slug. Claims regarding RevOps budget ownership and procurement barriers are untraceable.
-12. **`ev-skp-agency-freelance-alternative`** (skeptic-research)
-    * *URL:* `https://www.upwork.com`
-    * *Reason:* Generic marketplace homepage root (`upwork.com`) without a service category slug. (Note: `wtp-research` provided the canonical verified URL `https://www.upwork.com/hire/presentation-designers/` in `ev-wtp-upwork-presentation-designer-hourly`).
+### 2.3 Status by Target ICP Attribution
 
-### Category C: Misleading Money Attribution & Duplicate (1 record)
-13. **`ev-wtp-reddit-revops-six-figure-ceiling`** (wtp-research)
-    * *URL:* `https://www.reddit.com/r/revops/comments/1hs7xyp/sfdc_fields_slides_for_customer_facing/`
-    * *Reason:* Severe money misattribution. The raw record assigned `money_signal = stated_wtp` with `money_amount = 100000.0 USD/year`. However, the poster explicitly stated: *"Was hoping for something that's not a 6 figure solution since we only need it for 1 use case."* The poster was actively rejecting 6-figure pricing. Furthermore, the underlying Reddit post is already accurately captured as a pain signal in `ev-pain-revops-sfdc-to-slides-manual-drain`.
+| Target ICP Segment | VERIFIED | PARTIALLY_VERIFIED | REJECTED | Total |
+| :--- | :---: | :---: | :---: | :---: |
+| **B2B SaaS account executives / sales reps** | 10 | 2 | 5 | 17 |
+| **Commercial real-estate (CRE) teams / brokers** | 5 | 2 | 3 | 10 |
+| **Boutique consultancies / Management consultants** | 7 | 3 | 2 | 12 |
+| **Sales enablement teams / RevOps** | 7 | 1 | 4 | 12 |
+| **Marketing & creative agencies** | 4 | 0 | 0 | 4 |
+| **IT Managed Service Providers (MSPs)** | 1 | 0 | 0 | 1 |
+| **General / Presentation creators / Other** | 18 | 4 | 10 | 32 |
+| **Total** | **52** | **12** | **24** | **88** |
 
----
+### 2.4 Status by Money Signal Classification
 
-## 3. Partially Verified Records Analysis (9 Records)
-
-The 9 `PARTIALLY_VERIFIED` records contain valid observations, but suffer from specific field inaccuracies, unit errors, or source scope issues:
-
-### A. Unit Encoding Errors: Labor Hours Encoded as Dollars (3 records)
-In three records, researchers observed manual employee time in hours, but incorrectly recorded the hour count directly into the `money_amount` field with currency `USD`:
-* **`ev-pain-consulting-daily-formatting-hours`**: Consultant spends 3 hours/day formatting PowerPoint slides (`employee_time`). Raw record incorrectly stored `money_amount = 3.0 USD/day`.
-* **`ev-wf-cre-om-12hr-buildout`**: CRE broker spends 12 hours creating each Offering Memorandum in Buildout (`employee_time`). Raw record incorrectly stored `money_amount = 12.0 USD/per_opportunity`.
-* **`ev-wf-consulting-monthly-deck-copy-paste`**: Consultant spends 2 hours/month manually updating 60 figures in a 40-slide deck (`employee_time`). Raw record incorrectly stored `money_amount = 2.0 USD/month`.
-* *Audit Disposition:* The underlying manual time drains are fully verified as `employee_time` pain/workflow signals, but `money_amount` cannot be counted as cash spend.
-
-### B. Vendor ARR Encoded as Customer SaaS Spend (1 record)
-* **`ev-skp-tome-shutdown-pivot`**: Forbes article verifies that Tome shut down its AI presentation tool on April 30, 2025 and pivoted to Lightfield CRM after annual revenue plateaued at ~$3M. The raw record classified this as `money_signal = saas_spend` with `money_amount = 3000000.0 USD/year`.
-* *Audit Disposition:* The shutdown and revenue plateau are verified market facts, but $3M represents vendor ARR across 25 million users, not customer SaaS spend.
-
-### C. Unsupported Pricing on Root Domain (2 records)
-* **`ev-skp-matik-salesforce`**: Matik's core capability (generating PPTX/Slides from Salesforce CRM data) is verified on `matik.io`. However, the raw record assigned `money_signal = actual_purchase` with `money_amount = 500.0 USD/year`. Matik does not publish or offer a $500/year tier on its homepage (Matik is custom enterprise pricing); the $500 figure is completely unsupported.
-* **`ev-skp-buildout-cre-pricing`**: Buildout's CRE OM generation workflow is verified, but the specific pricing figures ($199/user/month + $275 platform fee) are not published on the root homepage `buildout.com` (which requires booking a demo).
-
-### D. Source Bundling Across Unlinked Tools (1 record)
-* **`ev-wtp-vendr-sales-enablement-median-spend`**: The Vendr URL (`https://www.vendr.com/marketplace/highspot`) verifies Highspot median annual contract spend ($60,405/yr). However, the observation also bundled in Seismic spend ($31,950/yr) and r/sales disclosures without providing the corresponding URLs.
-
-### E. Generic Job Directory URL (1 record)
-* **`ev-wtp-builtin-unbridled-presentation-designer`**: The job posting details for an Unbridled Presentation Designer ($65,000-$72,000 salary) are specific and detailed, but the URL links to `https://builtin.com/jobs` (search directory root) rather than the permanent posting slug.
-
-### F. Extreme Age / Low Recency (1 record)
-* **`ev-pain-head-of-sales-deprecating-decks`**: Reddit post from user reporting that Head of Sales deprecated pitch decks. The observation is supported, but the post date is **March 31, 2019** (over 7 years old), severely compromising recency for current generative AI / SaaS validation.
+| Money Signal | VERIFIED | PARTIALLY_VERIFIED | REJECTED | Total |
+| :--- | :---: | :---: | :---: | :---: |
+| **employee_time** | 9 | 3 | 0 | 12 |
+| **contractor_spend** | 4 | 0 | 1 | 5 |
+| **saas_spend** | 3 | 0 | 0 | 3 |
+| **dedicated_role** | 1 | 1 | 2 | 4 |
+| **actual_purchase** | 1 | 0 | 0 | 1 |
+| **stated_wtp** | 1 | 0 | 0 | 1 |
+| **competitor_price** | 8 | 4 | 3 | 15 |
+| *None / Unspecified* | 25 | 4 | 18 | 47 |
+| **Total** | **52** | **12** | **24** | **88** |
 
 ---
 
-## 4. Deduplication & Independence Key Audit
+## 3. Duplicate Analysis and Groupings
 
-To satisfy Workspace Rule 24 ("Before claiming a threshold is met, deduplicate by `independence_key`"), all multi-record URLs were audited for shared underlying sources.
+### 3.1 Exact Duplicate Claims Rejected
+Under evidence audit rules, when multiple raw records capture the exact same user claim, quote, or pricing statement from the same source, one canonical record is retained and duplicates are marked `REJECTED`:
 
-### Multi-Record Source URL Resolution
+1. **r/sales 148jm0y (theflatlanderz QBR time drain)**:
+   - Canonical retained: `ev-pain-sales-qbr-hours-editing` (`VERIFIED`)
+   - Duplicate rejected: `ev-wf-saas-am-qbr-hours-editing` (`REJECTED`)
+2. **r/sales 148jm0y (elguiri 100-slide master template workaround)**:
+   - Canonical retained: `ev-pain-master-template-workaround` (`VERIFIED`)
+   - Duplicate rejected: `ev-wf-saas-ae-master-slide-workaround` (`REJECTED`)
+3. **r/sales 148jm0y (imfatterthanyou anti-deck sentiment)**:
+   - Canonical retained: `ev-pain-rep-disdain-for-decks` (`VERIFIED`)
+   - Duplicate rejected: `ev-wf-saas-ae-conversational-rejection` (`REJECTED`)
+4. **Buildout Official Pricing ($125/user/month)**:
+   - Primary retained: `ev-wtp-cre-buildout-pricing` (`PARTIALLY_VERIFIED` — competitor pricing context)
+   - Duplicate rejected: `ev-skp-buildout-pricing` (`REJECTED`)
+5. **Plus AI Pricing Tier ($25-$30/user/month)**:
+   - Primary retained: `ev-wtp-saas-plusai-pricing` (`PARTIALLY_VERIFIED` — competitor pricing context)
+   - Duplicate rejected: `ev-skp-plusai-pricing-tier` (`REJECTED`)
 
-| Source URL | Raw Records | Action / Resolution | Independent VERIFIED Records Retained |
-| :--- | :---: | :--- | :--- |
-| `reddit.com/r/sales/comments/148jm0y/` | 8 | 4 distinct commenters in thread (`theflatlanderz`, `imfatterthanyou`, `elguiri`, `1discostu`). Redundant duplicates in workflow and skeptic rejected. | **4 unique records** (`ev-pain-sales-qbr-hours-editing`, `ev-pain-rep-disdain-for-decks`, `ev-pain-master-template-workaround`, `ev-pain-outsourced-deck-freelancer`) |
-| `trustpilot.com/review/gamma.app?page=4` | 5 | 5 distinct verified users (`Alexandre Tranchant`, `Jazz`, `Dan Twing`, `Tom Burke`, `Vicky GU`) reviewing different functional failures. | **5 unique records** (all retained with unique author keys) |
-| `reddit.com/r/consulting/comments/1jv5dwk/` | 3 | 2 distinct commenters (`Reddit Consultant`, `NoogatAI`). One record has unit error (`PARTIALLY_VERIFIED`). | **2 VERIFIED records** (`ev-pain-consulting-thirty-percent-time`, `ev-pain-consulting-client-theme-rework`) |
-| `reddit.com/r/sales/comments/13tcscl/` | 2 | 2 distinct commenters (`No-Lab4815` on analyst role, `artfuldawdg3r` on enablement offloading). | **2 unique records** (both retained) |
-| `reddit.com/r/CommercialRealEstate/comments/1tmr2n7/` | 2 | 2 distinct commenters (`New_England_CRE` broker vs `Yoncen` InDesign designer). Broker has unit error. | **1 VERIFIED record** (`ev-wf-cre-designer-indesign-bottleneck`) |
-| `reddit.com/r/CommercialRealEstate/comments/1gg6all/` | 2 | 2 distinct commenters (`TerdFerguson2112` investor vs `Meatonthebone23` capital markets analyst). | **2 unique records** (both retained) |
-| `reddit.com/r/consulting/comments/1vt8k9n/` | 2 | 2 distinct commenters (`Ancient_Wave_8245` analyst vs `sqenchlift444` PMO). Analyst has unit error. | **1 VERIFIED record** (`ev-wf-consulting-claude-skills-breakage`) |
-| `reddit.com/r/agency/comments/1fukogp/` | 2 | 2 distinct commenters (`really_evan` VA workflow vs `Sleep-Charming` Qwilr substitute). | **2 unique records** (both retained) |
-| `microsoft.com/.../copilot-for-microsoft-365` | 2 | Exact duplicate pricing records. Skeptic duplicate rejected. | **1 VERIFIED record** (`ev-mkt-m365-copilot-pricing`) |
-| `vendr.com/marketplace/highspot` | 2 | Market pricing verified. WTP record bundled Seismic without URL (`PARTIALLY_VERIFIED`). | **1 VERIFIED record** (`ev-mkt-highspot-contract-floor`) |
-| `reddit.com/r/revops/comments/1hs7xyp/` | 2 | Pain verified. WTP record had $100k misattribution and was rejected. | **1 VERIFIED record** (`ev-pain-revops-sfdc-to-slides-manual-drain`) |
+### 3.2 Non-Atomic Bundles Rejected
+1. **`ev-skp-cre-practitioner-om-spending`**: Bundled two distinct comments (`AgTown05` fee quote and `SF_Lady` lender evaluation) from `r/CommercialRealEstate/comments/jvoajm/` that were already captured individually in `ev-wtp-cre-om-freelance-spend` and `ev-wtp-contradiction-cre-om-skepticism`. Marked `REJECTED`.
+2. **`ev-skp-consulting-slide-formatting-synthesis`**: Bundled quotes and findings from two separate users (`Specialist_Golf8133` and `Maleficent-Drive4056`) in `r/consulting/comments/1seychs/` that were already captured individually in `ev-wtp-consulting-formatting-time` and `ev-pain-llm-thinking-vs-slide-admin`. Marked `REJECTED`.
 
-> [!NOTE]
-> Following the audit, **the 66 VERIFIED records map to exactly 66 unique `independence_key` values**. There are zero duplicate independence keys in the canonical dataset.
-
----
-
-## 5. Source Tier & Distribution Breakdown
-
-### Verified Evidence by Source Tier
-
-```
-Tier A (Primary / Direct Source):  62 records (93.9%)
-Tier B (Reputable Secondary):        4 records ( 6.1%)
-Tier C (Lead / Unsupported):         0 records ( 0.0%)
-Total VERIFIED:                    66 records
-```
-
-*All 66 VERIFIED records are supported by Tier A primary sources (official pricing pages, documentation, first-hand practitioner posts, verified user reviews, active job postings) or reputable Tier B intelligence (Vendr procurement data, VentureBeat reporting, ZipRecruiter benchmark).*
-
-### Verified Evidence by Collecting Agent
-
-| Agent | Raw Records | VERIFIED | PARTIALLY_VERIFIED | REJECTED | Verification Rate |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **`market-research`** | 21 | **21** | 0 | 0 | 100.0% |
-| **`pain-mining`** | 25 | **23** | 2 | 0 | 92.0% |
-| **`skeptic-research`** | 16 | **4** | 4 | 8 | 25.0% |
-| **`workflow-mapping`** | 16 | **11** | 2 | 3 | 68.8% |
-| **`wtp-research`** | 10 | **7** | 1 | 2 | 70.0% |
-| **Total** | **88** | **66** | **9** | **13** | **75.0%** |
-
-*Note on `skeptic-research`: The lower verification rate (25.0%) was driven by the use of generic root URLs (e.g. `forbes.com`, `salesforce.com`, `reddit.com/r/consulting/`) and cross-agent duplication of records already captured in market and pain mining.*
-
-### Verified Evidence by Record Type
-
-| Record Type | VERIFIED Count | Primary Insights Established |
-| :--- | :---: | :--- |
-| **`gap`** | 18 | PPTX export fidelity breakdowns, corporate template overrides, desktop Copilot failures, python-pptx layout constraints. |
-| **`workflow`** | 11 | Multi-stage collateral assembly line, QBR prep, RFP burdens, InDesign specialist bottleneck. |
-| **`wtp`** | 9 | Agency retainers ($899-$15k/mo), freelance rates ($35-$150/hr), full-time designer salaries ($89k). |
-| **`market`** | 8 | Competitor pricing tiers ($10-$40/mo), think-cell spend ($260-$325/yr), Highspot contract floor ($70k+). |
-| **`pain`** | 8 | Formatting time drain (30% of day), recoloring rework, template corruption, sales deck skepticism. |
-| **`substitute`** | 9 | Enterprise enablement suites (Seismic, Showpad, Highspot), web proposals (Storydoc, Qwilr), think-cell. |
-| **`risk`** | 2 | Tome presentation shutdown ($81M raised, 25M users, $3M ARR plateau), third-party Google security block. |
-| **`reachability`** | 1 | APMP association directory covering 11,000+ corporate bid and presentation managers globally. |
-| **Total** | **66** | |
-
-### Polarity of Verified Evidence
-
-* **`supports`**: 44 records (66.7%) — Validates pain, manual formatting labor, export bugs in existing AI tools, and willingness to pay for slide design services.
-* **`contradicts`**: 15 records (22.7%) — Establishes severe incumbent substitutes (Seismic, Highspot, Showpad), conversational sales pushback against decks, master template workarounds (10-15 min), and python-pptx rendering hurdles.
-* **`neutral`**: 7 records (10.6%) — Baseline pricing benchmarks and feature mappings (Gamma, Beautiful.ai, Pitch, Copilot, Templafy, Qwilr).
+### 3.3 Multi-Record Independent Canonical URLs
+Where multiple records derive from the same canonical URL but represent distinct atomic observations, distinct users, or distinct plans, records are maintained with shared or specific independence keys:
+- `https://www.trustpilot.com/review/gamma.app?page=4`: 5 distinct user reviews (`Alexandre Tranchant`, `Jazz`, `Dan Twing`, `Tom Burke`, `Vicky GU`). All 5 `VERIFIED` with unique reviewer keys.
+- `https://www.reddit.com/r/consulting/comments/1jv5dwk/`: 3 distinct users (`VisualTrade7019`, `Jumpy_Biscotti3612`, `NoogatAI`).
+- `https://www.seismic.com/explainers/the-sales-content-automation-guide/`: 2 distinct aspects (LiveDocs dynamic assembly vs. brand governance restriction). Both `VERIFIED`.
 
 ---
 
-## 6. Pre-Judge Gate Audit Checklist
+## 4. Inaccessible and Blocked Sources (REJECTED)
 
-The table below previews the verified evidentiary foundation available for the Stage 1 Judge under `methodology/stage1-gates.md`:
+All 24 rejected records were rejected for verifiable source-side reasons rather than tool limitations:
 
-| Stage 1 Gate | Required Threshold | VERIFIED Audit Foundation | Preliminary Data Status |
-| :--- | :--- | :--- | :--- |
-| **G1: Concrete Pain** | ≥20 VERIFIED independent concrete pain signals (≥10 from plausible ICPs) | **26 verified records** reporting actual workflow problems, formatting drains, template corruption, export failures, and delays across Consultancies, CRE, Agencies, MSPs, and RevOps. | Threshold numerically exceeded with strong ICP attribution. |
-| **G2: Recurrence** | At least MEDIUM confidence that core job recurs frequently enough for SaaS | Verified signals document **quarterly QBRs** (`ev-pain-sales-qbr-hours-editing`), **weekly PMO/client decks** (`ev-pain-pptx-master-slide-corruption`), **daily formatting** (`ev-pain-consulting-thirty-percent-time`), and **per-opportunity pitches** (`ev-wf-cre-om-turnaround-investor`). | High/Medium confidence supported. |
-| **G3: Existing Spend / WTP** | ≥5 VERIFIED money signals from ≥2 distinct spend categories | **37 VERIFIED money signals** across **7 distinct categories**: Agency Spend (3), Contractor Spend (4), Dedicated Roles (6), Competitor Pricing (11), SaaS Spend (3), Employee Time (8), Stated WTP / Templates (1), Actual Purchase (1). | Threshold overwhelmingly met; multiple verified commercial spend categories. |
-| **G4: Repeatable Gap** | ≥10 VERIFIED records showing repeatable workaround, manual cleanup, or tool failure | **18 VERIFIED gap records** clustering tightly around two repeatable technical failures: (1) Export fidelity/layout distortion in AI deck tools, and (2) Inability to respect corporate PowerPoint master templates. | Highly cohesive wedge validated. |
-| **G5: Reachability** | Plausible roles, company segments, and reachable channels (≥MEDIUM confidence) | Verified roles: Proposal Managers, Sales Enablement Managers, CRE Marketing Specialists, BD Analysts. Verified channel: **APMP (11,000+ members)**. | Sufficient surface for Stage 2 prospect mining. |
-| **G6: No Killer Substitute** | No low-friction substitute solving workflow sufficiently well at price destroying value prop | **CRITICAL SKEPTIC FINDING**: Highspot AutoDocs, Seismic LiveDocs, and Showpad ACB solve CRM-to-PPTX generation natively. However, they are locked behind $70k-$180k enterprise floors, leaving SMB/mid-market unserved. | Key strategic tension for Judge evaluation. |
+### 4.1 Broken Official URLs (HTTP 404 / Decommissioned)
+- `https://help.gamma.app/en/articles/6908354-exporting-to-powerpoint-or-pdf` (`ev-mkt-gamma-pptx-export`): 404 Not Found.
+- `https://support.beautiful.ai/hc/en-us/articles/360037837772-Export-to-PowerPoint` (`ev-mkt-beautifulai-export`): 404 Not Found.
+- `https://support.plusdocs.com` (`ev-mkt-plusai-template-gap`): DNS failure (`ERR_NAME_NOT_RESOLVED`).
+- `https://support.microsoft.com/en-us/office/create-a-new-presentation-with-copilot-in-powerpoint-3222ee03-f5a4-4d27-8637-94eb3d486a3d` (`ev-mkt-copilot-single-file-limitation`): 404 Not Found.
+- `https://pitch.com/features/export-powerpoint` (`ev-mkt-pitch-export-gap`): 404 Not Found.
+- `https://storydoc.com/help/export-formats` (`ev-mkt-storydoc-format-barrier`): 404 Not Found.
+- `https://www.upslide.net/en/features/powerpoint/` (`ev-mkt-upslide-positioning`): 404 Not Found upon redirect.
+- `https://highspot.com/capabilities/content-management/autodocs/` (`ev-mkt-highspot-autodocs`): 404 Not Found.
+- `https://seismic.com/product/livedocs/` (`ev-mkt-seismic-livedocs`): 404 Not Found.
+- `https://www.canva.com/help/download-save-share-designs/` (`ev-mkt-canva-pptx-breakage`): 404 Not Found.
+- `https://venturebeat.com/ai/tome-shuts-down-presentation-tool-pivots-to-lightfield-crm/` (`ev-mkt-tome-market-failure`): 404 Not Found.
+- `https://exchange.seismic.com/apps/livedocs-automation` (`ev-skp-seismic-appexchange-pricing`): 404 Not Found.
+
+### 4.2 Expired Job Postings & Wrong Product IDs
+- `https://www.linkedin.com/jobs/view/marketing-specialist-at-cushman-wakefield` (`ev-wf-cre-marketing-coordinator-role`): LinkedIn job requisition closed/unresolved.
+- `https://spacecrew.com/careers/sales-enablement-manager-spacex-starlink` (`ev-wf-enablement-governance-translation`): 404 Expired posting.
+- `https://www.capterra.com/p/150033/think-cell/` (`ev-skp-consulting-thinkcell-standard`): Product ID 150033 on Capterra maps to "Edgagement", not think-cell.
+
+### 4.3 Unsupported / Overstated Forum Comments
+- `ev-pain-dedicated-sales-analyst-deck-role`: Brief forum response ("Sales analyst. I'm a business development analyst and do alot of research") does not support full-time dedicated deck creation role or salary spend.
+- `ev-pain-sales-enablement-deck-offloading`: Four-word comment ("analyst. And maybe also enablement") cannot support claims of shielding reps from non-selling overhead.
 
 ---
 
-## 7. Compliance Attestation
+## 5. Potential Gate Eligibility Metrics
 
-1. The Auditor did not conduct new market research or browse the web for replacement sources (Rules 18, 25).
-2. All 13 rejected records and 9 partially verified records were flagged strictly according to the Evidence Standard (Rules 1-7, 13-14).
-3. The canonical dataset `ideas/deck-automation/evidence/evidence.jsonl` contains exactly 88 records and passes `methodology/evidence-schema.json` with zero errors.
-4. No PASS/FAIL verdict has been issued (Rule 17, SKILL.md).
+*(Audit metrics only. No PASS/FAIL decision is declared. The Stage 1 Judge reproduces verdict decisions from VERIFIED records only.)*
 
+### Gate 1: Concrete Pain Signals
+- **Threshold Target**: ≥ 20 VERIFIED independent concrete pain signals (≥ 10 from core ICPs).
+- **Audit Findings**:
+  - **VERIFIED Pain Records**: **7** records.
+  - **Unique Independence Keys**: **7** keys.
+  - Core ICP Breakdown:
+    - B2B SaaS Account Executives / Sales: 2 (`ev-pain-sales-qbr-hours-editing`, `ev-pain-rep-disdain-for-decks`)
+    - Management Consultants: 2 (`ev-pain-consulting-thirty-percent-time`, `ev-pain-consulting-client-theme-rework`)
+    - Corporate Presentation Creators / Sales Enablement: 1 (`ev-pain-pptx-master-slide-corruption`)
+    - RevOps / Sales Operations: 1 (`ev-pain-revops-sfdc-to-slides-manual-drain`)
+    - Marketing Agencies: 1 (`ev-wf-agency-rfp-resource-drain`)
+  - *Gap to G1 Target*: 7 verified signals vs. 20 target.
+
+### Gate 2: Recurrence
+- **Confidence Requirement**: At least MEDIUM confidence that core workflow recurs regularly.
+- **Audit Findings**:
+  - **VERIFIED Recurring Records**: **49** records (49 unique independence keys).
+  - Recurrence breakdown across VERIFIED records:
+    - `per_opportunity`: 23 records (deal-by-deal pitch preparation and client proposals)
+    - `monthly`: 12 records (monthly leadership/PMO reporting and billing cadences)
+    - `daily`: 3 records (daily slide formatting and template production)
+    - `weekly`: 3 records (weekly review decks and slide maintenance)
+    - `quarterly`: 2 records (recurring QBR deck customization)
+    - `per_client`: 2 records (client brand theme alignment)
+    - `ad_hoc`: 4 records (situational deck adjustments)
+    - `one_time`: 3 records (security reviews, onboarding decks)
+
+### Gate 3: Existing Spend / WTP
+- **Threshold Target**: ≥ 5 VERIFIED money signals across ≥ 2 distinct spend categories (excluding competitor pricing pages alone).
+- **Audit Findings**:
+  - **VERIFIED Buyer/Actual Money Records**: **19** records (19 unique independence keys).
+  - **Distinct Spend Categories Represented**: **6 categories**:
+    1. `contractor_spend` (4 signals): `ev-wtp-cre-om-freelance-spend` ($100/listing + $1,000 template), `ev-wtp-startups-upwork-deck-spend` ($150 on Upwork), `ev-pain-outsourced-deck-freelancer` (10-20 hrs/mo), `ev-wf-agency-proposal-slides-assistant`.
+    2. `saas_spend` (3 signals): `ev-wtp-sales-highspot-enterprise-use` (3-year SAS Institute deployment), `ev-gap-copilot-firmwide-unusable-decks` (firmwide Microsoft Copilot rollout), `ev-wf-agency-interactive-qwilr-substitute` (Qwilr deployment).
+    3. `employee_time` (9 signals): `ev-pain-sales-qbr-hours-editing`, `ev-pain-consulting-thirty-percent-time` (30% workday), `ev-pain-consulting-client-theme-rework`, `ev-gap-beautifulai-export-templates-jeff` (3x time), `ev-pain-revops-sfdc-to-slides-manual-drain`, `ev-wtp-consulting-formatting-time` (50% time), `ev-wf-cre-assembly-line-redlining`, `ev-wf-agency-rfp-resource-drain`, `ev-wf-msp-qbr-multi-tool-drain`.
+    4. `dedicated_role` (1 signal): `ev-wf-cre-designer-indesign-bottleneck` (full-time in-house InDesign OM designer).
+    5. `actual_purchase` (1 signal): `ev-gap-storydoc-no-pptx-export-nasrullah` (1-month paid subscription for pitch deck).
+    6. `stated_wtp` (1 signal): `ev-wtp-contradiction-manual-template-pushback` (preference to pay once for master template).
+  - *Competitor Price Context (VERIFIED)*: 8 records (`ev-mkt-plusai-pricing`, `ev-mkt-m365-copilot-pricing`, `ev-mkt-highspot-contract-floor`, `ev-mkt-thinkcell-spend`, `ev-skp-highspot-pricing-procurement`, `ev-skp-m365-copilot-pricing`, `ev-mkt-qwilr-pricing-substitute`, `ev-mkt-templafy-capabilities`).
+
+### Gate 4: Repeatable Gap in Existing Solutions
+- **Threshold Target**: ≥ 10 VERIFIED records clustering around repeatable solution gaps.
+- **Audit Findings**:
+  - **VERIFIED Gap Records**: **10** records (10 unique independence keys).
+  - Identifiable Gap Clusters:
+    1. *PPTX Export Fidelity & Content Corruption* (4 records): `ev-pain-gamma-export-corrupted-content`, `ev-gap-beautifulai-export-templates-jeff`, `ev-gap-storydoc-no-pptx-export-nasrullah`, `ev-pain-gamma-import-dropped-data`.
+    2. *Template Non-Compliance & Inability to Enforce Brand Kits* (3 records): `ev-pain-gamma-ignores-corporate-templates`, `ev-gap-copilot-desktop-custom-template-failure`, `ev-pain-gamma-rigid-layout-distortion`.
+    3. *Low AI Output Quality & Instruction Deviation* (2 records): `ev-gap-copilot-firmwide-unusable-decks`, `ev-gap-pitch-ai-ignores-structure-layout`.
+    4. *Administrative Formatting Disconnect* (1 record): `ev-pain-llm-thinking-vs-slide-admin`.
+
+### Gate 5: ICP Reachability
+- **Threshold Target**: Identifiable roles, company segments, and discoverable/contactable market surface.
+- **Audit Findings**:
+  - **VERIFIED Reachability Records**: **0** records.
+  - *Note*: `ev-wf-reachability-apmp-association` was downgraded to `PARTIALLY_VERIFIED` because an association event page and membership count alone does not provide a contactable prospect surface under the reachability standard.
+
+### Gate 6: Killer Substitute Analysis
+- **Threshold Target**: No low-friction substitute that solves the workflow at a price that destroys planned value proposition.
+- **Audit Findings**:
+  - **VERIFIED Substitute Records**: **9** records (9 unique independence keys).
+  - Major Direct & Adjacent Substitutes Verified:
+    1. *Microsoft 365 Copilot* (`ev-skp-m365-copilot-ppt-features`, `ev-skp-m365-copilot-brand-templates`, `ev-skp-m365-copilot-pricing`): Directly bundled in PowerPoint at $23.50–$30/user/mo, generates decks from Word docs, and learns .potx templates/Brand Kits.
+    2. *Highspot AutoDocs & Seismic LiveDocs* (`ev-skp-seismic-livedocs-automation`, `ev-skp-highspot-pricing-procurement`): Solve end-to-end dynamic template population from Salesforce/Dynamics in mid-market and enterprise ($45–$65/user/mo per seat, $60k median contract).
+    3. *Buildout Showcase* (`ev-skp-buildout-cre-suite`): Solves automated OM and proposal creation from property data for 50,000+ CRE brokers at $125/user/mo.
+    4. *Web Proposal Platforms (Qwilr, Storydoc)* (`ev-mkt-storydoc-substitute`, `ev-mkt-qwilr-pricing-substitute`, `ev-wf-agency-interactive-qwilr-substitute`): Replace PowerPoint entirely with dynamic, tracked web links.

@@ -1,0 +1,1049 @@
+From 433de9156d1e4b962e63744eef97784e54fe5650 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Tue, 8 Sep 2026 01:48:03 +0600
+Subject: [PATCH] Harden Stage 1 evidence validation
+
+---
+ .agent/skills/evidence-audit/SKILL.md   | 114 ++++++++++-----
+ .agent/skills/skeptic-research/SKILL.md | 103 ++++++++-----
+ .agent/skills/stage1-judge/SKILL.md     | 183 +++++++++++++++++-------
+ .agent/skills/wtp-research/SKILL.md     | 110 ++++++++++----
+ ANTIGRAVITY-RUNBOOK.md                  |  20 +--
+ README.md                               |   4 +-
+ prompts/00-bootstrap-framework.md       |   4 +-
+ prompts/12-run-wtp.md                   |  43 ++++--
+ prompts/14-run-skeptic.md               |  47 +++++-
+ prompts/20-run-auditor.md               |  57 ++++++--
+ prompts/30-run-judge.md                 |  71 +++++++--
+ 11 files changed, 551 insertions(+), 205 deletions(-)
+
+diff --git a/.agent/skills/evidence-audit/SKILL.md b/.agent/skills/evidence-audit/SKILL.md
+index f73f40e..119625d 100644
+--- a/.agent/skills/evidence-audit/SKILL.md
++++ b/.agent/skills/evidence-audit/SKILL.md
+@@ -1,55 +1,105 @@
+ ---
+ name: evidence-audit
+-description: Audits already-collected Stage 1 evidence for source support, recency, context, independence, schema compliance, and duplicates. It never performs new market research.
++description: Audits already-collected Stage 1 evidence for direct source support, semantic classification, scope attribution, independence, and schema compliance. Use after research; never use it to discover or replace evidence.
+ ---
+ 
+-# Evidence Audit Skill
++# Evidence Audit
+ 
+-## Hard boundary
++## Role
+ 
+-DO NOT conduct new market research.
+-DO NOT browse for replacement evidence.
+-DO NOT improve a weak record with a new source.
++Turn raw `PENDING` records into a canonical audited dataset. Verify what each recorded URL actually establishes; do not improve the research or decide the Stage 1 verdict.
+ 
+-You may open an already-recorded URL only to verify the claim in that record.
++## Hard boundaries
++
++- Do not search for new or replacement sources.
++- Open only a `source_url` already present in a raw record. Open each canonical URL once and apply that inspection to its records.
++- Do not use general knowledge, search snippets, cached browser content, Antigravity internal files, or paths outside the repository as evidence.
++- Do not use terminal commands, scripts, HTTP clients, or ad-hoc scrapers to retrieve web content.
++- Do not change methodology, hypothesis, research brief, or raw agent output.
++- Do not rewrite an unsupported observation into a weaker claim merely to mark it `VERIFIED`.
++- Do not issue PASS, CONDITIONAL PASS, FAIL, or INSUFFICIENT EVIDENCE.
+ 
+ ## Inputs
+ 
+-Read all `evidence.jsonl` files under the target idea's `raw/*` directories plus the canonical methodology/schema.
++Read:
++
++- the target `hypothesis.yaml` and `research-brief.md`;
++- `methodology/evidence-standard.md`, `methodology/evidence-schema.json`, and `methodology/stage1-gates.md`;
++- every target `raw/*/evidence.jsonl` file.
++
++## Audit protocol
++
++Audit every record in this order.
++
++### 1. Structure and source identity
++
++Confirm that the record is valid JSON, conforms to the canonical schema, is atomic, points to the exact inspected public page, and identifies the real author/entity and date when available. A directory root, search page, unrelated documentation page, or changed page that no longer contains the claim does not verify it.
++
++### 2. Direct support
++
++The page must directly support every material part of `observation`, including numbers, units, dates, role, ICP, workflow, recurrence, amount, currency, and period. Do not derive a median from a range, convert time into currency, allocate an entire salary to one task, or combine facts from several URLs into one record.
++
++`interpretation` may explain relevance but may not add facts. Unsupported interpretation does not become evidence.
++
++### 3. Semantic classification
+ 
+-## Audit each record
++Apply these distinctions strictly:
+ 
+-Check:
++- `pain`: an experienced workflow problem, cost, delay, error, frustration, risk, or workaround. A product feature, product limitation, price, market statistic, or job description alone is not pain.
++- `gap`: an observed missing capability, failed output, manual cleanup, or workflow break experienced in the target job. A feature comparison or an absent feature on a pricing page alone is not a validated customer gap.
++- `recurrence`: explicit frequency of the core job or problem. Billing cadence, subscription term, publication cadence, or the fact that a workflow could recur is not recurrence.
++- `reachability`: evidence of a specific target role/segment plus a real discoverable or contactable surface. A role label, association homepage, or claimed member count alone is insufficient.
++- `substitute`: evidence that an alternative performs material parts of the same job. Current incumbent capability normally contradicts the proposed wedge or is neutral; it is not supporting evidence merely because a market exists.
++- `wtp`: money or costly labor demonstrably committed to the same or a closely mapped job.
+ 
+-- schema conformity;
+-- URL exists and is the source actually inspected;
+-- source supports the observation;
+-- observation does not overstate the source;
+-- interpretation is clearly separated;
+-- current pricing/features are recent enough;
+-- source tier is appropriate;
+-- source excerpt/context is not misleading;
+-- ICP attribution is supported;
+-- recurrence/money fields are supported;
+-- independence key is reasonable;
+-- duplicates/syndicated claims are grouped.
++For WTP and Gate 3:
+ 
+-## Statuses
++- Eligible signals may include an actual purchase or paid pilot; first-hand actual SaaS use for the job; actual employee time spent on the job; an actual contractor/agency engagement or buyer budget; or a dedicated role whose duties materially include the job.
++- A vendor's own price, agency rate card, marketplace average, salary aggregator, broad creative retainer, or competitor contract benchmark is `competitor_price` context unless a buyer-side source establishes purchase or use.
++- A job posting supports `dedicated_role` only when the target job is a material duty. Its full salary is not spend on the target job unless the source establishes that allocation.
++- A posted freelance budget without evidence of award or purchase is stated/budget intent, not actual contractor spend.
++- `saas_spend` requires evidence of actual use or purchase for the target job; a pricing page alone does not qualify.
+ 
+-Set exactly one:
++### 4. Scope attribution
+ 
+-- `VERIFIED` — source supports the material observation;
+-- `PARTIALLY_VERIFIED` — source supports only part; explain;
+-- `REJECTED` — unsupported, duplicate without independent value, inaccessible in a way that prevents verification, misleading, or invalid.
++Assign a record to an ICP only when the source identifies that role or segment. Do not relabel generic presentation users, enterprise teams, agencies, consultants, proposal teams, or CRE teams as one another. If the narrow ICP is not supported, keep it unknown or reject the material attribution.
++
++### 5. Independence and duplicates
++
++Canonicalize URLs by removing tracking parameters and fragments. Group the same person/company and underlying claim under one `independence_key`, including reposts and syndicated pages.
++
++- Exact duplicate claim: retain one canonical record and reject the duplicate.
++- Same source with genuinely different atomic observations: records may remain, but use the same independence key where they are not independent.
++- A Judge may count an independence key at most once per gate.
++
++## Audit statuses
++
++Set one status and a concrete `audit_reason`:
++
++- `VERIFIED`: the opened page directly supports all material fields and the semantic classification.
++- `PARTIALLY_VERIFIED`: the page supports a useful core fact but a material field, scope attribution, amount, recurrence, or classification is overstated. It cannot satisfy a gate.
++- `REJECTED`: unsupported, misleading, non-atomic beyond repair, duplicate without independent value, wrong URL, or invalid.
++- `PENDING`: use only when browser/tool failure prevents inspection. State the blocker; the Judge must ignore it.
++
++An inaccessible page is not VERIFIED. Distinguish a source failure from an Antigravity quota/tool failure in `audit_reason`.
+ 
+ ## Outputs
+ 
+ Write only to the target idea's `evidence` directory:
+ 
+-- `evidence.jsonl` — consolidated records with audit status/reason;
+-- `audit-summary.md` — counts, rejection reasons, duplicate groups, source-tier distribution;
+-- `high-impact-review.md` — strongest 10 positive, strongest 10 negative, all VERIFIED money signals, and any disputed/high-impact records for human spot-checking.
++- `evidence.jsonl`: all consolidated records with status and audit reason;
++- `audit-summary.md`: status counts by type, source tier, ICP, and money signal; duplicate groups; blocked records; and counts potentially eligible for each gate without declaring a gate result;
++- `high-impact-review.md`: every VERIFIED or PARTIALLY_VERIFIED money record, the strongest positive and contradictory records, all substitute candidates, and every record whose inclusion could change a gate.
++
++The outputs must let the Judge reproduce every count without browsing.
++
++## Mechanical checks
++
++After writing the canonical JSONL, run only:
+ 
+-The Judge must be able to work from these outputs alone.
++```bash
++python scripts/validate_evidence.py <idea-path>/evidence/evidence.jsonl
++python scripts/find_duplicates.py <idea-path>/evidence/evidence.jsonl
++```
+ 
+-Do not issue a PASS/FAIL verdict.
++Do not use `python -c`, PowerShell one-liners, `jsonschema` snippets, or Antigravity cache inspection. If validation fails, repair only the reported local JSONL problem and rerun the validator once. If it still fails, record the blocker and stop.
+diff --git a/.agent/skills/skeptic-research/SKILL.md b/.agent/skills/skeptic-research/SKILL.md
+index 6f395de..d5547f2 100644
+--- a/.agent/skills/skeptic-research/SKILL.md
++++ b/.agent/skills/skeptic-research/SKILL.md
+@@ -1,54 +1,91 @@
+ ---
+ name: skeptic-research
+-description: Tries to falsify a SaaS hypothesis by finding complete substitutes, weak frequency, low willingness to pay, adoption blockers, bundling risk, privacy/security constraints, and evidence that users are satisfied with existing solutions.
++description: Tries to falsify a Stage 1 SaaS hypothesis by testing direct substitutes, weak frequency or WTP, adoption blockers, bundling, and technical constraints for the stated ICP. Use as the adversarial research track, not to invent a better wedge.
+ ---
+ 
+-# Skeptic / Disconfirming Research Skill
++# Skeptic Research
+ 
+ ## Mission
+ 
+-Assume the proposed SaaS is a bad business until evidence survives serious attempts to disprove it.
++Test whether the hypothesis as written is a bad business. Look for evidence that the job is already solved, too infrequent, too cheap, too risky, or too difficult to adopt.
+ 
+-You are not allowed to rescue the hypothesis.
++Do not rescue the hypothesis while researching.
+ 
+-## Search specifically for
++## Scope lock
+ 
+-- complete or near-complete substitutes;
+-- cheap/free bundled solutions;
+-- incumbent features added recently;
+-- low workflow frequency;
+-- users who tried AI/automation and returned to manual work;
+-- low switching intent;
+-- poor retention patterns;
+-- security/privacy/data-access blockers;
+-- procurement blockers;
+-- quality/accuracy requirements that make automation impractical;
+-- technical complexity hidden by the initial concept;
+-- segments where the problem is already solved;
+-- customer statements showing the pain is minor;
+-- dead/failed products and reasons where observable.
++Read the target hypothesis, research brief, evidence standard, schema, and gates before browsing. Evaluate the stated job, business constraints, and each declared candidate ICP separately.
+ 
+-## Evidence polarity
++If evidence suggests a new ICP or wedge, record it only as an unvalidated follow-up hypothesis. Do not transfer evidence from the failed scope or declare the new scope viable.
+ 
+-Most records should be `contradicts` or `neutral`. Supporting evidence may be recorded if discovered, but do not seek it deliberately.
++## Falsification targets
+ 
+-## Output
++Search specifically for:
+ 
+-Write only to the assigned `raw/skeptic` directory:
++- complete and near-complete substitutes for the same job and ICP;
++- incumbent features, add-ins, templates, services, and manual workflows that make the pain cheap to tolerate;
++- cheap/free bundling and low switching friction;
++- actual low frequency, short completion time, or abandonment of the workflow;
++- users satisfied with current tools or returning to manual work after trying automation;
++- low spend, rejected prices, weak purchase authority, or no budget owner;
++- privacy, security, procurement, data-access, integration, and change-management blockers;
++- fidelity, accuracy, editable-output, template, and review requirements that defeat automation;
++- technical complexity incompatible with the stated MVP/founder constraints;
++- failed or discontinued products when the reason is observable.
++
++## Substitute assessment
++
++For every serious substitute, distinguish four separate facts:
++
++1. capability: which target workflow steps it performs;
++2. fit: whether it serves the same ICP, input, required output, and quality bar;
++3. friction/economics: price, procurement, setup, and switching cost actually supported by sources;
++4. adoption/sufficiency: evidence that target users use it or find it sufficient.
++
++A vendor page can verify current capability or published price; it does not prove adoption, satisfaction, pain, or buyer spend. A user complaint can verify a problem; it does not prove the vendor lacks every workaround.
++
++Classify a substitute record as `contradicts` when it materially performs the proposed job for the target ICP. Do not label it supportive merely because its existence suggests a market. If decisive fit, price, or adoption remains unknown, report the threat as unresolved rather than dismissing it.
++
++A potential killer substitute is one that appears to solve the core job sufficiently for the target ICP with low enough friction/economics to undermine the planned value proposition. The Judge, not this skill, decides Gate 6.
+ 
+-- `skeptic-case.md`;
+-- `evidence.jsonl`.
++## Evidence discipline
+ 
+-All records start `audit_status: PENDING`.
++- Open original public pages; search-result snippets are leads only.
++- Use one atomic factual observation per record.
++- Keep observation separate from interpretation.
++- Do not invent a product weakness, user dissatisfaction, price, adoption level, or technical limitation.
++- Do not treat an old or unrelated failure as evidence about the current product without explaining the mismatch.
++- Attribute evidence only to the ICP shown by the source.
++- Use mostly `contradicts` or `neutral` polarity. Record accidental support honestly.
++- Keep every raw record `audit_status: PENDING`.
+ 
+-## Required final section
++## Outputs
+ 
+-In `skeptic-case.md`, list:
++Write only to the assigned `raw/skeptic` directory:
+ 
+-1. strongest potential killer substitute;
+-2. strongest evidence of low/uncertain recurrence;
+-3. strongest WTP objection;
+-4. strongest adoption blocker;
+-5. what evidence would be sufficient to rebut each objection.
++- `evidence.jsonl`;
++- `skeptic-case.md` containing:
++  1. hypothesis and scope tested;
++  2. substitute matrix with capability, ICP/output fit, price/friction, adoption evidence, unknowns, and evidence IDs;
++  3. strongest recurrence objection;
++  4. strongest WTP objection;
++  5. strongest adoption/procurement blocker;
++  6. strongest technical/MVP blocker;
++  7. evidence sufficient to rebut each objection;
++  8. candidate new scopes discovered, explicitly marked `UNVALIDATED`; and
++  9. research shortfall and tooling blockers.
+ 
+ Do not issue the official Stage 1 verdict.
++
++## Tool and stopping policy
++
++Use the browser for public research. Do not retrieve web content through terminal, Python, PowerShell, curl, internal Antigravity files, browser cache, or ad-hoc scrapers.
++
++Retry a failed research action at most once. After 3 consecutive research-tool failures, preserve the credible records, document the blocker, and finish partial.
++
++Validate the finished file only with:
++
++```bash
++python scripts/validate_evidence.py <idea-path>/raw/skeptic/evidence.jsonl
++```
++
++Do not use `python -c`, inline `jsonschema`, or shell parsing. If validation fails, repair only the reported JSONL problem and rerun once. If it still fails, document the structural blocker and stop.
+diff --git a/.agent/skills/stage1-judge/SKILL.md b/.agent/skills/stage1-judge/SKILL.md
+index 6e3b410..2c4a476 100644
+--- a/.agent/skills/stage1-judge/SKILL.md
++++ b/.agent/skills/stage1-judge/SKILL.md
+@@ -1,62 +1,125 @@
+ ---
+ name: stage1-judge
+-description: Produces the Stage 1 PASS, CONDITIONAL PASS, FAIL, or INSUFFICIENT EVIDENCE decision using only VERIFIED audited evidence and the predefined gates. It is prohibited from doing new research.
++description: Produces a reproducible Stage 1 PASS, CONDITIONAL PASS, FAIL, or INSUFFICIENT EVIDENCE decision from audited evidence and fixed gates. Use only after audit; it never browses or repairs evidence.
+ ---
+ 
+-# Stage 1 Judge Skill
++# Stage 1 Judge
+ 
+-## Hard boundary
++## Role
+ 
+-DO NOT browse.
+-DO NOT search the web.
+-DO NOT add sources.
+-DO NOT use general knowledge to fill missing facts.
+-DO NOT use PENDING, PARTIALLY_VERIFIED, or REJECTED evidence when deciding whether gates pass.
++Decide whether the researched hypothesis deserves Stage 2 prospect mining and interviews. Reproduce every gate from canonical audited evidence; do not advocate for the idea.
+ 
+-Missing evidence is `UNKNOWN`.
++## Hard boundaries
++
++- Do not browse, search, open URLs, add sources, or use general knowledge.
++- Do not modify evidence, methodology, thresholds, hypothesis, or research brief.
++- Use only records with `audit_status: VERIFIED` to satisfy gates.
++- Treat `PENDING`, `PARTIALLY_VERIFIED`, `REJECTED`, and missing evidence as unavailable.
++- Do not convert vendor pricing, product capabilities, or adjacent-market facts into pain, recurrence, WTP, reachability, or adoption.
++- Do not issue a better verdict by redefining the ICP or wedge after seeing the results.
+ 
+ ## Inputs
+ 
+ Read:
+ 
+-- target `hypothesis.yaml`;
+-- `methodology/stage1-gates.md`;
+-- `methodology/scoring.md`;
+-- target `evidence/evidence.jsonl`;
+-- target `evidence/audit-summary.md`.
++- target `hypothesis.yaml` and `research-brief.md`;
++- `methodology/stage1-gates.md` and `methodology/scoring.md`;
++- target `evidence/evidence.jsonl`, `audit-summary.md`, and `high-impact-review.md`.
++
++## Scope integrity
++
++The evaluated scope is the written hypothesis plus its declared business constraints and `initial_candidate_icps`.
++
++A declared candidate ICP may become the recommended wedge only when every gate is recalculated using evidence attributable to that same ICP. Do not pool pain from one segment, spend from another, reachability from a third, and substitutes from the original broad segment.
++
++A newly discovered or materially changed ICP, output format, buyer, workflow, or value proposition is `UNVALIDATED`. Report it as a candidate for a new or repaired Stage 1; it cannot rescue the verdict.
++
++Evidence with unknown or broad ICP may support only the equally broad scope. Do not assign it to a narrow candidate.
++
++## Counting protocol
++
++Before evaluating gates:
++
++1. filter to `VERIFIED`;
++2. group by `independence_key`;
++3. within each gate and scope, count an independence key at most once;
++4. exclude records whose semantic type or direct observation does not meet that gate;
++5. retain contradictory evidence separately.
++
++For every gate and every scope assessed, provide:
++
++- `status`: PASS, FAIL, or UNKNOWN;
++- threshold or decision rule;
++- full `counted_evidence_ids` list, not only examples;
++- independent count and relevant category/cluster counts;
++- full `contradictory_evidence_ids` list;
++- high-impact excluded IDs with a short exclusion reason;
++- confidence and material unknowns.
++
++The numeric count must equal the number of unique counted independence keys. If it cannot be reproduced, the gate is UNKNOWN.
++
++## Gate rules
++
++### G1 — Concrete pain
++
++Count only records describing an actual workflow problem, cost, delay, error, frustration, risk, or workaround. Do not count product features, feature gaps without user impact, prices, job descriptions, generic workflow descriptions, or market statistics.
++
++Report both total qualifying signals and qualifying signals attributable to the assessed target ICP.
++
++### G2 — Recurrence
+ 
+-Deduplicate by `independence_key` before counting thresholds.
++Use only records that explicitly establish frequency of the core job/problem for the assessed ICP. Subscription billing cadence, employment duration, content publication cadence, or non-null `recurrence` on an unrelated record does not qualify.
+ 
+-## Evaluate
++Assign HIGH, MEDIUM, LOW, or UNKNOWN confidence and explain the observed frequency distribution.
+ 
+-Report each gate independently:
++### G3 — Existing spend / WTP
+ 
+-- G1 concrete pain;
+-- G2 recurrence;
+-- G3 existing spend/WTP;
+-- G4 repeatable gap;
+-- G5 ICP reachability;
+-- G6 killer substitute.
++Eligible categories are:
+ 
+-For every gate include:
++- actual purchase or paid pilot;
++- actual SaaS use/purchase for the target job;
++- actual employee time materially spent on the job;
++- actual contractor/agency engagement or buyer budget;
++- a dedicated role materially performing the job;
++- stated WTP, identified separately and weighted below revealed behavior.
+ 
+-- result;
+-- verified independent count where applicable;
+-- strongest evidence IDs;
+-- strongest contradictory evidence IDs;
+-- confidence;
+-- unknowns.
++`competitor_price` never counts toward the Gate 3 threshold. Neither do vendor/agency rate cards, marketplace averages, salary aggregates, broad creative subscriptions, vendor revenue, or job postings with incidental task overlap unless buyer-side use/spend for the assessed job is verified.
+ 
+-## Verdict
++Do not count an amount that represents hours as currency or allocate a full salary/retainer to the target job without direct support. Report eligible count, distinct eligible categories, and actual amounts separately from amount-unknown labor signals.
+ 
+-Use exactly one:
++### G4 — Repeatable gap
+ 
+-- PASS
+-- CONDITIONAL PASS
+-- FAIL
+-- INSUFFICIENT EVIDENCE
++Count only experienced workarounds, manual cleanup, missing capability with demonstrated workflow impact, quality failures, or workflow breaks. Product capability comparisons and absent features without observed target-user impact are substitute/context evidence, not validated gaps.
+ 
+-Do not change gate thresholds to rescue the hypothesis.
++Group counted records into coherent clusters. Ten unrelated complaints do not pass.
++
++### G5 — ICP reachability
++
++Require a plausible role, segment, and real discoverable/contactable surface compatible with the acquisition constraints. A role name, association homepage, audience-size claim, subreddit, or LinkedIn mention alone does not establish contactability.
++
++Assign HIGH, MEDIUM, LOW, or UNKNOWN. PASS requires at least MEDIUM.
++
++### G6 — No killer substitute
++
++Assess substitutes for the same ICP, input, output, workflow, and quality bar. Consider capability, price/friction, and adoption/sufficiency separately.
++
++- A verified low-friction sufficient substitute fails the current wedge.
++- A serious direct substitute with material unresolved fit, pricing, or adoption makes G6 UNKNOWN; do not wave it away.
++- A substitute serving another segment does not automatically fail the assessed segment.
++- `Our UX could be better` is not a rebuttal.
++
++## Verdict logic
++
++Use exactly one final verdict:
++
++- `PASS`: every core gate passes for one coherent declared scope.
++- `CONDITIONAL PASS`: no gate fails, all other gates are strong, and exactly one material gate-level question remains UNKNOWN and is realistically answerable through Stage 2 interviews. Name that one condition.
++- `FAIL`: a core assumption of the evaluated scope is strongly contradicted, including a killer substitute or evidence that the job/value proposition is not viable.
++- `INSUFFICIENT EVIDENCE`: thresholds are not met or several material assumptions remain unknown without strong contradiction. This never authorizes Stage 2.
++
++A failed broad scope plus an under-evidenced narrower candidate is not CONDITIONAL PASS. Report the broad failure and the candidate's insufficient coverage, then use the verdict required by the coherent scope actually evaluated.
++
++Dimension scores are summaries only. They cannot override gates and must not contain manufactured decimal precision.
+ 
+ ## Outputs
+ 
+@@ -65,21 +128,31 @@ Write only to the target idea's `output` directory:
+ - `stage1-report.md`;
+ - `scorecard.json`.
+ 
+-`stage1-report.md` structure:
+-
+-1. Hypothesis
+-2. Executive verdict
+-3. What users appear to be doing
+-4. Pain clusters
+-5. Recurrence
+-6. Existing spend/WTP
+-7. Current alternatives
+-8. Repeatable gaps
+-9. Candidate ICPs
+-10. Candidate wedges
+-11. Strongest disconfirming evidence
+-12. Unknowns
+-13. Stage 2 questions
+-14. Gate scorecard
+-
+-The report must distinguish evidence-backed conclusions from unresolved hypotheses.
++`stage1-report.md` must include:
++
++1. evaluated hypothesis and scope;
++2. executive verdict and whether Stage 2 is authorized;
++3. scope/ICP coverage matrix;
++4. G1-G6 analyses with complete counted and contradictory evidence IDs;
++5. current alternatives and substitute assessment;
++6. strongest disconfirming evidence;
++7. candidate ICPs/wedges, distinguishing declared-and-tested from `UNVALIDATED`;
++8. unknowns and next research questions;
++9. reproducible gate scorecard.
++
++`scorecard.json` must include:
++
++- `idea_id`, evaluation date, exact verdict, rationale, `stage2_authorized`, and optional single condition;
++- `evaluated_scope` and scope-integrity notes;
++- dimension scores;
++- for every gate: status, threshold/rule, count, `counted_evidence_ids`, `contradictory_evidence_ids`, excluded high-impact IDs/reasons, confidence, and unknowns;
++- candidate-scope assessments that do not inherit counts from other scopes;
++- strongest positive/negative evidence and top unknowns.
++
++Ensure the JSON is syntactically valid using:
++
++```bash
++python -m json.tool <idea-path>/output/scorecard.json
++```
++
++Do not use `python -c` or inline parsing. If the command fails, repair the JSON and rerun once.
+diff --git a/.agent/skills/wtp-research/SKILL.md b/.agent/skills/wtp-research/SKILL.md
+index 393f09b..7e2d59a 100644
+--- a/.agent/skills/wtp-research/SKILL.md
++++ b/.agent/skills/wtp-research/SKILL.md
+@@ -1,49 +1,107 @@
+ ---
+ name: wtp-research
+-description: Researches revealed willingness to pay and existing spend around a SaaS workflow using actual subscriptions, labor, contractors, agencies, job roles, and adjacent budgets. Use during Stage 1 validation.
++description: Researches revealed willingness to pay and costly labor for a specific Stage 1 job and ICP. Use to distinguish actual purchases, budgets, labor, and tool use from vendor pricing or hypothetical interest.
+ ---
+ 
+-# Willingness-to-Pay Research Skill
++# Willingness-to-Pay Research
+ 
+ ## Goal
+ 
+-Determine whether money or costly labor already flows toward solving the target job.
++Determine whether buyers already commit money or costly labor to the target job, who pays, what is purchased, and how closely that spend maps to the proposed workflow.
+ 
+-## Strong evidence categories
++## Scope lock
+ 
+-Search for evidence of:
++Before browsing, read the target `hypothesis.yaml`, `research-brief.md`, canonical evidence standard, schema, and gates. Research the stated job and candidate ICPs; do not silently redefine the product or pool unrelated segments.
+ 
+-- actual SaaS subscriptions or paid plans used for the job;
+-- job postings where the role spends meaningful time on the job;
+-- freelance/contract work bought to produce the output;
+-- agency/service spend;
+-- internal teams dedicated to the job;
+-- tools bought specifically to reduce the work;
+-- first-hand statements of actual spend.
++Adjacent spend may be recorded as `neutral`, but label the mapping gap explicitly.
+ 
+-Competitor pricing is useful context but is not enough by itself.
++## Evidence hierarchy
+ 
+-## Research method
++Prioritize, in order:
+ 
+-For job and freelance evidence, record what is actually being purchased and whether it maps to the target workflow.
++1. Buyer-side first-hand evidence of an actual purchase, renewal, paid pilot, invoice, or recurring spend for the job.
++2. An actual contractor, freelancer, or agency engagement, or an explicit buyer budget for the job.
++3. Paid employee time or a dedicated role materially performing the job.
++4. First-hand evidence that a paid SaaS product is actually used for the job.
++5. Stated budget or willingness to pay.
++6. Vendor/competitor pricing as context only.
+ 
+-When estimating employee-time cost, record the observable time/workload separately. Do not invent salary or loaded-cost numbers unless sourced.
++Search across multiple categories when credible evidence exists. Do not manufacture category diversity.
+ 
+-## Output
++## What does not establish revealed WTP
++
++Do not treat any of the following as actual spend without buyer-side purchase/use evidence:
++
++- a competitor pricing page;
++- an agency or freelancer rate card;
++- a marketplace's typical rate or salary aggregator;
++- vendor revenue, funding, customer count, or market-size estimate;
++- a broad creative-services subscription that merely includes presentations;
++- a job posting where deck work is incidental;
++- a freelance listing that was posted but not shown as awarded or purchased;
++- a hypothetical savings calculation or `would pay` statement;
++- hours of work encoded as dollars.
++
++These may be useful context records with low strength and the appropriate `money_signal`; they cannot by themselves satisfy Gate 3.
++
++## Record requirements
++
++Each record must be atomic and directly supported by one opened original public page. Record:
++
++- payer/buyer or employing organization when known;
++- target ICP and role only when the source supports them;
++- exact job/output being purchased or performed;
++- whether the signal is actual behavior, budget intent, stated WTP, or vendor price;
++- amount, currency, and period only when explicitly stated;
++- recurrence only when it describes the target job;
++- the gap between the purchased work and proposed workflow;
++- a short factual observation separated from interpretation.
++
++Classification rules:
++
++- Use `actual_purchase` or `paid_pilot` only for explicit buyer-side behavior.
++- Use `contractor_spend` or `agency_spend` only for an actual engagement/spend or a clearly identified buyer budget; otherwise use `stated_wtp` or `competitor_price` as appropriate.
++- Use `employee_time` when a practitioner/source establishes actual paid time on the job. Leave currency and amount null unless the monetary cost is sourced.
++- Use `dedicated_role` only when the target job is a material duty. Do not allocate the full salary to the job without evidence.
++- Use `saas_spend` only when paid use for the target job is established. A pricing page is `competitor_price`.
++- Vendor pricing and substitute capability should normally be `neutral` or `contradicts`, not automatic support for the proposed product.
++
++All raw records must keep `audit_status: PENDING`.
++
++## Research quality
++
++Prefer original buyer/practitioner statements, actual job postings, actual project listings, procurement records tied to use, and official pages for price context. Open every source; search-result snippets are leads only.
++
++Do not infer missing salary, loaded cost, adoption, purchase, contract value, or buyer authority. `UNKNOWN` is valid.
++
++## Outputs
+ 
+ Write only to the assigned `raw/wtp` directory:
+ 
+-- `wtp-map.md`;
+-- `evidence.jsonl`.
++- `evidence.jsonl`;
++- `wtp-map.md` containing:
++  1. scope and ICP coverage;
++  2. actual purchase/spend signals;
++  3. costly-labor signals;
++  4. stated budgets/WTP;
++  5. context-only vendor pricing;
++  6. strongest evidence against meaningful WTP;
++  7. category coverage, source shortfall, blockers, and unknowns.
++
++Target up to 10 credible candidate records across at least 3 categories when the public evidence supports them. This is not a quota and is never a reason to lower standards.
++
++Do not decide a gate or final verdict.
++
++## Tool and stopping policy
+ 
+-Use `money_signal` consistently with the canonical schema.
++Use the browser for public research. Do not retrieve web content through terminal, Python, PowerShell, curl, internal Antigravity files, browser cache, or ad-hoc scrapers.
+ 
+-All records start `audit_status: PENDING`.
++After a rate limit, quota/resource error, or repeated browser failure, retry the failed research action at most once. After 3 consecutive research-tool failures, preserve the records collected, document the blocker and missing categories in `wtp-map.md`, and finish partial.
+ 
+-## Target
++Validate the finished file only with:
+ 
+-Target up to 10 candidate money records spanning at least 3 distinct money-signal categories when evidence exists.
+-This is a research target, not a mandatory completion count. Never retry indefinitely, lower evidence quality, or invent alternative scraping infrastructure merely to reach the target.
+-If tool limits prevent reaching 10, stop with the credible records already collected and report the shortfall and blocker.
++```bash
++python scripts/validate_evidence.py <idea-path>/raw/wtp/evidence.jsonl
++```
+ 
+-Do not issue a PASS/FAIL verdict.
++Do not use `python -c`, inline `jsonschema`, or shell parsing. If validation fails, repair only the reported JSONL problem and rerun once. If it still fails, document the structural blocker and stop.
+diff --git a/ANTIGRAVITY-RUNBOOK.md b/ANTIGRAVITY-RUNBOOK.md
+index 00e1125..7ba3466 100644
+--- a/ANTIGRAVITY-RUNBOOK.md
++++ b/ANTIGRAVITY-RUNBOOK.md
+@@ -22,8 +22,8 @@ git commit -m "Bootstrap SaaS validation pipeline"
+ 3. Choose **Add Folder** and select the `saas-validation-starter` root.
+ 4. Create the project.
+ 
+-Antigravity indexes workspace skills from `.agents/skills/<skill-name>/SKILL.md`.
+-Workspace rules live under `.agents/rules`.
++Antigravity indexes workspace skills from `.agent/skills/<skill-name>/SKILL.md`.
++Workspace rules live under `.agent/rules`.
+ 
+ ## 2. Configure safety for this research project
+ 
+@@ -39,7 +39,7 @@ Research needs web/browser access, but it does not need arbitrary access to the
+ ## 3. Make the workspace Rule Always On
+ 
+ Open the Agent panel's **...** menu -> **Customizations** -> **Rules**.
+-Confirm the workspace rule in `.agents/rules/validation-rules.md` is visible.
++Confirm the workspace rule in `.agent/rules/validation-rules.md` is visible.
+ Set it to **Always On**.
+ 
+ This is important. Do not rely only on the launch prompt to enforce evidence discipline.
+@@ -59,8 +59,8 @@ You should see workspace skills such as:
+ 
+ If they do not appear:
+ 
+-- confirm the Project root is the folder containing `.agents`;
+-- confirm each skill is exactly `.agents/skills/<name>/SKILL.md`;
++- confirm the Project root is the folder containing `.agent`;
++- confirm each skill is exactly `.agent/skills/<name>/SKILL.md`;
+ - reopen/reload the Project if needed.
+ 
+ ## 5. Human pre-flight: inspect the hypothesis
+@@ -90,7 +90,7 @@ Use **Local Mode** for all five.
+ 
+ Why Local Mode here: all five agents need to contribute to the same active repository, and this starter pack gives each one a distinct write directory, so there should be no file collision. New Worktree Mode gives stronger isolation but then you must merge five worktrees before auditing.
+ 
+-Create five separate conversations:
++Create five separate conversations. Use Flash Medium for Market, Pain, and Workflow. Use High reasoning for WTP and Skeptic, where classification and adversarial comparison are more demanding.
+ 
+ ### Conversation A — Market
+ 
+@@ -110,6 +110,7 @@ Create five separate conversations:
+ 1. `/browser`
+ 2. `/wtp-research`
+ 3. Paste `prompts/12-run-wtp.md` body.
++4. If Antigravity requests terminal permission, allow only the exact local validator command printed in the prompt for this run. Reject `python -c`, inline `jsonschema`, cache inspection, and web-retrieval commands.
+ 
+ ### Conversation D — Workflow / ICP
+ 
+@@ -122,6 +123,7 @@ Create five separate conversations:
+ 1. `/browser`
+ 2. `/skeptic-research`
+ 3. Paste `prompts/14-run-skeptic.md` body.
++4. Apply the same exact-command permission rule as for WTP.
+ 
+ Allow Chrome debugging/browser permission when Antigravity requests it.
+ 
+@@ -143,9 +145,9 @@ If validation fails, ask only the responsible research conversation to repair it
+ 
+ ## 8. Run the Evidence Auditor
+ 
+-Create a fresh conversation after the five research agents finish.
++Create a fresh conversation with High reasoning after the five research agents finish.
+ 
+-Do not ask it to do discovery research.
++Enable `/browser` only so the Auditor can reopen URLs already recorded in evidence. Do not ask it to do discovery research.
+ Invoke `/evidence-audit` and paste the body of `prompts/20-run-auditor.md`.
+ 
+ If Antigravity needs to open already-recorded URLs for verification, allow that. The Auditor is forbidden from finding replacement sources.
+@@ -174,7 +176,7 @@ If you find a material audit error, correct the evidence/audit status before the
+ 
+ ## 10. Run the Judge
+ 
+-Create a new conversation.
++Create a new conversation with High reasoning.
+ 
+ **Do not use `/browser`.**
+ 
+diff --git a/README.md b/README.md
+index 4d43e1b..bdc3934 100644
+--- a/README.md
++++ b/README.md
+@@ -37,8 +37,8 @@ Only audited VERIFIED evidence may influence the Stage 1 verdict.
+ 
+ ```text
+ methodology/                    Methodology, evidence schema and gates
+-.agents/rules/                  Antigravity workspace rules
+-.agents/skills/                 Antigravity Agent Skills
++.agent/rules/                   Antigravity workspace rules
++.agent/skills/                  Antigravity Agent Skills
+ ideas/deck-automation/          First validation target
+   raw/                          Independent agent outputs
+   evidence/                     Audited canonical evidence
+diff --git a/prompts/00-bootstrap-framework.md b/prompts/00-bootstrap-framework.md
+index d7e6462..4d74ac3 100644
+--- a/prompts/00-bootstrap-framework.md
++++ b/prompts/00-bootstrap-framework.md
+@@ -12,8 +12,8 @@ Create:
+ - methodology/evidence-schema.json
+ - methodology/stage1-gates.md
+ - methodology/scoring.md
+-- .agents/rules/validation-rules.md
+-- workspace Agent Skills under .agents/skills/ for:
++- .agent/rules/validation-rules.md
++- workspace Agent Skills under .agent/skills/ for:
+   1. market-research
+   2. pain-mining
+   3. wtp-research
+diff --git a/prompts/12-run-wtp.md b/prompts/12-run-wtp.md
+index 551d042..96a4b53 100644
+--- a/prompts/12-run-wtp.md
++++ b/prompts/12-run-wtp.md
+@@ -1,21 +1,46 @@
+ # Run WTP Research
+ 
+-First enable browser access with `/browser`.
+-Then invoke `/wtp-research` and provide:
++Use a fresh Local Mode conversation. High reasoning is recommended.
++
++1. Enable `/browser`.
++2. Invoke `/wtp-research`.
++3. Paste the prompt below.
+ 
+ ```text
+ Run Stage 1 revealed willingness-to-pay research for `ideas/deck-automation`.
+ 
+-Prioritize actual spend and costly labor: subscriptions used for the job, employees, contractors, agencies, job postings, freelance projects, and first-hand reports of spend. Competitor pricing alone is context, not sufficient WTP evidence.
++Read before researching:
++- `ideas/deck-automation/hypothesis.yaml`
++- `ideas/deck-automation/research-brief.md`
++- `methodology/evidence-standard.md`
++- `methodology/evidence-schema.json`
++- `methodology/stage1-gates.md`
++
++Keep the written job and declared candidate ICPs fixed. Assess spend for each ICP separately. Do not combine money from agencies, consultancies, CRE, proposal teams, and B2B SaaS sales unless the source actually applies to the same assessed scope.
++
++Prioritize buyer-side actual purchases, paid pilots, actual contractor/agency engagements, explicit buyer budgets, paid employee time materially spent on the job, dedicated roles, and first-hand actual use of paid SaaS for this job.
++
++Competitor pricing, vendor/agency rate cards, marketplace averages, salary aggregators, broad creative retainers, vendor revenue, and unawarded listings are context—not revealed WTP. Do not count them as actual spend. Never encode hours as currency or allocate an entire salary/retainer to deck work without direct source support.
++
++Use only original public pages opened through the browser. Search snippets are leads only. Every record must be atomic and must separate observation from interpretation. Do not infer buyer, ICP, adoption, recurrence, amount, currency, period, or purchase.
+ 
+ Write only to:
+ `ideas/deck-automation/raw/wtp/`
+ 
+-Do not alter methodology or another agent's output.
+-Do not infer salary/cost figures without sources.
+-If browser/web research becomes unavailable because of a rate limit, resource limit, quota error, or repeated tool failure, do not build or use ad-hoc scraping scripts as a fallback.
++Produce:
++- `evidence.jsonl`
++- `wtp-map.md`
++
++All raw records must remain `audit_status: PENDING`. Do not decide any gate or PASS/FAIL verdict.
++
++Tool restrictions:
++- Do not access Antigravity internal files, generated step files, browser cache, or paths outside the repository.
++- Do not retrieve or parse web content using terminal, Python, PowerShell, curl, or an ad-hoc scraper.
++- Do not run `python -c`, inline `jsonschema`, or shell parsing.
++- If browser research fails, retry the failed research action at most once. After 3 consecutive research-tool failures, preserve credible records, document the blocker and missing spend categories in `wtp-map.md`, and finish partial.
++
++When the files are complete, run exactly this mechanical check from the repository root:
++`python scripts/validate_evidence.py ideas/deck-automation/raw/wtp/evidence.jsonl`
+ 
+-Preserve the credible evidence already collected, document the blocker, and finish the run as partial. The target record count is not mandatory when research tooling is unavailable.
+-Do not decide PASS/FAIL.
+-Finish only after structurally checking JSONL records against the canonical schema. All raw records must remain `PENDING`.
++If it fails, repair only the reported JSONL problem and run that same command once more. If it still fails, document the structural blocker and stop. The target record count is not mandatory.
+ ```
+diff --git a/prompts/14-run-skeptic.md b/prompts/14-run-skeptic.md
+index 1aa639f..a67abe8 100644
+--- a/prompts/14-run-skeptic.md
++++ b/prompts/14-run-skeptic.md
+@@ -1,19 +1,52 @@
+ # Run Skeptic Research
+ 
+-First enable browser access with `/browser`.
+-Then invoke `/skeptic-research` and provide:
++Use a fresh Local Mode conversation. High reasoning is recommended.
++
++1. Enable `/browser`.
++2. Invoke `/skeptic-research`.
++3. Paste the prompt below.
+ 
+ ```text
+ Try to falsify the Stage 1 hypothesis in `ideas/deck-automation`.
+ 
+-Actively search for complete substitutes, cheap bundled incumbent features, low recurrence, weak willingness to pay, privacy/security/procurement blockers, quality constraints, low switching intent, satisfied users, hidden technical complexity, and evidence that the proposed wedge is already solved.
++Read before researching:
++- `ideas/deck-automation/hypothesis.yaml`
++- `ideas/deck-automation/research-brief.md`
++- `methodology/evidence-standard.md`
++- `methodology/evidence-schema.json`
++- `methodology/stage1-gates.md`
++
++Test the written job, business constraints, and every declared candidate ICP separately. Do not rescue the hypothesis or silently redefine its ICP, output, buyer, or workflow. A newly discovered wedge may be listed only as `UNVALIDATED`; it cannot inherit evidence or a positive verdict.
++
++Actively search for complete and near-complete substitutes, cheap bundled/manual workflows, low recurrence, low completion time, weak actual spend, users satisfied with existing solutions, failed automation attempts, low switching intent, procurement/security/data blockers, output-fidelity constraints, and technical complexity incompatible with the stated MVP.
++
++For every serious substitute, distinguish:
++1. capability for the target workflow;
++2. same-ICP/input/output fit;
++3. supported price, setup, procurement, and switching friction;
++4. actual adoption or sufficiency evidence.
++
++A vendor page proves only the current capability or published price it explicitly states. It does not prove adoption, satisfaction, pain, or buyer spend. Classify a substitute that materially performs the proposed job as `contradicts` or `neutral`, not `supports` merely because a market exists. Leave unresolved threats unresolved.
+ 
+-Do not rescue or improve the hypothesis while researching it.
++Use only original public pages opened through the browser. Search snippets are leads only. Do not invent weaknesses, prices, adoption, or technical limitations.
+ 
+ Write only to:
+ `ideas/deck-automation/raw/skeptic/`
+ 
+-Do not alter methodology or another agent's output.
+-Do not issue the official Stage 1 verdict.
+-Finish only after structurally checking JSONL records against the canonical schema. All raw records must remain `PENDING`.
++Produce:
++- `evidence.jsonl`
++- `skeptic-case.md`, including the substitute matrix and evidence needed to rebut each major objection.
++
++All raw records must remain `audit_status: PENDING`. Do not issue the official Stage 1 verdict.
++
++Tool restrictions:
++- Do not access Antigravity internal files, generated step files, browser cache, or paths outside the repository.
++- Do not retrieve or parse web content using terminal, Python, PowerShell, curl, or an ad-hoc scraper.
++- Do not run `python -c`, inline `jsonschema`, or shell parsing.
++- Retry a failed research action at most once. After 3 consecutive research-tool failures, preserve credible records, document the blocker, and finish partial.
++
++When the files are complete, run exactly this mechanical check from the repository root:
++`python scripts/validate_evidence.py ideas/deck-automation/raw/skeptic/evidence.jsonl`
++
++If it fails, repair only the reported JSONL problem and run that same command once more. If it still fails, document the structural blocker and stop.
+ ```
+diff --git a/prompts/20-run-auditor.md b/prompts/20-run-auditor.md
+index fea6221..96ca4ef 100644
+--- a/prompts/20-run-auditor.md
++++ b/prompts/20-run-auditor.md
+@@ -1,30 +1,57 @@
+ # Run Evidence Auditor
+ 
+-Browser is not needed for discovery. The Auditor may open only URLs already present in raw evidence for verification.
+-Invoke `/evidence-audit` and provide:
++Use a fresh Local Mode conversation with High reasoning.
++
++1. Enable `/browser` so the Auditor can reopen recorded public URLs.
++2. Invoke `/evidence-audit`.
++3. Paste the prompt below.
+ 
+ ```text
+ Audit the already-collected Stage 1 evidence for `ideas/deck-automation`.
+ 
+ Read all evidence under:
+-- raw/market
+-- raw/pain
+-- raw/wtp
+-- raw/workflow
+-- raw/skeptic
++- `ideas/deck-automation/raw/market/`
++- `ideas/deck-automation/raw/pain/`
++- `ideas/deck-automation/raw/wtp/`
++- `ideas/deck-automation/raw/workflow/`
++- `ideas/deck-automation/raw/skeptic/`
++
++Also read the target hypothesis/research brief and the canonical evidence standard, schema, and Stage 1 gates.
++
++Hard restrictions:
++- Do not conduct discovery research or search for replacement/supporting sources.
++- Open only exact `source_url` values already stored in raw evidence. Open each canonical URL once and use that inspection for all records from it.
++- Do not use general knowledge, search snippets, cached content, Antigravity internal files, generated step files, browser cache, terminal HTTP tools, or ad-hoc scrapers as evidence.
++- Do not modify methodology, hypothesis, research brief, or raw output.
++- Do not weaken or rewrite an unsupported observation merely to mark it VERIFIED.
++
++Audit direct source support, atomicity, observation/interpretation separation, semantic type, ICP attribution, recurrence, money classification and amount, source recency, canonical URL, independence key, and duplicates.
+ 
+-Hard restriction:
+-Do NOT conduct new market research.
+-Do NOT search for replacement or supporting sources.
+-Do NOT repair weak evidence.
+-You may open only source URLs already stored in the raw evidence records to verify those records.
++Apply the Evidence Audit distinctions strictly:
++- product feature/price is not pain;
++- an absent feature without experienced user impact is not a validated gap;
++- billing cadence is not workflow recurrence;
++- vendor/list/agency pricing is not actual WTP;
++- SaaS spend requires actual use/purchase for the job;
++- a full salary/retainer cannot be allocated to the job without direct support;
++- a role or association homepage alone is not reachability;
++- a direct incumbent capability is substitute evidence, not automatic market support.
+ 
+-Deduplicate by underlying source/claim and `independence_key`.
+-Apply VERIFIED, PARTIALLY_VERIFIED, or REJECTED strictly according to the Evidence Audit skill.
++Set `VERIFIED`, `PARTIALLY_VERIFIED`, or `REJECTED` with a concrete reason. If Antigravity browser/tool failure prevents inspection, preserve the record as `PENDING` with the blocker; never mark it VERIFIED from cached or unopenable material. The Judge must be able to reproduce every potential gate count from the audit outputs alone.
+ 
+ Write only to:
+ `ideas/deck-automation/evidence/`
+ 
+-Produce the canonical audited evidence, audit summary, and high-impact human review file.
++Produce:
++- `evidence.jsonl`
++- `audit-summary.md`
++- `high-impact-review.md`
++
+ Do not issue PASS/FAIL.
++
++After writing, run only:
++- `python scripts/validate_evidence.py ideas/deck-automation/evidence/evidence.jsonl`
++- `python scripts/find_duplicates.py ideas/deck-automation/evidence/evidence.jsonl`
++
++Do not use `python -c`, inline `jsonschema`, PowerShell one-liners, or shell parsing. If validation fails, repair only the reported local JSONL problem and rerun the validator once. If it still fails, record the blocker and stop.
+ ```
+diff --git a/prompts/30-run-judge.md b/prompts/30-run-judge.md
+index 7a68b7a..75d6e83 100644
+--- a/prompts/30-run-judge.md
++++ b/prompts/30-run-judge.md
+@@ -1,28 +1,69 @@
+ # Run Stage 1 Judge
+ 
+-Do NOT enable browser access for this conversation.
+-Invoke `/stage1-judge` and provide:
++Use a fresh Local Mode conversation with High reasoning. Do not enable `/browser`.
++
++1. Invoke `/stage1-judge`.
++2. Paste the prompt below.
+ 
+ ```text
+-Judge Stage 1 for `ideas/deck-automation` using only VERIFIED evidence in its audited evidence directory.
++Judge Stage 1 for `ideas/deck-automation` using only audited evidence in its `evidence` directory.
++
++Read:
++- `ideas/deck-automation/hypothesis.yaml`
++- `ideas/deck-automation/research-brief.md`
++- `methodology/stage1-gates.md`
++- `methodology/scoring.md`
++- `ideas/deck-automation/evidence/evidence.jsonl`
++- `ideas/deck-automation/evidence/audit-summary.md`
++- `ideas/deck-automation/evidence/high-impact-review.md`
+ 
+ Hard restrictions:
+-- Do not browse.
+-- Do not search.
+-- Do not add sources.
+-- Do not use general knowledge to fill gaps.
+-- Do not use PARTIALLY_VERIFIED, PENDING, or REJECTED evidence to satisfy gates.
+-- Deduplicate by `independence_key` before counting thresholds.
+-- Do not modify the predefined gate thresholds.
+-- Missing evidence must remain UNKNOWN.
++- Do not browse, search, open URLs, add sources, or use general knowledge.
++- Do not change evidence, methodology, thresholds, hypothesis, or research brief.
++- Use only `audit_status: VERIFIED` records to satisfy gates.
++- Treat PARTIALLY_VERIFIED, PENDING, REJECTED, and missing evidence as unavailable.
++- Deduplicate by `independence_key` within each gate and assessed scope.
++- Do not convert product features, competitor pricing, generic workflow, or adjacent-market facts into pain, recurrence, WTP, reachability, or adoption.
++
++Evaluate the written hypothesis and each declared candidate ICP without pooling unrelated segments. A candidate ICP may be recommended only if all six gates are recalculated on evidence attributable to that same ICP. Any materially new ICP, buyer, output, workflow, or wedge is `UNVALIDATED` and cannot rescue the verdict.
++
++For every gate include:
++- PASS, FAIL, or UNKNOWN;
++- threshold/decision rule;
++- complete `counted_evidence_ids`, not only strongest examples;
++- count equal to unique counted independence keys;
++- category/cluster breakdown where applicable;
++- complete contradictory evidence IDs;
++- high-impact excluded IDs and reasons;
++- confidence and material unknowns.
++
++Gate discipline:
++- G1 counts only experienced concrete pain/workaround.
++- G2 uses only explicit recurrence of the core job/problem.
++- G3 never counts `competitor_price`; vendor/agency rate cards, marketplace averages, salary aggregates, broad retainers, vendor revenue, and incidental job duties do not qualify as revealed WTP.
++- G4 counts only experienced repeatable gaps/workarounds with workflow impact and coherent clusters.
++- G5 requires role + segment + a real discoverable/contactable surface compatible with acquisition constraints.
++- G6 evaluates direct substitutes for the same ICP/input/output/workflow; a serious unresolved substitute makes G6 UNKNOWN, not PASS.
++
++Use exactly one final verdict:
++- PASS only when every gate passes for one coherent declared scope;
++- CONDITIONAL PASS only when no gate fails and exactly one material gate-level question remains UNKNOWN and is realistically answerable in Stage 2;
++- FAIL when a core assumption is strongly contradicted;
++- INSUFFICIENT EVIDENCE when thresholds are unmet or several material assumptions remain unknown.
++
++A failed broad scope plus an under-evidenced narrower candidate is not CONDITIONAL PASS. Explicitly state whether Stage 2 is authorized.
+ 
+ Write only to:
+ `ideas/deck-automation/output/`
+ 
+ Produce:
+-- stage1-report.md
+-- scorecard.json
++- `stage1-report.md`
++- `scorecard.json`
+ 
+-Use exactly one final verdict:
+-PASS, CONDITIONAL PASS, FAIL, or INSUFFICIENT EVIDENCE.
++The scorecard must contain reproducible counted ID lists, scope-integrity notes, candidate-scope assessments, `stage2_authorized`, and at most one explicit condition.
++
++Validate JSON syntax only with:
++`python -m json.tool ideas/deck-automation/output/scorecard.json`
++
++Do not use `python -c` or inline parsing. If validation fails, repair the JSON and run that same command once more.
+ ```
+-- 
+2.51.1
+

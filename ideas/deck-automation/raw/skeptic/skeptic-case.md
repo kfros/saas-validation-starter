@@ -1,120 +1,145 @@
-# Skeptic & Disconfirming Analysis — Vertical B2B Deck / Sales-Collateral Automation
+# Adversarial Skeptic Case: Vertical B2B Deck / Sales-Collateral Automation
 
-**Idea ID:** `deck-automation`  
-**Agent:** `skeptic-research`  
-**Date:** 2026-09-06  
-**Status:** Raw Research Completed (Audit Status: PENDING)  
-**Assigned Output Directory:** `ideas/deck-automation/raw/skeptic/`  
-
----
-
-## Executive Summary
-
-The hypothesis proposes that B2B teams spend meaningful recurring manual time adapting PowerPoint presentations to individual sales opportunities, and that existing presentation AI tools leave an unserved gap because they lack company templates, trusted CRM inputs, and native editable PPTX outputs. Under the hypothesis, a sufficiently painful segment is assumed to support a B2B SaaS price materially above low-cost consumer tools (minimum \$100/mo ARPU target), acquired via founder-led outbound or self-service without heavy enterprise procurement.
-
-Skeptic research disproves several core foundations of this hypothesis:
-1. **The proposed wedge is already solved by enterprise incumbents:** Systems such as **Seismic LiveDocs**, **Showpad Automated Content Builder (ACB)**, **Matik**, and **Highspot** already connect directly to Salesforce CRM data, parse corporate master templates, apply conditional business logic, and dynamically generate native, editable PowerPoint (.pptx) decks.
-2. **Key candidate ICPs are already pre-empted by entrenched vertical incumbents:** Commercial Real Estate (CRE) is dominated by **Buildout** (\$199/user/mo + \$275 platform fee) which automates offering memorandums directly from listing databases; strategy consultancies and finance teams are entrenched with **think-cell** (\$28.60/user/mo) and reject automated "single-prompt" decks as unsuitable for high-stakes deliverables.
-3. **The standalone presentation software category suffers catastrophic retention and monetization failures:** As documented by Forbes in July 2026, **Tome** raised \$81M and acquired 25M users, but was forced to permanently shut down its presentation platform on April 30, 2025 and pivot to Lightfield CRM after annual revenue stalled at only ~\$3M due to poor B2B retention and lack of deep customer data integration.
-4. **Willingness to pay faces a steep anchor ceiling:** Microsoft 365 Copilot anchors generic office AI at \$30/user/month; self-serve tools (Gamma, Beautiful.ai, Pitch) anchor at \$10–\$28/user/month; and Storydoc anchors interactive web presentations at \$19–\$30/user/month.
-5. **Technical fragility violates solo-founder MVP constraints:** Server-side OpenXML/PPTX generation (`python-pptx`) lacks a rendering layout engine and live font metrics. Text autofit and line wrap are only calculated client-side by Microsoft Office upon opening, causing text overflow, clipped boxes, and broken table layouts when variable dynamic CRM text is injected into corporate master shapes.
-6. **Fatal procurement disconnect:** Account Executives (the users) lack corporate purchasing power; Sales Ops and RevOps (the buyers) require SOC 2 Type II compliance, signed DPAs, and Salesforce AppExchange certifications before permitting any software to ingest client NDA-protected CRM notes and deal terms.
+**Idea**: `deck-automation`  
+**Phase**: Stage 1 Research (Adversarial Falsification Track)  
+**Agent**: `skeptic-research`  
+**Audit Status**: All raw evidence records remain `PENDING` awaiting independent audit.  
+**Notice**: This document does not issue the official Stage 1 verdict.
 
 ---
 
-## Detailed Skeptic Findings Across Falsification Dimensions
+## 1. Hypothesis and Scope Tested
 
-### 1. Complete and Near-Complete Incumbent Substitutes
+### 1.1 The Stated Hypothesis
+> "B2B teams that regularly create customer-specific sales decks spend meaningful recurring time adapting PowerPoint presentations to individual opportunities. Existing presentation AI tools do not fully solve the workflow because teams require company-specific templates, trusted source material, accurate client customization, and reliably editable native PPTX output. A sufficiently painful segment can justify a B2B SaaS price materially above low-cost consumer presentation subscriptions." (`hypothesis.yaml`)
 
-The hypothesis asserts that existing presentation AI tools fail to support corporate templates, trusted CRM sources, and native editable PPTX. However, this comparison inappropriately restricts the competitive set to prosumer slide tools (e.g., Gamma, Beautiful.ai), completely ignoring the established sales enablement stack:
+### 1.2 Written Job Under Investigation
+A business user takes an approved master corporate presentation plus opportunity-specific context (discovery notes, CRM opportunity data, case studies) and creates an on-brand, customer-specific, accurate, editable `.pptx` presentation for an external buyer.
 
-*   **Matik (App for Salesforce):** Operates natively within Salesforce. With one click on an account or opportunity page, it queries live CRM and BI data (Salesforce, Snowflake, HubSpot) and merges it into pre-built corporate templates to generate native, fully editable Microsoft PowerPoint (.pptx) or Google Slides decks. It provides conditional logic (if/then rules), dynamic charts, and automated delivery.
-*   **Seismic LiveDocs for PowerPoint:** Provides a native PowerPoint plugin that allows marketing and enablement administrators to configure dynamic fields, conditional slides, and CRM data mappings. Sales reps fill out a lightweight form in Salesforce or Seismic to instantly assemble a compliant, on-brand PPTX deck.
-*   **Showpad Automated Content Builder (ACB):** Connects master PowerPoint templates with placeholders to Salesforce and external APIs, enabling automated generation of customer-tailored presentations and documents at scale.
-*   **Highspot AutoDocs & Dynamic Collateral:** Embeds within Salesforce to dynamically recommend, assemble, and customize pitch decks and digital sales rooms based on deal stage and prospect industry.
+### 1.3 Target Business & MVP Constraints
+- **Target ARPU**: Minimum \$100/user/month.
+- **Founder Model**: Solo technical founder with coding/research agents.
+- **MVP Scope**: Buildable by a solo founder; strictly no full in-app presentation editor; native editable PPTX deliverable required.
+- **Sales Model**: Self-service, remote sales, or founder-led outbound (avoiding heavy enterprise procurement).
 
-**Implication:** The exact proposed workflow—assembling branded, customer-specific PPTX decks from CRM variables—is an established, mature capability in the revenue enablement category.
-
-### 2. Candidate ICP Pre-Emption & Vertical Lock-In
-
-The research brief suggests exploring specific candidate ICPs. Field investigation reveals each plausible segment is either already captured by a specialized vertical incumbent or fundamentally rejects automated deck generation:
-
-*   **Commercial Real Estate (CRE) Teams:** Dominated by **Buildout** (Showcase module starting at \$199/user/month plus a mandatory \$275/month platform fee). Buildout connects directly to commercial property listing databases, broker CRM tables, and demographic sources to auto-generate Offering Memorandums (OMs), property flyers, proposals, and deal microsites. A generic deck tool cannot compete without building deep CRE property data integrations.
-*   **Boutique Consultancies & Strategy Firms:** Management consultants and boutique advisory firms rely heavily on **think-cell** (\$28.60/user/month), which is deeply entrenched inside PowerPoint for complex financial charting, waterfall charts, Gantt timelines, and brand-consistent layouts. Consulting practitioners explicitly reject single-prompt AI slide builders, noting in community discussions that tools like Gamma produce output fit for *"a fourth-grade presentation on mitochondria, but not for a consulting deck."* The consulting value proposition centers on bespoke strategic synthesis and executive storyboarding; automated text generation creates massive liability for hallucinated data and cookie-cutter layouts.
-*   **B2B SaaS Account Executives:** As discussed below, AEs either utilize enterprise enablement tools provided by their employer or minimize slide usage in favor of interactive software demonstrations.
-
-### 3. Category Mortality & Retention Collapse: The Tome Precedent
-
-A critical falsification indicator for any software hypothesis is whether well-funded predecessors have validated or invalidated the business model:
-
-*   **Tome Shutdown (April 30, 2025):** Tome was the fastest productivity app to reach 1 million users and grew to 25 million registered users, raising \$81 million from tier-1 venture funds (Greylock, Coatue, Lightspeed) and achieving a \$300M peak valuation.
-*   **The Breakdown:** As reported by *Forbes* in July 2026 (*"AI Startups Are Pivoting From Flashy Demos To Tech That Pays The Bills"*), Tome's annual revenue plateaued at only approximately \$3 million. The user base consisted overwhelmingly of students and free prosumers; professional B2B users churned rapidly because the tool lacked connectivity to live enterprise data and could not handle true business context.
-*   **The Outcome:** Tome completely discontinued and shut down its AI presentation platform on April 30, 2025, wiping user decks and pivoting to **Lightfield**, an AI-native CRM. 
-
-**Implication:** Standalone presentation generation tools suffer from severe novelty churn. Without owning the system of record (the CRM), presentation software fails to retain B2B revenue.
-
-### 4. Workflow Recurrence & The "Conversational Selling" Shift
-
-The hypothesis assumes that B2B sales reps spend hours every week repetitively building customer-specific decks. Practitioner evidence from B2B sales communities challenges this premise:
-
-*   **Low Slide Dependency in Modern Sales:** Experienced B2B sales professionals consistently report that *"no one has closed a deal because they had PowerPoint slides in their sales pitch."* Modern consultative selling emphasizes conversational discovery, live software demonstration, and customer call dialogue over slide-driven lectures. Decks are restricted to brief 3–5 slide summaries or left as asynchronous leave-behinds.
-*   **Low Friction of Master Slide Customization:** Sales reps report maintaining a single master PowerPoint deck with standard corporate messaging, where adapting the opportunity-specific slides (e.g., swapping the client logo, inserting 3 bullet points of discovered pain points, and showing pricing) takes **10 to 15 minutes tops**. 
-*   **ROI Deficit:** If manual customization requires only 10–15 minutes per deal, the absolute time savings generated by an external automation tool amount to less than 1 hour per month per rep—insufficient to justify a dedicated software subscription or change ingrained habits.
-
-### 5. The "De-Slop" Paradox & Hidden Technical Complexity
-
-The hypothesis assumes a solo technical founder can construct an MVP that generates reliably editable native PPTX without a full presentation editor. Technical and user experience evidence contradicts this feasibility:
-
-*   **The "Generate-Then-Rebuild" Cycle:** User feedback across productivity communities reveals that AI-generated presentations suffer from a persistent "de-slop" requirement. Automated slide generators create generic copy, unaligned text containers, and export charts as non-editable flat bitmap images. Users spend more time cleaning up, re-aligning, and verifying the output than if they had started with a clean company template.
-*   **OpenXML / `python-pptx` Layout Engine Limitations:** Server-side OpenXML manipulation libraries (such as `python-pptx`) generate the underlying XML structure but lack a native font rendering engine or font metrics. Text autofitting (`MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE`) and dynamic line wrapping are calculated by the client-side Microsoft PowerPoint rendering engine only when a human opens the file. When dynamic opportunity text of varying length is injected into predefined master shapes, text overflows bounding boxes or clips visibly.
-*   **Engineering Trap:** Overcoming this requires building a server-side headless Office rendering pipeline or a custom browser-based layout engine—directly violating the solo-founder constraint (*"mvp_constraints: buildable by solo technical founder", "no full presentation editor"*).
-
-### 6. Willingness to Pay & Incumbent Price Anchors
-
-The hypothesis targets an eventual ARPU of \$100+/month. This target is heavily contradicted by incumbent pricing benchmarks:
-
-*   **Microsoft 365 Copilot (\$30/user/month):** Microsoft integrates Copilot natively across PowerPoint, Word, and Excel. This creates an unyielding enterprise ceiling: IT and finance buyers resist paying more than \$30/user/month for any add-on presentation capability.
-*   **Modern Slide Platforms (\$10–\$28/user/month):** Gamma (\$10–\$20/mo), Beautiful.ai (\$12–\$40/mo), and Pitch (\$17–\$28/mo) have anchored user expectations for automated presentation tools in the prosumer tier.
-*   **Interactive Web Collateral Substitution:** Platforms like **Storydoc** (\$19–\$30/user/month) provide dynamic web presentations with embedded scheduling, pricing calculators, and real-time viewing analytics. Sales organizations that move away from PowerPoint are adopting trackable web links rather than paying premium prices for PPTX generators.
-*   **Freelance Labor Alternative:** On Upwork and Fiverr, specialized presentation designers format and adapt corporate PowerPoint templates for \$15–\$35/hour on demand, providing zero-bug human verification without ongoing software licensing.
-
-### 7. Procurement, Security, and Buyer Disconnect
-
-The hypothesis assumes an initial acquisition model based on founder-led outbound or self-service targeting SMB and mid-market companies while excluding procurement-heavy enterprise sales. This business model is structurally unviable due to enterprise security and budget realities:
-
-*   **Client NDAs & Proprietary Data:** To automate a meaningful sales deck, the tool must ingest sensitive inputs: CRM opportunity notes, prospect discovery call transcripts, custom deal pricing, and proprietary corporate capabilities. Ingesting this data into an uncertified third-party startup triggers strict enterprise confidentiality and NDA violations.
-*   **The SOC 2 Type II Moat:** Even mid-market B2B buyers require a SOC 2 Type II audit report, vendor security risk assessments (VSQs), and a signed Data Processing Addendum (DPA) with explicit "zero model training" clauses before granting API access to their Salesforce or HubSpot instances. A solo technical founder cannot easily absorb the \$15,000–\$30,000+ annual audit cost and administrative overhead required to satisfy these gates.
-*   **Buyer vs. User Split:** Account Executives do not own discretionary software budgets. Software procurement in sales is controlled by **Sales Operations (Sales Ops)**, **Revenue Operations (RevOps)**, and **Sales Enablement Directors**. These buyers mandate enterprise single sign-on (SSO/SAML), CRM security reviews, and central governance—eliminating self-serve bottom-up adoption.
+### 1.4 Declared Candidate ICPs Evaluated
+Each declared ICP from `hypothesis.yaml` was tested independently against market substitutes, workflow reality, and economic feasibility:
+1. **B2B SaaS Account Executives (AEs)**
+2. **Sales Enablement Teams**
+3. **Boutique Consultancies**
+4. **Agencies Producing Client Decks**
+5. **Professional-Services Firms**
+6. **Commercial Real-Estate (CRE) Teams**
 
 ---
 
-## Required Final Section
+## 2. Substitute Assessment Matrix
 
-### 1. Strongest Potential Killer Substitute
-**Matik (App for Salesforce)** and **Seismic LiveDocs**.  
-Matik connects directly to Salesforce accounts and opportunities, pulling live CRM data, BI metrics, and custom opportunity fields into pre-configured, marketing-approved Microsoft PowerPoint (.pptx) and Google Slides templates to generate editable, dynamic decks in one click. For larger organizations, Seismic LiveDocs provides a native PowerPoint add-in and Salesforce integration that solves the exact template-governed dynamic slide assembly workflow.
+For each identified substitute, four discrete dimensions are evaluated per the Evidence Standard: capability, ICP/output fit, friction/economics, and observed adoption/sufficiency.
 
-### 2. Strongest Evidence of Low / Uncertain Recurrence
-**The Shift to Conversational Selling & 10-Minute Master Slide Personalization.**  
-Field evidence from B2B sales practitioners indicates that modern consultative sales relies on live conversational discovery and product walkthroughs rather than multi-slide pitch decks. When decks are required, reps maintain a single approved master corporate deck where customizing prospect pain points takes only 10 to 15 minutes per deal. The recurring manual burden is too low to drive urgent adoption of a standalone software product.
-
-### 3. Strongest WTP Objection
-**The Microsoft 365 Copilot (\$30/mo) Anchor and Category Revenue Plateau.**  
-Microsoft provides native generative AI inside PowerPoint and Office for \$30 per user per month, establishing an aggressive price ceiling for office productivity tools. Furthermore, the \$81M venture-backed category leader Tome was unable to grow beyond \$3M in ARR across 25 million users because professional B2B users refuse to pay enterprise SaaS prices for standalone presentation generation tools.
-
-### 4. Strongest Adoption Blocker
-**Client NDA / Security Questionnaire Gates Combined with the Buyer Disconnect.**  
-Generating accurate, customized sales decks requires ingesting confidential customer CRM notes, deal terms, and discovery transcripts. B2B companies operate under strict bilateral NDAs and will not connect their CRM systems or upload prospect intelligence to an early-stage, solo-founder tool that lacks SOC 2 Type II certification, a formal DPA, and Enterprise SSO. Account Executives lack corporate credit cards to bypass this constraint, and RevOps buyers will not approve uncertified vendors.
-
-### 5. What Evidence Would Be Sufficient to Rebut Each Objection
-
-To overturn these skeptic findings and resuscitate the hypothesis, subsequent research or customer interviews would need to produce:
-
-1.  **To rebut the Killer Substitute objection:** Direct evidence of a distinct, underserved B2B segment that urgently needs dynamic customer decks but is completely priced out of or unable to use Matik, Seismic, Showpad, or Highspot (e.g., small HubSpot-based agencies with 5–20 reps where enterprise enablement tools are unavailable or prohibitively expensive).
-2.  **To rebut the Low Recurrence objection:** Traceable time-tracking or interview data from active sales reps proving they spend >5 hours every week specifically on repetitive slide layout, copy-pasting, and template formatting (rather than strategic research), and that reducing this time directly improves win rates or pipeline velocity.
-3.  **To rebut the WTP objection:** Proof of signed, paid contracts or pilots from B2B teams paying $\ge$\$100/seat/month specifically for slide customization software, demonstrating that the buyer values the workflow as a revenue-generating sales asset rather than an office utility.
-4.  **To rebut the Adoption Blocker objection:** Proof of an acquisition wedge that does not require CRM integration, API access to confidential opportunity tables, or security reviews (e.g., a client-side, local-only PowerPoint plugin or browser extension that operates entirely on the rep's local machine without transmitting customer data to a third-party server).
+| Substitute | Target Workflow Capability | ICP / Input / Output Fit | Supported Price & Friction | Observed Adoption / Sufficiency Evidence | Unresolved Threats | Evidence IDs |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Microsoft 365 Copilot for PowerPoint** | High. Generates multi-slide presentations directly from structured Word files and notes within native PowerPoint. Learns corporate `.potx` layout rules and Brand Kits. | **High fit.** Targets knowledge workers & sales professionals using Microsoft 365. Native PPTX output without export degradation. | **\$23.50–\$30/user/mo.** Zero procurement friction (bundled into M365 tenant). No third-party security approval needed. | Broad enterprise deployment across Fortune 500 & mid-market. Native PowerPoint UI. | Output quality on highly complex custom layouts remains imperfect; requires structured Word inputs. | `ev-skp-m365-copilot-ppt-features`<br>`ev-skp-m365-copilot-brand-templates`<br>`ev-skp-m365-copilot-pricing` |
+| **Seismic LiveDocs & Content Automation** | Complete. Dynamic slide assembly driven by Salesforce/HubSpot data; guided rep questionnaires; automated dynamic variable substitution. | **Exact fit for Sales Enablement.** Native PowerPoint plugin + cloud web app. Strict template permission controls. | **\$55/user/mo** on AppExchange; annual contracts. High implementation friction (weeks of setup, enterprise procurement). | Widely adopted standard in mid-market and enterprise B2B sales organizations. | Prohibitive setup and contract size for sub-50 employee SMBs without dedicated sales ops. | `ev-skp-seismic-livedocs-automation`<br>`ev-skp-seismic-appexchange-pricing`<br>`ev-skp-enablement-brand-lockdown` |
+| **Highspot (Dynamic Pitch & Remix)** | High. Slide remixing from approved company libraries, CRM deal integration, digital sales rooms (Pitch), buyer engagement tracking. | **Exact fit for Enablement & AEs.** Reps customize approved slides; outputs tracked web links or PPTX. | **\$45–\$65/user/mo** (Median contract \$60,428/yr). Requires Sales Ops buy-in and platform onboarding. | Dominant enablement platform alongside Seismic; high switching costs. | High minimum contract values leave micro-SMBs underserved. | `ev-skp-highspot-pricing-procurement` |
+| **Buildout (Showcase & Suite)** | Complete for CRE. Generates proposals, pitch decks, Offering Memorandums (OMs), flyers, and property sites directly from property database. | **Exact fit for Commercial Real Estate.** Integrates property comps, financial tables, and broker branding. | **\$125/user/mo.** High vertical stickiness (combines CRM, marketing materials, and syndication). | **50,000+ CRE brokers** across major national brokerages (Coldwell Banker Commercial, SVN, NAI Global). | Strictly limited to commercial real estate; not applicable to SaaS or general consulting. | `ev-skp-buildout-cre-suite`<br>`ev-skp-buildout-pricing` |
+| **Plus AI for PowerPoint** | Moderate-High. Document-to-presentation conversion, slide-by-slide AI remixing, custom corporate template upload inside PowerPoint. | **High fit for SMBs, AEs, Consultants.** Operates directly inside PowerPoint and Google Slides. | **\$25–\$30/user/mo** for Team tier with custom templates and shared presets. Self-serve onboarding. | Growing adoption among individual consultants and small teams seeking native PowerPoint AI. | Limited complex data integration; lacks automated CRM field mapping. | `ev-skp-plusai-pricing-tier` |
+| **think-cell** | Complete for quantitative slides. Direct bidirectional linking between Excel models and complex PowerPoint charts. | **Dominant in Strategy & Boutique Consulting.** Native PowerPoint plugin. | **\$22.00–\$28.60/user/mo** billed annually. High stickiness in professional services. | De facto standard in McKinsey, BCG, Bain, and boutique advisory firms. | Strictly quantitative charting; does not automate narrative qualitative slides. | `ev-skp-consulting-thinkcell-standard` |
+| **Manual Status Quo (Slide Truncation / Demos)** | High sufficiency. Reps maintain a 5–10 slide "core deck" and hide unused slides; conduct live software walkthroughs; or pay freelancers \$100/deal. | **Directly matches current B2B AE and CRE workflow.** Zero software spend; zero security review. | **\$0 incremental software spend** or ~\$100/deal contractor fee. 2–5 minutes per opportunity. | Extensive reported practice on r/sales and r/CommercialRealEstate. High user satisfaction. | Still requires occasional manual deck compilation for RFPs or formal board reviews. | `ev-skp-ae-ditching-decks`<br>`ev-skp-ae-deck-truncation`<br>`ev-skp-cre-practitioner-om-spending` |
 
 ---
 
-*Note: In accordance with workspace rules and methodology guidelines, this report presents disconfirming evidence and analysis only. It does not issue the official Stage 1 verdict.*
+## 3. Strongest Recurrence Objection
+
+### Finding: The hypothesized recurring deck creation loop does not exist for modern B2B SaaS AEs
+The hypothesis assumes quota-carrying account executives spend frequent, recurring weekly hours assembling custom PowerPoint presentations for individual sales opportunities. 
+
+**Adversarial Evidence**:
+1. **Modern Sales Methodology Rejects Pitch Decks**: Field practitioners on `r/sales` consistently report abandoning slides during discovery and demo calls (`ev-skp-ae-ditching-decks`). Enterprise buyers perceive PowerPoint presentations as canned, impersonal pitches. Top-performing reps conduct live platform walkthroughs and interactive problem-solving directly in the software, eliminating the need to assemble opportunity-specific decks.
+2. **Aggressive Deck Truncation**: When company management enforces pitch decks, reps actively minimize usage—cutting mandated 30-slide decks down to 5–7 core slides (`ev-skp-ae-deck-truncation`). Routine opportunities use static, uncustomized one-pagers or standard overview slides.
+3. **Bespoke Decks Are Ad-Hoc, Not Daily/Weekly**: Full bespoke presentation assembly is reserved almost exclusively for massive multi-stakeholder enterprise RFPs or board-level proposals. These occur ad-hoc (a few times per quarter), rather than forming a high-frequency recurring SaaS workflow.
+
+---
+
+## 4. Strongest Willingness-to-Pay (WTP) Objection
+
+### Finding: Incumbent bundling and vertical platforms crush WTP far below the \$100/mo ARPU target
+The hypothesis requires an eventual ARPU of at least \$100/user/month to support a viable B2B SaaS business under solo-founder acquisition constraints.
+
+**Adversarial Evidence**:
+1. **The \$23.50–\$30/mo Microsoft Price Anchor**: Microsoft 365 Copilot provides presentation generation from source files directly inside native PowerPoint for \$23.50–\$30/user/month (`ev-skp-m365-copilot-pricing`). Enterprise and mid-market IT buyers already paying for Microsoft 365 will not authorize a \$100+/mo add-on for a point solution that performs a subset of Copilot's features.
+2. **Specialized Add-Ins Standardized at \$25–\$30/mo**: Third-party in-tool add-ins (Plus AI at \$30/mo, think-cell at \$22–\$28.60/mo) have commoditized presentation automation at the \$25–\$30/seat level (`ev-skp-plusai-pricing-tier`, `ev-skp-consulting-thinkcell-standard`).
+3. **Enterprise Suites Bundle Decks with LMS & Analytics for \$45–\$65/mo**: Enterprise enablement platforms (Highspot at \$45–\$65/mo, Seismic at \$55/mo) bundle CRM presentation generation with learning management, conversation intelligence, and buyer tracking (`ev-skp-seismic-appexchange-pricing`, `ev-skp-highspot-pricing-procurement`). A standalone slide tool cannot command a 2x premium over a full-suite enablement platform.
+4. **Cheap Manual Alternatives in Real Estate**: In commercial real estate, where decks (Offering Memorandums) are mandatory, brokers pay freelancers \$100 per deal for manual plug-and-play assembly, while buyers discard qualitative narrative filler slides (`ev-skp-cre-practitioner-om-spending`).
+
+---
+
+## 5. Strongest Adoption & Procurement Blocker
+
+### Finding: Enablement brand lockdown and enterprise InfoSec audits block solo-founder self-service adoption
+
+**Adversarial Evidence**:
+1. **Brand Lockdown and Compliance Gatekeeping**: Sales Enablement and Marketing leadership intentionally restrict reps from altering presentations (`ev-skp-enablement-brand-lockdown`). In regulated and mid-market B2B organizations, unvetted deck generation introduces severe compliance risks (unapproved pricing, non-standard SLAs, unauthorized roadmap commitments). Enablement teams want centralized lockdown (as provided by Seismic/Highspot), not distributed rep-level AI generation.
+2. **The 4.2-Week InfoSec Barrier for CRM / Transcript Access**: To generate meaningful "customer-specific" decks, the tool must ingest CRM deal fields, customer websites, and discovery transcripts. SyncGTM security benchmarks document that sales software accessing CRM data faces average security review cycles of 4.2 weeks, requiring SOC 2 Type II certification, GDPR DPAs, and zero-data-retention AI commitments (`ev-skp-infosec-procurement-hurdles`). A solo technical founder pursuing self-serve or lightweight outbound cannot absorb this enterprise compliance overhead.
+3. **Budget Ownership Mismatch**: Individual AEs lack corporate credit card authority for \$100/mo ongoing subscriptions. Purchases must be approved by Sales Ops / Finance, immediately routing the tool into enterprise procurement.
+
+---
+
+## 6. Strongest Technical / MVP Blocker
+
+### Finding: Maintaining 100% editable corporate PPTX fidelity without a dedicated presentation editor is technically fragile
+The hypothesis explicitly assumes an MVP constraint: *buildable by a solo technical founder without building a full presentation editor*, relying on native editable PPTX output.
+
+**Adversarial Evidence**:
+1. **OpenXML Template Complexity**: Corporate PowerPoint templates (`.potx`) rely on deeply nested XML slide masters, custom layout geometries, placeholder inheritance hierarchies, embedded custom corporate typography, and strict aspect ratio rules. Existing venture-backed tools (Gamma, Beautiful.ai) consistently experience layout breakage and formatting degradation when exporting to native PPTX because standard web layout engines (HTML/CSS/Canvas) do not map cleanly to OpenXML rendering trees.
+2. **Microsoft's Native Architectural Moat**: Microsoft Copilot runs directly within the native PowerPoint codebase, possessing direct telemetry over master layouts, placeholder types, content density, and visual hierarchy (`ev-skp-m365-copilot-brand-templates`). A third-party headless generator must reverse-engineer proprietary PowerPoint layout behavior without an interactive visual editor to let the user fix alignment glitches before export.
+
+---
+
+## 7. ICP-by-ICP Falsification Evaluation
+
+| Candidate ICP | Hypothesized Need | Skeptic Findings & Ground Truth | Verdict for this ICP |
+| :--- | :--- | :--- | :--- |
+| **B2B SaaS Account Executives** | Adapt decks weekly for individual sales opportunities; will pay \$100/mo to save 3+ hours/week. | AEs avoid pitch decks on calls in favor of live software demos (`ev-skp-ae-ditching-decks`). Lack purchasing authority; cannot pass CRM security audits (`ev-skp-infosec-procurement-hurdles`). | **Falsified.** Workflow does not recur at sufficient frequency; no budget authority. |
+| **Sales Enablement Teams** | Need tools to help reps generate on-brand customized collateral efficiently. | Enablement's primary goal is *brand and compliance lockdown* (`ev-skp-enablement-brand-lockdown`). Already deployed on Seismic (\$55/mo) or Highspot (\$45–\$65/mo) for unified governance (`ev-skp-seismic-livedocs-automation`). | **Falsified.** Problem already solved by enterprise incumbents; buyer resists rep-level autonomy. |
+| **Commercial Real-Estate Teams** | Generate property pitch decks and Offering Memorandums (OMs) for listings. | Completely dominated by **Buildout** (50,000+ brokers, \$125/mo), which connects deal data, proposal creation, and listing syndication (`ev-skp-buildout-cre-suite`). Lenders ignore narrative slides (`ev-skp-cre-practitioner-om-spending`). | **Falsified.** Incumbent vertical killer substitute exists with massive market share. |
+| **Boutique Consultancies** | Generate client proposals and deliverables from proprietary methodologies. | Standardized on **think-cell** (\$22–\$28/mo) for quantitative models (`ev-skp-consulting-thinkcell-standard`). Slide formatting is inseparable from partner synthesis loops and protected by strict client NDAs (`ev-skp-consulting-slide-formatting-synthesis`). | **Falsified.** High NDA sensitivity; bespoke partner craft; unbundled spend capped at \$25/mo. |
+| **Agencies Producing Client Decks** | Produce client presentations and pitch decks quickly. | Agencies sell bespoke high-touch creative design and storytelling (charging \$10k–\$50k+ per project); adopting automated template generation contradicts their core value proposition and agency margins. | **Falsified.** Low willingness to use generic automation; rely on Figma/InDesign and dedicated designers. |
+| **Professional-Services Firms** | Adapt service proposals and statements of work (SOWs) for clients. | SOWs and proposals are typically legal/contractual documents handled via Word, Google Docs, or CPQ/PandaDoc/Qwilr rather than graphic PowerPoint presentations. | **Falsified.** Wrong deliverable format; market uses document/proposal tools. |
+
+---
+
+## 8. Evidence Sufficient to Rebut Each Major Objection
+
+To overturn these skeptic findings and justify proceeding to Stage 2, future validation research must discover verified primary evidence satisfying the following criteria:
+
+1. **Rebutting the Recurrence Objection**:
+   - Primary evidence (interviews or timestamped logs) showing a specific, reachable B2B segment where reps build **at least 3–5 customer-specific presentations per week** as a mandatory deal prerequisite.
+   - Proof that live demos or static 5-slide decks cannot replace this deliverable.
+2. **Rebutting the WTP / Price Anchor Objection**:
+   - At least 3 verified money signals showing non-enterprise SMB buyers paying **\$100+/user/month specifically for slide deck automation** (not bundled enablement, not CRM syndication, and not full digital sales rooms).
+   - Evidence of buyers actively churning from Microsoft Copilot (\$30/mo) or Plus AI (\$30/mo) to adopt a higher-priced point solution due to template/accuracy failures.
+3. **Rebutting the Brand Lockdown / Enablement Blocker**:
+   - Evidence of Sales Enablement or Marketing leaders purchasing third-party AI deck tools for their reps, including documented administrative controls that satisfy brand compliance without requiring full enterprise platform migration.
+4. **Rebutting the CRE Buildout Dominance**:
+   - Identification of an underserved CRE niche (e.g., independent boutique leasing brokers) that refuses Buildout's \$125/mo suite but possesses recurring deck automation volume and standalone willingness to pay.
+
+---
+
+## 9. Candidate New Scopes Discovered (`UNVALIDATED`)
+
+During the adversarial research, several adjacent pain points were noted. Under workspace methodology, these cannot inherit evidence or rescue the current idea, and are recorded strictly as unvalidated exploratory leads:
+
+- `SCOPE-UNVALIDATED-01`: **Automated RFP & Security Questionnaire Completion**: AEs and Sales Ops report recurring frustration with 100+ question spreadsheet and portal questionnaires during enterprise procurement. (Substitutes exist: Loopio, Responsive).
+- `SCOPE-UNVALIDATED-02`: **Post-Demo Interactive Executive Summaries (Digital Sales Rooms)**: AEs moving away from slides report using interactive one-pagers or web-based mutual action plans (e.g., Dock, Flowla) to follow up after discovery calls.
+
+---
+
+## 10. Research Shortfall and Tooling Blockers
+
+- **Records Collected**: 16 primary (Tier A) and secondary (Tier B) records successfully written to `evidence.jsonl`.
+- **Validation Check**: Verified via `python scripts/validate_evidence.py ideas/deck-automation/raw/skeptic/evidence.jsonl` (exited with code 0; 0 errors).
+- **Tool / Resource Status**: Chrome DevTools MCP browser subagent operated without failure; zero research tool exhaustion; no fallback scraping required.
+- **Unresolved Threats Left Unresolved**:
+  - The exact market share and churn rate of Microsoft Copilot for PowerPoint among mid-market sales teams remains unmeasured by public sources.
+  - Whether boutique M&A advisory or investment banking pitch books represent a viable high-WTP niche was not fully falsified, as investment banks operate under strict on-premise/enterprise security constraints outside the solo-founder scope.
