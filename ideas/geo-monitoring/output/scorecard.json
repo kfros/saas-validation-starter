@@ -1,0 +1,347 @@
+{
+  "idea_id": "geo-monitoring",
+  "evaluation_date": "2026-09-08",
+  "verdict": "INSUFFICIENT EVIDENCE",
+  "rationale": "Stage 1 evaluation for scope GEO-AGENCY-01 (independent SEO agencies with 2–20 staff serving SMB clients on recurring retainers) yields INSUFFICIENT EVIDENCE to authorize Stage 2 prospect mining. While the core workflow and recurrence are verified across four independent agency case profiles (What IF Web, SORN.AI, Butter Marketing, Embarque) and reachability is supported via Clutch directory filters (G2 PASS, G5 PASS), evidence for the primary commercial gates remains sparse and below required thresholds. Specifically, only 5 independent verified concrete pain signals were identified against the canonical threshold of 20 (G1 UNKNOWN), revealed willingness-to-pay includes only 4 independent verified signals against the threshold of 5 (G3 UNKNOWN), and repeatable solution gap signals stand at 5 against the threshold of 10 (G4 UNKNOWN). Furthermore, severe commercial and technical threats remain unresolved (G6 UNKNOWN): low-cost bundled SEO suite incumbents (SE Ranking at €109–€235/mo with white-label agency packs; Semrush at $199–$299/mo) and specialized trackers (Otterly.ai, Peec AI) crowd the market, while practitioner evidence highlights strong agency resistance to separate recurring monitoring line items, high churn due to a missing remedial action bridge, heavy sampling costs (requiring n=7 repeats per query to manage stochastic variance), and OpenAI Terms of Use prohibiting consumer UI scraping. Because thresholds are unmet without complete market falsification, Stage 2 customer interviews are not authorized.",
+  "stage2_authorized": false,
+  "condition": null,
+  "evaluated_scope": {
+    "scope_id": "GEO-AGENCY-01",
+    "scope_name": "Independent SEO agencies with 2–20 staff serving SMB clients on recurring retainers"
+  },
+  "gates": {
+    "G1": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=20 independent VERIFIED concrete pain signals from target ICP (GEO-AGENCY-01)",
+      "independent_count": 5,
+      "counted_evidence_ids": [
+        "geo-pain-reddit-typicalbadger-patchwork-stack",
+        "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety",
+        "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
+        "geo-pain-reddit-arash60-defensive-monthly-client-reporting",
+        "geo-wtp-blog-agency-manual-hours"
+      ],
+      "contradictory_evidence_ids": [
+        "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
+        "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
+        "geo-skeptic-pain-agency-lack-reliable-tracking"
+      ],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "geo-pain-reddit-trustmeimnotnotlying-weekly-spreadsheet",
+          "reason": "Scope UNKNOWN: solo practitioner / consultant; team size and agency structure unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-successfulcoyote-manual-screenshot-workflow",
+          "reason": "Scope UNKNOWN: senior consultant; agency size and retainer structure unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-jwipez-custom-crawler-model-update-breakage",
+          "reason": "Scope UNKNOWN: developer/marketer; agency team size unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-diligentmacaroon-phrasing-sensitivity-api-drift",
+          "reason": "Scope UNKNOWN: individual domain manager; not verified as a 2-20 staff agency."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-atlasnode-heyamos-false-positives-spreadsheet",
+          "reason": "Scope UNKNOWN: analyst at unspecified company; agency context unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-consistentsally-api-consumer-discrepancy",
+          "reason": "Status PARTIALLY_VERIFIED: quote verified in thread but permalink cited different comment author."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether pain from inconsistent AI answers is acutely felt across a statistically significant population of small agencies rather than an vocal minority",
+        "Whether agency clients demand ongoing monthly AI tracking reports or are satisfied with quarterly spot-checks"
+      ]
+    },
+    "G2": {
+      "status": "PASS",
+      "threshold_or_rule": ">=MEDIUM confidence that core job recurs at least monthly for target ICP",
+      "independent_count": 4,
+      "counted_evidence_ids": [
+        "geo-workflow-06-sornai-reporting-cadence",
+        "geo-workflow-02-whatifweb-workflow",
+        "geo-pain-reddit-arash60-defensive-monthly-client-reporting",
+        "geo-pain-reddit-typicalbadger-patchwork-stack"
+      ],
+      "contradictory_evidence_ids": [
+        "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
+        "geo-skeptic-pain-agency-demand-execution"
+      ],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "geo-pain-reddit-trustmeimnotnotlying-weekly-spreadsheet",
+          "reason": "Scope UNKNOWN: weekly recurrence established, but agency ICP membership unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-successfulcoyote-manual-screenshot-workflow",
+          "reason": "Scope UNKNOWN: monthly cadence established for consultant, but agency ICP membership unverified."
+        }
+      ],
+      "confidence": "MEDIUM",
+      "material_unknowns": [
+        "Whether weekly/monthly reporting is sustainable for SMB clients with limited budgets ($399-$699/mo retainers)",
+        "Whether recurring checks represent billable agency services or uncompensated defensive overhead"
+      ]
+    },
+    "G3": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=5 independent VERIFIED revealed money signals across >=2 spend categories from target ICP",
+      "independent_count": 4,
+      "counted_evidence_ids": [
+        "geo-pain-reddit-typicalbadger-patchwork-stack",
+        "geo-wtp-blog-agency-manual-hours",
+        "geo-workflow-12-manual-workaround-labor",
+        "geo-pain-reddit-arash60-defensive-monthly-client-reporting"
+      ],
+      "contradictory_evidence_ids": [
+        "geo-skeptic-market-butter-agency-pricing",
+        "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute"
+      ],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "geo-wtp-reddit-peec-usage",
+          "reason": "Scope UNKNOWN: verified saas_spend by maltelandwehr, but agency team size unverified."
+        },
+        {
+          "evidence_id": "geo-wtp-reddit-multitool-portfolio",
+          "reason": "Scope UNKNOWN: verified saas_spend across multiple tools, but agency status unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-sammyp99-semrush-abandoned-daily-ops",
+          "reason": "Scope UNKNOWN: verified paid Semrush AI tool spend, but agency context unverified."
+        },
+        {
+          "evidence_id": "geo-wtp-upwork-pr-agency-contract",
+          "reason": "Status PENDING (Cloudflare Turnstile challenge blocker) and represents PR agency rather than SEO agency."
+        },
+        {
+          "evidence_id": "geo-market-otterly-pricing",
+          "reason": "Competitor pricing page: excluded by rule from revealed WTP counts."
+        },
+        {
+          "evidence_id": "geo-market-peec-agency-plans",
+          "reason": "Status PARTIALLY_VERIFIED and competitor price: excluded by rule from revealed WTP counts."
+        },
+        {
+          "evidence_id": "geo-skeptic-market-butter-agency-pricing",
+          "reason": "Agency rate card ($399/mo client retainer): represents client revenue offer, not agency software spend."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "What exact monthly software budget a 2-20 person agency will allocate specifically to GEO monitoring separate from core SEO suites",
+        "Whether agency willingness to pay is capped below $50/mo given SMB retainer economics ($399-$699/mo)"
+      ],
+      "breakdown_by_category": {
+        "employee_time": 3,
+        "paid_tool_or_pilot": 1
+      }
+    },
+    "G4": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=10 independent VERIFIED gap/workaround signals clustered around repeatable problems from target ICP",
+      "independent_count": 5,
+      "counted_evidence_ids": [
+        "geo-pain-reddit-typicalbadger-patchwork-stack",
+        "geo-wtp-blog-agency-manual-hours",
+        "geo-workflow-12-manual-workaround-labor",
+        "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
+        "geo-pain-reddit-arash60-defensive-monthly-client-reporting"
+      ],
+      "contradictory_evidence_ids": [
+        "geo-workflow-15-otterly-looker-studio-connector",
+        "geo-market-semrush-agency-reporting"
+      ],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "geo-pain-reddit-trustmeimnotnotlying-weekly-spreadsheet",
+          "reason": "Scope UNKNOWN: weekly spreadsheet workaround verified, but agency team size unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-successfulcoyote-manual-screenshot-workflow",
+          "reason": "Scope UNKNOWN: manual screenshot workaround verified, but consultant context unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-jwipez-custom-crawler-model-update-breakage",
+          "reason": "Scope UNKNOWN: DIY crawler breakdown verified, but agency context unverified."
+        },
+        {
+          "evidence_id": "geo-pain-reddit-atlasnode-heyamos-false-positives-spreadsheet",
+          "reason": "Scope UNKNOWN: false positive spreadsheet workaround verified, but agency context unverified."
+        },
+        {
+          "evidence_id": "geo-workflow-14-semrush-substitute-gap",
+          "reason": "Status REJECTED: cited excerpt does not exist on target page."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether automated Looker Studio connectors from existing trackers (Otterly, Peec) already resolve reporting friction sufficiently",
+        "Whether the primary agency gap is visibility measurement or automated content remediation"
+      ],
+      "clusters": {
+        "manual_prompt_and_screenshot_workarounds": [
+          "geo-pain-reddit-typicalbadger-patchwork-stack",
+          "geo-wtp-blog-agency-manual-hours",
+          "geo-workflow-12-manual-workaround-labor"
+        ],
+        "reporting_defensibility_and_attribution_break": [
+          "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
+          "geo-pain-reddit-arash60-defensive-monthly-client-reporting"
+        ]
+      }
+    },
+    "G5": {
+      "status": "PASS",
+      "threshold_or_rule": ">=MEDIUM confidence; verified role names, segments, and scalable discovery channel",
+      "independent_count": 5,
+      "counted_evidence_ids": [
+        "geo-workflow-11-reachability-clutch",
+        "geo-workflow-01-whatifweb-profile",
+        "geo-workflow-04-sornai-profile",
+        "geo-workflow-07-butter-marketing-profile",
+        "geo-workflow-09-embarque-profile"
+      ],
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [],
+      "confidence": "HIGH",
+      "material_unknowns": [
+        "Direct response rates and cold acquisition economics for agency owners via outbound vs inbound channels",
+        "Degree of agency fatigue from automated sales pitches targeting AI search"
+      ]
+    },
+    "G6": {
+      "status": "UNKNOWN",
+      "threshold_or_rule": "No verified low-friction substitute solving workflow sufficiently for target ICP at price destroying proposed value proposition",
+      "independent_count": 6,
+      "counted_evidence_ids": [
+        "geo-market-semrush-plans",
+        "geo-market-seranking-plans",
+        "geo-market-ahrefs-plans",
+        "geo-market-otterly-pricing",
+        "geo-market-rankscale-agency",
+        "geo-market-trakkr-agency"
+      ],
+      "contradictory_evidence_ids": [
+        "geo-skeptic-substitute-semrush-ai-tracking",
+        "geo-skeptic-substitute-ahrefs-brand-radar",
+        "geo-skeptic-risk-sampling-noise-variance",
+        "geo-skeptic-risk-openai-search-pricing",
+        "geo-skeptic-risk-gemini-grounding-pricing",
+        "geo-skeptic-risk-perplexity-api-pricing",
+        "geo-skeptic-risk-openai-tos-scraping",
+        "geo-skeptic-risk-api-vs-consumer-divergence",
+        "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
+        "geo-pain-reddit-jjnasty-losing-game-oneoff-audit"
+      ],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "geo-market-peec-agency-plans",
+          "reason": "Status PARTIALLY_VERIFIED: discrepancy between plan cards and comparison table project counts."
+        },
+        {
+          "evidence_id": "geo-skeptic-substitute-peec-pricing",
+          "reason": "Status PARTIALLY_VERIFIED: project allocation discrepancy."
+        },
+        {
+          "evidence_id": "geo-skeptic-pain-seo-dashboards-vs-manual",
+          "reason": "Status PARTIALLY_VERIFIED: raw excerpt spliced comments from two distinct authors."
+        }
+      ],
+      "confidence": "MEDIUM",
+      "material_unknowns": [
+        "Whether bundled SEO platform updates (SE Ranking Agency Pack, Semrush AI Visibility) will eliminate any remaining monitoring wedge",
+        "Whether unit economics can survive mandatory repeated sampling (n=7) under official API search pricing ($10-$35/1k calls)",
+        "Whether an authorized, legally viable data pipeline exists without violating OpenAI/Google Terms of Use"
+      ]
+    }
+  },
+  "dimension_scores": {
+    "pain_strength": 2,
+    "recurrence_confidence": 3,
+    "revealed_wtp": 2,
+    "current_solution_gap": 2,
+    "icp_clarity": 4,
+    "reachability": 4,
+    "substitute_risk": 2,
+    "evidence_quality": 4,
+    "source_diversity": 4,
+    "overall_confidence": 2
+  },
+  "scope_integrity_notes": "All counted evidence in G1-G5 strictly complies with scope GEO-AGENCY-01 as verified in scope-map.json. Out of 86 raw records, 78 were VERIFIED by Evidence Auditor, but only 22 records map to GEO-AGENCY-01 across 13 unique independence keys. Broad practitioner comments on r/SEO, solo consultants, and unverified company sizes were strictly classified as UNKNOWN scope and excluded from G1-G5 counts, preventing artificial inflation. No evidence was pooled from enterprise buyers or non-agency segments.",
+  "candidate_scope_assessments": [
+    {
+      "scope_id": "GEO-ENTERPRISE-BRAND",
+      "description": "In-house enterprise brand marketing teams tracking AI visibility across hundreds of prompts",
+      "status": "UNVALIDATED",
+      "reason": "Explicitly excluded by hypothesis.yaml. Enterprise platforms (Profound at $399/mo/client, Trakkr at $500/mo) target this segment with complex procurement, but this does not validate small agency demand."
+    },
+    {
+      "scope_id": "GEO-CONTENT-EXECUTION",
+      "description": "Autonomous AI content generation and automated ranking recovery",
+      "status": "UNVALIDATED",
+      "reason": "Explicitly excluded by hypothesis.yaml. While agencies (MAN0L2, Butter Marketing) monetize execution over monitoring, content generation introduces severe hallucination and search engine spam risks that are unvalidated."
+    },
+    {
+      "scope_id": "GEO-SOLO-CONSULTANT",
+      "description": "Solo SEO consultants and freelance marketers managing 1-3 ad-hoc accounts",
+      "status": "UNVALIDATED",
+      "reason": "Several Reddit pain/WTP records (trustmeimnotnotlying, tachichuchi) originate from solo consultants, but their willingness to pay is low, manual spreadsheet workarounds suffice, and budgets do not support a $100/mo agency tool."
+    }
+  ],
+  "strongest_positive_evidence": [
+    {
+      "evidence_id": "geo-workflow-04-sornai-profile",
+      "finding": "SORN.AI verified on official website as an independent 2-10 employee boutique agency providing weekly AI visibility reports using Brand Visibility Index quadrant charts."
+    },
+    {
+      "evidence_id": "geo-workflow-01-whatifweb-profile",
+      "finding": "What IF Web verified as an independent 3-5 employee digital studio in New Zealand managing recurring client citability reporting across AI engines."
+    },
+    {
+      "evidence_id": "geo-workflow-07-butter-marketing-profile",
+      "finding": "Butter Marketing verified on Clutch as a 2-9 employee London agency allocating 70% of its business to GEO and selling standalone $399/mo retainers."
+    },
+    {
+      "evidence_id": "geo-workflow-11-reachability-clutch",
+      "finding": "Clutch directory provides a proven, scalable discovery channel with precise filters for 2-9 and 10-49 employee agencies specializing in SEO and GEO."
+    }
+  ],
+  "strongest_negative_evidence": [
+    {
+      "evidence_id": "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
+      "finding": "Agency strategist warns against separate recurring AI optimization line items because proving ROI without reliable tracking is a 'losing game', recommending low-lift quarterly audits instead."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
+      "finding": "Agency owner explicitly labels standalone GEO monitoring retainers as 'snake oil' and bundles AI checks directly into existing SEO retainers without charging dedicated fees."
+    },
+    {
+      "evidence_id": "geo-market-seranking-plans",
+      "finding": "SE Ranking bundles 100-250 daily AI search prompts across 10-30 projects for €109-€235/mo with an Agency Pack add-on (€59/mo) providing full white-labeling and unlimited scheduled reports."
+    },
+    {
+      "evidence_id": "geo-skeptic-risk-sampling-noise-variance",
+      "finding": "Academic and empirical research (ARTIFEX) proves single prompt checks carry ±0.37 standard error and 10%-34% variance, requiring n=7 repeated queries per prompt to achieve statistical validity."
+    },
+    {
+      "evidence_id": "geo-skeptic-risk-openai-search-pricing",
+      "finding": "Official search-grounded API calls cost $10-$25/1k calls (OpenAI) and $14-$35/1k calls (Gemini), resulting in $14-$35 direct supplier cost per client audit and destroying unit economics at $100/mo ARPU."
+    },
+    {
+      "evidence_id": "geo-skeptic-risk-openai-tos-scraping",
+      "finding": "OpenAI Terms of Use explicitly prohibit programmatic output extraction and circumventing safety/rate limits, making consumer UI scraping legally and technically unsustainable."
+    }
+  ],
+  "top_unknowns": [
+    "Viability of authorized data pipeline: can an accurate measurement service be operated economically using official APIs without violating OpenAI/Google Terms of Use?",
+    "Unit economics under required sampling: can a $100/mo multi-client SaaS remain profitable when n=7 repeated queries are required to manage stochastic variance?",
+    "Agency buyer willingness to pay: will small agencies pay a standalone $100/mo subscription when clients pay $399-$699/mo retainers and bundled SEO suites offer included tracking?",
+    "Decision value of ongoing monitoring: do SMB clients actually retain agencies for monthly visibility tracking, or does churn spike when visibility changes cannot be remediated?"
+  ]
+}
