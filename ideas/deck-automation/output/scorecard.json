@@ -1,0 +1,944 @@
+{
+  "idea_id": "deck-automation",
+  "name": "Vertical B2B deck / sales-collateral automation",
+  "evaluation_date": "2026-09-08",
+  "verdict": "FAIL",
+  "rationale": "The evaluated broad hypothesis and core initial ICP (B2B SaaS account executives) fail multiple Stage 1 gates and are directly contradicted on fundamental assumptions. First, modern B2B sales reps and leadership report actively abandoning sales decks in favor of live software walk-throughs and conversational discovery (ev-skp-ae-ditching-decks, ev-pain-head-of-sales-deprecating-decks, ev-pain-rep-disdain-for-decks). Second, where sales decks remain in use, disciplined 10-slide master templates reduce per-opportunity customization to 10-15 minutes (ev-pain-master-template-workaround), prompting practitioners to explicitly refuse recurring SaaS subscriptions in favor of one-time master template purchases (ev-wtp-contradiction-manual-template-pushback). Third, Microsoft 365 Copilot directly targets the hypothesized differentiator by embedding file-to-deck generation and corporate .potx brand templates natively into PowerPoint at $23.50-$30/user/mo (ev-skp-m365-copilot-ppt-features, ev-skp-m365-copilot-brand-templates, ev-skp-m365-copilot-pricing), capping standalone willingness to pay well below the founder's $100+/mo ARPU constraint. Fourth, enterprise sales enablement is comprehensively served by entrenched platforms (Seismic LiveDocs, Highspot AutoDocs) where enablement heads enforce template lockdowns to prevent rep autonomy (ev-skp-enablement-brand-lockdown), while CRM integration triggers prohibitive 4.2-week security and SOC 2 procurement hurdles (ev-skp-infosec-procurement-hurdles). Fifth, commercial real estate is monopolized by Buildout Showcase across 50,000+ brokers (ev-skp-buildout-cre-suite), while institutional lenders ignore narrative slide decks (ev-wtp-contradiction-cre-om-skepticism). Sixth, Gate 1 (6 supporting verified pain signals vs. 20 required) and Gate 5 (0 verified reachability records, LOW confidence) fail their required thresholds. Recalculation across all six declared candidate ICPs demonstrates that none can pass independently without pooling unrelated segments. Stage 2 customer prospect mining and interviews are not authorized.",
+  "stage2_authorized": false,
+  "condition": null,
+  "evaluated_scope": {
+    "hypothesis": "B2B teams that regularly create customer-specific sales decks spend meaningful recurring time adapting PowerPoint presentations to individual opportunities. Existing presentation AI tools do not fully solve the workflow because teams require company-specific templates, trusted source material, accurate client customization, and reliably editable native PPTX output. A sufficiently painful segment can justify a B2B SaaS price materially above low-cost consumer presentation subscriptions.",
+    "target_geography": "Global English-speaking",
+    "target_business_type": "B2B",
+    "company_segment": "SMB and mid-market",
+    "target_arpu_usd_monthly_min": 100,
+    "acquisition_preference": [
+      "founder-led outbound",
+      "remote sales",
+      "self-service where feasible"
+    ],
+    "founder_model": "solo technical founder with coding/research agents",
+    "mvp_constraints": [
+      "buildable by solo technical founder with coding/research agents",
+      "no full presentation editor",
+      "native editable PPTX preferred"
+    ],
+    "exclusions": [
+      "Fortune 500 as initial ICP",
+      "procurement-heavy enterprise as initial ICP",
+      "heavily regulated workflows requiring substantial compliance work before pilot"
+    ],
+    "initial_candidate_icps": [
+      "B2B SaaS account executives",
+      "sales enablement teams",
+      "boutique consultancies",
+      "agencies producing client decks",
+      "professional-services firms",
+      "commercial real-estate teams"
+    ]
+  },
+  "scope_integrity_notes": "All six Stage 1 gates were strictly evaluated on canonical records marked VERIFIED by the Evidence Auditor. In compliance with Stage 1 scope integrity, each candidate ICP was evaluated independently on evidence directly attributable to that specific segment without pooling pain, spend, reachability, or substitute observations across disparate categories. Broad presentation software evidence (such as Gamma, Beautiful.ai, and general Copilot reviews) was restricted to evaluating the broad software gap (G4) and broad scope, and was not attributed to narrow candidate segments.",
+  "dimension_scores": {
+    "pain_strength": 2,
+    "recurrence_confidence": 2,
+    "revealed_wtp": 3,
+    "current_solution_gap": 4,
+    "icp_clarity": 2,
+    "reachability": 1,
+    "substitute_risk": 1,
+    "evidence_quality": 3,
+    "source_diversity": 4,
+    "overall_confidence": 4
+  },
+  "gates": {
+    "G1": {
+      "name": "Concrete pain",
+      "status": "FAIL",
+      "threshold_or_rule": "At least 20 VERIFIED independent concrete pain signals (preferably >= 10 from core target ICPs) describing an actual workflow problem, cost, delay, error, frustration, risk, or workaround.",
+      "independent_count": 6,
+      "counted_evidence_ids": [
+        "ev-pain-sales-qbr-hours-editing",
+        "ev-pain-consulting-thirty-percent-time",
+        "ev-pain-consulting-client-theme-rework",
+        "ev-pain-pptx-master-slide-corruption",
+        "ev-pain-revops-sfdc-to-slides-manual-drain",
+        "ev-wf-agency-rfp-resource-drain"
+      ],
+      "breakdown_by_icp": {
+        "B2B SaaS Account Executives / Sales": 1,
+        "Management Consultants": 2,
+        "Corporate Presentation Creators / Sales Enablement": 1,
+        "RevOps / Sales Operations": 1,
+        "Marketing Agencies": 1
+      },
+      "contradictory_evidence_ids": [
+        "ev-pain-rep-disdain-for-decks",
+        "ev-pain-master-template-workaround",
+        "ev-pain-faang-no-deck-workflow",
+        "ev-pain-head-of-sales-deprecating-decks",
+        "ev-skp-ae-ditching-decks",
+        "ev-skp-ae-deck-truncation"
+      ],
+      "high_impact_excluded": [
+        {
+          "id": "ev-pain-consulting-daily-formatting-hours",
+          "reason": "PARTIALLY_VERIFIED: labor hours entered as currency ($3.00 USD) violating schema."
+        },
+        {
+          "id": "ev-pain-sales-pitch-obsolescence-debate",
+          "reason": "PARTIALLY_VERIFIED: open discussion query asking for opinions, not concrete observed pain event."
+        },
+        {
+          "id": "ev-pain-dedicated-sales-analyst-deck-role",
+          "reason": "REJECTED: unsupported claim of dedicated deck-building headcount based on brief forum comment."
+        },
+        {
+          "id": "ev-pain-sales-enablement-deck-offloading",
+          "reason": "REJECTED: severe overstatement of 4-word forum comment."
+        },
+        {
+          "id": "ev-skp-consulting-slide-formatting-synthesis",
+          "reason": "REJECTED: non-atomic bundle of already-captured comments."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether unorganized presentation customization pain exists at scale in non-tech SMB sales teams without structured templates."
+      ]
+    },
+    "G2": {
+      "name": "Recurrence",
+      "status": "FAIL",
+      "threshold_or_rule": "At least MEDIUM confidence that the core job/problem recurs often enough for a SaaS relationship (e.g. weekly or per-opportunity high frequency). Subscription billing cadence, employment duration, content publication cadence, or non-null recurrence on an unrelated record excluded.",
+      "independent_count": 15,
+      "counted_evidence_ids": [
+        "ev-pain-sales-qbr-hours-editing",
+        "ev-pain-consulting-thirty-percent-time",
+        "ev-pain-consulting-client-theme-rework",
+        "ev-pain-llm-thinking-vs-slide-admin",
+        "ev-pain-pptx-master-slide-corruption",
+        "ev-pain-revops-sfdc-to-slides-manual-drain",
+        "ev-wtp-cre-om-freelance-spend",
+        "ev-wtp-consulting-formatting-time",
+        "ev-wtp-sales-highspot-enterprise-use",
+        "ev-wf-cre-designer-indesign-bottleneck",
+        "ev-wf-cre-om-turnaround-investor",
+        "ev-wf-cre-assembly-line-redlining",
+        "ev-wf-consulting-claude-skills-breakage",
+        "ev-wf-agency-rfp-resource-drain",
+        "ev-wf-msp-qbr-multi-tool-drain"
+      ],
+      "breakdown_by_frequency": {
+        "daily": 3,
+        "weekly": 2,
+        "monthly": 2,
+        "quarterly": 2,
+        "per_client": 1,
+        "per_opportunity": 5
+      },
+      "contradictory_evidence_ids": [
+        "ev-skp-ae-ditching-decks",
+        "ev-skp-ae-deck-truncation",
+        "ev-pain-head-of-sales-deprecating-decks",
+        "ev-pain-faang-no-deck-workflow",
+        "ev-pain-rep-disdain-for-decks",
+        "ev-pain-master-template-workaround",
+        "ev-pain-sales-qbr-hours-editing"
+      ],
+      "high_impact_excluded": [
+        {
+          "id": "ev-mkt-plusai-pricing",
+          "reason": "Vendor subscription billing cadence (monthly), not core workflow frequency."
+        },
+        {
+          "id": "ev-mkt-m365-copilot-pricing",
+          "reason": "Vendor subscription billing cadence (monthly), not core workflow frequency."
+        },
+        {
+          "id": "ev-mkt-highspot-contract-floor",
+          "reason": "Vendor annual contract benchmarking (monthly equivalent), not core workflow frequency."
+        },
+        {
+          "id": "ev-mkt-thinkcell-spend",
+          "reason": "Vendor license billing cadence, not core workflow frequency."
+        },
+        {
+          "id": "ev-mkt-templafy-capabilities",
+          "reason": "Vendor subscription billing cadence, not core workflow frequency."
+        },
+        {
+          "id": "ev-mkt-qwilr-pricing-substitute",
+          "reason": "Vendor subscription billing cadence, not core workflow frequency."
+        },
+        {
+          "id": "ev-skp-highspot-pricing-procurement",
+          "reason": "Vendor procurement benchmarking, not core workflow frequency."
+        },
+        {
+          "id": "ev-skp-m365-copilot-pricing",
+          "reason": "Vendor subscription billing cadence, not core workflow frequency."
+        },
+        {
+          "id": "ev-wf-cre-om-12hr-buildout",
+          "reason": "PARTIALLY_VERIFIED: labor hours entered as currency."
+        },
+        {
+          "id": "ev-wf-consulting-monthly-deck-copy-paste",
+          "reason": "PARTIALLY_VERIFIED: labor hours entered as currency."
+        },
+        {
+          "id": "ev-wf-saas-am-qbr-hours-editing",
+          "reason": "REJECTED: duplicate record."
+        },
+        {
+          "id": "ev-wf-saas-ae-master-slide-workaround",
+          "reason": "REJECTED: duplicate record."
+        },
+        {
+          "id": "ev-wf-saas-ae-conversational-rejection",
+          "reason": "REJECTED: duplicate record."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether deal-by-deal pitch deck preparation is genuinely recurring in smaller, non-tech sales teams, or whether presentation decks are confined to quarterly business reviews and formal RFPs."
+      ]
+    },
+    "G3": {
+      "name": "Existing spend / WTP",
+      "status": "PASS",
+      "threshold_or_rule": "At least 5 VERIFIED money signals from at least 2 distinct categories of spend. Excludes competitor pricing pages alone, salary aggregates, or labor hours misclassified as currency.",
+      "independent_count": 16,
+      "counted_evidence_ids": [
+        "ev-pain-outsourced-deck-freelancer",
+        "ev-wtp-cre-om-freelance-spend",
+        "ev-wtp-startups-upwork-deck-spend",
+        "ev-wtp-sales-highspot-enterprise-use",
+        "ev-gap-copilot-firmwide-unusable-decks",
+        "ev-wf-cre-designer-indesign-bottleneck",
+        "ev-gap-storydoc-no-pptx-export-nasrullah",
+        "ev-pain-sales-qbr-hours-editing",
+        "ev-pain-consulting-thirty-percent-time",
+        "ev-pain-consulting-client-theme-rework",
+        "ev-gap-beautifulai-export-templates-jeff",
+        "ev-pain-revops-sfdc-to-slides-manual-drain",
+        "ev-wtp-consulting-formatting-time",
+        "ev-wf-cre-assembly-line-redlining",
+        "ev-wf-agency-rfp-resource-drain",
+        "ev-wf-msp-qbr-multi-tool-drain"
+      ],
+      "breakdown_by_category": {
+        "contractor_spend": 3,
+        "saas_spend": 2,
+        "dedicated_role": 1,
+        "actual_purchase": 1,
+        "employee_time": 9
+      },
+      "actual_amounts_observed": [
+        "$100 USD per listing + $1,000 template setup (contractor_spend in CRE, ev-wtp-cre-om-freelance-spend)",
+        "$150 USD one-time Upwork formatting (contractor_spend for startup pitch, ev-wtp-startups-upwork-deck-spend)",
+        "10-20 hours/month contractor labor retainer (contractor_spend, ev-pain-outsourced-deck-freelancer)",
+        "1-month paid AI subscription (actual_purchase, ev-gap-storydoc-no-pptx-export-nasrullah)"
+      ],
+      "contradictory_evidence_ids": [
+        "ev-wtp-contradiction-manual-template-pushback",
+        "ev-wf-agency-proposal-slides-assistant",
+        "ev-wf-agency-interactive-qwilr-substitute",
+        "ev-wtp-contradiction-cre-om-skepticism",
+        "ev-skp-m365-copilot-pricing"
+      ],
+      "high_impact_excluded": [
+        {
+          "id": "ev-mkt-plusai-pricing",
+          "reason": "Competitor pricing context ($25/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-mkt-m365-copilot-pricing",
+          "reason": "Incumbent pricing context ($30/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-mkt-templafy-capabilities",
+          "reason": "Competitor pricing context ($40/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-mkt-highspot-contract-floor",
+          "reason": "Competitor procurement benchmark ($45-$65/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-mkt-thinkcell-spend",
+          "reason": "Competitor procurement benchmark ($25/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-mkt-qwilr-pricing-substitute",
+          "reason": "Competitor pricing context ($35/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-skp-highspot-pricing-procurement",
+          "reason": "Competitor procurement benchmark ($45-$65/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-skp-m365-copilot-pricing",
+          "reason": "Competitor pricing context ($30/mo), excluded from Gate 3 threshold."
+        },
+        {
+          "id": "ev-pain-consulting-daily-formatting-hours",
+          "reason": "PARTIALLY_VERIFIED: labor hours entered as currency ($3.00 USD)."
+        },
+        {
+          "id": "ev-wf-cre-om-12hr-buildout",
+          "reason": "PARTIALLY_VERIFIED: labor hours entered as currency ($12.00 USD)."
+        },
+        {
+          "id": "ev-wf-consulting-monthly-deck-copy-paste",
+          "reason": "PARTIALLY_VERIFIED: labor hours entered as currency ($2.00 USD)."
+        },
+        {
+          "id": "ev-wtp-sales-dedicated-deck-role",
+          "reason": "PARTIALLY_VERIFIED: uncommitted founder hiring intent, not actual expenditure."
+        },
+        {
+          "id": "ev-wtp-cre-buildout-pricing",
+          "reason": "PARTIALLY_VERIFIED: vendor list pricing context ($125/mo), not buyer spend."
+        },
+        {
+          "id": "ev-wtp-consulting-thinkcell-pricing",
+          "reason": "PARTIALLY_VERIFIED: vendor list pricing context (23.90 EUR/mo), not buyer spend."
+        },
+        {
+          "id": "ev-wtp-saas-plusai-pricing",
+          "reason": "PARTIALLY_VERIFIED: vendor list pricing context ($30/mo), not buyer spend."
+        },
+        {
+          "id": "ev-mkt-gamma-pricing",
+          "reason": "PARTIALLY_VERIFIED: vendor list pricing context ($20/mo), not buyer spend."
+        },
+        {
+          "id": "ev-pain-dedicated-sales-analyst-deck-role",
+          "reason": "REJECTED: unsupported claim of dedicated salary spend."
+        },
+        {
+          "id": "ev-pain-sales-enablement-deck-offloading",
+          "reason": "REJECTED: severe overstatement of 4-word comment."
+        }
+      ],
+      "confidence": "HIGH",
+      "material_unknowns": [
+        "Whether SMB sales teams would allocate software budget above $100/month for presentation automation when Microsoft Copilot is available at $23.50-$30/month."
+      ]
+    },
+    "G4": {
+      "name": "Repeatable gap in existing solutions",
+      "status": "PASS",
+      "threshold_or_rule": "At least 10 VERIFIED records showing meaningful workaround, manual cleanup, missing capability, quality failure, or workflow break, clustered around repeatable problems.",
+      "independent_count": 10,
+      "counted_evidence_ids": [
+        "ev-pain-llm-thinking-vs-slide-admin",
+        "ev-pain-gamma-export-corrupted-content",
+        "ev-pain-gamma-ignores-corporate-templates",
+        "ev-pain-gamma-import-dropped-data",
+        "ev-pain-gamma-rigid-layout-distortion",
+        "ev-gap-beautifulai-export-templates-jeff",
+        "ev-gap-storydoc-no-pptx-export-nasrullah",
+        "ev-gap-copilot-firmwide-unusable-decks",
+        "ev-gap-copilot-desktop-custom-template-failure",
+        "ev-gap-pitch-ai-ignores-structure-layout"
+      ],
+      "clusters": {
+        "PPTX Export Fidelity & Content Corruption": [
+          "ev-pain-gamma-export-corrupted-content",
+          "ev-gap-beautifulai-export-templates-jeff",
+          "ev-gap-storydoc-no-pptx-export-nasrullah",
+          "ev-pain-gamma-import-dropped-data"
+        ],
+        "Corporate Template & Brand Compliance Failures": [
+          "ev-pain-gamma-ignores-corporate-templates",
+          "ev-gap-copilot-desktop-custom-template-failure",
+          "ev-pain-gamma-rigid-layout-distortion"
+        ],
+        "Poor AI Output Usability & Prompt Deviation": [
+          "ev-gap-copilot-firmwide-unusable-decks",
+          "ev-gap-pitch-ai-ignores-structure-layout"
+        ],
+        "Conversational LLMs Do Not Automate Slide Layout": [
+          "ev-pain-llm-thinking-vs-slide-admin"
+        ]
+      },
+      "contradictory_evidence_ids": [
+        "ev-pain-master-template-workaround"
+      ],
+      "high_impact_excluded": [
+        {
+          "id": "ev-mkt-gamma-pptx-export",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-beautifulai-export",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-plusai-template-gap",
+          "reason": "REJECTED: DNS resolution failure."
+        },
+        {
+          "id": "ev-mkt-copilot-single-file-limitation",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-pitch-export-gap",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-storydoc-format-barrier",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-canva-pptx-breakage",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        }
+      ],
+      "confidence": "HIGH",
+      "material_unknowns": [
+        "How quickly Microsoft will fix custom SharePoint template selection in the desktop PowerPoint Copilot add-in."
+      ]
+    },
+    "G5": {
+      "name": "ICP reachability",
+      "status": "FAIL",
+      "threshold_or_rule": "Evidence must identify plausible role names, company/industry segments, and a real discoverable/contactable surface compatible with acquisition constraints (founder-led outbound, remote sales, self-serve). PASS requires at least MEDIUM confidence.",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "contradictory_evidence_ids": [
+        "ev-skp-infosec-procurement-hurdles",
+        "ev-skp-enablement-brand-lockdown"
+      ],
+      "high_impact_excluded": [
+        {
+          "id": "ev-wf-reachability-apmp-association",
+          "reason": "PARTIALLY_VERIFIED: APMP association homepage and member count confirms association existence, but does not provide a discoverable, contactable prospect surface under reachability standards."
+        },
+        {
+          "id": "ev-wf-cre-marketing-coordinator-role",
+          "reason": "REJECTED: expired LinkedIn job posting."
+        },
+        {
+          "id": "ev-wf-enablement-governance-translation",
+          "reason": "REJECTED: expired job board posting."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether a contactable prospect surface (e.g. verified community, Apollo/Sales Navigator filter, or active forum directory) can be established without encountering enterprise procurement gatekeepers."
+      ]
+    },
+    "G6": {
+      "name": "No killer substitute",
+      "status": "FAIL",
+      "threshold_or_rule": "Research must not reveal an obvious low-friction substitute that already solves the proposed workflow sufficiently well for the target ICP at a price that destroys the planned value proposition. A low-friction sufficient substitute fails the current wedge. A serious direct substitute with material unresolved fit makes G6 UNKNOWN, not PASS.",
+      "independent_count": 9,
+      "counted_evidence_ids": [
+        "ev-skp-m365-copilot-ppt-features",
+        "ev-skp-m365-copilot-brand-templates",
+        "ev-skp-m365-copilot-pricing",
+        "ev-skp-seismic-livedocs-automation",
+        "ev-skp-highspot-pricing-procurement",
+        "ev-skp-buildout-cre-suite",
+        "ev-mkt-templafy-capabilities",
+        "ev-mkt-storydoc-substitute",
+        "ev-mkt-qwilr-pricing-substitute"
+      ],
+      "breakdown_by_category": {
+        "Bundled Incumbent Office AI": [
+          "ev-skp-m365-copilot-ppt-features",
+          "ev-skp-m365-copilot-brand-templates",
+          "ev-skp-m365-copilot-pricing"
+        ],
+        "Enterprise Sales Enablement": [
+          "ev-skp-seismic-livedocs-automation",
+          "ev-skp-highspot-pricing-procurement"
+        ],
+        "Vertical Industry Platform": [
+          "ev-skp-buildout-cre-suite"
+        ],
+        "Document Governance": [
+          "ev-mkt-templafy-capabilities"
+        ],
+        "Interactive Web Proposal Alternatives": [
+          "ev-mkt-storydoc-substitute",
+          "ev-mkt-qwilr-pricing-substitute"
+        ]
+      },
+      "contradictory_evidence_ids": [
+        "ev-skp-m365-copilot-ppt-features",
+        "ev-skp-m365-copilot-brand-templates",
+        "ev-skp-m365-copilot-pricing",
+        "ev-skp-seismic-livedocs-automation",
+        "ev-skp-highspot-pricing-procurement",
+        "ev-skp-buildout-cre-suite",
+        "ev-pain-master-template-workaround"
+      ],
+      "high_impact_excluded": [
+        {
+          "id": "ev-mkt-highspot-autodocs",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-seismic-livedocs",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-mkt-upslide-positioning",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-skp-seismic-appexchange-pricing",
+          "reason": "REJECTED: HTTP 404 Not Found."
+        },
+        {
+          "id": "ev-skp-consulting-thinkcell-standard",
+          "reason": "REJECTED: incorrect product ID on Capterra (loads 'Edgagement')."
+        }
+      ],
+      "confidence": "HIGH",
+      "material_unknowns": [
+        "The timeline on which Microsoft eliminates quality gaps in Copilot PowerPoint generation, closing the remaining performance gap with third-party tools."
+      ]
+    }
+  },
+  "candidate_scope_assessments": {
+    "b2b_saas_account_executives": {
+      "icp_name": "B2B SaaS account executives",
+      "status": "FAIL",
+      "total_attributable_records": 14,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "FAIL",
+          "count": 1,
+          "counted_ids": [
+            "ev-pain-sales-qbr-hours-editing"
+          ],
+          "contradictory_ids": [
+            "ev-pain-rep-disdain-for-decks",
+            "ev-pain-master-template-workaround",
+            "ev-pain-faang-no-deck-workflow",
+            "ev-pain-head-of-sales-deprecating-decks",
+            "ev-skp-ae-ditching-decks",
+            "ev-skp-ae-deck-truncation"
+          ]
+        },
+        "G2_recurrence": {
+          "status": "FAIL",
+          "confidence": "LOW",
+          "counted_ids": [
+            "ev-pain-sales-qbr-hours-editing"
+          ],
+          "notes": "Reps report deck creation is infrequent, quarterly (QBRs), or actively bypassed in favor of live product demos."
+        },
+        "G3_spend": {
+          "status": "FAIL",
+          "count": 3,
+          "counted_ids": [
+            "ev-pain-sales-qbr-hours-editing",
+            "ev-pain-outsourced-deck-freelancer",
+            "ev-wtp-startups-upwork-deck-spend"
+          ],
+          "contradictory_ids": [
+            "ev-wtp-contradiction-manual-template-pushback"
+          ],
+          "notes": "Fails threshold (3 supporting signals across 2 categories; threshold >= 5). Reps prefer one-time template purchase over software subscriptions."
+        },
+        "G4_gap": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "No verified solution gap records strictly attributable to B2B AEs."
+        },
+        "G5_reachability": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable surface records."
+        },
+        "G6_substitutes": {
+          "status": "FAIL",
+          "count": 2,
+          "counted_ids": [
+            "ev-mkt-storydoc-substitute",
+            "ev-skp-m365-copilot-ppt-features"
+          ],
+          "notes": "Microsoft Copilot bundled at $23.50-$30/mo; master template workaround solves customization in 10-15 min; interactive walk-throughs displace decks."
+        }
+      },
+      "rationale": "Primary hypothesized ICP is directly contradicted: AEs are actively ditching pitch decks, master templates compress customization to 10-15 minutes, and Microsoft Copilot is embedded natively at $23.50-$30/mo."
+    },
+    "sales_enablement_teams": {
+      "icp_name": "sales enablement teams",
+      "status": "FAIL",
+      "total_attributable_records": 8,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "FAIL",
+          "count": 2,
+          "counted_ids": [
+            "ev-pain-pptx-master-slide-corruption",
+            "ev-pain-revops-sfdc-to-slides-manual-drain"
+          ],
+          "contradictory_ids": []
+        },
+        "G2_recurrence": {
+          "status": "PASS",
+          "confidence": "MEDIUM",
+          "counted_ids": [
+            "ev-pain-pptx-master-slide-corruption",
+            "ev-pain-revops-sfdc-to-slides-manual-drain",
+            "ev-wtp-sales-highspot-enterprise-use"
+          ],
+          "notes": "Per-opportunity and weekly slide governance."
+        },
+        "G3_spend": {
+          "status": "FAIL",
+          "count": 2,
+          "counted_ids": [
+            "ev-pain-revops-sfdc-to-slides-manual-drain",
+            "ev-wtp-sales-highspot-enterprise-use"
+          ],
+          "contradictory_ids": [],
+          "notes": "Only 2 signals (threshold >= 5)."
+        },
+        "G4_gap": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "No verified gap records strictly attributable to enablement teams."
+        },
+        "G5_reachability": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable surface records."
+        },
+        "G6_substitutes": {
+          "status": "FAIL",
+          "count": 4,
+          "counted_ids": [
+            "ev-mkt-templafy-capabilities",
+            "ev-skp-seismic-livedocs-automation",
+            "ev-skp-highspot-pricing-procurement",
+            "ev-skp-m365-copilot-brand-templates"
+          ],
+          "notes": "Seismic LiveDocs and Highspot AutoDocs already solve dynamic CRM-to-PPTX generation; enablement heads intentionally enforce template lockdowns; InfoSec hurdles require SOC 2."
+        }
+      },
+      "rationale": "Entrenched enterprise enablement suites already solve the workflow; enablement heads enforce template lockdowns to prevent rep autonomy; enterprise procurement and SOC 2 requirements violate solo-founder constraints."
+    },
+    "boutique_consultancies": {
+      "icp_name": "boutique consultancies",
+      "status": "FAIL",
+      "total_attributable_records": 6,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "FAIL",
+          "count": 2,
+          "counted_ids": [
+            "ev-pain-consulting-thirty-percent-time",
+            "ev-pain-consulting-client-theme-rework"
+          ],
+          "contradictory_ids": []
+        },
+        "G2_recurrence": {
+          "status": "PASS",
+          "confidence": "HIGH",
+          "counted_ids": [
+            "ev-pain-consulting-thirty-percent-time",
+            "ev-pain-consulting-client-theme-rework",
+            "ev-wtp-consulting-formatting-time",
+            "ev-wf-consulting-claude-skills-breakage"
+          ],
+          "notes": "Daily slide formatting and weekly client deliverables."
+        },
+        "G3_spend": {
+          "status": "FAIL",
+          "count": 3,
+          "counted_ids": [
+            "ev-pain-consulting-thirty-percent-time",
+            "ev-pain-consulting-client-theme-rework",
+            "ev-wtp-consulting-formatting-time"
+          ],
+          "contradictory_ids": [],
+          "notes": "3 signals but all from a single category (employee_time). Fails threshold requiring >= 2 distinct categories."
+        },
+        "G4_gap": {
+          "status": "FAIL",
+          "count": 1,
+          "counted_ids": [
+            "ev-pain-llm-thinking-vs-slide-admin"
+          ],
+          "notes": "Only 1 verified gap record."
+        },
+        "G5_reachability": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable surface records."
+        },
+        "G6_substitutes": {
+          "status": "UNKNOWN",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "think-cell is the entrenched incumbent for charts; teams build custom Claude skills to assemble decks (ev-wf-consulting-claude-skills-breakage)."
+        }
+      },
+      "rationale": "High labor time is real, but the core workflow is strategic consulting deliverable authoring rather than opportunity sales collateral customization; spend is confined to internal employee payroll; G1, G3, G4, and G5 fail thresholds."
+    },
+    "agencies_producing_client_decks": {
+      "icp_name": "agencies producing client decks",
+      "status": "FAIL",
+      "total_attributable_records": 4,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "FAIL",
+          "count": 1,
+          "counted_ids": [
+            "ev-wf-agency-rfp-resource-drain"
+          ],
+          "contradictory_ids": [
+            "ev-wf-agency-proposal-slides-assistant"
+          ]
+        },
+        "G2_recurrence": {
+          "status": "FAIL",
+          "confidence": "LOW",
+          "counted_ids": [
+            "ev-wf-agency-rfp-resource-drain"
+          ],
+          "notes": "Monthly low-win-rate RFP pitches."
+        },
+        "G3_spend": {
+          "status": "FAIL",
+          "count": 1,
+          "counted_ids": [
+            "ev-wf-agency-rfp-resource-drain"
+          ],
+          "contradictory_ids": [
+            "ev-wf-agency-proposal-slides-assistant",
+            "ev-wf-agency-interactive-qwilr-substitute"
+          ],
+          "notes": "Only 1 supporting signal (employee_time). Agencies delegate to low-cost VAs on Google Slides or buy interactive web proposal software (Qwilr)."
+        },
+        "G4_gap": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified gap records."
+        },
+        "G5_reachability": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable surface records."
+        },
+        "G6_substitutes": {
+          "status": "FAIL",
+          "count": 2,
+          "counted_ids": [
+            "ev-mkt-qwilr-pricing-substitute",
+            "ev-wf-agency-interactive-qwilr-substitute"
+          ],
+          "notes": "Virtual assistants customizing Google Slides and interactive web platforms (Qwilr) serve as direct substitutes."
+        }
+      },
+      "rationale": "Agencies bypass PowerPoint deck automation software by delegating Google Slides customization to virtual assistants or switching to web-based proposal platforms (Qwilr) for client analytics."
+    },
+    "commercial_real_estate_teams": {
+      "icp_name": "commercial real-estate teams",
+      "status": "FAIL",
+      "total_attributable_records": 6,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "contradictory_ids": [],
+          "notes": "Zero records of semantic type pain."
+        },
+        "G2_recurrence": {
+          "status": "PASS",
+          "confidence": "MEDIUM",
+          "counted_ids": [
+            "ev-wtp-cre-om-freelance-spend",
+            "ev-wf-cre-designer-indesign-bottleneck",
+            "ev-wf-cre-om-turnaround-investor",
+            "ev-wf-cre-assembly-line-redlining"
+          ],
+          "notes": "Per-listing Offering Memorandum creation with 1-2 week turnaround."
+        },
+        "G3_spend": {
+          "status": "FAIL",
+          "count": 3,
+          "counted_ids": [
+            "ev-wtp-cre-om-freelance-spend",
+            "ev-wf-cre-designer-indesign-bottleneck",
+            "ev-wf-cre-assembly-line-redlining"
+          ],
+          "contradictory_ids": [
+            "ev-wtp-contradiction-cre-om-skepticism"
+          ],
+          "notes": "3 supporting signals across 3 categories (contractor, dedicated role, employee time); threshold requires >= 5."
+        },
+        "G4_gap": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified gap records strictly attributable to CRE."
+        },
+        "G5_reachability": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable surface records."
+        },
+        "G6_substitutes": {
+          "status": "FAIL",
+          "count": 1,
+          "counted_ids": [
+            "ev-skp-buildout-cre-suite"
+          ],
+          "notes": "Buildout Showcase is an entrenched vertical killer substitute used by 50,000+ brokers automating OMs from property data; institutional lenders disregard narrative decks (ev-wtp-contradiction-cre-om-skepticism)."
+        }
+      },
+      "rationale": "While CRE demonstrates verified per-deal contractor spend ($100/deal + $1,000 template) and full-time InDesign designers, the vertical is dominated by Buildout Showcase (50,000+ brokers), institutional lenders ignore narrative slides, and required deliverables center on InDesign rather than PowerPoint."
+    },
+    "professional_services_firms": {
+      "icp_name": "professional-services firms",
+      "status": "FAIL",
+      "total_attributable_records": 1,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "contradictory_ids": []
+        },
+        "G2_recurrence": {
+          "status": "FAIL",
+          "confidence": "LOW",
+          "counted_ids": [
+            "ev-wf-msp-qbr-multi-tool-drain"
+          ],
+          "notes": "Quarterly QBR review only."
+        },
+        "G3_spend": {
+          "status": "FAIL",
+          "count": 1,
+          "counted_ids": [
+            "ev-wf-msp-qbr-multi-tool-drain"
+          ],
+          "contradictory_ids": [],
+          "notes": "1 employee time signal."
+        },
+        "G4_gap": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified gap records."
+        },
+        "G5_reachability": {
+          "status": "FAIL",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable surface records."
+        },
+        "G6_substitutes": {
+          "status": "UNKNOWN",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Insufficient evidence."
+        }
+      },
+      "rationale": "Only 1 verified record in the entire dataset (IT Managed Service Providers QBR preparation); severely under-evidenced."
+    }
+  },
+  "unvalidated_candidates": [
+    {
+      "name": "CRE InDesign Offering Memorandum Automation",
+      "description": "Automating Adobe InDesign Offering Memorandums from property financials for mid-market brokerage firms employing full-time graphic designers (ev-wf-cre-designer-indesign-bottleneck).",
+      "status": "UNVALIDATED",
+      "reason": "Changes core deliverable from editable PowerPoint to Adobe InDesign and requires competing with Buildout Showcase."
+    },
+    {
+      "name": "Consulting SteerCo / PMO Deck Assembly Add-in",
+      "description": "Specialized Office add-in or LLM skill for management consultancies to assemble recurring SteerCo/PMO review decks without breaking Excel linkages (ev-wf-consulting-claude-skills-breakage).",
+      "status": "UNVALIDATED",
+      "reason": "Changes core ICP from B2B sales reps to management consulting PMO teams and changes output from sales pitch decks to internal governance reporting."
+    },
+    {
+      "name": "vCIO / MSP Quarterly Business Review Deck Automation",
+      "description": "Automated aggregation of ticketing, monitoring, and security telemetry into client-facing quarterly business review presentations for IT Managed Service Providers (ev-wf-msp-qbr-multi-tool-drain).",
+      "status": "UNVALIDATED",
+      "reason": "Changes core input data from CRM notes to IT monitoring telemetry and changes ICP to MSP vCIOs."
+    }
+  ],
+  "strongest_positive_evidence": [
+    {
+      "id": "ev-wtp-cre-om-freelance-spend",
+      "impact": "Direct buyer-side commercial real estate broker comment verifies actual contractor spend ($1,000 upfront template and $100 per listing for manual plug-and-play slide completion)."
+    },
+    {
+      "id": "ev-pain-revops-sfdc-to-slides-manual-drain",
+      "impact": "First-hand RevOps practitioner confirms recurring manual time spent assembling customer-facing slides from Salesforce fields, citing the 6-figure pricing barrier of enterprise alternatives."
+    },
+    {
+      "id": "ev-gap-storydoc-no-pptx-export-nasrullah",
+      "impact": "Verified Trustpilot subscriber review confirms swiping a credit card for AI deck generation and immediately churning due to lack of editable PowerPoint export."
+    },
+    {
+      "id": "ev-pain-gamma-ignores-corporate-templates",
+      "impact": "Verified Trustpilot user review directly confirms Gamma completely disregards uploaded PowerPoint templates, generating cluttered, unusable off-brand layouts."
+    },
+    {
+      "id": "ev-gap-beautifulai-export-templates-jeff",
+      "impact": "Verified Trustpilot user review confirms exporting presentations to PowerPoint outside smart templates breaks formatting and forces 3x more manual labor than native PowerPoint."
+    }
+  ],
+  "strongest_negative_evidence": [
+    {
+      "id": "ev-skp-m365-copilot-brand-templates",
+      "impact": "Microsoft natively integrates Copilot into PowerPoint to support corporate .potx templates and Brand Kits, learning layout structure and hierarchy from template placeholders."
+    },
+    {
+      "id": "ev-skp-m365-copilot-ppt-features",
+      "impact": "Microsoft Copilot natively generates complete multi-slide presentations directly from structured Word documents inside PowerPoint."
+    },
+    {
+      "id": "ev-skp-m365-copilot-pricing",
+      "impact": "Microsoft anchors bundled Office AI pricing at $23.50-$30/user/month, capping standalone willingness to pay far below the $100+/month ARPU target."
+    },
+    {
+      "id": "ev-skp-buildout-cre-suite",
+      "impact": "Buildout Showcase already automates proposals, pitch decks, and Offering Memorandums from property data for 50,000+ CRE brokers."
+    },
+    {
+      "id": "ev-skp-seismic-livedocs-automation",
+      "impact": "Seismic LiveDocs already automates pitch decks from Salesforce data into PowerPoint templates for enterprise and mid-market revenue teams."
+    },
+    {
+      "id": "ev-pain-master-template-workaround",
+      "impact": "Sales leadership confirms a disciplined 10-slide master PowerPoint template reduces per-opportunity customization to 10-15 minutes, eliminating the need for dedicated software."
+    },
+    {
+      "id": "ev-wtp-contradiction-manual-template-pushback",
+      "impact": "Sales practitioner directly advises against subscribing to AI presentation tools, recommending paying once for a master template and manually customizing details per opportunity."
+    },
+    {
+      "id": "ev-skp-ae-ditching-decks",
+      "impact": "Sales reps actively abandon pitch decks in favor of live discovery and interactive software walk-throughs to avoid canned pitch perception."
+    },
+    {
+      "id": "ev-skp-infosec-procurement-hurdles",
+      "impact": "Connecting sales software to CRM and customer notes triggers average 4.2-week enterprise security reviews, SOC 2 Type II, and zero data retention mandates."
+    }
+  ],
+  "top_unknowns": [
+    "Rate of feature improvements in Microsoft 365 Copilot for PowerPoint regarding custom SharePoint template ingestion in desktop apps.",
+    "Whether non-sales B2B workflows (such as recurring PMO reporting or IT MSP QBR reviews) possess sufficient independent willingness to pay to support a pivot."
+  ]
+}
