@@ -1,0 +1,12 @@
+{
+  "track": "workflow",
+  "status": "PARTIAL",
+  "records": 5,
+  "validation": "PASS",
+  "blockers": [
+    "Web search API encountered consecutive generation errors and browser subagent remote debugging timed out, limiting further live web page discovery for this run."
+  ],
+  "next_actions": [
+    "Resume discovery on agency directories and portfolio workflows once browser debugging permissions are refreshed"
+  ]
+}

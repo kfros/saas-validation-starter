@@ -1,0 +1,11 @@
+{
+  "track": "pain",
+  "status": "COMPLETE",
+  "records": 21,
+  "validation": "PASS",
+  "blockers": [],
+  "next_actions": [
+    "Downstream WTP research track (12-run-wtp)",
+    "Downstream workflow mapping track (13-run-workflow)"
+  ]
+}

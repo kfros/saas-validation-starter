@@ -1,0 +1,12 @@
+{
+  "track": "skeptic",
+  "status": "COMPLETE",
+  "records": 14,
+  "validation": "PASS",
+  "blockers": [],
+  "next_actions": [
+    "Proceed to Evidence Auditor inspection across all raw track outputs.",
+    "Verify independence keys and audit status for Canva official docs, Planable docs, and Reddit practitioner observations.",
+    "Test practitioner willingness to switch from live collaborative Canva links during Stage 2 customer interviews if Stage 1 proceeds."
+  ]
+}
