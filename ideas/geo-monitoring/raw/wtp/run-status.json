@@ -1,0 +1,10 @@
+{
+  "track": "wtp",
+  "status": "COMPLETE",
+  "records": 10,
+  "validation": "PASS",
+  "blockers": [],
+  "next_actions": [
+    "Proceed to raw-all consolidation or parallel research track (market, pain, workflow, skeptic)"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "track": "workflow",
+  "status": "COMPLETE",
+  "records": 15,
+  "validation": "PASS",
+  "blockers": [],
+  "next_actions": [
+    "Proceed to Evidence Audit (20-run-auditor) once all parallel raw research tracks complete."
+  ]
+}
