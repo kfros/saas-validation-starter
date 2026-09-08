@@ -1,0 +1,108 @@
+idea_id: multi-brand-content
+name: Multi-brand content production engine for owner-led SMM providers
+stage: 1
+status: not_started
+scope_id: MULTIBRAND-OPERATOR-01
+version: 1
+
+# Working assumptions for this run, not customer evidence or validated requirements.
+hypothesis: >-
+  Owner-led social-media service providers producing recurring organic content
+  for multiple unrelated small-business client brands experience repeated
+  brand-context switching, layout/copy rework and revision propagation. They may
+  pay for a production workflow that turns client-approved briefs and assets
+  into reviewable branded static posts and carousels with matching captions,
+  while keeping each client's context isolated. Current templates, design tools,
+  general AI tools and social suites may already solve this sufficiently.
+
+initial_candidate_icps:
+  - MULTIBRAND-OPERATOR-01
+primary_icp:
+  organization: >-
+    Independent SMM freelancer or owner-led small agency with an owner/operator
+    materially involved in producing recurring organic social content for
+    multiple unrelated SMB client brands.
+  buyer: Service-provider owner who chooses production tools
+  operator: Owner/operator producing or materially reviewing and revising client content
+  scope_requirements:
+    - External social-media content service, not an in-house brand marketing team
+    - Multiple unrelated client brands; explicit plural client work can establish this
+    - Recurring static social-content production and revision work
+    - Owner-led provider, with a hands-on production or revision role
+    - SMB clientele established directly or through identity-linked evidence
+  scope_notes: >-
+    No exact headcount, client-count range beyond multiple, revenue band or
+    country is a hard inclusion rule. Do not invent any. A bare agency label or
+    an enterprise social-media job title does not establish this scope. Buying
+    authority is a separate question; do not claim each operator bought a tool.
+  working_language: English for research and the initial deliverable hypothesis
+  geography: Open; record observed geography and language, never infer country from English
+
+core_job:
+  trigger: Recurring client content batch or a revision to an existing batch
+  inputs:
+    - Client-approved brief, content intent and factual inputs
+    - Brand guidelines, approved copy examples, templates and authorized assets
+  workflow:
+    - Select the correct client context
+    - Draft or adapt copy and layouts for static posts or carousels
+    - Check brand consistency, factual accuracy and format requirements
+    - Collect and apply revisions while preserving versions and client separation
+    - Export an approved content pack for the client's existing publishing workflow
+  output: Reviewable branded static posts/carousels and matched captions; editable handoff needs research
+  proposed_wedge: Reduce recurring cross-client production and revision rework
+  differentiation_status: UNVALIDATED; brand kits, batch creation and approval are not assumed unique
+  success_measure_hypothesis: Less operator rework per client-approved deliverable at acceptable quality
+
+initial_market_scope:
+  business_type: B2B
+  exclusions:
+    - Single-brand in-house marketing, enterprise procurement and large agency departments
+    - Hobby creators, influencers or sellers making content only for their own business
+    - Generic prompt-to-post or image generation without the multi-client production job
+    - Scheduling, social inbox, analytics, ad buying or community management as the primary job
+    - Autonomous SEO articles, landing pages, video-first or faceless-reels production
+    - New photography/video shoots, strategy consulting or fully managed creative services
+    - Guaranteed engagement, traffic, revenue or "viral" outcomes
+
+business_constraints:
+  founder_model: Solo technical founder with agents
+  acquisition_preference: [founder-led outreach, remote sales, self-service]
+  billing_unit_hypothesis: Provider workspace; client/brand limits and seats remain unknown
+  price_hypothesis: Unset; discover actual spend and switching economics before proposing a price
+  initial_product_boundary: >-
+    A small number of evidenced static formats and a handoff into existing tools.
+    No full design editor, stock marketplace or social publishing infrastructure
+    is assumed necessary.
+  constraints_to_investigate:
+    - Buyer acceptance of exports versus native editable project files
+    - Quality and revision effort versus existing templates and general AI tools
+    - Asset rights, platform permissions and supported integration routes
+    - Brand separation, client confidentiality and support/onboarding burden
+    - Cost of generations, retries, rendering, storage and support at observed prices
+
+research_rules:
+  canonical_methodology: methodology/stage1-gates.md
+  canonical_schema: methodology/evidence-schema.json
+  protocol: ideas/multi-brand-content/research-protocol.md
+  hypothesis_is_not_evidence: true
+  do_not_pool_adjacent_jobs: true
+  do_not_change_scope_after_seeing_results: true
+
+falsification_conditions:
+  - The relevant job has little recurring pain beyond initial client setup
+  - Current templates/design/AI/social tools already solve it sufficiently
+  - Bottlenecks are mainly missing client inputs or strategy, not addressable production work
+  - Buyers have negligible job-specific spend or reject additional production software
+  - Automation adds as much quality-control and revision work as it removes
+  - Required editable output, integrations or support exceed feasible founder scope
+  - Required delivery costs are incompatible with evidenced buyer budgets
+
+core_unknowns:
+  - Which exact repeated step hurts, for whom, and in which existing tool stack?
+  - What changes between brands that existing templates cannot handle sufficiently?
+  - What do providers actually pay or spend time on for this job today?
+  - Does paid production spending imply any willingness to add or switch software?
+  - Which static formats, edits, approvals and handoffs are truly required?
+  - Are freelancers and owner-led agencies coherent on the proposed job and buying behavior?
+  - Can these budget owners be reached through a practical founder-led channel?
