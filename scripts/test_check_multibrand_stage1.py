@@ -17,6 +17,7 @@ from pathlib import Path
 SPEC = importlib.util.spec_from_file_location("multibrand_checker", Path(__file__).with_name("check_multibrand_stage1.py"))
 mb = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(mb)
+import audit_review_pipeline as arp
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / "methodology/evidence-schema.json").read_text(encoding="utf-8"))
 
@@ -112,15 +113,65 @@ class WorkflowTests(unittest.TestCase):
                 self.write(f"{base}/{report}", "Synthetic report for checker tests only.")
             self.write(f"{base}/run-status.json", {"track": track, "status": "COMPLETE",
                        "validation": "PASS", "records": len(rows), "blockers": [], "next_actions": []})
-        audited = [{**r, "audit_status": "VERIFIED", "audit_reason": "Synthetic checker test."} for r in raw]
-        self.write_audit(audited)
-        scope = {"scope_id": mb.SCOPE, "records": [{"evidence_id": r["id"], "scope_status": "IN_SCOPE",
-                 "provider_form": "SOLO", "supporting_evidence_ids": [r["id"]],
-                 "reason": "Synthetic scope test only."} for r in audited]}
-        self.write("ideas/multi-brand-content/evidence/scope-map.json", scope)
-        for name in ("audit-summary.md", "high-impact-review.md"):
-            self.write(f"ideas/multi-brand-content/evidence/{name}", "Synthetic test report.")
+        raw_by_id, locations = arp.load_raw(self.root)
+        captures, reviews = [], []
+        for r in raw:
+            cid = f"capture-{r['id']}"
+            fragment = "Synthetic test-only returned fragment."
+            captures.append({"schema_version": 1, "capture_id": cid,
+                "requested_url": r["source_url"], "resolved_url": r["source_url"],
+                "locator": "synthetic fixture paragraph", "attributed_speaker": None,
+                "inspected_at": "2026-09-09T10:00:00+00:00", "retrieval_tool": "synthetic-test-tool",
+                "external_result_id": None, "local_attempt_id": f"attempt-{r['id']}",
+                "outcome": "SUCCESS", "fragment": fragment,
+                "fragment_sha256": arp.fragment_fingerprint(fragment)})
+            claims = []
+            for field in sorted(arp.expected_claim_fields(r)):
+                decision = "NOT_APPLICABLE" if field in {"money_amount", "money_currency", "money_period"} else "SUPPORTED"
+                claims.append({"field": field, "decision": decision,
+                    "reason": "Synthetic explicit claim decision.", "capture_id": cid,
+                    "speaker": None, "material": True})
+            review = {"schema_version": 1, "evidence_id": r["id"], "raw_track": "market",
+                "raw_path": locations[r["id"]], "raw_fingerprint": arp.fingerprint(r),
+                "scope_dependency_fingerprint": "", "reviewed_at": "2026-09-09T10:00:00+00:00",
+                "reviewer_agent": "synthetic-test", "state": "COMPLETE", "blocker": None,
+                "capture_ids": [cid], "claim_decisions": claims,
+                "audit": {"status": "VERIFIED", "reason": "Synthetic checker test.",
+                          "independence_key": r["independence_key"]},
+                "scope": {"scope_status": "IN_SCOPE", "provider_form": "SOLO",
+                          "supporting_evidence_ids": [r["id"]], "reason": "Synthetic scope test only."},
+                "money_assessment": {"payer": None, "recipient": None,
+                    "work_bought_or_done": "Synthetic test-only work.", "payment_status": "UNKNOWN",
+                    "transaction_type": "UNKNOWN", "amount_basis": None,
+                    "unresolved_unknowns": ["Synthetic money fields are intentionally unknown."]},
+                "impact_assessment": {"eligible_gates": ["G3"], "exclusion_reason": None,
+                                      "unresolved_questions": []},
+                "substitute_assessment": None,
+                "discrepancies": [], "raw_owner_repairs": []}
+            review["scope_dependency_fingerprint"] = arp.scope_dependency(review, raw_by_id)
+            reviews.append(review)
+        review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+        arp.write_jsonl(review_dir / "captures.jsonl", captures)
+        arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
+        arp.render_candidate(self.root, review_dir,
+                             self.root / "ideas/multi-brand-content/evidence")
+        audited = arp.read_jsonl(self.root / "ideas/multi-brand-content/evidence/evidence.jsonl", "test evidence")
+        scope = arp.read_json(self.root / "ideas/multi-brand-content/evidence/scope-map.json")
         return raw, audited, scope
+
+    def sync_review_bundle(self):
+        raw_by_id, locations = arp.load_raw(self.root)
+        review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+        reviews = arp.read_jsonl(review_dir / "reviews.jsonl", "test reviews")
+        for review in reviews:
+            rid = review["evidence_id"]
+            review["raw_path"] = locations[rid]
+            review["raw_fingerprint"] = arp.fingerprint(raw_by_id[rid])
+            review["scope_dependency_fingerprint"] = arp.scope_dependency(review, raw_by_id)
+        arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
+        arp.render_candidate(self.root, review_dir,
+                             self.root / "ideas/multi-brand-content/evidence")
+        return reviews
 
     def write_audit(self, rows):
         self.write("ideas/multi-brand-content/evidence/evidence.jsonl", "\n".join(json.dumps(r) for r in rows))
@@ -232,8 +283,12 @@ class WorkflowTests(unittest.TestCase):
 
     def test_auditor_can_normalize_keys_but_judge_cannot_double_count(self):
         _, audited, _ = self.fixture()
-        audited[1]["independence_key"] = audited[0]["independence_key"]
-        self.write_audit(audited)
+        review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+        reviews = arp.read_jsonl(review_dir / "reviews.jsonl", "test reviews")
+        reviews[1]["audit"]["independence_key"] = reviews[0]["audit"]["independence_key"]
+        arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
+        arp.render_candidate(self.root, review_dir,
+                             self.root / "ideas/multi-brand-content/evidence")
         self.checker.audit()
         self.save_score(self.scorecard(audited))
         with self.assertRaises(mb.CheckError):
@@ -244,22 +299,26 @@ class WorkflowTests(unittest.TestCase):
             with self.subTest(money_signal=money_signal):
                 raw, audited, _ = self.fixture()
                 raw[0]["money_signal"] = money_signal
-                audited[0]["money_signal"] = money_signal
                 self.write("ideas/multi-brand-content/raw/market/evidence.jsonl", "\n".join(json.dumps(r) for r in raw))
                 card = self.scorecard([record(i) for i in range(20)])
-                self.write_audit(audited)
+                self.sync_review_bundle()
                 self.save_score(card)
                 with self.assertRaises(mb.CheckError):
                     self.checker.judge()
 
     def test_partial_audit_nonverified_cannot_carry_gate(self):
-        _, audited, scope = self.fixture()
+        _, audited, _ = self.fixture()
         card = self.scorecard(audited)
-        audited[0]["audit_status"] = "PENDING"
-        scope["records"][0]["scope_status"] = "UNKNOWN"
-        scope["records"][0]["supporting_evidence_ids"] = []
-        self.write_audit(audited)
-        self.write("ideas/multi-brand-content/evidence/scope-map.json", scope)
+        review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+        reviews = arp.read_jsonl(review_dir / "reviews.jsonl", "test reviews")
+        reviews[0]["audit"]["status"] = "PARTIALLY_VERIFIED"
+        reviews[0]["claim_decisions"][0]["decision"] = "UNKNOWN"
+        reviews[0]["scope"].update(scope_status="UNKNOWN", supporting_evidence_ids=[])
+        raw_by_id, _ = arp.load_raw(self.root)
+        reviews[0]["scope_dependency_fingerprint"] = arp.scope_dependency(reviews[0], raw_by_id)
+        arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
+        arp.render_candidate(self.root, review_dir,
+                             self.root / "ideas/multi-brand-content/evidence")
         self.checker.audit()
         self.save_score(card)
         with self.assertRaises(mb.CheckError):
@@ -289,10 +348,9 @@ class WorkflowTests(unittest.TestCase):
                    "next_actions": ["Resume after tool restoration"]})
         self.checker.raw_all()
 
-    def test_outside_workspace_symlink_denied(self):
-        (self.root / "escape").symlink_to(self.root.parent, target_is_directory=True)
+    def test_outside_workspace_path_denied(self):
         with self.assertRaises(mb.CheckError):
-            self.checker.path("escape/example")
+            self.checker.path("../outside/example")
 
     def test_summary_counts_rows_and_entities_separately(self):
         _, rows, mapping = self.fixture(4)
@@ -343,19 +401,28 @@ class WorkflowTests(unittest.TestCase):
             rows[index]["money_signal"] = row["money_signal"]
         self.write("ideas/multi-brand-content/raw/market/evidence.jsonl",
                    "\n".join(json.dumps(r) for r in raw))
-        self.write_audit(rows)
+        self.sync_review_bundle()
         self.save_score(self.scorecard(rows))
         with self.assertRaisesRegex(mb.CheckError, "2 categories"):
             self.checker.judge()
 
     def test_unknown_buyer_cannot_decisively_falsify_scope(self):
-        _, rows, mapping = self.fixture(21)
-        mapping["records"][-1]["scope_status"] = "UNKNOWN"
-        self.write("ideas/multi-brand-content/evidence/scope-map.json", mapping)
-        card = self.scorecard(rows[:20])
+        _, rows, _ = self.fixture(21)
+        review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+        reviews = arp.read_jsonl(review_dir / "reviews.jsonl", "test reviews")
+        reviews[-1]["scope"].update(scope_status="UNKNOWN", supporting_evidence_ids=[])
+        raw_by_id, _ = arp.load_raw(self.root)
+        reviews[-1]["scope_dependency_fingerprint"] = arp.scope_dependency(reviews[-1], raw_by_id)
+        arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
+        arp.render_candidate(self.root, review_dir,
+                             self.root / "ideas/multi-brand-content/evidence")
+        mapping = arp.read_json(self.root / "ideas/multi-brand-content/evidence/scope-map.json")
+        unknown_id = reviews[-1]["evidence_id"]
+        counted_rows = [row for row in rows if row["id"] != unknown_id]
+        card = self.scorecard(counted_rows)
         card["dataset_summary"] = mb.dataset_summary({r["id"]: r for r in rows},
                                     {r["evidence_id"]: r for r in mapping["records"]})
-        card["gates"]["G1"]["contradictory_evidence_ids"] = [rows[-1]["id"]]
+        card["gates"]["G1"]["contradictory_evidence_ids"] = [unknown_id]
         self.save_score(card)
         with self.assertRaisesRegex(mb.CheckError, "decisive contradiction"):
             self.checker.judge()

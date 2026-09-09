@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.example/saas-validation/source-review-v1.schema.json",
+  "title": "Source review sidecar record v1",
+  "description": "One JSONL row from captures.jsonl or reviews.jsonl. Validation in scripts/audit_review_pipeline.py is authoritative for cross-file relationships.",
+  "oneOf": [
+    {"$ref": "#/$defs/capture"},
+    {"$ref": "#/$defs/review"}
+  ],
+  "$defs": {
+    "nullableString": {"type": ["string", "null"]},
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "capture_id", "requested_url", "resolved_url", "locator", "attributed_speaker", "inspected_at", "retrieval_tool", "external_result_id", "local_attempt_id", "outcome", "fragment", "fragment_sha256"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "capture_id": {"type": "string", "pattern": "^capture-[A-Za-z0-9._-]+$"},
+        "requested_url": {"type": "string", "format": "uri"},
+        "resolved_url": {"$ref": "#/$defs/nullableString"},
+        "locator": {"$ref": "#/$defs/nullableString"},
+        "attributed_speaker": {"$ref": "#/$defs/nullableString"},
+        "inspected_at": {"type": "string", "format": "date-time"},
+        "retrieval_tool": {"type": "string", "minLength": 1},
+        "external_result_id": {"$ref": "#/$defs/nullableString"},
+        "local_attempt_id": {"type": "string", "minLength": 1},
+        "outcome": {"enum": ["SUCCESS", "BLOCKED", "NOT_FOUND", "ERROR"]},
+        "fragment": {"$ref": "#/$defs/nullableString"},
+        "fragment_sha256": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "claimDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "decision", "reason", "capture_id", "speaker", "material"],
+      "properties": {
+        "field": {"enum": ["quote", "observation", "attribution", "money_amount", "money_currency", "money_period", "money_type", "recurrence", "role_scope", "interpretation"]},
+        "decision": {"enum": ["SUPPORTED", "CONTRADICTED", "UNKNOWN", "NOT_APPLICABLE"]},
+        "reason": {"type": "string", "minLength": 1},
+        "capture_id": {"$ref": "#/$defs/nullableString"},
+        "speaker": {"$ref": "#/$defs/nullableString"},
+        "material": {"type": "boolean"}
+      }
+    },
+    "scopeDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_status", "provider_form", "supporting_evidence_ids", "reason"],
+      "properties": {
+        "scope_status": {"enum": ["IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"]},
+        "provider_form": {"enum": ["SOLO", "AGENCY", "UNKNOWN"]},
+        "supporting_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "evidence_id", "raw_track", "raw_path", "raw_fingerprint", "scope_dependency_fingerprint", "reviewed_at", "reviewer_agent", "state", "blocker", "capture_ids", "claim_decisions", "audit", "scope", "money_assessment", "impact_assessment", "substitute_assessment", "discrepancies", "raw_owner_repairs"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "evidence_id": {"type": "string", "minLength": 3},
+        "raw_track": {"enum": ["market", "pain", "wtp", "workflow", "skeptic"]},
+        "raw_path": {"type": "string", "minLength": 1},
+        "raw_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "scope_dependency_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "reviewer_agent": {"type": "string", "minLength": 1},
+        "state": {"enum": ["COMPLETE", "BLOCKED"]},
+        "blocker": {"$ref": "#/$defs/nullableString"},
+        "capture_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "claim_decisions": {"type": "array", "items": {"$ref": "#/$defs/claimDecision"}},
+        "audit": {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "reason", "independence_key"],
+          "properties": {
+            "status": {"enum": ["VERIFIED", "PARTIALLY_VERIFIED", "REJECTED", "PENDING"]},
+            "reason": {"type": "string", "minLength": 1},
+            "independence_key": {"type": "string", "minLength": 1}
+          }
+        },
+        "scope": {"$ref": "#/$defs/scopeDecision"},
+        "money_assessment": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["payer", "recipient", "work_bought_or_done", "payment_status", "transaction_type", "amount_basis", "unresolved_unknowns"],
+          "properties": {
+            "payer": {"$ref": "#/$defs/nullableString"},
+            "recipient": {"$ref": "#/$defs/nullableString"},
+            "work_bought_or_done": {"$ref": "#/$defs/nullableString"},
+            "payment_status": {"enum": ["PAID", "FREE", "UNKNOWN"]},
+            "transaction_type": {"enum": ["ACTUAL", "INTENT", "HYPOTHETICAL", "UNKNOWN"]},
+            "amount_basis": {"$ref": "#/$defs/nullableString"},
+            "unresolved_unknowns": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "impact_assessment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["eligible_gates", "exclusion_reason", "unresolved_questions"],
+          "properties": {
+            "eligible_gates": {"type": "array", "uniqueItems": true, "items": {"enum": ["G1", "G2", "G3", "G4", "G5", "G6"]}},
+            "exclusion_reason": {"$ref": "#/$defs/nullableString"},
+            "unresolved_questions": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "substitute_assessment": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["capability", "same_job_fit", "price_or_friction", "observed_sufficiency", "evidence_needed"],
+          "properties": {
+            "capability": {"$ref": "#/$defs/nullableString"},
+            "same_job_fit": {"$ref": "#/$defs/nullableString"},
+            "price_or_friction": {"$ref": "#/$defs/nullableString"},
+            "observed_sufficiency": {"$ref": "#/$defs/nullableString"},
+            "evidence_needed": {"$ref": "#/$defs/nullableString"}
+          }
+        },
+        "discrepancies": {"type": "array", "items": {"type": "object"}},
+        "raw_owner_repairs": {"type": "array", "items": {"type": "object"}}
+      }
+    }
+  }
+}

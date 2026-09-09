@@ -1,0 +1,570 @@
+From 352ccbfa49352cbae958369268fa46bc4f53a63c Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Wed, 9 Sep 2026 21:45:06 +0200
+Subject: [PATCH] Add project-local Codex audit repair setup
+
+---
+ .agents/skills/audit-pipeline-repair/SKILL.md |  51 +++++
+ AGENTS.md                                     |  76 +++++++
+ CODEX-RUNBOOK.md                              | 129 +++++++++++
+ docs/codex/audit-pipeline-repair.md           | 205 ++++++++++++++++++
+ prompts/codex/00-check-setup.md               |  21 ++
+ prompts/codex/10-repair-audit-pipeline.md     |  29 +++
+ 6 files changed, 511 insertions(+)
+ create mode 100644 .agents/skills/audit-pipeline-repair/SKILL.md
+ create mode 100644 AGENTS.md
+ create mode 100644 CODEX-RUNBOOK.md
+ create mode 100644 docs/codex/audit-pipeline-repair.md
+ create mode 100644 prompts/codex/00-check-setup.md
+ create mode 100644 prompts/codex/10-repair-audit-pipeline.md
+
+diff --git a/.agents/skills/audit-pipeline-repair/SKILL.md b/.agents/skills/audit-pipeline-repair/SKILL.md
+new file mode 100644
+index 0000000..18cb59a
+--- /dev/null
++++ b/.agents/skills/audit-pipeline-repair/SKILL.md
+@@ -0,0 +1,51 @@
++---
++name: audit-pipeline-repair
++description: Repair the evidence audit tooling in saas-validation-starter when audit logs, source reviews, JSONL metadata or totals diverge. Use for deterministic rendering, cross-file consistency checks, review provenance and regression tests. This is an engineering workflow, not source research or a Stage 1 verdict.
++---
++
++# Audit pipeline repair
++
++Read `AGENTS.md`, `docs/codex/audit-pipeline-repair.md` and the selected launch
++prompt. Inspect the current checker, tests, canonical evidence schema and idea
++protocol before designing changes.
++
++## Workflow
++
++1. Inspect git status and the task baseline. Reproduce the existing checker gap
++   without changing research data. Preserve unrelated changes.
++2. Define a small, versioned structured review contract. Bind each review to its
++   raw ID and content fingerprint; bind inspected material to an exact source,
++   speaker/locator and actual tool result. Keep raw facts, observed source facts
++   and reviewer conclusions distinct.
++3. Generate repeated ledger metadata from canonical records and structured
++   reviews. Do not ask a model to retype URLs, authors, keys, statuses or totals
++   into Markdown. Render supported judgments with their supporting references.
++4. Extend the checker to compare these relationships and regenerated report
++   sections. Reject missing, duplicate, stale, contradictory or fabricated-format
++   review inputs. A structurally plausible invented capture remains a semantic
++   risk: code cannot establish the external origin of an agent-authored file.
++5. Add bounded source-review batch preparation and resumable state. Pending or
++   blocked rows must not inherit old VERIFIED status. The engineering run prepares
++   this workflow but does not perform live source review.
++6. Add meaningful regression tests for the listed failures and document actual
++   commands. Preserve the canonical evidence schema and market gates. Do not
++   rewrite historical idea data just to make the new strict checks pass.
++
++## Non-negotiable distinctions
++
++- Exact URL consistency is separate from conservative URL normalization for
++  counts. Preserve comment IDs, query values and fragments identifying a source.
++- Raw source fields are canonical claims, not guaranteed truth. If a retrieved
++  author, quote or amount contradicts them, record the discrepancy and route it
++  to the raw owner; do not generate a second conflicting "canonical" report.
++- Quote containment does not prove the observation, payment, recurrence, target
++  scope or causal interpretation. Capture explicit semantic decisions too.
++- A reported retrieval failure and an observed contradiction are different.
++  Neither can silently become VERIFIED; a blocked page alone is not REJECTED.
++- Multiple records on one page may concern different speakers. An independence
++  key groups an underlying entity/event; neither a URL nor a row count alone
++  establishes independence.
++
++Use temporary test datasets for candidate outputs. The first engineering run must
++leave `ideas/` unchanged. Finish with tests, the expected legacy-check failures,
++the exact next batch command/prompt and any unimplemented acceptance criteria.
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..c3dc10d
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,76 @@
++# Codex instructions for saas-validation-starter
++
++This repository validates product hypotheses. Market conclusions must be traceable
++to source evidence; successful code checks do not validate a market.
++
++## Select the task before acting
++
++- **Engineering/setup:** when asked to build or repair tooling, work on the
++  relevant scripts, tests, supporting contracts, documentation and Codex skills.
++  Local parsing, rendering and offline tests are part of that task. A research
++  launch prompt's terminal/write allowlist governs that research run, not a
++  separately requested engineering task. Respect the current task's boundaries.
++- **Research/repair:** follow the selected idea's protocol and launch prompt.
++  Preserve stable raw IDs and PENDING status. Correct source-dependent fields
++  only after inspecting the original source and only within the owned track.
++- **Audit:** follow the audit contract. Do not silently repair raw source fields.
++  Audit status, reason and independence-key normalization are distinct from
++  source repair. An inaccessible source does not receive fresh VERIFIED status.
++- **Judge:** use eligible audited evidence and the existing gates. Do not browse,
++  backfill evidence or silently broaden the hypothesis to improve a verdict.
++
++Do not advance to another role/stage merely because the current task finished.
++
++## Shared authority and repository map
++
++Read the files relevant to the selected task, especially:
++
++- `methodology/evidence-schema.json`, `evidence-standard.md`, `stage1-gates.md`
++  and `scoring.md`: shared evidence and decision rules.
++- `ideas/<idea>/hypothesis.yaml`, `research-protocol.md`, `audit-checklist.md`:
++  idea-specific scope and execution contract.
++- `ideas/<idea>/raw/`: researcher-owned observations, always PENDING.
++- `ideas/<idea>/evidence/`: audited consolidation and scope decisions.
++- `ideas/<idea>/output/`: Judge outputs; not primary evidence.
++- `scripts/`: local deterministic checks and tests.
++- `.agent/`: existing Antigravity instructions; preserve this singular path.
++- `.agents/skills/` and `prompts/codex/`: Codex workflows and launch tasks.
++
++The methodology is shared across tools. Do not change thresholds, scope, verdict
++rules or evidence eligibility unless the user explicitly asks for that change.
++Historical reports and repair briefs are leads for inspection, not proof that a
++source says something. Do not inherit their VERIFIED labels without the required
++review. UNKNOWN, partial coverage and a blocked run are valid outcomes.
++
++## Evidence fidelity
++
++Keep observation separate from interpretation, prices from actual spending, and
++speaker identity from inferred buyer authority. Do not merge different speakers'
++claims, infer billing periods, convert client counts into headcount, or promote
++adjacent work into the target job. Record supported contrary facts too.
++
++Generate repeated metadata and totals from structured canonical data. Review
++records must identify the raw ID/version, exact source, attributed speaker and
++actually retrieved fragment. A matching quote/hash proves a local relationship,
++not that a browser was used or that the interpretation is justified.
++
++Use only authorized tools to inspect original public sources. Do not access
++Antigravity's `.gemini/antigravity/brain`, internal browser artifacts or caches.
++Do not replace failed research tools with ad-hoc scrapers. Follow the selected
++research protocol's retry/partial-run rules. Do not perform outreach unless asked.
++
++## Engineering execution
++
++Inspect the worktree before editing; preserve unrelated user changes. Prefer
++tracked Python script files and their documented CLI over repeated multiline
++`python -c` quoting experiments. Python is allowed for authorized local processing
++and tests; it is not an implicit permission to scrape public sources.
++
++Keep synthetic test records in temporary fixtures, never in idea evidence. Test
++material invariants and known failure cases. Report the commands actually run,
++their results and remaining limits. A structural success must not be described
++as source verification or PASS of a product hypothesis.
++
++Communicate with the user in Russian. Follow the existing artifact language and
++schema enums when editing repository files. Keep project-specific configuration
++in this repository; do not modify the user's global Codex settings for this task.
+diff --git a/CODEX-RUNBOOK.md b/CODEX-RUNBOOK.md
+new file mode 100644
+index 0000000..a15fc14
+--- /dev/null
++++ b/CODEX-RUNBOOK.md
+@@ -0,0 +1,129 @@
++# Codex: настройка проекта и исправление аудита
++
++Комплект подготовлен поверх `241d04317c5ce93ba37982b67c62fc535c7b4727`.
++Он добавляет инструкции и инженерное задание. Сам генератор, новый checker и
++проверка источников ещё не выполнены — их создаст/запустит следующий этап.
++
++## Что настраиваем
++
++| Место | Назначение |
++| --- | --- |
++| `AGENTS.md` в корне репозитория | Общие инструкции Codex для этого проекта: роли, границы правок, достоверность evidence. |
++| `.agents/skills/audit-pipeline-repair/SKILL.md` | Процедура исправления генерации и проверки аудита. У Codex здесь **agents** во множественном числе. |
++| `prompts/codex/` | Конкретные задания для запуска; их можно поручить прочитать по пути. |
++| `docs/codex/audit-pipeline-repair.md` | Требования к реализации и контрольные случаи из 241d043. |
++| `.agent/skills/` и `.agent/rules/` | Существующая настройка Antigravity; этот комплект её сохраняет. |
++
++Codex читает проектный `AGENTS.md` и обнаруживает skills в `.agents/skills`.
++Уровни инструкций описаны в [документации AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md),
++а структура skills — в [документации skills](https://learn.chatgpt.com/docs/build-skills).
++
++Пустой пользовательский `AGENTS.md` не является ошибкой. Правила этого репозитория
++не нужно переносить в глобальный файл: иначе они будут влиять и на другие проекты.
++Существующую пользовательскую папку `skills` не удаляем и не переименовываем.
++
++Codex `.rules` управляют разрешениями на выполнение команд; это другой механизм,
++чем Markdown-правила Antigravity. Для нашего задания новые `.rules` и изменение
++режима разрешений не требуются. См. [документацию rules](https://learn.chatgpt.com/docs/agent-configuration/rules).
++
++Для первого этапа не нужны браузер, MCP или установка плагинов: он работает с
++локальными данными. Содержимое пользовательского `config.toml` по скриншоту
++неизвестно, и менять его ради этого комплекта не нужно.
++
++## 1. Применить комплект
++
++В Git Bash из локального репозитория:
++
++```bash
++cd /c/Work/Projects/saas-validation-starter
++git status --short
++git log -1 --oneline
++```
++
++Команды ниже рассчитаны на чистую рабочую копию ветки с аудитом `241d043` в истории.
++Если есть незакоммиченные изменения, сначала сохрани свою работу обычным способом;
++не используй reset/clean для установки комплекта. Если уже существуют одноимённые
++файлы настройки, сначала сравни их: не затирай свои инструкции.
++
++Скачай `codex-audit-setup.patch`, затем создай отдельную ветку и примени patch.
++Путь к Downloads замени, если файл сохранён в другом месте:
++
++```bash
++git switch -c validation/codex-audit-repair
++git am /c/Users/acer/Downloads/codex-audit-setup.patch
++git show --stat --oneline HEAD
++```
++
++`git am` добавляет локальный коммит с настройкой. Если применение остановилось
++из-за конфликта, не начинай задачу Codex на частично установленном комплекте:
++проверь конфликт; `git am --abort` отменяет именно незавершённое применение.
++
++## 2. Новый conversation в Codex
++
++Открой этот локальный проект и проверь выбранную ветку. Уже выбранные на скриншоте
++GPT-5.6 Sol и High можно оставить для инженерного запуска; обещания безошибочного
++аудита из выбора модели не следуют. Глобальные настройки разрешений оставь как есть.
++
++После добавления `AGENTS.md` начни новый conversation. Не требуется переносить туда
++весь старый диалог или подключать все исследовательские skills Antigravity.
++
++Сначала отправь короткую проверку:
++
++```text
++Прочитай и выполни prompts/codex/00-check-setup.md.
++```
++
++Ожидаемый ответ: фактические путь, ветка, HEAD, состояние worktree и прочитанные
++инструкции. Это проверка доступа к файлам, не доказательство автоматического
++обнаружения skill или работы браузера. Если skill не виден в интерфейсе, перезапусти
++приложение; явное чтение `SKILL.md` по пути достаточно для выполнения этого задания.
++Не добавляй ради этого широкие глобальные правила `allow`.
++
++## 3. Запустить инженерную задачу
++
++Если проверка не выявила блокера, в том же новом conversation отправь:
++
++```text
++Прочитай AGENTS.md и .agents/skills/audit-pipeline-repair/SKILL.md.
++Выполни prompts/codex/10-repair-audit-pipeline.md полностью:
++реализуй инструменты и регрессионные тесты по docs/codex/audit-pipeline-repair.md.
++```
++
++Мы явно называем skill файлом, поэтому запуск не зависит от синтаксиса picker
++в конкретной версии приложения. Команды Antigravity `/browser` и `/evidence-audit`
++здесь не подразумеваются.
++
++Этот запуск должен создать:
++
++1. Структурированные source-review записи с привязкой к raw-версии и полученному
++   фрагменту, а также отдельную очередь исправлений для владельцев raw.
++2. Генератор журнала/отчёта и checker, сравнивающий данные, ссылки и totals.
++3. Проверки известных ошибок и подготовку пакетов максимум по пять raw-ID.
++4. Рабочий skill/prompt для следующего source review и проверенные CLI-команды.
++
++В этом запуске `ideas/` остаётся без изменений. Старый аудит обязан показать
++ошибки при новом строгом контроле, пока не появятся настоящие source-review
++записи. Нельзя исправлять это заполнением выдуманных captures или механическим
++переносом старых VERIFIED. Методология PASS/CONDITIONAL и границы ICP сохраняются.
++
++## 4. Что принести после инженерного запуска
++
++Проверь итоговый diff и результаты тестов. Убедись, что Codex перечислил ожидаемые
++ошибки старого аудита и не объявил идею прошедшей Stage 1. Для проверки сохранности:
++
++```bash
++git diff --stat
++git diff 241d043 -- ideas/
++git status --short
++```
++
++Вторая команда должна быть пустой, если поверх 241d043 были только этот комплект
++и инженерная задача. Если до запуска уже были другие правки `ideas/`, сравнивай с
++зафиксированным состоянием на старте, сохраняя эти пользовательские изменения.
++
++После просмотра сохрани реализацию своим обычным commit/push и пришли SHA вместе
++с результатами тестов. Сначала проверим код и контракты, затем запустим отдельный
++source-review conversation на контрольных пяти записях. Наличие работающего
++доступа к оригинальным страницам проверяется перед тем запуском; нет доступа —
++пакет остаётся частичным. Решение о Stage 2 принимается только после достоверного
++аудита и Judge, а не после зелёных тестов инструментов.
+diff --git a/docs/codex/audit-pipeline-repair.md b/docs/codex/audit-pipeline-repair.md
+new file mode 100644
+index 0000000..52ae20c
+--- /dev/null
++++ b/docs/codex/audit-pipeline-repair.md
+@@ -0,0 +1,205 @@
++# Engineering brief: audit consistency and source-review provenance
++
++Baseline: `241d04317c5ce93ba37982b67c62fc535c7b4727`.
++Target idea: `ideas/multi-brand-content`.
++
++This brief authorizes an offline tooling repair. It is not new source evidence,
++an audit decision, a raw repair or permission to advance to Stage 2.
++
++## Problem to reproduce
++
++The existing `scripts/check_multibrand_stage1.py audit` validates JSONL and scope
++relationships but accepts audit Markdown largely by existence. The reviewed
++baseline has 80 records. An independent comparison found 59 exact source-URL
++differences and 51 independence-key differences between its Markdown ledger and
++audited JSONL. The JSONL has 63 distinct exact URLs, the ledger has 65, and its
++narrative claims 66. Reproduce the differences from repository files; these
++numbers are a baseline diagnostic, not constants for future datasets.
++
++There is also a separate source-fidelity problem. Making reports agree with an
++incorrect raw quote would produce consistent but unsupported evidence. Both
++problems need a solution; neither is solved by changing model or gate thresholds.
++
++## Read first
++
++- `scripts/check_multibrand_stage1.py` and `scripts/test_check_multibrand_stage1.py`
++- `methodology/evidence-schema.json` and `methodology/evidence-standard.md`
++- `ideas/multi-brand-content/research-protocol.md` and `audit-checklist.md`
++- The current raw JSONL, audited JSONL, scope map and both audit Markdown files
++- `ideas/multi-brand-content/repair-4041943/repair-tasks.md` for historical leads
++
++Read existing Judge logic only as needed to preserve strict audit gating. Do not
++re-run market research or modify an idea's gates/scope to resolve these defects.
++
++## Allowed changes and preservation
++
++Implement in `scripts/`, relevant tests, `docs/codex/`, `prompts/codex/`,
++`.agents/skills/`, and new supporting review-contract files. A new sidecar schema
++may live under `methodology/`; do not change `evidence-schema.json`, market
++standards, scoring or gates. Update `CODEX-RUNBOOK.md` with actual working commands.
++
++Keep all existing `ideas/` files byte-for-byte unchanged in this engineering run,
++including obsolete outputs. Do not alter `.agent/`, global Codex settings or other
++ideas' tooling. Temporary fixtures are the place to test rendering and migration.
++Preserve and report unrelated pre-existing user edits rather than reverting them.
++
++## Required implementation
++
++### 1. Structured review contract
++
++Use a small versioned JSON/JSONL sidecar; do not expand the canonical evidence
++record with improvised fields. Define validation and a documented location for
++future per-batch outputs. The precise field names are an implementation choice,
++but represent these relationships explicitly:
++
++- Raw ID, raw record fingerprint, and enough file/track identity to locate it.
++  Define stable canonical serialization before hashing. Raw changes invalidate
++  that row's review, without invalidating unrelated rows unnecessarily.
++- Snapshot/manifest fingerprint for the input set and any scope/support records
++  on which a review depends. Recompute these when assembling a complete audit.
++- Exact requested source URL, actual resolved URL if available, source locator
++  (e.g. comment permalink or page heading), and actual attributed speaker.
++  Keep unknown fields null; do not generate plausible comment IDs or authors.
++- Inspection time, actual retrieval tool, result/attempt identifier if exposed,
++  retrieval outcome and locally preserved relevant returned fragment. Hash the
++  stored fragment. A tool with no stable result ID must be described honestly,
++  not assigned a fabricated external ID. A local capture ID is only a local ID.
++- Field/claim-level support decisions referencing that fragment and speaker:
++  quote, observation, attribution, money amount/currency/period/type, recurrence,
++  role/scope and any material interpretation. Distinguish supported, contradicted,
++  unknown and not-applicable, with a reason. Shared captures may support multiple
++  IDs only with separate claim and speaker bindings.
++- Proposed audit status/reason/key, scope decision/support IDs where applicable,
++  unresolved discrepancies and an explicit raw-owner repair queue.
++
++Generated identity/status columns come from canonical raw/consolidated data and
++validated review decisions. A capture's observed speaker may disagree with the
++raw author; retain that comparison explicitly. Do not "fix" it by overwriting
++either field or silently changing the consolidated source fields.
++
++No tool access means no successful inspection claim. A missing capture, unresolved
++material contradiction, stale raw version or unreviewed required claim blocks
++VERIFIED. A partially supported row can use the canonical PARTIALLY_VERIFIED rules.
++Blocked/uninspected rows remain PENDING in a newly assembled candidate audit and
++carry a blocker; retain historical decisions as history, not fresh verification.
++
++Store only the source material needed for review with appropriate attribution;
++do not archive entire sites or pull internal browser cache files. Local records
++and hashes provide traceability, not independent proof a retrieval took place.
++
++### 2. Deterministic generation
++
++Generate the audit ledger and high-impact review from validated structured inputs.
++For every displayed row, resolve raw ID, URL, author/entity, status and independence
++key from the appropriate canonical data. Compute counts rather than copying prose.
++All canonical source fields still must equal raw; only the auditor's three allowed
++fields may differ in consolidated evidence.
++
++Choose a documented report layout with generated sections, or generate entire
++reports. If free prose is allowed, clearly separate it and do not let it duplicate
++machine-owned metadata/totals as if those were authoritative. Material narrative
++claims need structured references to reviewed evidence. The checker cannot detect
++every unsupported sentence; document that limit rather than declaring it solved.
++
++Generate raw-row counts, audit-status totals, distinct exact URLs, conservatively
++normalized URL groups, and distinct independence keys separately. Do not call any
++of these "pages opened". Actual attempt counts and distinct successfully inspected
++sources must come from inspection records, with clear definitions.
++
++The same inputs must produce the same output; use recorded timestamps rather
++than wall-clock render times. Rendering must not change raw facts, promote audit
++statuses on its own, or authorize Stage 2.
++
++### 3. Consistency checker and integration
++
++Extend the existing checker rather than leaving an optional validator that normal
++`audit` / `judge` execution can bypass. A read-only diagnostic or checkpoint mode
++may accept an incomplete run, but label it incomplete and never admission-ready.
++
++The strict audit path must check:
++
++- Schema validity, duplicate JSON keys/IDs, coverage of the current input IDs,
++  review references, raw fingerprints, support dependencies and capture hashes.
++- Raw/consolidated equality for protected fields; review/consolidation agreement
++  on allowed audit fields; scope/support integrity and normalized-key consistency.
++- Regenerated ledger/report data versus checked-in data, including exact URLs,
++  authors, IDs, keys, statuses and all machine-owned totals.
++- Source fragments and attributed locators supporting direct quotes. Document
++  any whitespace/Unicode normalization; do not permit fuzzy or semantic matching
++  to pass rewritten/composite quotes as verbatim. Nullable excerpts remain legal:
++  their underlying observation still needs an inspected supporting fragment.
++- Review completeness and legal status transitions. A renderer cannot bootstrap
++  VERIFIED from the old Markdown or from an agent's unbacked "checked" assertion.
++
++Diagnostics should name the raw ID, field and expected/actual relationship and
++return nonzero for strict failures. Keep structural readiness, source-review
++completion and market verdict distinct in CLI messages and documentation.
++
++The unmodified 241d043 audit should fail the new strict contract because it lacks
++the required review provenance and has inconsistent reports. That failure is an
++expected diagnostic, not permission to silently manufacture missing reviews.
++Historical diagnostic mode may explain legacy inconsistencies without requiring
++the sidecar, but cannot pass the legacy data to Judge as a fresh completed audit.
++
++### 4. Small source-review batches, prepared but not executed here
++
++Implement batch preparation/resume and create a narrow
++`.agents/skills/source-review-batch/SKILL.md` plus launch prompt after the contract
++and commands work. Use the existing public-source research policy. Do not assume
++that Antigravity's `/browser` exists in Codex or install a browser/MCP integration.
++
++The initial control batch contains exactly five raw IDs:
++
++| Raw ID | Regression to investigate from original source in the later review |
++| --- | --- |
++| mb-pain-001 | Ledger points to a different Reddit discussion than the canonical Canva source. |
++| mb-wtp-001 | Historical review found a $120/year statement; high-impact prose claimed $300/year. Reopen and attribute it; do not treat this brief as replacement evidence. |
++| mb-wtp-005 | The repaired raw quote and high-impact narrative disagree with the previously inspected switching discussion. Check each Adobe/Affinity price, purchase versus offer, speaker and billing period separately. |
++| mb-wtp-008 | Canonical author is Still_Feedback1176; high-impact prose substitutes Marketing_Maven_99 and adds a 30+ hours/week claim. |
++| mb-wtp-009 | Canonical author is Safe-Tell-7072; high-impact prose substitutes Creative_Solo_88 and an 8–10 hour batch estimate. Check original task-level timings, without inventing a monthly total. |
++
++This is an error-control sample, not a representative market sample. Author and
++price corrections above are review leads, not automatically verified facts.
++Another purely mechanical regression is `mb-market-007`: canonical Adobe pricing
++was labeled as Kontentino in the reports. Derive the original URLs from JSONL.
++
++Prepare work in batches of at most five raw IDs, grouping shared sources when
++helpful while preserving per-speaker records. Each batch must checkpoint processed,
++blocked and remaining IDs. Do not fan out dozens of browser sessions. On a hard
++resource/quota error use at most one permitted retry; on repeated tool failure
++stop and persist partial progress. No terminal scraping, internal brain access,
++invented snippets or obligation to reach a target count.
++
++Only review known IDs in this workflow. If a source fact requires repair, produce
++the raw-owner queue; audit must not silently rewrite it. A later authorized raw
++repair invalidates that row's fingerprint and requires review again. Complete
++the control batch before deciding whether to review the remaining records.
++
++### 5. Meaningful tests and delivery
++
++Use offline temporary fixtures, clearly synthetic, and test at least:
++
++1. Mutating a ledger URL, author, ID, key, status or count produces a diagnostic.
++2. A missing/duplicate review, unknown raw ID, changed raw row, changed dependency,
++   altered capture or unsupported VERIFIED transition fails strict validation.
++3. A quote from another speaker, a rewritten/composite quote, a missing amount or
++   period in structured money support, and an unresolved material field conflict
++   cannot become VERIFIED merely because Markdown was regenerated. Test the
++   explicit support contract; do not pretend regex alone detects semantic truth.
++4. Shared page/different speakers, multiple rows from one entity and same URL
++   across tracks produce correct separate counts, without auto-deleting evidence.
++5. Blocked/partial batches resume without dropping IDs, carrying stale VERIFIED
++   labels or overwriting unrelated reviews. Complete strict coverage is required
++   before the ordinary Judge path can accept the new audit.
++6. Two renders of identical inputs match, and applying a render does not mutate
++   raw files. Old market thresholds and verdict/eligibility tests still hold.
++
++Adapt old synthetic tests to the stricter contract; do not keep a success fixture
++that consists only of invented Markdown and VERIFIED JSONL without review inputs.
++If an old test's expectation changes, explain which new invariant requires it.
++
++Deliver implementation, tests, a short migration note and actual commands for:
++baseline diagnostics, rendering/checking a temporary candidate, preparing the
++five-ID control batch, and resuming after a blocked inspection. State which tests
++ran and which legacy strict failures are expected. Run no source review or Judge
++verdict in this engineering task. Do not claim the dataset has been repaired.
+diff --git a/prompts/codex/00-check-setup.md b/prompts/codex/00-check-setup.md
+new file mode 100644
+index 0000000..655dcf8
+--- /dev/null
++++ b/prompts/codex/00-check-setup.md
+@@ -0,0 +1,21 @@
++# Read-only Codex setup check
++
++Read the repository's `AGENTS.md`,
++`.agents/skills/audit-pipeline-repair/SKILL.md`, `CODEX-RUNBOOK.md`, and
++`docs/codex/audit-pipeline-repair.md`.
++
++Do not modify files or start the implementation yet. Do not browse or read global
++configuration/credentials, Antigravity internals or unrelated projects.
++
++Inspect git status, current branch/HEAD and whether baseline
++`241d04317c5ce93ba37982b67c62fc535c7b4727` is in this checkout's history.
++Confirm the required local files are present and that the existing checker/tests
++can be read. Missing or divergent history should be reported; never reset the
++worktree to force a match.
++
++Reply briefly in Russian with the actual repository path, branch/HEAD, worktree
++state, instruction/skill files you read, and any blocker. Explain that the next
++task is offline engineering and does not verify sources or change market gates.
++Do not claim automatic skill discovery or browser availability solely because
++a file was readable. If no blocker remains, identify the implementation prompt:
++`prompts/codex/10-repair-audit-pipeline.md`.
+diff --git a/prompts/codex/10-repair-audit-pipeline.md b/prompts/codex/10-repair-audit-pipeline.md
+new file mode 100644
+index 0000000..886db07
+--- /dev/null
++++ b/prompts/codex/10-repair-audit-pipeline.md
+@@ -0,0 +1,29 @@
++# Implement the audit infrastructure repair
++
++Use `AGENTS.md`, `.agents/skills/audit-pipeline-repair/SKILL.md` and
++`docs/codex/audit-pipeline-repair.md` as the task instructions. Read the actual
++repository files, not summaries from another conversation.
++
++Carry out the engineering brief to completion: reproduce the consistency gap,
++implement the structured review contract, deterministic report generation,
++integrated strict checks, regression tests, and resumable small-batch preparation.
++Create the source-review skill/launch prompt against the implemented interface,
++and update `CODEX-RUNBOOK.md` with tested commands and the migration boundary.
++
++This task authorizes relevant local scripts/tests/supporting-contract/docs/skill
++edits described in the brief. Use Python script files and normal test commands
++for local processing. No live source research, terminal scraping, browser/cache
++workarounds, global configuration changes, outreach or market gate changes.
++Preserve `.agent/` and all `ideas/` files byte-for-byte; test candidate outputs in
++temporary directories. Do not fabricate successful source-review captures for
++real IDs to satisfy a new check. Mark synthetic fixtures explicitly.
++
++Inspect the worktree first and preserve unrelated changes. Do not discard/reset
++files, switch away from the user's branch, or merge/push changes as a side effect.
++If a boundary blocks part of the task, complete the independent allowed work and
++explain the specific blocker. Do not stop at a plan when implementation can proceed.
++
++Finish in Russian with what changed, meaningful test results, expected failures
++on the unchanged legacy audit, remaining limitations, and the exact command and
++launch prompt for the five-ID control batch. Do not run that source-review batch
++or Judge in this conversation. Engineering success is not evidence verification.
+-- 
+2.51.1
+

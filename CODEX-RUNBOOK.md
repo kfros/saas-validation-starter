@@ -127,3 +127,55 @@ source-review conversation на контрольных пяти записях. 
 доступа к оригинальным страницам проверяется перед тем запуском; нет доступа —
 пакет остаётся частичным. Решение о Stage 2 принимается только после достоверного
 аудита и Judge, а не после зелёных тестов инструментов.
+
+## 5. Реализованный офлайн audit pipeline
+
+Версия 1 контракта описана в `methodology/source-review-schema.json` и
+`docs/codex/source-review-contract.md`. Рабочий CLI —
+`scripts/audit_review_pipeline.py`. В текущей Windows-сессии `python` отсутствует
+в `PATH`, поэтому проверенные команды используют bundled runtime Codex:
+
+```powershell
+$auditPython = 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+& $auditPython scripts/audit_review_pipeline.py legacy-diagnostic
+& $auditPython -m unittest discover -s scripts -p 'test_check_multibrand_stage1.py'
+& $auditPython -m unittest discover -s scripts -p 'test_audit_review_pipeline.py'
+```
+
+Baseline diagnostic должен вычислить из файлов 80 raw/audited/ledger строк, 59
+различий exact URL, 51 различие independence key, а также 63/65/66 exact URL в
+audited JSONL, ledger и старом narrative. Это диагностика расхождений, не source
+verification.
+
+После появления sidecar-файлов полный временный candidate создаётся и проверяется
+так (пути можно заменить только на явные пути внутри репозитория):
+
+```powershell
+& $auditPython scripts/audit_review_pipeline.py render --reviews work/source-review/all --output work/audit-candidate
+& $auditPython scripts/audit_review_pipeline.py check --reviews work/source-review/all --candidate work/audit-candidate
+```
+
+Для частичного checkpoint разрешён `--allow-incomplete` у обеих команд. Такой
+candidate помечает отсутствующие/blocked строки PENDING, scope UNKNOWN и никогда
+не является admission-ready. Обычные фазы `audit` и `judge` теперь всегда требуют
+полное строгое покрытие в `ideas/multi-brand-content/evidence/source-reviews/` и
+точное совпадение детерминированных отчётов. Поэтому неизменённый legacy audit
+ожидаемо падает до Judge из-за отсутствия sidecar provenance.
+
+Контрольный пакет подготавливается, но не исследуется в инженерном запуске:
+
+```powershell
+& $auditPython scripts/audit_review_pipeline.py prepare-batch --state-dir work/source-review/control-01 --ids mb-pain-001 mb-wtp-001 mb-wtp-005 mb-wtp-008 mb-wtp-009
+```
+
+Следующий conversation получает `prompts/codex/20-source-review-control-batch.md`.
+После каждой фактической инспекции и при возобновлении используется одна команда:
+
+```powershell
+& $auditPython scripts/audit_review_pipeline.py checkpoint-batch --state-dir work/source-review/control-01
+```
+
+`batch-state.json` сохраняет processed, blocked и remaining IDs; повторный
+`prepare-batch` с тем же порядком IDs не затирает прогресс. Исправления source
+facts попадают в `raw-owner-repairs.jsonl`, а не применяются аудитором. Перенос
+candidate в `ideas/`, raw repair и Judge требуют отдельных явно разрешённых задач.

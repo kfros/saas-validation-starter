@@ -17,6 +17,13 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
+# Keep the strict source-review implementation importable when this checker is
+# loaded directly by importlib in offline tests as well as executed as a script.
+SCRIPTS_DIR = str(Path(__file__).resolve().parent)
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+from audit_review_pipeline import ReviewError, check_candidate
+
 IDEA = "multi-brand-content"
 SCOPE = "MULTIBRAND-OPERATOR-01"
 TRACKS = ("market", "pain", "wtp", "workflow", "skeptic")
@@ -167,9 +174,10 @@ def dataset_summary(records, scope):
 
 
 class Checker:
-    def __init__(self, root):
+    def __init__(self, root, strict_reviews=True):
         self.root = Path(root).resolve()
         self.idea = self.root / "ideas" / IDEA
+        self.strict_reviews = strict_reviews
         self.schema = load_json(self.path("methodology/evidence-schema.json"))
         check_schema_contract(self.schema)
         require(self.schema.get("$schema") == "https://json-schema.org/draft/2020-12/schema",
@@ -294,6 +302,15 @@ class Checker:
                 require(bool(support), f"{rid}: IN_SCOPE without evidence support")
             by_id[rid] = entry
         require(set(by_id) == set(audited), "scope map must cover every audited record")
+        if self.strict_reviews:
+            try:
+                strict_records, strict_scope = check_candidate(
+                    self.root, self.path(f"{base}/source-reviews"), self.path(base))
+            except ReviewError as exc:
+                raise CheckError(f"source-review strict check: {exc}") from exc
+            require({r["id"]: r for r in strict_records} == audited,
+                    "strict source-review evidence differs from audit input")
+            require(strict_scope == by_id, "strict source-review scope differs from audit input")
         print(f"Audit structure: {dict(Counter(r['audit_status'] for r in records))}")
         print("DATASET_SUMMARY=" + json.dumps(dataset_summary(audited, by_id), sort_keys=True))
         return audited, by_id
