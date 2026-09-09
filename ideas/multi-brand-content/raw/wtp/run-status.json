@@ -1,8 +1,12 @@
 {
   "track": "wtp",
-  "status": "COMPLETE",
+  "status": "PARTIAL",
   "records": 10,
   "validation": "PASS",
-  "blockers": [],
-  "next_actions": []
+  "blockers": [
+    "chrome_devtools MCP server is unavailable in this environment. read_url_content does not execute JavaScript to render dynamic Lit/web-component comment trees on Reddit threads. In accordance with validation rules 25, 27, and 28, ad-hoc scrapers were not attempted, leaving commenter-attributed rows mb-wtp-001, 003, 006, 007, 009, and 010 uninspectable and blocked."
+  ],
+  "next_actions": [
+    "Reopen dynamic comment permalinks using a JavaScript-capable browser environment to inspect and verify commenter-attributed rows mb-wtp-001, mb-wtp-003, mb-wtp-006, mb-wtp-007, mb-wtp-009, and mb-wtp-010."
+  ]
 }

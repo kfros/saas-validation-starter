@@ -5,7 +5,7 @@
   "validation": "PASS",
   "blockers": [],
   "next_actions": [
-    "Downstream WTP research track (12-run-wtp)",
-    "Downstream workflow mapping track (13-run-workflow)"
+    "Evidence Auditor reinspection of repaired pain evidence against audit-checklist and scope-map",
+    "Downstream tracks to evaluate corrected provider form and scope attribution"
   ]
 }

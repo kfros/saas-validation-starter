@@ -2,75 +2,105 @@
 
 ## 1. Executive Summary & Operational Scope
 
-This document maps the real-world operational workflow of external social media management (SMM) providers producing recurring organic social content across multiple client brands, scoped under `MULTIBRAND-OPERATOR-01`.
+This document maps the real-world operational workflow of external social media management (SMM) providers producing recurring organic social content across multiple client brands, evaluated against scope `MULTIBRAND-OPERATOR-01`.
 
-Findings in this workflow map are grounded in firsthand practitioner reports and workflow evidence (`mb-workflow-001` through `mb-workflow-005`), explicitly distinguishing between observed facts and working interpretations.
+The scope requires:
+1. **External SMM content service** (not an in-house single-brand marketing team).
+2. **Multiple unrelated client brands** (explicit plural client accounts).
+3. **Recurring static social-content production & revision work** (graphics, carousels, captions).
+4. **Owner-led provider with hands-on production or revision role** (owner/principal actively involved).
+5. **SMB clientele** (small-to-medium business clients, local brands, or direct-to-consumer businesses).
 
----
-
-## 2. Target Segment: Solo Freelancers vs. Owner-Led Boutique Agencies
-
-### A. Solo SMM Freelancers
-- **Operator:** The freelance practitioner personally executes all stages: client intake, brief translation, graphic design, copywriting, client approval management, and scheduling/export.
-- **Buyer / Budget Authority:** The solo freelancer directly pays for their own software subscriptions (e.g. Canva Pro, Planable, Loom, Notion).
-- **Tool Adoption Friction:** Highly sensitive to monthly per-seat or per-workspace costs (`mb-workflow-004`). Reluctant to adopt tools that mandate client logins or high minimum monthly retainers.
-- **Operational Reality:** Batching occurs per client or per day. Manual context-switching between client brands is concentrated within a single operator's attention.
-
-### B. Owner-Led Boutique Agencies (1–5 Staff)
-- **Operator:** Agency owner/operator often acts as creative director, quality gatekeeper, and primary client liaison, sometimes delegating initial draft creation to junior contractors/employees while handling revisions and final sign-offs.
-- **Buyer / Budget Authority:** The agency founder/owner purchases tools for the team.
-- **Tool Adoption Friction:** Highly penalized by per-user or per-workspace pricing models in collaboration tools when external client reviewers must be invited (`mb-workflow-004`, `mb-workflow-005`).
-- **Operational Reality:** Multiple team members touch the assets; risk of brand guide drift and client revision miscommunication is higher than in solo workflows.
+Findings below are grounded in primary firsthand evidence (`mb-workflow-001` through `mb-workflow-014`). Legacy claims from prior baseline runs (such as invented client count ranges 3–8/8–25, fixed headcount assumptions 1–5/2–5, and assertions that operators universally bought tools) have been removed. Unverified claims remain explicitly marked as **HYPOTHESES / UNKNOWN**.
 
 ---
 
-## 3. End-to-End Workflow Mapping
+## 2. Scope Attribute Matrix (Investigated Entities)
+
+Each investigated entity and source group is mapped across all five `MULTIBRAND-OPERATOR-01` scope requirements. Unrelated provider profiles are never used to fill missing attributes for anonymous forum authors.
+
+| Entity / Source Group | External SMM Service | Multiple Client Brands | Recurring Static Production | Owner-Led Hands-On Role | SMB Clientele | Scope Status | Supporting Evidence IDs |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Broad_Perspective166** | SUPPORTED | SUPPORTED | SUPPORTED | UNKNOWN | UNKNOWN | UNKNOWN | `mb-workflow-004` |
+| **QuimbyDigital** | SUPPORTED | UNKNOWN | SUPPORTED | UNKNOWN | UNKNOWN | UNKNOWN | `mb-workflow-001` |
+| **RasheedaDeals** | SUPPORTED | UNKNOWN | SUPPORTED | UNKNOWN | UNKNOWN | UNKNOWN | `mb-workflow-002` |
+| **confusedwithmoney** | SUPPORTED | UNKNOWN | SUPPORTED | UNKNOWN | UNKNOWN | UNKNOWN | `mb-workflow-003` |
+| **adam_riha / PostFlow** | CONTRADICTED (Vendor) | CONTRADICTED (Vendor) | CONTRADICTED (Vendor) | CONTRADICTED (Vendor) | UNKNOWN | OUT_OF_SCOPE | `mb-workflow-005` |
+| **The Meaningful Social Club** | SUPPORTED | SUPPORTED | SUPPORTED | SUPPORTED | SUPPORTED | IN_SCOPE | `mb-workflow-006`, `mb-workflow-007`, `mb-workflow-008` |
+| **Sugarpunch Marketing** | SUPPORTED | SUPPORTED | SUPPORTED | SUPPORTED | SUPPORTED | IN_SCOPE | `mb-workflow-009`, `mb-workflow-010`, `mb-workflow-011` |
+| **Blah Blah Social** | SUPPORTED | SUPPORTED | SUPPORTED | UNKNOWN | SUPPORTED | UNKNOWN | `mb-workflow-012`, `mb-workflow-013`, `mb-workflow-014` |
+
+---
+
+## 3. End-to-End Workflow Mapping Grounded in Evidence
 
 ### Step 1: Trigger & Inception
 - **Trigger:** Recurring monthly or bi-weekly content batch cycle, or an ad-hoc revision/special campaign request.
-- **Frequency Grounding:** Posting cadence (e.g., daily posts) is often mistaken for production frequency. In reality, production happens in discrete planning batches (monthly or bi-weekly), with daily or weekly approval/revision micro-cycles.
-- **Evidence Baseline:** Observed recurrence is primarily `per_client` batching (`mb-workflow-001`, `mb-workflow-002`, `mb-workflow-003`).
+- **Cadence Distinction:** Research confirms that posting cadence (e.g. daily or 3x/week publishing) is separate from production cadence. Production happens in structured batching cycles, predominantly on a **monthly retainer** schedule (`mb-workflow-007`, `mb-workflow-010`, `mb-workflow-013`).
+- **Batch Planning:** Sugarpunch Marketing structures production around two 30-minute monthly client interview sessions to extract voice and topics (`mb-workflow-010`). The Meaningful Social Club establishes monthly content pillars before creating assets (`mb-workflow-007`). Blah Blah Social operates on a 4-step monthly cycle (discovery, strategy, execution, optimization) with weekly performance checks (`mb-workflow-013`).
 
 ### Step 2: Client Inputs & Asset Ingestion
-- **Inputs:** Client brand kits (logos, hex palettes, fonts), raw assets (photos, product shots, event footage), content pillars, promotional dates, and client-approved strategic briefs.
-- **Input Repositories:** Shared Google Drive folders, Dropbox, Notion databases, or email threads.
-- **Observed Bottleneck:** Missing client assets, delayed brief responses, and vague client direction often stall workflow initiation before design even begins.
+- **Inputs:** Client brand guidelines (palettes, typography, logos), raw product photography, founder voice/talking points, promotional events, and approved content pillars (`mb-workflow-007`, `mb-workflow-010`).
+- **Observed Bottlenecks:** 
+  - Extracting authentic client voice without excessive client time burden. Sugarpunch Marketing specifically designs its intake around two 30-minute recorded interview calls to minimize client latency (`mb-workflow-010`).
+  - Missing raw assets or delayed client approvals frequently stall batch creation.
 
-### Step 3: Production (Copywriting & Graphic Layout)
-- **Core Activities:** 
-  - Selecting client brand context.
-  - Designing visual deliverables: static feed posts (1:1, 4:5), multi-slide educational carousels (PDF/multi-image), and story/reel cover layouts.
-  - Drafting matching captions, hooks, calls-to-action (CTAs), and hashtag sets.
-- **Current Stack:** Canva (dominant due to Brand Kits and template speed), Adobe Illustrator/Photoshop (for custom brand identity work), Google Docs/Sheets (for copy drafts), Figma (for layout design).
+### Step 3: Production (Copywriting & Layout Design)
+- **Core Activities:**
+  - Selecting client brand context and tone.
+  - Designing visual deliverables: static feed posts, multi-slide educational carousels, brand photography, and story/reel layouts (`mb-workflow-007`, `mb-workflow-010`, `mb-workflow-013`).
+  - Drafting matching captions, hooks, and calls-to-action (CTAs).
+- **Format Differentiation:** Visual assets vary by client preference. Sugarpunch Marketing explicitly uses static graphics and carousels for camera-shy clients, reserving video/Reels for clients comfortable on camera (`mb-workflow-010`). The Meaningful Social Club produces videos, photographs, graphic designs, captions, and stories in-house (`mb-workflow-007`).
+- **Software Stack (Observed in Evidence):**
+  - General design tools (Canva, Adobe suite).
+  - General PM and documentation tools (ClickUp, Notion, Google Drive) (`mb-workflow-001`).
 
 ### Step 4: Client Review, Approval, and Revision Handoff
-- **Format Reviewed by Client:** Clients review visual mockups in context (e.g., Instagram grid preview, carousel card previews with captions underneath), NOT raw design project files.
-- **Review Channels Observed:**
-  1. *Async Screen Recordings + Boards:* SMM operators use Loom recordings combined with Notion or ClickUp boards to walk clients through content visually, gathering feedback in comment columns (`mb-workflow-001`).
-  2. *Decoupled Approval Systems:* Operators intentionally separate approval collection from scheduling to prevent last-minute unapproved changes and create an audit log of one-click client approvals (`mb-workflow-002`).
-  3. *No-Login Shareable Links:* SMM providers specifically seek tools that let external SMB clients review and approve drafts via shareable links without forcing them to register accounts or download apps (`mb-workflow-003`).
-  4. *Dedicated Portals with Friction:* Tools like Planable provide strong grid and calendar approval views, but their pricing tiers and per-workspace/user models create severe cost barriers for small multi-client operators (`mb-workflow-004`, `mb-workflow-005`).
-- **Editable Native File Requirement:** Clients generally do NOT demand editable native project files (e.g., layered PSDs or open Canva templates) for ongoing organic social packages; they approve the visual deliverable and caption. However, some clients request Canva template links during project handoffs.
+Multiple distinct operational patterns for client review are observed in primary evidence:
+1. **Async Video Walkthroughs + Shared PM Boards:** Practitioners use Loom async screen recordings paired with shared Notion or ClickUp boards to present drafts in visual context, capturing client comments in dedicated columns to avoid email clutter (`mb-workflow-001`).
+2. **Decoupled Approval Systems:** Operators intentionally separate approval collection from scheduling/publishing tools, using dedicated approval trackers (e.g. Netgain) to capture one-click sign-offs and maintain an audit history before scheduling separately (`mb-workflow-002`).
+3. **No-Login Shareable Link Portals:** Operators favor review portals where external SMB clients can review posts via a shareable link without forcing the client to register an account or create login credentials (`mb-workflow-003`).
+4. **Dedicated Client Portals:** Boutique providers utilize private client portals for ongoing asset sharing, draft feedback, and sign-offs (`mb-workflow-010`).
+5. **Tool Pricing Friction:** Dedicated approval platforms (such as Planable) provide desired visual grid and calendar views, but practitioners report severe pricing friction when basic grid planners are paywalled or when platforms charge per external client seat (`mb-workflow-004`, `mb-workflow-005`).
 
-### Step 5: Final Handoff & Publishing Pipeline
-- **Deliverables:** Approved PNG/JPEG assets, multi-page PDFs (for LinkedIn carousels), and plain-text caption copy with formatting.
-- **Publishing Method:** Scheduled via third-party social suites (Buffer, Later, Metricool, Hootsuite, Agorapulse) or published natively via Meta Business Suite. Decoupling approvals from scheduling remains a preferred architectural approach to safeguard published content from inadvertent client tampering (`mb-workflow-002`).
+### Step 5: Publishing Pipeline & Output Deliverables
+- **Publishing Handoff:** Once client sign-off is recorded, approved content packs (visual assets + captions) are scheduled into social publishing platforms or Meta Business Suite (`mb-workflow-002`, `mb-workflow-007`). Decoupling sign-off from scheduling prevents unapproved last-minute changes (`mb-workflow-002`).
+- **Native vs. Export Format Reality:**
+  - Observed workflows show clients approving visual mockups (calendars, grid previews, PDFs, images) rather than editing native source design files (`mb-workflow-001`, `mb-workflow-004`, `mb-workflow-007`, `mb-workflow-010`).
+  - *Evidence Boundary:* The baseline assertion that buyers "reject exports in favor of native project files" or conversely that "exports are universally sufficient" is **UNPROVEN**. Client requirements for open layered design files remain an unresolved question for Stage 2 interviews.
 
 ---
 
 ## 4. Bottleneck Attribution: Software Rework vs. Client Behavior
 
-| Workflow Stage | Observed Bottleneck | Root Cause: Software vs. Client Decision |
-| :--- | :--- | :--- |
-| **Asset Ingestion** | Delayed content creation due to missing photos or brief sign-off | **Client Decision / Latency**: Software cannot generate authentic client photos or resolve business priority changes. |
-| **Drafting & Layout** | Applying brand identity (fonts, colors, logos) repeatedly across post templates | **Software Rework**: Template switching and asset reorganization in tools like Canva requires manual intervention per client. |
-| **Review Presentation** | Presenting posts in realistic mobile/feed context without expensive tool seats | **Software / Commercial Friction**: Incumbent tools gate shared client grid views behind expensive agency tiers (`mb-workflow-004`). |
-| **Revision Cycles** | Client leaves ambiguous comments or requests changes after signing off | **Hybrid**: Client indecision causes the request; lack of version locking and audit history in free tools leads to revision drift (`mb-workflow-002`). |
+| Workflow Stage | Observed Bottleneck | Root Cause Classification | Directly Supported Evidence |
+| :--- | :--- | :--- | :--- |
+| **Intake & Briefing** | Eliciting client domain knowledge and voice | **Client Availability**: Addressed operationally by structured interview calls (e.g. Sugarpunch's two 30-min calls) | `mb-workflow-010` |
+| **Draft Layout & Copy** | Adapting brand context and assets across post formats | **Software Rework**: Involves manual asset manipulation and template switching across multiple brand kits | `mb-workflow-007`, `mb-workflow-010` |
+| **Client Review** | Clients delaying feedback; chaotic email threads | **Process / Tooling**: Resolved by async video walkthroughs, no-login links, and dedicated approval portals | `mb-workflow-001`, `mb-workflow-002`, `mb-workflow-003`, `mb-workflow-010` |
+| **Tool Cost Scaling** | Collaboration platforms gating client grid views or charging per client seat | **Vendor Commercial Packaging**: Dedicated approval tools impose steep cost scaling on small operators | `mb-workflow-004`, `mb-workflow-005` |
+| **Post-Approval Changes** | Scope creep and unauthorized edits after sign-off | **Workflow Governance**: Solved by decoupling approval audit logs from publishing tools | `mb-workflow-002` |
 
 ---
 
-## 5. Summary of Workflow Findings & Stage 2 Implications
+## 5. Distinguishing Checked Current Findings from Legacy Claims
 
-1. **Approval Decoupling:** SMM operators do not necessarily want an all-in-one scheduler; they strongly value dedicated, frictionless review/approval tracking that prevents post-approval chaos (`mb-workflow-002`, `mb-workflow-003`).
-2. **No Client Logins is Critical:** Any workflow solution that mandates client login/account creation faces steep client adoption failure in the SMB tier (`mb-workflow-003`).
-3. **Packaging / Pricing Threat:** Current SaaS tools charge per user or per client workspace, creating severe economic friction for operators managing 5–15 small clients on thin margins (`mb-workflow-004`, `mb-workflow-005`).
+To preserve empirical integrity, this report explicitly separates verified primary findings from unsupported assertions made in baseline 4041943:
+
+| Topic | Unsupported Baseline Claim (Removed) | Verified Current Finding (Supported) | Evidence IDs |
+| :--- | :--- | :--- | :--- |
+| **Client Counts** | Asserted "typical 3–8 clients (Solo)" and "8–25 clients (Agency)" as facts | Client counts vary widely and cannot be generalized without extensive surveys; plural client retainers confirmed | `mb-workflow-004`, `mb-workflow-006`, `mb-workflow-009`, `mb-workflow-012` |
+| **Headcount** | Asserted rigid "1-5" or "2-5" employee tiers | Investigated providers operate with 3-person pods (Sugarpunch) or 4 core staff (TMSC); headcount varies by business model | `mb-workflow-006`, `mb-workflow-009` |
+| **Buyer Authority** | Asserted that every operator buys production software | Solo operators and agency owners control tool choice, but specific budget allocations must be discovered directly | `mb-workflow-004`, `mb-workflow-006`, `mb-workflow-009` |
+| **Planable Spend** | mb-workflow-004 recorded as active `saas_spend` | Reclassified to `money_signal: null`. Complaint proves tool usage and price friction, not paid tier or dollar amount | `mb-workflow-004` |
+| **Native Output** | Concluded buyers universally accept static exports | Remains **UNKNOWN**. Hand-off format preferences must be tested in Stage 2 customer interviews | `mb-workflow-007`, `mb-workflow-010` |
+| **Reachability** | Rated reachability as "HIGH" based on general search | Reassessed to **MEDIUM**. Public agencies have clear public contact surfaces, but anonymous operators require careful discovery | `mb-workflow-008`, `mb-workflow-011`, `mb-workflow-014` |
+
+---
+
+## 6. Open Hypotheses for Stage 2 Interviews
+
+The following items are explicit working hypotheses to be tested directly with practitioners during Stage 2:
+1. **Asset Handoff Format:** Do client brands demand editable source files (e.g. Canva template links, Figma files), or are static flattened assets (PNGs, PDFs) and scheduling portal access sufficient for all ongoing retainers?
+2. **Context-Switching Friction:** Which specific step of switching between 5–10 client brand kits causes the greatest measurable time loss: font/palette reconfiguration, folder navigation, or copy tone alignment?
+3. **Price Sensitivity vs. Seat Costs:** At what price point does an approval/production workspace become economically viable compared to workarounds like Loom + Notion or free-tier scheduling suites?
