@@ -6,617 +6,576 @@
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-002",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-003",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor official pricing; not a service provider."
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-004",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-005",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-006",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-007",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-007"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-008",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-008"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-009",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-009"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-010",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-010"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-011",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-012",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "Software vendor documentation; not a service provider."
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-013",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-013"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-014",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-014"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-015",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-015"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-016",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-016"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-017",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-017"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-market-018",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-018"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-019",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-019"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-020",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-020"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-market-021",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-market-021"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor official pricing; not an external service provider."
     },
     {
       "evidence_id": "mb-pain-001",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-001"
-      ],
-      "reason": "Practitioner manages ~5 clients in Canva; SMB clientele and owner-operator status are not explicitly established in the source."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner managing 12 accounts across 3 clients; hands-on owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-002",
       "scope_status": "UNKNOWN",
       "provider_form": "SOLO",
-      "supporting_evidence_ids": [
-        "mb-pain-002"
-      ],
-      "reason": "Solo practitioner manages 5 clients; SMB client focus and tool-buying authority are not explicitly established in the source."
+      "supporting_evidence_ids": [],
+      "reason": "Solo freelancer managing multi-client design revisions; SMB clientele and recurring commercial profile unverified."
     },
     {
       "evidence_id": "mb-pain-003",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-003"
-      ],
-      "reason": "SMM practitioner uses 5 AI tools; provider form, client count, SMB clientele, and ownership are not established."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner managing brand kits across client accounts in Canva; provider form and SMB clientele unstated."
     },
     {
       "evidence_id": "mb-pain-004",
-      "scope_status": "UNKNOWN",
+      "scope_status": "OUT_OF_SCOPE",
       "provider_form": "SOLO",
-      "supporting_evidence_ids": [
-        "mb-pain-004"
-      ],
-      "reason": "Freelance designer adapting templates; multiple unrelated client brands and SMB clientele are not explicitly established."
+      "supporting_evidence_ids": [],
+      "reason": "Web designer / maintenance operator, not an ongoing social media content production provider."
     },
     {
       "evidence_id": "mb-pain-005",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-005"
-      ],
-      "reason": "Agency practitioner comments on weekly retainer revisions; SMB clientele and owner-operator role are not explicitly established."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner with 8 clients; hands-on ownership authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-006",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-006"
-      ],
-      "reason": "Social media content creator using Canva Bulk Create; provider form, external service role, and SMB client focus are not established."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner managing assets across 5 client brands; provider form and SMB clientele unstated."
     },
     {
       "evidence_id": "mb-pain-007",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-007"
-      ],
-      "reason": "Graphic designer using Canva Bulk Create; provider form, external multi-client service, and SMB focus are not established."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner handling template propagation for 4 accounts; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-008",
       "scope_status": "UNKNOWN",
-      "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-008"
-      ],
-      "reason": "Multi-brand social marketer managing client campaigns; SMB clientele and owner-operator role are not established."
+      "provider_form": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner handling multi-client approvals; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-009",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-009"
-      ],
-      "reason": "Agency graphic designer in a small agency; employee designer role rather than owner-operator, and SMB focus is unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Small agency employee managing content delivery; hands-on ownership and budget authority not present."
     },
     {
       "evidence_id": "mb-pain-010",
       "scope_status": "UNKNOWN",
       "provider_form": "SOLO",
-      "supporting_evidence_ids": [
-        "mb-pain-010"
-      ],
-      "reason": "Solo social media manager managing multiple accounts; SMB clientele and external agency scope are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Solo freelancer reformatting carousels for 3 clients; SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-011",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-011"
-      ],
-      "reason": "Agency team practitioner using shared Canva template; SMB clientele and hands-on owner role are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner sharing Canva template links; ownership authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-012",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-012"
-      ],
-      "reason": "Agency team operator managing client feedback channels; SMB clientele and owner-operator role are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner handling brand assets; owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-013",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-013"
-      ],
-      "reason": "SMM practitioner testing tools; provider form, client roster, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner experiencing cross-posting error; provider form and SMB clientele unstated."
     },
     {
       "evidence_id": "mb-pain-014",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-014"
-      ],
-      "reason": "SMM practitioner managing client copy; provider form, client roster, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner handling logo revisions across batch; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-015",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-015"
-      ],
-      "reason": "Small agency managing 6 clients; SMB clientele and hands-on owner role are not explicitly established in the raw text."
+      "supporting_evidence_ids": [],
+      "reason": "Small agency with 6 clients; hands-on ownership authority and SMB clientele are not explicitly established in source."
     },
     {
       "evidence_id": "mb-pain-016",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-016"
-      ],
-      "reason": "Agency employee designer noting clients using Canva; provider ownership and target scope are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner handling carousel review for 10 clients; owner role and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-017",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-017"
-      ],
-      "reason": "In-house marketing practitioner scheduling for an internal organization/nonprofit, not an external multi-client service provider."
+      "supporting_evidence_ids": [],
+      "reason": "In-house nonprofit communications staff managing internal programs; not an external service provider."
     },
     {
       "evidence_id": "mb-pain-018",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-018"
-      ],
-      "reason": "Agency designer receiving corrupted client assets; owner-operator role and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner collecting client assets; owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-pain-019",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-019"
-      ],
-      "reason": "SMM practitioner rejecting AI tools; provider form, client count, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner managing promo banner revisions for 4 clients; provider form and SMB clientele unknown."
     },
     {
       "evidence_id": "mb-pain-020",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-pain-020"
-      ],
-      "reason": "Content creator noting preview discrepancies; provider form, external service scope, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner exporting assets for 5 clients; provider form and SMB clientele unknown."
     },
     {
       "evidence_id": "mb-pain-021",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-pain-021"
-      ],
-      "reason": "Agency SMM practitioner advising on onboarding workflows; hands-on owner role and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner handling client approval of static grids; owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-wtp-001",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-wtp-001"
-      ],
-      "reason": "Designer/creator maintaining legacy Canva Teams plan; external service provider status, multiple clients, and SMB focus are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Multi-brand operator paying for Canva Teams; external service provider form and SMB clientele unconfirmed."
     },
     {
       "evidence_id": "mb-wtp-002",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-wtp-002"
-      ],
-      "reason": "Agency designer managing 5 clients intending to purchase Canva Business; SMB clientele and owner-operator role are not explicitly established."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner discussing upgrade intent for brand kit isolation; hands-on owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-wtp-003",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-wtp-003"
-      ],
-      "reason": "SMM provider paying $200 for 100 accounts; provider form (solo vs agency), owner-operator role, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Operator paying for Later across 100 accounts; provider form, SMB clientele, and static production spend unverified."
     },
     {
       "evidence_id": "mb-wtp-004",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "SMM using Planable for client approvals; provider form, SMB client focus, and ownership are unconfirmed."
+      "reason": "Practitioner managing 5 client workspaces in Planable; active payment unconfirmed, provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-wtp-005",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "SOLO",
-      "supporting_evidence_ids": [
-        "mb-wtp-005"
-      ],
-      "reason": "Small business owner producing content for their own business, not an external multi-client service provider; explicitly excluded."
+      "supporting_evidence_ids": [],
+      "reason": "Single-brand business operator paying for Canva Pro; not managing multiple external client brands."
     },
     {
       "evidence_id": "mb-wtp-006",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-wtp-006"
-      ],
-      "reason": "SMM agency owner in NYC subcontracting content creation; SMB clientele is unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency subcontracting social media management for $1,500/mo; static production allocation, owner role, and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-wtp-007",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
       "supporting_evidence_ids": [],
-      "reason": "Agency practitioner discussing subcontracting benchmarks; hypothetical margins and unconfirmed SMB clientele."
+      "reason": "Agency advisory comment recommending contractor rates; not an actual observed purchase by an verified in-scope provider."
     },
     {
       "evidence_id": "mb-wtp-008",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-wtp-008"
-      ],
-      "reason": "Agency content operator managing 5 accounts; owner-operator role and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency content operator dedicating 30+ hrs/wk across 5 accounts; hands-on ownership authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-wtp-009",
       "scope_status": "UNKNOWN",
       "provider_form": "SOLO",
-      "supporting_evidence_ids": [
-        "mb-wtp-009"
-      ],
-      "reason": "Solo SMM documenting hours per client; SMB clientele is unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Solo operator dedicating labor to batch content creation; SMB clientele and recurring commercial profile unverified."
     },
     {
       "evidence_id": "mb-wtp-010",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-wtp-010"
-      ],
-      "reason": "Practitioner recommending Canva free tier for client ad campaigns; provider form, owner-operator role, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "General forum advice regarding Canva Free for client work; no observed provider purchase or verified operator scope."
     },
     {
       "evidence_id": "mb-workflow-001",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-workflow-001"
-      ],
-      "reason": "Agency practitioner using Loom and ClickUp; SMB clientele and owner-operator role are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner using Planable for approvals; hands-on ownership authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-workflow-002",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-workflow-002"
-      ],
-      "reason": "Practitioner decoupling approvals using Netgain; provider form, client count, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner using Drive/Sheets for client approvals; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-workflow-003",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-workflow-003"
-      ],
-      "reason": "Practitioner reporting Recur Post for small agencies; owner-operator role and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner using Notion portals; owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-workflow-004",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
       "supporting_evidence_ids": [],
-      "reason": "SMM practitioner using Planable; provider form, SMB client focus, and ownership are unconfirmed."
+      "reason": "Practitioner using Planable across 5 clients; provider form, owner authority, and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-workflow-005",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Software product vendor page, not an external service provider."
+    },
+    {
+      "evidence_id": "mb-workflow-006",
+      "scope_status": "IN_SCOPE",
+      "provider_form": "AGENCY",
       "supporting_evidence_ids": [
-        "mb-workflow-005"
+        "mb-workflow-006"
       ],
-      "reason": "Software founder of PostFlow observing features; software vendor, not an external social media service provider."
+      "reason": "Boutique owner-led agency providing recurring monthly social content production retainers to multiple SMB client brands."
+    },
+    {
+      "evidence_id": "mb-workflow-007",
+      "scope_status": "IN_SCOPE",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [
+        "mb-workflow-006",
+        "mb-workflow-007"
+      ],
+      "reason": "Founder/owner profile confirms Natalie Lasance directs and operates client creative production directly."
+    },
+    {
+      "evidence_id": "mb-workflow-008",
+      "scope_status": "IN_SCOPE",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [
+        "mb-workflow-006",
+        "mb-workflow-008"
+      ],
+      "reason": "Direct business contact channel confirming active boutique agency reachability."
+    },
+    {
+      "evidence_id": "mb-workflow-009",
+      "scope_status": "IN_SCOPE",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [
+        "mb-workflow-009"
+      ],
+      "reason": "Boutique owner-led agency producing recurring static/carousel social content packages for multiple SMB client brands."
+    },
+    {
+      "evidence_id": "mb-workflow-010",
+      "scope_status": "IN_SCOPE",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [
+        "mb-workflow-009",
+        "mb-workflow-010"
+      ],
+      "reason": "Owner profile confirms Shanté Gorman directly creates and manages multi-brand client assets."
+    },
+    {
+      "evidence_id": "mb-workflow-011",
+      "scope_status": "IN_SCOPE",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [
+        "mb-workflow-009",
+        "mb-workflow-011"
+      ],
+      "reason": "Direct business contact surface confirming active boutique agency reachability."
+    },
+    {
+      "evidence_id": "mb-workflow-012",
+      "scope_status": "UNKNOWN",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [],
+      "reason": "Social media agency offering multi-client packages, but hands-on owner operator role and SMB clientele are not explicitly documented on site."
+    },
+    {
+      "evidence_id": "mb-workflow-013",
+      "scope_status": "UNKNOWN",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [],
+      "reason": "Agency about page lacks explicit documentation of hands-on owner involvement in production."
+    },
+    {
+      "evidence_id": "mb-workflow-014",
+      "scope_status": "UNKNOWN",
+      "provider_form": "AGENCY",
+      "supporting_evidence_ids": [],
+      "reason": "Agency contact channel, but underlying entity scope remains unverified due to lack of owner-operator evidence."
     },
     {
       "evidence_id": "mb-skeptic-001",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-001"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-skeptic-002",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-002"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-skeptic-003",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-003"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-skeptic-004",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-004"
-      ],
-      "reason": "Software vendor official pricing; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-skeptic-005",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-005"
-      ],
-      "reason": "Software vendor documentation; not a service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Software vendor documentation; not an external service provider."
     },
     {
       "evidence_id": "mb-skeptic-006",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-skeptic-006"
-      ],
-      "reason": "Small agency managing 6 clients; SMB clientele and hands-on owner role are not explicitly established in the raw text."
+      "supporting_evidence_ids": [],
+      "reason": "Small agency with 6 clients; owner operator authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-007",
       "scope_status": "UNKNOWN",
       "provider_form": "SOLO",
-      "supporting_evidence_ids": [
-        "mb-skeptic-007"
-      ],
-      "reason": "Freelance SMM managing multiple clients; SMB client focus and owner buying authority are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Solo practitioner expressing substitute satisfaction, but SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-008",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-skeptic-008"
-      ],
-      "reason": "Agency marketer with 6 years experience; owner-operator role and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency operator citing communication bottlenecks; SMB clientele and exact owner-operator structure unverified."
     },
     {
       "evidence_id": "mb-skeptic-009",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-009"
-      ],
-      "reason": "Marketer commenting on AI image prompts; provider form, external service scope, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner stating tool preference; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-010",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-010"
-      ],
-      "reason": "Content creator/marketer commenting on AI scripts; provider form, external service scope, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner discussing client portal adoption friction; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-011",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-skeptic-011"
-      ],
-      "reason": "Agency operator managing multiple clients; SMB clientele and hands-on owner role are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner identifying approval bottlenecks; owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-012",
       "scope_status": "UNKNOWN",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-012"
-      ],
-      "reason": "Practitioner managing client approvals; provider form, owner role, and SMB clientele are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner satisfied with Canva template links; provider form and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-013",
       "scope_status": "UNKNOWN",
       "provider_form": "AGENCY",
-      "supporting_evidence_ids": [
-        "mb-skeptic-013"
-      ],
-      "reason": "Agency practitioner using shared Canva template; SMB clientele and hands-on owner role are unconfirmed."
+      "supporting_evidence_ids": [],
+      "reason": "Agency practitioner using Canva templates; owner authority and SMB clientele unverified."
     },
     {
       "evidence_id": "mb-skeptic-014",
       "scope_status": "OUT_OF_SCOPE",
       "provider_form": "UNKNOWN",
-      "supporting_evidence_ids": [
-        "mb-skeptic-014"
-      ],
-      "reason": "Software tool operator at Juicer commenting on version control; software vendor, not an external social media service provider."
+      "supporting_evidence_ids": [],
+      "reason": "Social aggregator software vendor blog content; not an external service provider."
     }
   ]
 }

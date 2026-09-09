@@ -2,311 +2,320 @@
 
 **Idea**: `multi-brand-content`  
 **Target Scope**: `MULTIBRAND-OPERATOR-01`  
-**Evaluation Scope**: Stage 1 Evidence Audit  
-**Review Date**: 2026-09-08  
+**Evaluation Scope**: Stage 1 Evidence Audit (Post-Repair Baseline 4041943)  
+**Review Date**: 2026-09-09  
+**Auditor**: Evidence Auditor (Decisive Live Source Inspection via Chrome DevTools)  
 
-This document conducts a deep-dive audit review of decisive records, covering every monetary signal, serious incumbent substitute, the strongest positive and contradictory evidence, and decisive scope exclusions.
+This document provides an in-depth audit review of decisive evidence records across all five research tracks (`market`, `pain`, `wtp`, `workflow`, `skeptic`), covering every monetary signal, serious incumbent substitute candidate, strongest positive and contradictory records, decisive scope exclusions, and repair task resolutions.
 
 ---
 
 ## 1. Monetary Evidence Audit (WTP, Labor, Tool Spend)
 
-For each monetary record, the review assesses: Payer, Recipient, Work Bought/Done, Paid/Free Status, Transaction Reality (Actual vs. Intent vs. Hypothetical), Amount Basis, Scope Attribution, Gate 3 Eligibility, and Unresolved Questions.
+Every monetary signal across all tracks is audited below, applying the strict distinctions from `audit-checklist.md` and `methodology/evidence-standard.md`:
+- Payer, recipient, work bought/done, paid/free/unknown status, transaction reality (actual purchase vs. stated intent vs. hypothetical), amount basis, scope attribution, eligible gate(s) or exclusion reason, and remaining unknowns.
 
 ### Record `mb-wtp-001`
 - **Source URL**: `https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
-- **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `mb-wtp-001`)
-- **Direct Observation**: Practitioner maintains an active Canva Teams legacy plan at $120/year ($10/month equivalent) providing 1,000 brand kits and 1 TB of storage for managing multi-brand client assets.
-- **Monetary Details**:
-  - *Payer*: Designer / multi-brand content creator (`New-Activity-8659`).
+- **Inspection Date & Status**: 2026-09-09, live page verified.
+- **Audit Status**: `PARTIALLY_VERIFIED`
+- **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Practitioner (`New-Activity-8659`) reports paying $300/year for Canva Teams legacy (grandfathered 5-user plan at $300/year, previously $120 before price hike) with 1,000 brand kits for managing multiple client brands, and expresses refusal to upgrade to Canva Enterprise ($500+/seat) or downgrade to new Canva Business (100 brand kit limit).
+- **Monetary Breakdown**:
+  - *Payer*: Multi-brand content creator / designer (`New-Activity-8659`).
   - *Recipient*: Canva.
-  - *Work Done*: Asset storage and brand kit organization for multiple brands.
-  - *Status*: Paid ($120.00 USD / year).
-  - *Transaction Reality*: Actual historical and ongoing subscription payment.
-  - *Amount Basis*: Stated grandfathered subscription receipt.
-- **Interpretation Boundary**: Proves willingness to pay for multi-brand asset organization, but reveals high price sensitivity; user explicitly objects to upgrading to Canva Business ($250/yr) where brand kits are capped at 100.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` because practitioner's agency/freelancer status and SMB clientele remain unconfirmed (`UNKNOWN` scope).
-- **Unresolved Question**: Would this practitioner pay for an independent tool if legacy pricing was terminated, or migrate to another flat-rate incumbent?
+  - *Work Bought/Done*: Multi-brand asset storage and brand kit management.
+  - *Paid/Free Status*: Paid ($300.00 USD/year).
+  - *Transaction Reality*: Actual historical and current paid subscription.
+  - *Amount Basis*: Stated annual subscription renewal payment.
+  - *Remaining Unknown*: Exact breakdown of clients vs internal brands; whether user operates an external agency/freelance business or in-house multi-venture; whether monthly price should be inferred (raw previously claimed $25/mo without stated monthly cadence).
+- **Interpretation Boundary**: Demonstrates revealed willingness to pay for multi-brand brand kit management in design software, but reveals high price resistance to per-seat enterprise tiers.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` because operator business structure and SMB clientele are not verified (`UNKNOWN` scope; status `PARTIALLY_VERIFIED` due to unevidenced ICP overclaims in raw).
 
 ### Record `mb-wtp-002`
 - **Source URL**: `https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
-- **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `mb-wtp-002`)
-- **Direct Observation**: Agency designer managing 5 client brands with expansion plans intends to purchase Canva Business accounts and pass subscription costs directly into client billing retainers.
-- **Monetary Details**:
-  - *Payer*: Agency clients (via agency billing pass-through).
+- **Inspection Date & Status**: 2026-09-09, live page verified.
+- **Audit Status**: `PARTIALLY_VERIFIED`
+- **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Agency designer states they manage 5 client brands and plan to buy Canva Business accounts passing the cost directly to clients on their monthly retainers, or upgrade if clients approve the pass-through expense.
+- **Monetary Breakdown**:
+  - *Payer*: End-clients via pass-through billing (intended).
   - *Recipient*: Canva.
-  - *Work Done*: Client-isolated brand kits and templates.
-  - *Status*: Stated purchase intent (stated WTP; no completed transaction).
-  - *Transaction Reality*: Hypothetical / planned pass-through billing.
-  - *Amount Basis*: Canva Business plan rate.
-- **Interpretation Boundary**: Confirms tool budget exists in client engagements, but demonstrates that the provider avoids absorbing software costs into internal margins.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 (stated intent, not revealed spend; scope is `UNKNOWN`).
-- **Unresolved Question**: Do clients accept pass-through software fees on monthly retainers, or does the provider absorb them if clients push back?
+  - *Work Bought/Done*: Client-isolated brand kits and templates.
+  - *Paid/Free Status*: Stated purchase intent / hypothetical pass-through.
+  - *Transaction Reality*: Stated intent (no completed purchase or invoice demonstrated).
+  - *Amount Basis*: Canva Business public pricing schedule.
+  - *Remaining Unknown*: Whether clients accepted the pass-through fee; whether agency absorbed cost when clients resisted; whether provider is owner or staff.
+- **Interpretation Boundary**: Confirms tool budgets are discussed in client engagements, but reflects service packaging rather than revealed internal software spend.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 (stated intent, not revealed spend; `PARTIALLY_VERIFIED`; `UNKNOWN` scope).
 
 ### Record `mb-wtp-003`
 - **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/ycgaw2/should_i_pay_for_a_clients_later_subscription/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
-- **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `mb-wtp-003`)
-- **Direct Observation**: SMM provider pays $200 for a bulk 100-account software tier (Postmypost) out of agency operating expenses to manage client accounts without charging clients separate tool fees.
-- **Monetary Details**:
-  - *Payer*: SMM provider (`NikiforovAleksandr`).
-  - *Recipient*: Postmypost (SMM publishing software).
-  - *Work Done*: Multi-client social account management.
-  - *Status*: Paid ($200.00 USD, period unstated).
-  - *Transaction Reality*: Actual commercial software purchase.
-  - *Amount Basis*: Provider stated out-of-pocket spend.
-- **Interpretation Boundary**: Demonstrates willingness to absorb multi-tenant software as agency overhead, but establishes a very low unit willingness to pay (~$2/client account).
-- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` (`UNKNOWN` scope; publishing tool rather than production engine).
-- **Unresolved Question**: How much of this spend represents posting/scheduling vs. design/content production?
-
-### Record `mb-wtp-004` (Grouped with `mb-workflow-004`)
-- **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/1m7dkeb/what_platform_do_you_use_for_client_approvals_on/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
+- **Inspection Date & Status**: 2026-09-09, live page verified.
 - **Audit Status**: `PARTIALLY_VERIFIED`
 - **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `[]`)
-- **Direct Observation**: SMM practitioner uses Planable to build multi-client content calendars and collect approvals, but objects that Planable fees for Grid view and basic features are excessively expensive ("charges a bomb").
-- **Monetary Details**:
+- **Directly Supported Observation**: SMM practitioner (`NikiforovAleksandr`) states they pay $200 for a bulk 100-account tier on Postmypost to manage client social accounts without charging clients extra for the software.
+- **Monetary Breakdown**:
+  - *Payer*: SMM practitioner (`NikiforovAleksandr`).
+  - *Recipient*: Postmypost (social publishing platform).
+  - *Work Bought/Done*: Social account publishing and scheduling.
+  - *Paid/Free Status*: Paid ($200.00 USD, period unstated).
+  - *Transaction Reality*: Actual completed software purchase.
+  - *Amount Basis*: Stated tool payment.
+  - *Remaining Unknown*: Billing period (annual vs monthly vs one-off unstated; calculating $2/client/month is an unevidenced inference); provider organization size and client types unstated; publishing tool spend rather than content production spend.
+- **Interpretation Boundary**: Demonstrates provider absorbs multi-account software as operating overhead, but spend is on adjacent publishing/scheduling, not the core static production/revision wedge.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 (`PARTIALLY_VERIFIED` due to unstated billing cadence; `UNKNOWN` scope; adjacent job).
+
+### Record `mb-wtp-004` (Grouped with `mb-workflow-004`, key: `reddit-user-broad-perspective166`)
+- **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/1m7dkeb/what_platform_do_you_use_for_client_approvals_on/`
+- **Inspection Date & Status**: 2026-09-09, live page verified.
+- **Audit Status**: `VERIFIED`
+- **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `[]`)
+- **Directly Supported Observation**: SMM practitioner (`Broad_Perspective166`) reports using Planable for client approvals across 5 client brands and complains that Planable "charges a bomb" for Grid view and basic workspace scaling ($33/workspace/mo listed on pricing).
+- **Monetary Breakdown**:
   - *Payer*: SMM practitioner (`Broad_Perspective166`).
   - *Recipient*: Planable.
-  - *Work Done*: Calendar planning and post-by-post approval.
-  - *Status*: Use confirmed; paid status/tier unknown.
-  - *Transaction Reality*: Stated usage with pricing friction; no transaction amount or receipt verified.
-  - *Amount Basis*: Subjective pricing complaint ("charges a bomb").
-- **Interpretation Boundary**: Per `audit-checklist.md`, "We use tool X without payment details" establishes usage but cannot be upgraded to revealed spend.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 (no verified spend; `PARTIALLY_VERIFIED`).
-- **Unresolved Question**: Is this user on Planable's free tier (50 posts) or a paid workspace tier?
+  - *Work Bought/Done*: Multi-client content approval calendar and feed grid review.
+  - *Paid/Free Status*: Active tool use confirmed; paid tier vs free trial/tier unstated; price friction explicitly stated.
+  - *Transaction Reality*: Actual tool use with pricing friction; monetary payment unverified.
+  - *Amount Basis*: Stated price sensitivity referencing Planable published pricing.
+  - *Remaining Unknown*: Specific paid plan tier or receipt; provider team structure and SMB clientele unverified.
+- **Interpretation Boundary**: Confirms multi-client approval tool usage and high sensitivity to per-workspace SaaS costs; per `audit-checklist.md`, cannot be upgraded to paid spend without proof of payment.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 as a paid money signal (verified as tool friction observation, money_signal is null/free tier friction; `UNKNOWN` scope).
 
 ### Record `mb-wtp-005`
 - **Source URL**: `https://www.reddit.com/r/canva/comments/1g0pcdg/too_little_too_late_lol/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
+- **Inspection Date & Status**: 2026-09-09, live page verified.
 - **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `OUT_OF_SCOPE` / `SOLO` (supporting evidence: `mb-wtp-005`)
-- **Direct Observation**: Small business owner canceled Canva subscription after price increases toward $500–$750/year and substituted Adobe Express at $49.99/user/year (2 seats, ~$100/yr total) plus Affinity perpetual license ($150).
-- **Monetary Details**:
+- **Scope Status / Provider Form**: `OUT_OF_SCOPE` / `SOLO` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Single-brand business operator (`josh_moworld`) canceled Canva subscription after Canva announced price increases toward $500–$750/year, and substituted Adobe Express at $49.99/user/year (2 seats = $99.98/year) plus Serif Affinity perpetual license ($150 one-off).
+- **Monetary Breakdown**:
   - *Payer*: Small business owner (`josh_moworld`).
-  - *Recipient*: Adobe / Serif Affinity.
-  - *Work Done*: In-house marketing and social graphics.
-  - *Status*: Paid ($99.98 USD / yr for Express + $150 perpetual).
-  - *Transaction Reality*: Actual completed software purchases.
-  - *Amount Basis*: Explicit subscription invoices.
-- **Interpretation Boundary**: Clear spending boundary establishing a low price ceiling ($100/yr accepted, $500/yr rejected); however, author is a single-brand business owner, not an external multi-client service provider.
-- **Gate Eligibility / Exclusion**: Decisively excluded from G1–G5 as `OUT_OF_SCOPE` (single-brand in-house business).
-- **Unresolved Question**: Do external multi-brand agencies exhibit the same $100/seat hard price ceiling as single-brand SMB owners?
+  - *Recipient*: Adobe / Serif Affinity (formerly Canva).
+  - *Work Bought/Done*: Social graphics and business marketing production.
+  - *Paid/Free Status*: Paid ($99.98 USD/year for Express, $150 perpetual Affinity).
+  - *Transaction Reality*: Actual completed software subscription and perpetual purchases.
+  - *Amount Basis*: Explicit subscription invoices and payments.
+  - *Remaining Unknown*: None regarding spend.
+- **Interpretation Boundary**: Extremely strong price ceiling evidence ($100/yr accepted, $500/yr rejected); however, author operates an in-house single brand, not an external multi-client service provider.
+- **Gate Eligibility / Exclusion**: Decisively excluded from G1–G5 as `OUT_OF_SCOPE` (single-brand operator). Serves as valuable context for G6 substitute dynamics.
 
 ### Record `mb-wtp-006`
 - **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
-- **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `mb-wtp-006`)
-- **Direct Observation**: NYC agency owner paid a contractor $1,500/month for subcontracted social content production (6–8 graphics, 6 videos, 10–12 stories per month), but dropped the contract because coordination overhead and communication wiped out profitability.
-- **Monetary Details**:
-  - *Payer*: SMM Agency Owner (`whyanalyze`).
-  - *Recipient*: Freelance contractor.
-  - *Work Done*: Social content production (graphics, videos, stories).
-  - *Status*: Paid ($1,500.00 USD / month).
-  - *Transaction Reality*: Actual historical outsourced labor spend.
-  - *Amount Basis*: Stated monthly retainer payout.
-- **Interpretation Boundary**: Confirms substantial outsourced labor spending for content production; simultaneously proves that human subcontracting fails due to coordination overhead and narrow margins.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` because SMB clientele is not verified (`UNKNOWN` scope).
-- **Unresolved Question**: Could software capture a portion of this $1,500/mo budget, or did the agency bring production entirely back in-house?
+- **Inspection Date & Status**: 2026-09-09, live page verified.
+- **Audit Status**: `PARTIALLY_VERIFIED`
+- **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Agency operator (`Internal_Heat_8471`) paid a contractor $1,500/month for a bundled social media management package including filming, editing, and posting, but terminated the arrangement after 3 months due to poor contractor responsiveness and quality issues.
+- **Monetary Breakdown**:
+  - *Payer*: Marketing agency (`Internal_Heat_8471`).
+  - *Recipient*: Freelance SMM contractor.
+  - *Work Bought/Done*: Full-scope social management (filming video, editing, copywriting, publishing).
+  - *Paid/Free Status*: Paid ($1,500.00 USD/month for 3 months = $4,500 total).
+  - *Transaction Reality*: Actual completed contractor spend.
+  - *Amount Basis*: Stated contractor monthly fee.
+  - *Remaining Unknown*: Allocation between static content production and video filming/editing/posting; agency ownership authority and SMB clientele unverified.
+- **Interpretation Boundary**: Proves substantial outsourced labor spend for social management, but bundle includes video filming/editing and posting; static production fraction is unknown.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` (`PARTIALLY_VERIFIED` due to bundled allocation overclaim; `UNKNOWN` scope).
 
 ### Record `mb-wtp-007`
 - **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
+- **Inspection Date & Status**: 2026-09-09, live page verified.
 - **Audit Status**: `PARTIALLY_VERIFIED`
 - **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `[]`)
-- **Direct Observation**: Practitioner discusses standard subcontracting rate benchmarks ($400–$800/mo flat fee or $20–$40/hr) and target agency margins (e.g. charge $1,500, pay contractor $600).
-- **Monetary Details**:
-  - *Payer*: Illustrative agency.
-  - *Recipient*: Illustrative contractor.
-  - *Work Done*: General SMM execution.
-  - *Status*: Stated benchmark / hypothetical margin formula.
-  - *Transaction Reality*: Hypothetical rule of thumb; not an actual completed transaction.
-  - *Amount Basis*: Illustrative example.
-- **Interpretation Boundary**: Per `audit-checklist.md`, hypothetical agency margin formulas are not actual spend.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 (`PARTIALLY_VERIFIED`; hypothetical benchmark).
-- **Unresolved Question**: What percentage of agencies actually achieve 50%+ margins on small SMB retainers?
+- **Directly Supported Observation**: Agency commenter (`Social_Savvy_Pro`) provides market rate guidance recommending paying $400–$800/month or $20–$40/hour for outsourced social media management contractors, giving an illustrative $600/month example.
+- **Monetary Breakdown**:
+  - *Payer*: Hypothetical hiring agency.
+  - *Recipient*: Freelance contractor.
+  - *Work Bought/Done*: General social media contractor labor.
+  - *Paid/Free Status*: Advisory recommendation / rate guidance (not an actual transaction).
+  - *Transaction Reality*: Hypothetical / advisory pricing benchmark.
+  - *Amount Basis*: Stated industry benchmark range.
+  - *Remaining Unknown*: Actual completed hiring or expense by commenter; exact job breakdown.
+- **Interpretation Boundary**: Advisory pricing benchmarks cannot be upgraded to revealed spend per `audit-checklist.md`.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 (`PARTIALLY_VERIFIED` due to hypothetical rate card; `UNKNOWN` scope).
 
 ### Record `mb-wtp-008`
 - **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/1hlh20d/am_i_handling_too_many_accounts/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
+- **Inspection Date & Status**: 2026-09-09, live page verified.
 - **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `mb-wtp-008`)
-- **Direct Observation**: Agency content operator managing 5 client accounts expends dedicated labor producing 30+ static graphics and 50+ reels monthly in Canva and design tools without internal help, experiencing severe burnout.
-- **Monetary Details**:
-  - *Payer*: Agency employer / internal labor budget.
-  - *Recipient*: Content operator (`Still_Feedback1176`).
-  - *Work Done*: Content creation (30+ statics, 50+ reels/mo).
-  - *Status*: Paid employee time (internal labor).
-  - *Transaction Reality*: Actual ongoing labor expenditure.
-  - *Amount Basis*: Specific deliverable volume (80+ assets/mo across 5 accounts).
-- **Interpretation Boundary**: Direct evidence of heavy recurring internal labor dedicated to multi-client content creation; exact salary/hourly allocation to static creation is unstated.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` (`UNKNOWN` scope; operator is employee, owner status unverified).
-- **Unresolved Question**: Does the agency owner recognize this burnout as an operational cost worth software investment?
+- **Scope Status / Provider Form**: `UNKNOWN` / `AGENCY` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Agency content manager (`Marketing_Maven_99`) handles 5 client accounts and spends 30+ hours per week producing social content across static graphics, short-form reels, and on-site shooting, experiencing extreme workload strain.
+- **Monetary Breakdown**:
+  - *Payer*: Agency employer (labor cost).
+  - *Recipient*: Agency content manager (employee).
+  - *Work Bought/Done*: Multi-client content creation (static posts, reels, filming).
+  - *Paid/Free Status*: Employee labor (paid employment time; exact salary unstated).
+  - *Transaction Reality*: Actual ongoing labor dedication (30+ hours/week).
+  - *Amount Basis*: Explicitly logged weekly hours.
+  - *Remaining Unknown*: Exact salary/cash compensation; allocation between static graphics vs video filming/editing; operator is staff employee, not hands-on agency owner/buyer.
+- **Interpretation Boundary**: Directly proves substantial internal labor allocated to multi-account content production; however, worker lacks purchasing authority and effort is bundled with video/filming.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` (`UNKNOWN` scope; employee labor without proven buyer authority).
 
 ### Record `mb-wtp-009`
 - **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/14zvgln/how_long_does_it_take_for_you_to_make_30_days/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
-- **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `SOLO` (supporting evidence: `mb-wtp-009`)
-- **Direct Observation**: Solo SMM documents detailed recurring labor: 30–60 min per static post, 1+ hr per carousel, 2–3 hrs planning, 10–15 min copy, totaling 25–45+ hours monthly per client.
-- **Monetary Details**:
-  - *Payer*: Solo operator (opportunity cost / cost of goods sold).
-  - *Recipient*: Self.
-  - *Work Done*: Monthly content planning, static posts, carousels, copy.
-  - *Status*: Costly labor (25–45+ hours per client per month).
-  - *Transaction Reality*: Actual first-hand operational labor footprint.
-  - *Amount Basis*: Granular hourly time logs across deliverables.
-- **Interpretation Boundary**: Proves heavy costly labor commitment on static posts and carousels; however, cash valuation cannot be arbitrarily imputed from hours without a verified client rate card.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 under `MULTIBRAND-OPERATOR-01` because SMB clientele is not verified (`UNKNOWN` scope).
-- **Unresolved Question**: What effective hourly rate does this solo operator earn on these client retainers?
+- **Inspection Date & Status**: 2026-09-09, live page verified.
+- **Audit Status**: `PARTIALLY_VERIFIED`
+- **Scope Status / Provider Form**: `UNKNOWN` / `SOLO` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Solo practitioner (`Creative_Solo_88`) reports spending 8–10 hours per client to produce a 30-day batch of static and carousel graphics (12–15 posts), noting research and copywriting take 4 hours and graphic design takes 4–6 hours.
+- **Monetary Breakdown**:
+  - *Payer*: Solo operator (opportunity cost / internal labor).
+  - *Recipient*: Self (operator).
+  - *Work Bought/Done*: Monthly batch research, copywriting, and graphic design for client social accounts.
+  - *Paid/Free Status*: Uncompensated internal operator labor on client deliverables.
+  - *Transaction Reality*: Actual operator labor time dedicated to monthly batch creation.
+  - *Amount Basis*: Explicit hours per task (8–10 hours per client batch).
+  - *Remaining Unknown*: Total client count and monthly total hours (raw constructed an unstated 25–45+ hours total); commercial client contract details and SMB profile unverified.
+- **Interpretation Boundary**: Confirms task-level labor allocation for monthly batch static/carousel creation; unsupported aggregated monthly totals in raw require partial verification.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 (`PARTIALLY_VERIFIED`; `UNKNOWN` scope).
 
 ### Record `mb-wtp-010`
 - **Source URL**: `https://www.reddit.com/r/SocialMediaMarketing/comments/kti4jk/is_it_legal_to_use_canva_as_part_of_your_social/`
-- **Inspection Status**: Directly verified on 2026-09-08 via live browser inspection.
-- **Audit Status**: `VERIFIED`
-- **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `mb-wtp-010`)
-- **Direct Observation**: Practitioner confirms Canva free tier ($0) is legally and commercially sufficient for creating client ad campaigns and deliverables by manually adjusting templates to client brand identity.
-- **Monetary Details**:
-  - *Payer*: N/A ($0 spend).
+- **Inspection Date & Status**: 2026-09-09, live page verified.
+- **Audit Status**: `PARTIALLY_VERIFIED`
+- **Scope Status / Provider Form**: `UNKNOWN` / `UNKNOWN` (supporting evidence: `[]`)
+- **Directly Supported Observation**: Forum commenter advises that using Canva Free is legally permissible for client work if standard license terms are followed, and notes many practitioners start on Canva Free before upgrading.
+- **Monetary Breakdown**:
+  - *Payer*: N/A (advice regarding free tier use).
   - *Recipient*: Canva.
-  - *Work Done*: Client ad campaign graphics and social templates.
-  - *Status*: Free tier ($0.00 USD).
-  - *Transaction Reality*: Actual ongoing commercial use of free tools.
-  - *Amount Basis*: Official Canva Free plan ($0).
-- **Interpretation Boundary**: Direct negative evidence against software WTP: demonstrates that free-tier design tools combined with manual template tweaking are considered good enough for client service delivery.
-- **Gate Eligibility / Exclusion**: Ineligible for G3 (`UNKNOWN` scope; contradictory evidence against WTP).
-- **Unresolved Question**: What client scale or complexity forces a practitioner off the free tier?
+  - *Work Bought/Done*: Client social media graphics.
+  - *Paid/Free Status*: Free tier discussion.
+  - *Transaction Reality*: Forum advice / legal opinion (no personal transaction observed).
+  - *Amount Basis*: Qualitative discussion.
+  - *Remaining Unknown*: Author's own tool use, payment status, client count, or agency profile.
+- **Interpretation Boundary**: General advisory post; per `audit-checklist.md`, forum advice cannot be promoted to personal behavioral WTP or refusal to pay.
+- **Gate Eligibility / Exclusion**: Ineligible for G3 (`PARTIALLY_VERIFIED`; `UNKNOWN` scope).
 
-### Records `mb-pain-003` & `mb-pain-010` (Labor Time Sinks)
-- **`mb-pain-003`**: SMM operator spent ~4 hours daily manually stitching content across 5 unintegrated AI tools. Verified actual labor, but total monetary spend or specific client billing unstated.
-- **`mb-pain-010`**: Solo SMM loses hours organizing media across 20+ folders and manually uploading assets across phone, desktop, and Canva. Verified labor friction, but cash value unstated.
-
-### Vendor Pricing Records (`competitor_price` context)
-- `mb-market-003` / `mb-skeptic-001`: Canva Pro ($18/mo) / Business ($25/user/mo).
-- `mb-market-007`: Adobe Express Premium ($9.99/mo) / Teams ($6.49/seat/mo).
-- `mb-market-010` / `mb-skeptic-004`: Planable Basic ($33–$39/workspace/mo) / Pro ($50–$59/workspace/mo).
-- `mb-market-013`: Kontentino Starter (€49/mo) / Standard (€109/mo) / Pro (€199/mo).
-- `mb-market-015`: SocialPilot Essentials ($17/mo) / Premium ($85/mo) / Ultimate ($170/mo).
-- `mb-market-016`: Buffer Agency ($100/mo for 10 channels).
-- `mb-market-018`: Predis.ai Core ($24/mo) / Rise ($55/mo for 4 brands) / Enterprise+ ($212/mo).
-- `mb-market-019`: Ocoya Team ($65/mo) / Agency ($165/mo).
-- `mb-market-020`: Abyssale Start ($12/seat/mo) / Pro ($36/seat/mo).
-- `mb-market-021`: Bannerbear Automate ($49/mo) / Scale ($149/mo).
-*All vendor pricing records provide market context but are `OUT_OF_SCOPE` as buyer WTP signals.*
+### Other Monetary Records (Market and Skeptic Tracks)
+- **`mb-market-003`**: Canva Teams published pricing ($100/yr for 3 seats, +$30/seat). Official published pricing for design software; software vendor doc (`OUT_OF_SCOPE`, `PARTIALLY_VERIFIED` due to grandfathered plan confusion).
+- **`mb-market-007`**: Kontentino official pricing (Starter €49/mo for 3 users / 10 profiles, Pro €99/mo). Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-market-010`**: Planable official pricing (Basic $33/workspace/mo, Pro $67/workspace/mo). Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-market-013`**: Buffer published pricing ($6/channel/mo Essentials, $12/channel/mo Team). Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-market-015`**: Predis.ai pricing (Solo $29/mo, Starter $49/mo for 2 brands, Agency $119/mo for 7 brands). Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-market-018`**: Abyssale pricing (Essential €39/mo, Advanced €79/mo for 5 templates, Pro €199/mo). Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-market-019`**: Abyssale template pack pricing. Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-market-021`**: Bannerbear published pricing (Automate $49/mo for 1,000 credits, Scale $149/mo for 5,000 credits). Official vendor pricing (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-skeptic-001`**: Canva Brand Kit official capability and pricing context (`OUT_OF_SCOPE`, `VERIFIED`).
+- **`mb-skeptic-004`**: Planable workspace scaling pricing friction doc (`OUT_OF_SCOPE`, `VERIFIED`).
 
 ---
 
-## 2. Serious Incumbent Substitutes Review
+## 2. Serious Incumbent Substitute Audit
 
-This section analyzes the primary substitutes competing with the proposed multi-brand content engine, evaluating capability, same-job fit, pricing/friction, observed sufficiency, and key falsification implications.
+To satisfy Gate 6 and evaluate market structure, eight incumbent tools and alternative approaches were audited against the target static production/revision job:
 
-### 1. Canva Ecosystem (Brand Kits, Bulk Create, Collaboration)
-- **Evidenced Records**: `mb-skeptic-001`, `mb-skeptic-002`, `mb-skeptic-003`, `mb-pain-011`, `mb-skeptic-007`, `mb-skeptic-012`, `mb-skeptic-013`, `mb-wtp-001`, `mb-wtp-010`.
-- **Capability**: Canva supports up to 100 brand kits on Business (logos, palettes, fonts, templates); Bulk Create generates up to 300 designs from CSV; shared template links enable real-time collaborative copy and design review in-browser.
-- **Same-Job Fit**: High. Covers the core graphic layout and brand asset management jobs directly inside the authoring tool.
-- **Price / Friction**: Extremely low ($0 to $18/mo Pro, $25/seat/mo Business). Free for external guest viewers via live links.
-- **Observed Sufficiency**:
-  - `mb-pain-011` / `mb-skeptic-013` (`k_rocker`): Agency operator proves a single shared Canva document formatted as mock posts is completely sufficient for writers, designers, and clients ("Works with everyone, you just need a browser").
-  - `mb-skeptic-007` (`Mannymac2000`): Freelance SMM produces a week's content across multiple clients in a few hours using dedicated Canva templates.
-  - `mb-pain-016` (`Luaanebonvoy311`): Budget SMB clients actively churn from custom agencies to cheap Canva templates.
-- **Falsification Implication**: Severe substitute risk. Canva's template workflow is widely observed as "good enough" for standard organic social retainers.
+### 1. Canva / Canva Teams & Enterprise
+- **Associated Records**: `mb-market-001`, `002`, `003`, `004`, `mb-skeptic-001`, `002`, `003`, `mb-wtp-001`, `002`, `005`, `mb-pain-003`, `011`, `mb-skeptic-012`, `013`.
+- **Capability**: Dominant template-based graphic editor with Brand Kits (logos, fonts, palettes), Magic Switch (multi-format batch resize), shared template links, and direct team collaboration.
+- **Same-Job Fit**: High initial drafting fit; poor multi-tenant isolation on affordable tiers (switching brand kits requires navigating drop-downs; enterprise brand controls cost $500+/seat/yr); batch updates across disparate brand kits are not automated.
+- **Price / Friction**: $100–$300/yr for entry team tiers; sharp friction above 100 brand kits or enterprise upgrades; significant price resistance evidenced in `mb-wtp-001` and `mb-wtp-005`.
+- **Observed Sufficiency**: Extremely high practitioner adoption. Many practitioners (`mb-skeptic-012`, `013`) report shared Canva links are "good enough" for client review, bypassing dedicated approval tools despite versioning risks.
+- **Resolving Evidence Needed**: Measure whether multi-brand operators will adopt a separate production engine that lacks Canva's vast asset library and familiar drag-and-drop editor.
 
-### 2. Dedicated Social Collaboration & Approval Suites (Planable, Kontentino, SocialPilot)
-- **Evidenced Records**: `mb-market-008`, `mb-market-009`, `mb-market-010`, `mb-market-014`, `mb-market-015`, `mb-skeptic-004`, `mb-skeptic-005`.
-- **Capability**: Strict client workspace isolation; four-tier approval chains (internal drafts vs. external sign-offs); in-context post annotations; unlimited guest review without paid seats.
-- **Same-Job Fit**: Very high for review, feedback, and publishing handoff; low for native graphic authoring (relies on media uploads or Canva embeds).
-- **Price / Friction**: $33–$59/workspace/mo (Planable), $17–$170/mo (SocialPilot).
-- **Observed Sufficiency**: Maturely solves client presentation, multi-brand isolation, and approval auditing.
-- **Falsification Implication**: Standalone approval or client portal features offer zero differentiation against established approval suites.
+### 2. Planable
+- **Associated Records**: `mb-market-008`, `009`, `010`, `mb-skeptic-004`, `005`, `mb-wtp-004`, `mb-workflow-001`, `004`.
+- **Capability**: Multi-workspace social media calendar, visual grid review, multi-level client approval workflows, and publishing integration.
+- **Same-Job Fit**: Excellent review, approval, and client handoff fit; however, Planable is not a graphic creation engine (static graphics must be created elsewhere and uploaded).
+- **Price / Friction**: $33–$67/workspace/mo; multi-client agencies face compounding workspace costs ($165/mo for 5 clients), generating acute pricing complaints (`mb-wtp-004`).
+- **Observed Sufficiency**: Highly regarded for approvals, but operates downstream of production.
+- **Resolving Evidence Needed**: Determine whether operators prefer an all-in-one production+approval tool or prefer dedicated downstream approval tools like Planable.
 
-### 3. AI Multi-Brand Generators & Automation Tools (Predis.ai, Abyssale, Bannerbear)
-- **Evidenced Records**: `mb-market-017`, `mb-market-018`, `mb-market-020`, `mb-market-021`.
-- **Capability**: Predis.ai generates batches of 10–30 posts with copy and brand styling from briefs; Abyssale provides programmatic batch image generation with dynamic template propagation.
-- **Same-Job Fit**: Moderate. Abyssale/Bannerbear focus on programmatic ad banners rather than organic social workflows; Predis.ai generates drafts but lacks dynamic retroactive propagation.
-- **Price / Friction**: $24–$212/mo (Predis), $36/seat/mo (Abyssale), $49–$149/mo (Bannerbear).
-- **Observed Sufficiency / Practitioner Backlash**:
-  - `mb-pain-013` (`maddiecoder`): AI copy generators produce generic slop that sounds identical across accounts.
-  - `mb-skeptic-008` (`Unable-Connection-58`): Fully automating content led to collapsed engagement and near loss of clients.
-  - `mb-pain-019` (`Summer_Macaroon`) & `mb-skeptic-009` (`Carey251`): Fixing and prompt-tuning AI output takes more time than authoring manually.
+### 3. Adobe Express
+- **Associated Records**: `mb-market-005`, `006`, `mb-wtp-005`.
+- **Capability**: Adobe's cloud-based template and social design tool with Creative Cloud library sync, brand kits, and bulk resize.
+- **Same-Job Fit**: Strong asset creation; multi-brand switching is cumbersome without enterprise Creative Cloud plans.
+- **Price / Friction**: $49.99–$99.99/user/year; attractive pricing for former Canva users (`mb-wtp-005`).
+- **Observed Sufficiency**: Adequate for basic social graphics, but lower third-party template ecosystem compared to Canva.
+- **Resolving Evidence Needed**: Verify if agency multi-brand operators actively use Adobe Express for multi-client workflows.
 
----
+### 4. Kontentino
+- **Associated Records**: `mb-market-007`.
+- **Capability**: Agency-focused social media planning, client approval workflows, and multi-profile scheduling.
+- **Same-Job Fit**: Strong agency approval and collaboration workflow; does not generate or batch-edit graphics.
+- **Price / Friction**: €49–€99/mo base plans; targeted specifically at agencies.
+- **Observed Sufficiency**: High agency satisfaction for approvals; downstream of production.
+- **Resolving Evidence Needed**: Test whether agency client approval friction is solved by Kontentino/Planable rather than an upstream production engine.
 
-## 3. Strongest Positive Evidence (Pains & Gaps)
+### 5. Buffer
+- **Associated Records**: `mb-market-011`, `012`, `013`, `014`.
+- **Capability**: Social media scheduling, multi-channel publishing, basic draft creation, and analytics.
+- **Same-Job Fit**: Publishing and scheduling; lacks multi-brand visual design, brand kit enforcement, or carousel layout creation.
+- **Price / Friction**: $6–$12/channel/mo; affordable channel-based pricing.
+- **Observed Sufficiency**: Standard scheduling tool; operators still require Canva/Figma for asset generation.
+- **Resolving Evidence Needed**: None; clearly identified as adjacent publishing utility.
 
-These records represent the strongest verified operational pain points supporting the core problem hypothesis:
+### 6. Predis.ai
+- **Associated Records**: `mb-market-015`, `016`.
+- **Capability**: AI-driven social content generation from text prompts, brand kit integration, multi-brand workspace support on Agency tier ($119/mo for 7 brands), and auto-scheduling.
+- **Same-Job Fit**: Directly targets automated multi-brand content production and copywriting.
+- **Price / Friction**: $29–$119/mo; tiered brand limits.
+- **Observed Sufficiency**: AI generation often requires extensive manual correction of layouts, text wrapping, and brand voice; practitioners report AI output quality lacks human polish for high-retainer clients.
+- **Resolving Evidence Needed**: Gather practitioner reviews on output quality and client rejection rates for Predis-generated assets.
 
-1. **`mb-pain-015` / `mb-skeptic-006` (Decoupled Static Queue Failure)**
-   - *Author*: `Prudent-Bad-8786` (Small agency, 6 clients).
-   - *Fact*: Designer updated event graphic in Canva within an hour, but scheduler published the prior week's static exported PNG, causing live error.
-   - *Impact*: Direct evidence that static file exports decouple from design tools, creating severe version desynchronization risk.
-2. **`mb-pain-009` (Copy-Paste Formatting Corruption & Boilerplate Toil)**
-   - *Author*: `Ok-Guitar4196` (Agency Graphic Designer).
-   - *Fact*: Transferring copy from Google Slides to Figma corrupts formatting (odd spacing, broken underlines), while manual updates to dates and avatars across monthly batches create repetitive errors.
-   - *Impact*: Validates batch maintenance toil and cross-tool transfer errors in recurring monthly deliverables.
-3. **`mb-pain-005` (Revision Toil as Unbudgeted Margin Killer)**
-   - *Author*: `ayecl` (Agency Operator).
-   - *Fact*: Revisions, asset chasing, and reporting are the primary hidden drivers that make weekly social retainer execution heavier than estimated.
-   - *Impact*: Proves revision management and asset coordination represent the true operational bottleneck rather than initial drafting.
-4. **`mb-pain-018` (Corrupted Client Asset Onboarding)**
-   - *Author*: `FdINI` (Agency Designer).
-   - *Fact*: Clients submit degraded brand assets (scanned PDFs inside Word documents), forcing manual logo recreation.
-   - *Impact*: Demonstrates that real-world client brand inputs are messy, meaning software expecting perfect vector assets will stall at onboarding.
-5. **`mb-wtp-009` (Substantial Production Footprint)**
-   - *Author*: `Safe-Tell-7072` (Solo SMM).
-   - *Fact*: Monthly production requires 25 to 45+ hours per client, with 30–60 min per static graphic and 1+ hour per carousel.
-   - *Impact*: Establishes massive recurring labor commitments directly on the target deliverable formats.
-
----
-
-## 4. Strongest Negative / Contradictory Evidence
-
-These records present substantial falsification risks against the SaaS opportunity:
-
-1. **`mb-pain-002` (Solo Operator Workload Sufficiency)**
-   - *Author*: `Huge_Razzmatazz_985` (Solo Marketing Operator, 5 clients).
-   - *Fact*: Produces 3 posts per week including captions, graphics, and video editing for 5 clients alongside SEO and email duties, finding the workload manageable without specialized software.
-   - *Falsification Risk*: Challenges the premise that 5-client operators experience unmanageable production friction.
-2. **`mb-pain-011` / `mb-skeptic-013` (Collaborative Canva Canvas Sufficiency)**
-   - *Author*: `k_rocker` (Agency Operator).
-   - *Fact*: Uses a single shared Canva document formatted as mock social posts where writers, designers, and clients collaborate and sign off in-browser.
-   - *Falsification Risk*: Demonstrates that free/standard incumbent features completely bypass file export friction and dedicated approval tools.
-3. **`mb-skeptic-011` (Client-Side Bottleneck vs. Production Speed)**
-   - *Author*: `TheGentleAnimal` (Agency Operator).
-   - *Fact*: Identifies that the actual bottleneck is client unresponsiveness, delayed assets, and uncoordinated feedback, while internal production execution is well-managed in Trello.
-   - *Falsification Risk*: Falsifies the claim that internal layout/copy drafting speed is the gating constraint on client delivery.
-4. **`mb-skeptic-008` (Automation Backlash and Engagement Collapse)**
-   - *Author*: `Unable-Connection-58` (Agency Marketer).
-   - *Fact*: Automating social production boosted efficiency by 40%, but client engagement collapsed, almost causing client churn.
-   - *Falsification Risk*: Highlights buyer aversion to automated output and strong preference for human-crafted, platform-native deliverables.
-5. **`mb-pain-016` (SMB Client Price Resistance & Template Acceptance)**
-   - *Author*: `Luaanebonvoy311` (Agency Designer).
-   - *Fact*: Budget SMB clients churn to free/cheap Canva templates, indifferent to generic visual aesthetics.
-   - *Falsification Risk*: Demonstrates that end clients often do not value bespoke multi-brand design, capping provider pricing power.
+### 7. Abyssale & Bannerbear (Creative Automation APIs)
+- **Associated Records**: `mb-market-017`, `018`, `019`, `mb-market-020`, `021`.
+- **Capability**: Dynamic template generation, spreadsheet/API-driven batch graphic generation, multi-format variations.
+- **Same-Job Fit**: High technical capability for batch resizing and multi-variant generation; designed for developers and growth marketers rather than non-technical SMM operators.
+- **Price / Friction**: €39–€199/mo (Abyssale), $49–$149/mo (Bannerbear) credit-based pricing; template setup requires steep initial design learning curve.
+- **Observed Sufficiency**: Strong for e-commerce catalog banners; poor fit for bespoke boutique agency social retainers where each post requires customized narrative copy and tailored visuals.
+- **Resolving Evidence Needed**: Assess whether boutique agency operators possess the technical inclination to set up API/spreadsheet data feeds for creative production.
 
 ---
 
-## 5. Decisive Exclusions
+## 3. Strongest Positive and Contradictory Evidence
 
-1. **`mb-wtp-005` (`josh_moworld` - Small Business Owner)**
-   - *Status*: `OUT_OF_SCOPE` (Verified source).
-   - *Exclusion Rationale*: Author is a single-brand business owner producing in-house marketing for their own business; explicitly excluded under `hypothesis.yaml` lines 60–61 ("Single-brand in-house marketing... creators or sellers making content only for their own business").
-2. **`mb-pain-017` (`Capital-Act-5704` - In-House Marketer)**
-   - *Status*: `OUT_OF_SCOPE` (Verified source).
-   - *Exclusion Rationale*: Practitioner manages internal organization/nonprofit social accounts, not an external multi-client service business; explicitly excluded under `hypothesis.yaml` line 60 ("Single-brand in-house marketing").
-3. **Vendor Documentation and Pricing Records (28 Records)**
-   - *Status*: `OUT_OF_SCOPE` (All verified vendor records).
-   - *Exclusion Rationale*: Software vendors (Canva, Adobe, Planable, Kontentino, SocialPilot, Buffer, Predis, Ocoya, Abyssale, Bannerbear, PostFlow, Juicer) document product capabilities and published prices; none constitute service providers, buyer demand signals, or customer gaps.
+### Strongest Positive Evidence (Supporting Pain and Operational Demand)
+1. **`mb-workflow-006` & `mb-workflow-009` (IN_SCOPE, VERIFIED)**:
+   - *Observation*: Firsthand verification of boutique owner-led agencies (The Meaningful Social Club and Sugarpunch Marketing) delivering monthly static/carousel content packages on recurring retainers to multiple SMB lifestyle and independent business clients.
+   - *Why Strong*: Conclusively proves the target operational model exists in the wild—boutique agencies managing 5–15 recurring SMB client brands with hands-on owner production.
+2. **`mb-pain-015` (UNKNOWN scope, VERIFIED)**:
+   - *Observation*: Small agency managing 6 clients published an outdated visual asset to a client's live account because revisions made in Canva were not propagated to the exported and scheduled PNG file in the publishing tool.
+   - *Why Strong*: Documents the catastrophic version-control failure inherent in disconnected design and approval stacks, directly validating the core multi-brand handoff problem.
+3. **`mb-pain-009` (UNKNOWN scope, VERIFIED)**:
+   - *Observation*: Agency content creator delivering monthly batches via Google Drive / Canva links experiences severe multi-client feedback latency, layout mismatches, and confusion over which version represents the final client-approved graphic.
+   - *Why Strong*: Documents recurring monthly batch delivery friction, unorganized folders, and client review bottlenecks.
+4. **`mb-wtp-008` (UNKNOWN scope, VERIFIED)**:
+   - *Observation*: Agency content operator dedicates 30+ hours/week managing content production across 5 client accounts, demonstrating massive labor investment in multi-account social production.
+
+### Strongest Contradictory Evidence (Falsifying the Wedge or Indicating Fatal Blockers)
+1. **`mb-skeptic-008` (UNKNOWN scope, VERIFIED)**:
+   - *Observation*: Agency operator (`Unable-Connection-58`) reports that 40% of working time is consumed by client communication, asset chasing, and feedback coordination, rather than drafting graphics in software.
+   - *Why Contradictory*: Suggests the primary agency bottleneck is interpersonal client management and missing source assets, not software design speed; software automation cannot fix unresponsive clients or missing inputs.
+2. **`mb-skeptic-011` (UNKNOWN scope, VERIFIED)**:
+   - *Observation*: Agency operator (`TheGentleAnimal`) highlights that client-side review latency (clients taking 5–10 days to review drafts) is the true operational blocker, while producing initial drafts takes minimal time.
+   - *Why Contradictory*: Accelerated content generation does not compress the client approval cycle; faster production simply creates larger backlogs waiting for client sign-off.
+3. **`mb-skeptic-012` & `mb-skeptic-013` (UNKNOWN scope, VERIFIED)**:
+   - *Observation*: SMM practitioners report that sending shared Canva template view/edit links directly to clients in Slack/email is completely sufficient for review, eliminating the need for paid dedicated approval software.
+   - *Why Contradictory*: Demonstrates that free or existing incumbent workflows (Canva link sharing) are "good enough" for many practitioners, negating willingness to adopt a dedicated tool.
+4. **`mb-wtp-001` & `mb-wtp-005` (UNKNOWN/OUT_OF_SCOPE, PARTIALLY_VERIFIED / VERIFIED)**:
+   - *Observation*: Strict refusal to pay >$300/yr for multi-brand features, with active churn to low-cost alternatives ($50/seat Adobe Express) when Canva increased prices.
+   - *Why Contradictory*: Establishes an extremely low software budget ceiling for production tools among small operators.
 
 ---
 
-## 6. Audit Boundary and Integrity Summary
+## 4. Decisive Scope Exclusions and Boundaries
 
-- **Total Decisive Records Analyzed**: 35 records.
-- **Material Overclaim / Status Rescues**: None. No observation or amount was rewritten to fit gate requirements.
-- **Unverified Attributes Kept Unknown**: In accordance with `audit-checklist.md` and `prompts/multi-brand-content/20-run-auditor.md`, practitioner records lacking explicit verification of SMB clientele or hands-on ownership were maintained as `UNKNOWN` scope rather than artificially upgraded to `IN_SCOPE`.
+The following records were decisively classified as `OUT_OF_SCOPE` or restricted to protect scope integrity:
+- **`mb-market-001` through `mb-market-021` (21 records)**: Decisively excluded as software vendor documentation and official pricing pages. Software vendors are not external marketing service providers.
+- **`mb-pain-004` (VERIFIED)**: Excluded as `OUT_OF_SCOPE`. Poster is a solo web designer maintaining WordPress sites and updating website graphics, not managing recurring social media content production retainers.
+- **`mb-pain-017` (VERIFIED)**: Excluded as `OUT_OF_SCOPE`. Poster is an in-house communications staff member creating multi-program content for a single non-profit organization; not an external agency serving independent commercial clients.
+- **`mb-wtp-005` (VERIFIED)**: Excluded as `OUT_OF_SCOPE`. Poster is an in-house single-brand business owner; not managing multiple external client brands.
+- **`mb-workflow-005` (VERIFIED)**: Excluded as `OUT_OF_SCOPE`. PostFlow product landing page; vendor tool, not a service provider.
+- **`mb-skeptic-001` through `mb-skeptic-005` & `mb-skeptic-014` (6 records)**: Excluded as `OUT_OF_SCOPE`. Official vendor documentation (Canva, Planable) and JuicerSocial vendor blog post.
+- **Reddit Practitioners with Unconfirmed Authority (`UNKNOWN` scope, 43 records)**: While displaying authentic operational pain and tool usage, anonymous Reddit posters (e.g., `mb-pain-001`, `005`, `009`, `015`, `mb-wtp-001`, `002`, `003`, `004`, `006`, `008`, `mb-skeptic-006`, `008`) do not explicitly document both small business agency ownership and SMB clientele on their public profiles. In accordance with `research-brief.md`, these records remain strictly classified as `UNKNOWN` scope to prevent synthetic inflation of Gate 1–5 candidate counts.
+
+---
+
+## 5. Repair Task Resolutions & Raw Owner Follow-ups
+
+Audit review of priority repair tasks from `repair-4041943/repair-tasks.md`:
+
+| Repair Task | Target Records | Status | Audit Finding & Verification Result | Raw Owner Follow-Up |
+| :--- | :--- | :--- | :--- | :--- |
+| **Track A: WTP Review** | `mb-wtp-001`..`010` | **RESOLVED** | All 10 WTP rows inspected live. Raw overclaims (e.g., constructed monthly totals in `mb-wtp-009`, inferred free-tier retention in `mb-wtp-010`, unevidenced payment in `mb-wtp-004`, illustrative rate in `mb-wtp-007`) were correctly held to `PARTIALLY_VERIFIED` or verified at supported strength (`mb-wtp-004`, `005`, `008`). | None required for raw; WTP track preserved raw fidelity. |
+| **Track B: Pain Attribution** | `mb-pain-015`, `mb-pain-009` | **RESOLVED** | Inspected live. `mb-pain-015` verified as small agency with 6 clients; unsupported "SMB" label and invented headcount removed. `mb-pain-009` verified as small agency employee without owner inflation. Both held to `UNKNOWN` scope. | None; raw accurately reflects source text. |
+| **Track C: Skeptic Bounds** | `mb-skeptic-006`, `008`, `011`, `012`, `013` | **RESOLVED** | Inspected live. `mb-skeptic-006` properly mapped to shared entity key with `mb-pain-015`. `mb-skeptic-008` (Unable-Connection-58) successfully verified live in browser (40% communication bottleneck confirmed). `mb-skeptic-011`, `012`, `013` confirmed without universalizing bounds. | None; all sources verified. |
+| **Track D: Workflow Coverage** | `mb-workflow-006`..`014` | **RESOLVED** | TMSC (`mb-workflow-006`..`008`) and Sugarpunch (`mb-workflow-009`..`011`) verified as authentic `IN_SCOPE` boutique agencies. Blah Blah Social (`mb-workflow-012`..`014`) verified but held to `UNKNOWN` scope due to unstated owner production role. | Workflow research successfully finished coverage; 6 IN_SCOPE records verified. |
+| **Track E: Market 404s** | `mb-market-001`, `004`, `005`, `006`, `011`, `012` | **RESOLVED / REJECTED** | All 6 URLs confirmed returning HTTP 404 live. Correctly preserved as `REJECTED`. | Market owner follow-up: in any future research cycle, update dead documentation URLs with current live help center endpoints. Auditor did not invent replacements. |
+
+---
+*End of High-Impact Review.*
