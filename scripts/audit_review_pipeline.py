@@ -389,7 +389,20 @@ def validate_review(review, raw, locations, captures):
     require(material_discrepancies <= repair_fields,
             f"{rid}: material discrepancies missing from raw-owner repair queue")
     money_conflicts = money_assessment_conflicts(raw[rid], money) if money is not None else []
-    if money_conflicts:
+    # A failed inspection supplies no observed transaction classification.
+    # UNKNOWN is a blocker, not evidence contradicting the raw money signal.
+    # Keep the exception narrow: no asserted money facts or supported/contradicted
+    # money claims, and only a BLOCKED/PENDING review. Actual conflicts still
+    # require a raw-owner action; VERIFIED continues to reject money_conflicts.
+    uninspected_money = (
+        money is not None and review["state"] == "BLOCKED" and audit["status"] == "PENDING"
+        and money["payment_status"] == "UNKNOWN" and money["transaction_type"] == "UNKNOWN"
+        and all(money[field] is None for field in
+                ("payer", "recipient", "work_bought_or_done", "amount_basis"))
+        and all(claim_by_field[field]["decision"] == "UNKNOWN" for field in
+                ("money_type", "money_amount", "money_currency", "money_period"))
+    )
+    if money_conflicts and not uninspected_money:
         require(claim_by_field["money_type"]["decision"] in {"CONTRADICTED", "UNKNOWN"},
                 f"{rid}: contradictory money assessment requires non-supported money_type decision")
         require("money_signal" in material_discrepancies and "money_signal" in repair_fields,

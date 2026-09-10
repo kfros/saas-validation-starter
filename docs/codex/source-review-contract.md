@@ -62,6 +62,13 @@ pricing is UNKNOWN payment plus OFFER. A conflicting assessment must contradict
 or leave unknown the money-type claim and queue a material `money_signal` action
 for the raw owner; it cannot remain VERIFIED.
 
+An uninspected BLOCKED/PENDING money row may keep payment and transaction UNKNOWN,
+all money fact fields null, and all money claim decisions UNKNOWN. That absence of
+knowledge is not a material source/raw contradiction and does not require a
+fabricated money_signal discrepancy or raw-owner repair. Keep its blocker and
+unresolved questions instead. Observed conflicts still require the normal repair
+queue; this exception cannot authorize VERIFIED.
+
 `render --allow-incomplete` creates a checkpoint candidate in which missing rows
 are PENDING and scope UNKNOWN. Only a complete strict render/check can enter the
 ordinary `audit` and therefore `judge` path. The checker compares both Markdown

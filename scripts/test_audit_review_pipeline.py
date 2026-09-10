@@ -263,6 +263,56 @@ class PipelineTests(unittest.TestCase):
                 self.assertEqual(arp.money_assessment_conflicts(
                     {**base, "money_signal": signal}, assessment), [])
 
+    def test_uninspected_money_blocker_checkpoints_without_invented_raw_repair(self):
+        review = copy.deepcopy(self.reviews[2])
+        capture = copy.deepcopy(self.captures[2])
+        review.update(state="BLOCKED", blocker="Synthetic source quota error; source not inspected.")
+        review["audit"].update(status="PENDING", reason=review["blocker"])
+        review["scope"].update(scope_status="UNKNOWN", provider_form="UNKNOWN", supporting_evidence_ids=[])
+        review["impact_assessment"].update(eligible_gates=[], exclusion_reason=review["blocker"])
+        review["money_assessment"].update(
+            payer=None, recipient=None, work_bought_or_done=None, amount_basis=None,
+            payment_status="UNKNOWN", transaction_type="UNKNOWN",
+            unresolved_unknowns=["Synthetic source inaccessible; no observed payment or contradiction."])
+        for claim in review["claim_decisions"]:
+            claim.update(decision="UNKNOWN", capture_id=None, speaker=None, reason=review["blocker"])
+        capture.update(outcome="BLOCKED", fragment=None, fragment_sha256=None,
+                       resolved_url=None, locator=None, attributed_speaker=None)
+        review["scope_dependency_fingerprint"] = arp.scope_dependency(review, self.raw)
+        state_dir = self.root / "uninspected-money-batch"
+        arp.prepare_batch(self.root, state_dir, [review["evidence_id"]])
+        arp.write_jsonl(state_dir / "reviews.jsonl", [review])
+        arp.write_jsonl(state_dir / "captures.jsonl", [capture])
+        state = arp.checkpoint_batch(self.root, state_dir)
+        self.assertEqual(state["blocked_ids"], [review["evidence_id"]])
+        self.assertEqual(state["processed_ids"], [])
+        saved = arp.read_jsonl(state_dir / "reviews.jsonl", "blocked review")[0]
+        self.assertEqual(saved["audit"]["status"], "PENDING")
+        self.assertEqual(saved["discrepancies"], [])
+        self.assertEqual(saved["raw_owner_repairs"], [])
+        self.assertEqual(arp.load_raw(self.root)[0], self.raw)
+        # Successful source access later resumes this same record normally.
+        arp.write_jsonl(state_dir / "captures.jsonl", [capture, self.captures[2] | {
+            "capture_id": "capture-money-retry", "local_attempt_id": "attempt-money-retry"}])
+        resumed = copy.deepcopy(self.reviews[2])
+        resumed["capture_ids"] = [capture["capture_id"], "capture-money-retry"]
+        for claim in resumed["claim_decisions"]:
+            claim["capture_id"] = "capture-money-retry"
+        arp.write_jsonl(state_dir / "reviews.jsonl", [resumed])
+        state = arp.checkpoint_batch(self.root, state_dir)
+        self.assertEqual(state["processed_ids"], [review["evidence_id"]])
+        self.assertEqual(state["blocked_ids"], [])
+
+    def test_blocked_money_with_observed_conflict_still_needs_raw_owner_repair(self):
+        review = copy.deepcopy(self.reviews[2])
+        review.update(state="BLOCKED", blocker="Synthetic remaining inspection blocked.")
+        review["audit"].update(status="PENDING", reason=review["blocker"])
+        review["money_assessment"].update(payment_status="FREE", transaction_type="HYPOTHETICAL")
+        next(c for c in review["claim_decisions"] if c["field"] == "money_type")["decision"] = "CONTRADICTED"
+        with self.assertRaisesRegex(arp.ReviewError, "must queue material money_signal repair"):
+            arp.validate_review(review, self.raw, self.locations,
+                                {c["capture_id"]: c for c in self.captures})
+
     def test_material_conflict_routes_to_queue_and_blocks_verified(self):
         rows = copy.deepcopy(self.reviews)
         rows[0]["discrepancies"] = [{"field": "author_or_entity", "raw_value": "Speaker A",
