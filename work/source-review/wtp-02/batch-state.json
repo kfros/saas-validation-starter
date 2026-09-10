@@ -1,0 +1,23 @@
+{
+  "batch_snapshot_sha256": "12173f88df7d31c951a5b7a65e17be684e3de51436c657481e9e7d73499e1d5d",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-wtp-002",
+    "mb-wtp-003",
+    "mb-wtp-004",
+    "mb-wtp-006",
+    "mb-wtp-007"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-wtp-002",
+    "mb-wtp-003",
+    "mb-wtp-004",
+    "mb-wtp-006",
+    "mb-wtp-007"
+  ],
+  "schema_version": 1
+}
