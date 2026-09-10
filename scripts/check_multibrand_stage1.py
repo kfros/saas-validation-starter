@@ -178,6 +178,7 @@ class Checker:
         self.root = Path(root).resolve()
         self.idea = self.root / "ideas" / IDEA
         self.strict_reviews = strict_reviews
+        self.review_impacts = None
         self.schema = load_json(self.path("methodology/evidence-schema.json"))
         check_schema_contract(self.schema)
         require(self.schema.get("$schema") == "https://json-schema.org/draft/2020-12/schema",
@@ -304,13 +305,16 @@ class Checker:
         require(set(by_id) == set(audited), "scope map must cover every audited record")
         if self.strict_reviews:
             try:
-                strict_records, strict_scope = check_candidate(
-                    self.root, self.path(f"{base}/source-reviews"), self.path(base))
+                strict_records, strict_scope, strict_reviews = check_candidate(
+                    self.root, self.path(f"{base}/source-reviews"), self.path(base),
+                    include_reviews=True)
             except ReviewError as exc:
                 raise CheckError(f"source-review strict check: {exc}") from exc
             require({r["id"]: r for r in strict_records} == audited,
                     "strict source-review evidence differs from audit input")
             require(strict_scope == by_id, "strict source-review scope differs from audit input")
+            self.review_impacts = {rid: review["impact_assessment"]
+                                   for rid, review in strict_reviews.items()}
         print(f"Audit structure: {dict(Counter(r['audit_status'] for r in records))}")
         print("DATASET_SUMMARY=" + json.dumps(dataset_summary(audited, by_id), sort_keys=True))
         return audited, by_id
@@ -362,6 +366,9 @@ class Checker:
                 require(len(ids) == len(set(ids)), f"{name}: repeated IDs")
                 require(all(x in records and records[x]["audit_status"] == "VERIFIED" for x in ids),
                         f"{name}: unknown or non-VERIFIED evidence counted/cited as contradiction")
+                require(self.review_impacts is not None and
+                        all(name in self.review_impacts[x]["eligible_gates"] for x in ids),
+                        f"{name}: counted/contradictory evidence is excluded or not eligible in source review")
             ids = gate["counted_evidence_ids"]
             require(not (set(ids) & set(gate["contradictory_evidence_ids"])),
                     f"{name}: same ID counted as support and contradiction")

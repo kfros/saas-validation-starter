@@ -140,11 +140,12 @@ class WorkflowTests(unittest.TestCase):
                           "independence_key": r["independence_key"]},
                 "scope": {"scope_status": "IN_SCOPE", "provider_form": "SOLO",
                           "supporting_evidence_ids": [r["id"]], "reason": "Synthetic scope test only."},
-                "money_assessment": {"payer": None, "recipient": None,
-                    "work_bought_or_done": "Synthetic test-only work.", "payment_status": "UNKNOWN",
-                    "transaction_type": "UNKNOWN", "amount_basis": None,
-                    "unresolved_unknowns": ["Synthetic money fields are intentionally unknown."]},
-                "impact_assessment": {"eligible_gates": ["G3"], "exclusion_reason": None,
+                "money_assessment": {"payer": "Synthetic payer", "recipient": "Synthetic recipient",
+                    "work_bought_or_done": "Synthetic test-only work.",
+                    "payment_status": "PAID" if r["money_signal"] == "saas_spend" else "UNKNOWN",
+                    "transaction_type": "ACTUAL", "amount_basis": None,
+                    "unresolved_unknowns": ["Synthetic amount is intentionally unknown."]},
+                "impact_assessment": {"eligible_gates": [f"G{i}" for i in range(1, 7)], "exclusion_reason": None,
                                       "unresolved_questions": []},
                 "substitute_assessment": None,
                 "discrepancies": [], "raw_owner_repairs": []}
@@ -215,6 +216,21 @@ class WorkflowTests(unittest.TestCase):
         _, audited, _ = self.fixture()
         self.save_score(self.scorecard(audited))
         self.checker.judge()
+
+    def test_judge_rejects_source_review_gate_exclusion(self):
+        _, audited, _ = self.fixture()
+        review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+        reviews = arp.read_jsonl(review_dir / "reviews.jsonl", "synthetic reviews")
+        for review in reviews:
+            review["impact_assessment"] = {"eligible_gates": [],
+                "exclusion_reason": "Synthetic explicit exclusion from every gate.",
+                "unresolved_questions": []}
+        arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
+        arp.render_candidate(self.root, review_dir,
+                             self.root / "ideas/multi-brand-content/evidence")
+        self.save_score(self.scorecard(audited))
+        with self.assertRaisesRegex(mb.CheckError, "excluded or not eligible"):
+            self.checker.judge()
 
     def test_raw_not_pending(self):
         raw, _, _ = self.fixture()
@@ -300,6 +316,12 @@ class WorkflowTests(unittest.TestCase):
                 raw, audited, _ = self.fixture()
                 raw[0]["money_signal"] = money_signal
                 self.write("ideas/multi-brand-content/raw/market/evidence.jsonl", "\n".join(json.dumps(r) for r in raw))
+                review_dir = self.root / "ideas/multi-brand-content/evidence/source-reviews"
+                reviews = arp.read_jsonl(review_dir / "reviews.jsonl", "synthetic reviews")
+                reviews[0]["money_assessment"].update(
+                    payment_status="UNKNOWN",
+                    transaction_type="OFFER" if money_signal == "competitor_price" else "INTENT")
+                arp.write_jsonl(review_dir / "reviews.jsonl", reviews)
                 card = self.scorecard([record(i) for i in range(20)])
                 self.sync_review_bundle()
                 self.save_score(card)

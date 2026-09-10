@@ -43,16 +43,38 @@ be marked not applicable but cannot be silently invented. `PARTIALLY_VERIFIED`
 requires both supported and contradicted/unknown material. A blocked/uninspected
 row remains `PENDING`; retrieval failure alone cannot create `REJECTED`.
 
+For VERIFIED rows, the quote claim and supported observation/money claims must be
+bound through their own capture and locator to the canonical author/entity. A
+separate capture proving an author's name cannot authorize a quote attributed to
+another speaker. Distinct speakers on the same page remain separate raw IDs with
+separate claim bindings. A future legitimate quoted-speaker relationship needs an
+explicit versioned representation; until then it cannot receive VERIFIED.
+
 Every money row separately records payer, recipient, work bought/done,
 paid/free/unknown, actual/intent/hypothetical, amount basis and unresolved
 unknowns. Every substitute row separately records capability, same-job fit,
 price/friction, observed sufficiency and evidence still needed. Gate eligibility
 or a concrete exclusion is structured rather than inferred by the renderer.
+Actual purchase/pilot/SaaS/contractor/agency spend requires PAID+ACTUAL;
+employee time and dedicated roles require ACTUAL but may have UNKNOWN payment or
+amount; stated WTP remains INTENT/HYPOTHETICAL with UNKNOWN payment; competitor
+pricing is UNKNOWN payment plus OFFER. A conflicting assessment must contradict
+or leave unknown the money-type claim and queue a material `money_signal` action
+for the raw owner; it cannot remain VERIFIED.
 
 `render --allow-incomplete` creates a checkpoint candidate in which missing rows
 are PENDING and scope UNKNOWN. Only a complete strict render/check can enter the
 ordinary `audit` and therefore `judge` path. The checker compares both Markdown
 reports and the repair queue byte-for-byte with deterministic regeneration.
+Judge may count or cite a contradiction only when the review's
+`impact_assessment.eligible_gates` includes that gate; an explicit review
+exclusion cannot be silently ignored by the scorecard.
+
+Checkpoint validates completed review/capture fingerprints and their current
+support dependencies before sealing any new or previously blocked row. Derived
+values are prepared in memory and files are written only after the entire bundle
+passes. A changed external support row therefore requires a new review instead
+of receiving an automatically refreshed dependency hash.
 
 ## Migration
 

@@ -5,6 +5,23 @@ Use `AGENTS.md`, `.agents/skills/source-review-batch/SKILL.md`,
 `ideas/multi-brand-content/audit-checklist.md`, and
 `docs/codex/source-review-contract.md`.
 
+## Narrow operational override
+
+For this prepared source-review workflow, this prompt overrides exactly two
+operational clauses of the older idea protocol:
+
+1. Write only batch artifacts under `work/source-review/control-01/`, not the
+   final `ideas/multi-brand-content/evidence/` outputs.
+2. The only terminal command the reviewing agent may run is the exact
+   `checkpoint-batch` command below. The human runs `prepare-batch` before the
+   review. Do not run the old phase checker during this batch.
+
+Every other protocol restriction remains in force: known exact URLs only,
+authorized public browser/retrieval tools, no terminal research/scraping, no new
+search/discovery, no outreach, one permitted quota retry, and partial checkpoint
+on repeated failure. This override does not authorize edits to raw evidence,
+final audit outputs, source-review tooling, market gates or Judge outputs.
+
 The human first prepares exactly these known IDs:
 
 ```powershell

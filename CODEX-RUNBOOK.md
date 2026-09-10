@@ -142,10 +142,12 @@ $auditPython = 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\depend
 & $auditPython -m unittest discover -s scripts -p 'test_audit_review_pipeline.py'
 ```
 
-Baseline diagnostic должен вычислить из файлов 80 raw/audited/ledger строк, 59
-различий exact URL, 51 различие independence key, а также 63/65/66 exact URL в
-audited JSONL, ledger и старом narrative. Это диагностика расхождений, не source
-verification.
+На неизменённом историческом наборе baseline diagnostic вычисляет из файлов 80
+raw/audited/ledger строк, 59 различий exact URL, 51 различие independence key, а
+также 63/65/66 exact URL в audited JSONL, ledger и старом narrative. После
+авторизованной миграции эти числа закономерно изменятся: обычный regression test
+использует фиксированную временную synthetic fixture, а не живые `ideas/`.
+Это диагностика расхождений, не source verification.
 
 После появления sidecar-файлов полный временный candidate создаётся и проверяется
 так (пути можно заменить только на явные пути внутри репозитория):
@@ -179,3 +181,14 @@ candidate помечает отсутствующие/blocked строки PENDI
 `prepare-batch` с тем же порядком IDs не затирает прогресс. Исправления source
 facts попадают в `raw-owner-repairs.jsonl`, а не применяются аудитором. Перенос
 candidate в `ideas/`, raw repair и Judge требуют отдельных явно разрешённых задач.
+
+После follow-up review `05de6b6` checkpoint сначала проверяет неизменность
+завершённых reviews/captures и всех явных scope-support зависимостей. Только новые
+или ранее blocked строки получают вычисленные derived hashes, причём запись на
+диск происходит после полной валидации bundle. Judge сопоставляет каждый counted
+и contradictory ID с `impact_assessment.eligible_gates`. Контрольные инженерные
+воспроизведения запускаются так:
+
+```powershell
+& $auditPython scripts/reproduce_05de6b6.py --repo .
+```

@@ -10,6 +10,12 @@ Read `AGENTS.md`, `ideas/multi-brand-content/research-protocol.md`,
 `docs/codex/source-review-contract.md`, the selected launch prompt, and the
 prepared `batch-manifest.json` before acting.
 
+The selected launch prompt may narrowly override the old protocol's Auditor write
+directory and terminal allowlist for the new batch sidecars. Accept only an
+explicit override naming the batch directory and exact checkpoint command. It
+does not relax public-source, known-URL, no-terminal-research, quota-stop, raw
+ownership, final-evidence or Judge boundaries.
+
 Review only the IDs and exact URLs in the manifest. Use an authorized browser or
 public-source retrieval tool; do not use terminal HTTP clients, scrapers,
 Antigravity internals/caches, replacement searches, outreach, or newly discovered

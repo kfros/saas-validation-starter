@@ -13,9 +13,6 @@ from pathlib import Path
 
 import audit_review_pipeline as arp
 
-ROOT = Path(__file__).resolve().parents[1]
-
-
 def synthetic_record(track, index, *, url=None, author=None, money=False, excerpt=None,
                      independence_key=None, kind=None):
     return {
@@ -109,12 +106,30 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaises(arp.ReviewError):
             arp.check_candidate(self.root, self.review_dir, self.output)
 
-    def test_baseline_gap_is_reproduced_without_constants_in_checker(self):
-        result = arp.legacy_diagnostic(ROOT)
+    def test_legacy_diagnostic_uses_fixed_synthetic_fixture(self):
+        evidence_dir = self.root / f"ideas/{arp.IDEA}/evidence"
+        evidence = arp.read_jsonl(self.output / "evidence.jsonl", "synthetic candidate")
+        scope = arp.read_json(self.output / "scope-map.json")
+        arp.write_jsonl(evidence_dir / "evidence.jsonl", evidence)
+        arp.write_json(evidence_dir / "scope-map.json", scope)
+        scope_by_id = {row["evidence_id"]: row for row in scope["records"]}
+        ledger_rows = []
+        for index, row in enumerate(evidence):
+            rid = row["id"]
+            url = "https://synthetic.invalid/mutated-url" if index == 0 else row["source_url"]
+            key = "synthetic-mutated-key" if index == 1 else row["independence_key"]
+            entry = scope_by_id[rid]
+            ledger_rows.append(f"| `{rid}` | {rid.split('-')[1]} | `{url}` | synthetic | "
+                               f"{row['audit_status']} | {entry['scope_status']} | "
+                               f"{entry['provider_form']} | {key} |")
+        (evidence_dir / "audit-summary.md").write_text(
+            "Synthetic legacy fixture claims 5 unique source URLs.\n" + "\n".join(ledger_rows),
+            encoding="utf-8")
+        result = arp.legacy_diagnostic(self.root)
         self.assertEqual((result["raw_records"], result["exact_url_differences"],
-                          result["independence_key_differences"]), (80, 59, 51))
+                          result["independence_key_differences"]), (4, 1, 1))
         self.assertEqual((result["audited_distinct_exact_urls"], result["ledger_distinct_exact_urls"],
-                          result["narrative_claimed_unique_urls"]), (63, 65, 66))
+                          result["narrative_claimed_unique_urls"]), (3, 4, 5))
 
     def test_two_renders_match_and_raw_is_unchanged(self):
         before = {rid: arp.fingerprint(row) for rid, row in arp.load_raw(self.root)[0].items()}
@@ -195,11 +210,18 @@ class PipelineTests(unittest.TestCase):
     def test_wrong_speaker_and_rewritten_quote_fail(self):
         captures = copy.deepcopy(self.captures)
         rows = copy.deepcopy(self.reviews)
-        captures[0]["attributed_speaker"] = "Another Speaker"
-        for claim in rows[0]["claim_decisions"]:
-            claim["speaker"] = "Another Speaker"
+        wrong_speaker_capture = copy.deepcopy(captures[0])
+        wrong_speaker_capture.update(capture_id="capture-other-speaker",
+                                     local_attempt_id="attempt-other-speaker",
+                                     attributed_speaker="Another Speaker")
+        captures[0]["fragment"] = "Canonical author identity, without the quoted text."
+        captures[0]["fragment_sha256"] = arp.fragment_fingerprint(captures[0]["fragment"])
+        captures.append(wrong_speaker_capture)
+        rows[0]["capture_ids"].append(wrong_speaker_capture["capture_id"])
+        quote = next(x for x in rows[0]["claim_decisions"] if x["field"] == "quote")
+        quote.update(capture_id=wrong_speaker_capture["capture_id"], speaker="Another Speaker")
         self.write_bundle(reviews=rows, captures=captures)
-        with self.assertRaisesRegex(arp.ReviewError, "speaker does not match"):
+        with self.assertRaisesRegex(arp.ReviewError, "quote speaker differs"):
             arp.check_candidate(self.root, self.review_dir, self.output)
         captures = copy.deepcopy(self.captures)
         captures[0]["fragment"] = "A rewritten composite without the canonical excerpt."
@@ -217,6 +239,29 @@ class PipelineTests(unittest.TestCase):
             self.write_bundle(reviews=rows)
             with self.subTest(field=field), self.assertRaisesRegex(arp.ReviewError, "missing required claim"):
                 arp.check_candidate(self.root, self.review_dir, self.output)
+
+    def test_money_assessment_cannot_contradict_verified_signal(self):
+        rows = copy.deepcopy(self.reviews)
+        target = next(x for x in rows if x["evidence_id"].startswith("mb-wtp-"))
+        target["money_assessment"].update(payment_status="FREE", transaction_type="HYPOTHETICAL")
+        self.write_bundle(reviews=rows)
+        with self.assertRaisesRegex(arp.ReviewError, "contradictory money assessment"):
+            arp.check_candidate(self.root, self.review_dir, self.output)
+
+    def test_nullable_labor_price_context_and_stated_intent_remain_legal(self):
+        base = {"money_amount": None}
+        cases = [
+            ("employee_time", "UNKNOWN", "ACTUAL"),
+            ("dedicated_role", "UNKNOWN", "ACTUAL"),
+            ("competitor_price", "UNKNOWN", "OFFER"),
+            ("stated_wtp", "UNKNOWN", "INTENT"),
+        ]
+        for signal, payment, transaction in cases:
+            assessment = {"payment_status": payment, "transaction_type": transaction,
+                          "amount_basis": None}
+            with self.subTest(signal=signal):
+                self.assertEqual(arp.money_assessment_conflicts(
+                    {**base, "money_signal": signal}, assessment), [])
 
     def test_material_conflict_routes_to_queue_and_blocks_verified(self):
         rows = copy.deepcopy(self.reviews)
@@ -259,8 +304,32 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(state["processed_ids"], [ids[0]])
         self.assertEqual(state["blocked_ids"], [ids[1]])
         self.assertEqual(state["remaining_ids"], [ids[2]])
+        arp.write_jsonl(state_dir / "reviews.jsonl", self.reviews[:2])
+        state = arp.checkpoint_batch(self.root, state_dir)
+        self.assertEqual(state["processed_ids"], ids[:2])
+        self.assertEqual(state["blocked_ids"], [])
+        self.assertEqual(state["remaining_ids"], [ids[2]])
         state2 = arp.prepare_batch(self.root, state_dir, ids)
         self.assertEqual(state2, state)
+
+    def test_checkpoint_cannot_reseal_changed_external_scope_support(self):
+        review = copy.deepcopy(self.reviews[0])
+        support = copy.deepcopy(self.records[3])
+        review["scope"]["supporting_evidence_ids"] = [support["id"]]
+        review["scope_dependency_fingerprint"] = arp.scope_dependency(review, self.raw)
+        state_dir = self.root / "external-support-batch"
+        arp.prepare_batch(self.root, state_dir, [review["evidence_id"]])
+        arp.write_jsonl(state_dir / "reviews.jsonl", [review])
+        arp.write_jsonl(state_dir / "captures.jsonl", [self.captures[0]])
+        arp.checkpoint_batch(self.root, state_dir)
+        before_reviews = (state_dir / "reviews.jsonl").read_bytes()
+        before_captures = (state_dir / "captures.jsonl").read_bytes()
+        support["observation"] += " material change after completed review"
+        arp.write_jsonl(self.root / f"ideas/{arp.IDEA}/raw/workflow/evidence.jsonl", [support])
+        with self.assertRaisesRegex(arp.ReviewError, "stale scope/support dependency"):
+            arp.checkpoint_batch(self.root, state_dir)
+        self.assertEqual((state_dir / "reviews.jsonl").read_bytes(), before_reviews)
+        self.assertEqual((state_dir / "captures.jsonl").read_bytes(), before_captures)
 
     def test_tampered_repair_queue_fails(self):
         (self.output / "raw-owner-repairs.jsonl").write_text(

@@ -89,7 +89,7 @@
             "recipient": {"$ref": "#/$defs/nullableString"},
             "work_bought_or_done": {"$ref": "#/$defs/nullableString"},
             "payment_status": {"enum": ["PAID", "FREE", "UNKNOWN"]},
-            "transaction_type": {"enum": ["ACTUAL", "INTENT", "HYPOTHETICAL", "UNKNOWN"]},
+            "transaction_type": {"enum": ["ACTUAL", "INTENT", "HYPOTHETICAL", "OFFER", "UNKNOWN"]},
             "amount_basis": {"$ref": "#/$defs/nullableString"},
             "unresolved_unknowns": {"type": "array", "items": {"type": "string"}}
           }

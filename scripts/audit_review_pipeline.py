@@ -8,6 +8,7 @@ actually happened or that a market claim is true.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import re
@@ -234,6 +235,38 @@ def scope_dependency(review, raw):
     })
 
 
+def money_assessment_conflicts(raw_row, assessment):
+    """Return explicit contract conflicts without interpreting source prose."""
+    signal = raw_row.get("money_signal")
+    if signal is None:
+        return []
+    allowed = {
+        "actual_purchase": ({"PAID"}, {"ACTUAL"}),
+        "paid_pilot": ({"PAID"}, {"ACTUAL"}),
+        "saas_spend": ({"PAID"}, {"ACTUAL"}),
+        "contractor_spend": ({"PAID"}, {"ACTUAL"}),
+        "agency_spend": ({"PAID"}, {"ACTUAL"}),
+        # Actual labor/recruitment can be supported without a known salary or
+        # cash payment to the operator; do not turn UNKNOWN pay into rejection.
+        "employee_time": ({"PAID", "UNKNOWN"}, {"ACTUAL"}),
+        "dedicated_role": ({"PAID", "UNKNOWN"}, {"ACTUAL"}),
+        # These remain context/intent and are not promoted into revealed spend.
+        "stated_wtp": ({"UNKNOWN"}, {"INTENT", "HYPOTHETICAL"}),
+        "competitor_price": ({"UNKNOWN"}, {"OFFER"}),
+        "unknown": ({"UNKNOWN"}, {"UNKNOWN"}),
+    }
+    payment_allowed, transaction_allowed = allowed[signal]
+    conflicts = []
+    if assessment["payment_status"] not in payment_allowed:
+        conflicts.append(f"money_signal={signal} incompatible with payment_status={assessment['payment_status']}")
+    if assessment["transaction_type"] not in transaction_allowed:
+        conflicts.append(f"money_signal={signal} incompatible with transaction_type={assessment['transaction_type']}")
+    if (raw_row.get("money_amount") is not None and signal not in {"competitor_price"} and
+            not nonempty_string(assessment["amount_basis"])):
+        conflicts.append("canonical money_amount requires an explicit amount_basis")
+    return conflicts
+
+
 def validate_review(review, raw, locations, captures):
     allowed = {"schema_version", "evidence_id", "raw_track", "raw_path", "raw_fingerprint",
                "scope_dependency_fingerprint", "reviewed_at", "reviewer_agent", "state", "blocker",
@@ -284,7 +317,7 @@ def validate_review(review, raw, locations, captures):
         for field in ("payer", "recipient", "work_bought_or_done", "amount_basis"):
             require(money[field] is None or nonempty_string(money[field]), f"{rid}: invalid money {field}")
         require(money["payment_status"] in {"PAID", "FREE", "UNKNOWN"} and
-                money["transaction_type"] in {"ACTUAL", "INTENT", "HYPOTHETICAL", "UNKNOWN"},
+                money["transaction_type"] in {"ACTUAL", "INTENT", "HYPOTHETICAL", "OFFER", "UNKNOWN"},
                 f"{rid}: invalid money payment/transaction classification")
         require(isinstance(money["unresolved_unknowns"], list) and
                 all(nonempty_string(x) for x in money["unresolved_unknowns"]),
@@ -302,8 +335,8 @@ def validate_review(review, raw, locations, captures):
     require(isinstance(impact["unresolved_questions"], list) and
             all(nonempty_string(x) for x in impact["unresolved_questions"]),
             f"{rid}: unresolved_questions must be string list")
-    require(bool(impact["eligible_gates"]) or impact["exclusion_reason"] is not None,
-            f"{rid}: state gate eligibility or exclusion")
+    require(bool(impact["eligible_gates"]) != (impact["exclusion_reason"] is not None),
+            f"{rid}: state exactly one of gate eligibility or exclusion")
     substitute = review["substitute_assessment"]
     if raw[rid].get("type") == "substitute":
         fields = {"capability", "same_job_fit", "price_or_friction", "observed_sufficiency", "evidence_needed"}
@@ -355,6 +388,12 @@ def validate_review(review, raw, locations, captures):
     material_discrepancies = {x["field"] for x in discrepancies if x["material"]}
     require(material_discrepancies <= repair_fields,
             f"{rid}: material discrepancies missing from raw-owner repair queue")
+    money_conflicts = money_assessment_conflicts(raw[rid], money) if money is not None else []
+    if money_conflicts:
+        require(claim_by_field["money_type"]["decision"] in {"CONTRADICTED", "UNKNOWN"},
+                f"{rid}: contradictory money assessment requires non-supported money_type decision")
+        require("money_signal" in material_discrepancies and "money_signal" in repair_fields,
+                f"{rid}: contradictory money assessment must queue material money_signal repair")
     if review["state"] == "BLOCKED":
         require(review["blocker"] is not None and audit["status"] == "PENDING",
                 f"{rid}: BLOCKED review must remain PENDING with blocker")
@@ -382,9 +421,21 @@ def validate_review(review, raw, locations, captures):
                     f"{rid}: VERIFIED speaker does not match canonical author_or_entity")
         excerpt = raw[rid].get("source_excerpt")
         if excerpt is not None:
-            quote_capture = captures[claim_by_field["quote"]["capture_id"]]
+            quote_claim = claim_by_field["quote"]
+            if author is not None:
+                require(quote_claim["speaker"] == author,
+                        f"{rid}: VERIFIED quote speaker differs from canonical author_or_entity")
+            quote_capture = captures[quote_claim["capture_id"]]
             require(normalized_fragment(excerpt) in normalized_fragment(quote_capture["fragment"]),
                     f"{rid}: direct quote not contained in its supporting fragment")
+        if author is not None:
+            for field in {"observation", "money_amount", "money_currency", "money_period", "money_type"}:
+                claim = claim_by_field.get(field)
+                if claim is not None and claim["decision"] == "SUPPORTED":
+                    require(claim["speaker"] == author,
+                            f"{rid}.{field}: VERIFIED claim speaker differs from canonical author_or_entity")
+        require(not money_conflicts,
+                f"{rid}: contradictory money assessment: {'; '.join(money_conflicts)}")
     if audit["status"] == "PARTIALLY_VERIFIED":
         require(review["state"] == "COMPLETE" and successful and
                 any(c["decision"] == "SUPPORTED" for c in material) and
@@ -397,12 +448,12 @@ def validate_review(review, raw, locations, captures):
         require(review["state"] == "BLOCKED", f"{rid}: fresh PENDING requires blocked review state")
 
 
-def load_review_bundle(review_dir, raw, locations):
-    review_dir = Path(review_dir)
-    captures = index_unique(read_jsonl(review_dir / "captures.jsonl", "captures"), "capture_id", "capture")
+def validate_review_bundle_rows(capture_rows, review_rows, raw, locations):
+    """Validate an in-memory bundle without mutating its source files."""
+    captures = index_unique(capture_rows, "capture_id", "capture")
     for capture in captures.values():
         validate_capture(capture)
-    reviews = index_unique(read_jsonl(review_dir / "reviews.jsonl", "reviews"), "evidence_id", "review")
+    reviews = index_unique(review_rows, "evidence_id", "review")
     for review in reviews.values():
         validate_review(review, raw, locations, captures)
     attempt_ids = [x["local_attempt_id"] for x in captures.values()]
@@ -410,6 +461,13 @@ def load_review_bundle(review_dir, raw, locations):
     referenced = {cid for review in reviews.values() for cid in review["capture_ids"]}
     require(set(captures) == referenced, "orphan or missing capture relative to review references")
     return reviews, captures
+
+
+def load_review_bundle(review_dir, raw, locations):
+    review_dir = Path(review_dir)
+    capture_rows = read_jsonl(review_dir / "captures.jsonl", "captures")
+    review_rows = read_jsonl(review_dir / "reviews.jsonl", "reviews")
+    return validate_review_bundle_rows(capture_rows, review_rows, raw, locations)
 
 
 def audit_row(raw_row, review):
@@ -622,7 +680,7 @@ def render_candidate(root, review_dir, output_dir, allow_incomplete=False):
     return manifest
 
 
-def check_candidate(root, review_dir, candidate_dir, allow_incomplete=False):
+def check_candidate(root, review_dir, candidate_dir, allow_incomplete=False, include_reviews=False):
     root = Path(root).resolve()
     candidate_dir = Path(candidate_dir).resolve()
     raw, locations = load_raw(root)
@@ -650,7 +708,8 @@ def check_candidate(root, review_dir, candidate_dir, allow_incomplete=False):
                 f"{name}: checked-in report differs from deterministic render")
     label = "CHECKPOINT/INCOMPLETE" if allow_incomplete else "STRICT/COMPLETE"
     print(f"SOURCE_REVIEW={label}; rows={len(raw)} reviews={len(reviews)}. Structural provenance only.")
-    return evidence, {x["evidence_id"]: x for x in scope["records"]}
+    result = (evidence, {x["evidence_id"]: x for x in scope["records"]})
+    return (*result, reviews) if include_reviews else result
 
 
 def parse_legacy_ledger(path):
@@ -723,7 +782,8 @@ def prepare_batch(root, state_dir, ids):
     else:
         state = {"schema_version": VERSION, "idea_id": IDEA, "ids": ids,
                  "batch_snapshot_sha256": raw_snapshot(raw, locations, ids),
-                 "processed_ids": [], "blocked_ids": [], "remaining_ids": list(ids)}
+                 "processed_ids": [], "blocked_ids": [], "remaining_ids": list(ids),
+                 "completed_review_fingerprints": {}, "completed_capture_fingerprints": {}}
     state_dir.mkdir(parents=True, exist_ok=True)
     write_json(state_path, state)
     manifest = {"schema_version": VERSION, "idea_id": IDEA,
@@ -756,31 +816,66 @@ def checkpoint_batch(root, state_dir):
     raw, locations = load_raw(root)
     require(state.get("batch_snapshot_sha256") == raw_snapshot(raw, locations, ids),
             "batch raw snapshot changed; prepare a new batch/check fingerprints")
-    # Seal only deterministic derived values after the selected-ID snapshot is
-    # confirmed unchanged. Semantic decisions and capture content are never filled.
     captures_rows = read_jsonl(state_dir / "captures.jsonl", "captures")
-    for capture in captures_rows:
+    reviews_rows = read_jsonl(state_dir / "reviews.jsonl", "reviews")
+    original_captures = index_unique(captures_rows, "capture_id", "capture")
+    original_reviews = index_unique(reviews_rows, "evidence_id", "review")
+    processed_before = set(state.get("processed_ids", []))
+    stored_reviews = state.get("completed_review_fingerprints", {})
+    stored_captures = state.get("completed_capture_fingerprints", {})
+    require(isinstance(stored_reviews, dict) and isinstance(stored_captures, dict),
+            "invalid completed fingerprint maps in batch state")
+    protected_capture_ids = set()
+    # Completed reviews are checked exactly as stored before any derived value
+    # can be filled. A changed external support row therefore remains stale.
+    for rid in processed_before:
+        require(rid in original_reviews, f"processed review disappeared: {rid}")
+        review = original_reviews[rid]
+        if rid in stored_reviews:
+            require(fingerprint(review) == stored_reviews[rid],
+                    f"{rid}: completed review changed; create an explicit new review")
+        for cid in review.get("capture_ids", []):
+            require(cid in original_captures, f"{rid}: completed capture disappeared: {cid}")
+            if cid in stored_captures:
+                require(fingerprint(original_captures[cid]) == stored_captures[cid],
+                        f"{cid}: completed capture changed; create an explicit new attempt")
+            validate_capture(original_captures[cid])
+            protected_capture_ids.add(cid)
+        validate_review(review, raw, locations, original_captures)
+
+    sealed_captures = copy.deepcopy(captures_rows)
+    sealed_reviews = copy.deepcopy(reviews_rows)
+    # Seal only new/previously blocked records, and only in memory until the
+    # whole candidate bundle validates. Semantic fields are never supplied.
+    for capture in sealed_captures:
+        if capture.get("capture_id") in protected_capture_ids:
+            continue
         if capture.get("outcome") == "SUCCESS" and isinstance(capture.get("fragment"), str):
             capture["fragment_sha256"] = fragment_fingerprint(capture["fragment"])
         elif capture.get("outcome") in {"BLOCKED", "NOT_FOUND", "ERROR"}:
             capture["fragment_sha256"] = None
-    reviews_rows = read_jsonl(state_dir / "reviews.jsonl", "reviews")
-    for review in reviews_rows:
+    for review in sealed_reviews:
         rid = review.get("evidence_id")
         require(rid in ids, f"batch review contains unknown/out-of-batch ID: {rid}")
+        if rid in processed_before:
+            continue
         review["raw_track"] = rid.split("-")[1]
         review["raw_path"] = locations[rid]
         review["raw_fingerprint"] = fingerprint(raw[rid])
         if isinstance(review.get("scope"), dict) and isinstance(review["scope"].get("supporting_evidence_ids"), list):
             review["scope_dependency_fingerprint"] = scope_dependency(review, raw)
-    write_jsonl(state_dir / "captures.jsonl", captures_rows)
-    write_jsonl(state_dir / "reviews.jsonl", reviews_rows)
-    reviews, _ = load_review_bundle(state_dir, raw, locations)
+    reviews, captures = validate_review_bundle_rows(sealed_captures, sealed_reviews, raw, locations)
     require(set(reviews) <= set(ids), "batch reviews contain IDs outside this batch")
     processed = [rid for rid in ids if rid in reviews and reviews[rid]["state"] == "COMPLETE"]
     blocked = [rid for rid in ids if rid in reviews and reviews[rid]["state"] == "BLOCKED"]
     remaining = [rid for rid in ids if rid not in reviews]
-    state.update(processed_ids=processed, blocked_ids=blocked, remaining_ids=remaining)
+    completed_capture_ids = {cid for rid in processed for cid in reviews[rid]["capture_ids"]}
+    state.update(processed_ids=processed, blocked_ids=blocked, remaining_ids=remaining,
+                 completed_review_fingerprints={rid: fingerprint(reviews[rid]) for rid in processed},
+                 completed_capture_fingerprints={cid: fingerprint(captures[cid])
+                                                 for cid in sorted(completed_capture_ids)})
+    write_jsonl(state_dir / "captures.jsonl", sealed_captures)
+    write_jsonl(state_dir / "reviews.jsonl", sealed_reviews)
     write_json(state_dir / "batch-state.json", state)
     print(f"BATCH checkpoint: processed={processed}; blocked={blocked}; remaining={remaining}")
     return state
