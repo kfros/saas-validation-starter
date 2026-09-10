@@ -1,0 +1,284 @@
+{
+  "batch_snapshot_sha256": "abe140ddb021df4f66c68a9de7b865c69377b68aeb3109e04340a9aedbc5707f",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "Adobe",
+      "evidence_id": "mb-market-007",
+      "exact_source_url": "https://www.adobe.com/express/pricing",
+      "raw_fingerprint": "65714a2b18a12a165980f3b910860e951466b9df1e011c2477cf08e64a498df9",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Adobe",
+        "company": "Adobe",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-007",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-adobe",
+        "industry": "Creative Software",
+        "interpretation": "Incumbent pricing establishes low price ceiling for cloud template design tools, pressuring any standalone tool to prove material workflow time savings.",
+        "money_amount": 9.99,
+        "money_currency": "USD",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "Adobe Express offers a Premium individual plan at $9.99/month ($99.99/year) and a Teams plan at $6.49/seat/month billed annually with a 2-seat minimum ($12.99/seat/month monthly).",
+        "observed_at": "2026-09-08",
+        "polarity": "neutral",
+        "recurrence": "monthly",
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Adobe Express Free plan offers core features. Premium plan is $9.99/month ($99.99/year). Teams plan is $6.49 per seat per month billed annually ($12.99 monthly, 2-seat minimum).",
+        "source_tier": "A",
+        "source_type": "official_pricing",
+        "source_url": "https://www.adobe.com/express/pricing",
+        "strength": 3,
+        "subtype": "pricing",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Planable",
+      "evidence_id": "mb-market-008",
+      "exact_source_url": "https://planable.io/features/workspaces/",
+      "raw_fingerprint": "9f9578636b24b466e7e02672a4448266cb691cf22dd0865ba729e1d52d1fab81",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Planable",
+        "company": "Planable",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-008",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-planable",
+        "industry": "Social Media Collaboration Software",
+        "interpretation": "Multi-brand client context isolation is already maturely solved in social collaboration platforms, showing this capability is not a unique value proposition.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Planable structures its platform around separate workspaces per brand/client, enforcing strict data and content isolation with role-based client review permissions.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Create separate workspaces for each brand or client. Control permissions, invite clients to review only their content, and keep client assets completely isolated.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://planable.io/features/workspaces/",
+        "strength": 4,
+        "subtype": "client_isolation",
+        "type": "substitute"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Planable",
+      "evidence_id": "mb-market-009",
+      "exact_source_url": "https://planable.io/features/approvals/",
+      "raw_fingerprint": "56b032eb08386194347b87d5953bf93a66101876dac1577a4bde085ed9ec64f5",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Planable",
+        "company": "Planable",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-009",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-planable",
+        "industry": "Social Media Collaboration Software",
+        "interpretation": "Established multi-brand approval suites already offer sophisticated client review workflows and guest approvals, but they lack native graphic creation and rely on external media uploads or Canva embeds.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Planable provides four distinct approval tiers (None, Optional, Required sign-off blocker, and Multi-level sequential) with internal-only team notes and client review links where guest reviewers do not require paid seats.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Four approval workflows: None, Optional, Required, and Multi-level. Set up internal team approval followed by client sign-off. External guests can review and approve without consuming extra licenses.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://planable.io/features/approvals/",
+        "strength": 4,
+        "subtype": "approvals",
+        "type": "substitute"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Planable",
+      "evidence_id": "mb-market-010",
+      "exact_source_url": "https://planable.io/pricing/",
+      "raw_fingerprint": "0f5c8a14d74f40d10484355c43ec7e8f53181affa20457a249c4392d4901a59d",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Planable",
+        "company": "Planable",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-010",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-planable",
+        "industry": "Social Media Collaboration Software",
+        "interpretation": "Demonstrates a per-brand/workspace monetization model tailored to agencies, where software cost scales directly with active client brand count rather than internal/external seats.",
+        "money_amount": 33.0,
+        "money_currency": "USD",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "Planable prices per workspace: Basic is $33/workspace/month billed annually ($39/month monthly), Pro is $50/workspace/month billed annually ($59/month monthly), offering unlimited users across all paid plans.",
+        "observed_at": "2026-09-08",
+        "polarity": "neutral",
+        "recurrence": "monthly",
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Planable charges per workspace per month: Basic at $33/workspace/mo billed annually ($39/mo monthly), Pro at $50/workspace/mo billed annually ($59/mo monthly). Unlimited users on all paid plans.",
+        "source_tier": "A",
+        "source_type": "official_pricing",
+        "source_url": "https://planable.io/pricing/",
+        "strength": 3,
+        "subtype": "pricing",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Kontentino",
+      "evidence_id": "mb-market-011",
+      "exact_source_url": "https://www.kontentino.com/features/collaboration/",
+      "raw_fingerprint": "3df6fe314b7b0e5f8d0d175093a20000639f1a4c5ccb7e06e56801ebf73f03ca",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Kontentino",
+        "company": "Kontentino",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-011",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-kontentino",
+        "industry": "Social Media Management Software",
+        "interpretation": "Confirms that client separation and per-client asset/guideline storage are standard features among agency-focused social media management suites.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Kontentino isolates multiple clients into individual profiles with strict access permissions, providing a dedicated Brand Hub for each client's assets, guidelines, and post templates.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Organize clients into distinct profiles with separate access controls. Store brand assets, guidelines, and post templates in the Brand Hub per client.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://www.kontentino.com/features/collaboration/",
+        "strength": 4,
+        "subtype": "client_isolation",
+        "type": "substitute"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-market-007"
+      ],
+      "exact_source_url": "https://www.adobe.com/express/pricing"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-008"
+      ],
+      "exact_source_url": "https://planable.io/features/workspaces/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-009"
+      ],
+      "exact_source_url": "https://planable.io/features/approvals/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-010"
+      ],
+      "exact_source_url": "https://planable.io/pricing/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-011"
+      ],
+      "exact_source_url": "https://www.kontentino.com/features/collaboration/"
+    }
+  ]
+}

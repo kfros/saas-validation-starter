@@ -1,0 +1,277 @@
+{
+  "batch_snapshot_sha256": "7edf3ff64b2d45705038980cb3621302c35c30814c4a073bc549fd7f5b2e9127",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "TheGentleAnimal",
+      "evidence_id": "mb-skeptic-011",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1p2zj55/comment/nq73sfk/",
+      "raw_fingerprint": "2a8efdee76e6d7f647b408e7365caff599b0e5061861fb04b0a414f879ddba66",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "TheGentleAnimal",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-011",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-thegentleanimal",
+        "industry": "Social Media Agency",
+        "interpretation": "Shows that for a short-form agency operator, delivery delays stem primarily from client-side communication and asset latency rather than internal drafting speed. This highlights client-side workflow friction, though observed in a short-form video agency context rather than static organic post production.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "An operator responding to a discussion on managing short-form agency operations reports that internal production runs on Trello Kanban with a social media manager, and that the primary workflow bottleneck is external client friction: late asset delivery, missing assets, delayed approvals, and unconsolidated revisions.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "per_client",
+        "role": "Short-form agency operator",
+        "source_date": "2025-11-22",
+        "source_excerpt": "tbh, we run the exact same playbook but not automated. We use Kanban on Trello and our social media manager keeps things in check from content all the way to posted the issue is every other thing that comes outside of delivery which is clients not approving on time, delayed assets, no assets, unconsolidated revisions, multiple revisions at worst case and generally being uncooperative to use our tools",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1p2zj55/comment/nq73sfk/",
+        "strength": 3,
+        "subtype": "client_input_bottleneck",
+        "type": "workflow"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "unmethodicals",
+      "evidence_id": "mb-skeptic-012",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1b847vd/comment/ktmp16l/",
+      "raw_fingerprint": "fb66f8f4dc9c909894e7d7e109fcab1a3a56b8319b6511e00a7697916bb5a5b8",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "unmethodicals",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-012",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-unmethodicals",
+        "industry": "Social Media Marketing",
+        "interpretation": "Demonstrates firsthand practitioner satisfaction with sharing live view-only Canva links for client review instead of distributing static file exports, indicating a viable browser-based workflow substitute for this practitioner.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A social media practitioner reports transitioning from file storage (Google Drive, Dropbox) and Excel calendars to sharing view-only links to Canva projects for client approval, finding it more successful and space-efficient.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "per_client",
+        "role": "Social media practitioner",
+        "source_date": "2024-03-06",
+        "source_excerpt": "In the past, we’ve used google drive, Dropbox, creating a content calendar on excel, etc. What we found most successful (and takes less space) is to share a view only link to the canva project.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1b847vd/comment/ktmp16l/",
+        "strength": 3,
+        "subtype": "collaborative_links_vs_exports",
+        "type": "workflow"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "k_rocker",
+      "evidence_id": "mb-skeptic-013",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/comment/n2su5nh/",
+      "raw_fingerprint": "c18f68e238ae2700d194fa8f67c4fe2065af17e0d5c5730c67be29de4c6cc268",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "k_rocker",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-013",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-k-rocker",
+        "industry": "Social Media Agency",
+        "interpretation": "Illustrates firsthand satisfaction with a collaborative Canva template as a shared workspace for copy, layout, and client feedback, providing a low-friction incumbent substitute for this team.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "An agency practitioner reports resolving delivery and review friction by using a shared Canva template where copywriters, designers, and clients collaborate in real time in a browser on a single shared document.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "monthly",
+        "role": "Agency practitioner",
+        "source_date": "2025-07-12",
+        "source_excerpt": "We started a canva template - it looks like a social media post. We’ll literally add the text/imagery right in there and share it with everyone, copy guys can add copy, designers can add designs, client can view it and add feedback. Single document, shared. Works with everyone, you just need a browser.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/comment/n2su5nh/",
+        "strength": 3,
+        "subtype": "collaborative_canva_template",
+        "type": "substitute"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "JuicerSocial",
+      "evidence_id": "mb-skeptic-014",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/",
+      "raw_fingerprint": "8c3217856dc6962fdfec12507492672e7a4a332577dd99d02b1c335172e57a0d",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "JuicerSocial",
+        "company": "Juicer",
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-014",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-juicersocial",
+        "industry": "Social Media Tools",
+        "interpretation": "Highlights an architectural risk of static image handoffs: decoupling the design source from downstream schedulers breaks version propagation, suggesting that static export engines face ongoing desynchronization risks unless two-way queue integration exists.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A social media tool operator commenting on an agency scheduling failure characterizes the issue as a version-control problem, noting that once a graphic is exported as a static PNG to a scheduler, the scheduler has no awareness of source changes in the design file.",
+        "observed_at": "2026-09-09",
+        "polarity": "neutral",
+        "recurrence": null,
+        "role": "Social media tool operator",
+        "source_date": "2026-08-13",
+        "source_excerpt": "To me, it's more like a version-control problem. Once the PNG is exported, the scheduler has no idea the source changed. I would probably add a final check for anything edited after approval rather than shorten the whole scheduling window.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/",
+        "strength": 3,
+        "subtype": "queue_decoupling_risk",
+        "type": "risk"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Canva",
+      "evidence_id": "mb-market-001",
+      "exact_source_url": "https://www.canva.com/help/use-brand-kit/",
+      "raw_fingerprint": "5562c9ba276a5cfce6208a582c48dce95d1d4876d68580be267b807fe1e69acb",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Canva",
+        "company": "Canva",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-001",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-canva",
+        "industry": "Graphic Design Software",
+        "interpretation": "Direct incumbent already provides multi-brand asset isolation and storage, weakening any claim that multi-brand styling or brand kits alone constitute a differentiated wedge.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Canva provides Brand Kits storing logos, color palettes, fonts, and brand guidelines, supporting up to 100 distinct brand kits on business plans with fast switching between kits in the editor.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Brand Kits are centralized hubs for managing your organization's or team's official visual identity, including logos, colors, fonts, and guidelines. Supports multiple Brand Kits across different campaigns or clients.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://www.canva.com/help/use-brand-kit/",
+        "strength": 4,
+        "subtype": "brand_assets",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-skeptic-011"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1p2zj55/comment/nq73sfk/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-012"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1b847vd/comment/ktmp16l/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-013"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/comment/n2su5nh/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-014"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-001"
+      ],
+      "exact_source_url": "https://www.canva.com/help/use-brand-kit/"
+    }
+  ]
+}

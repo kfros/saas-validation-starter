@@ -1,0 +1,289 @@
+{
+  "batch_snapshot_sha256": "3323e34558047dc34cb78ad062fd674dc8215b401c55475ae96f19919c6e6945",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "Kontentino",
+      "evidence_id": "mb-market-012",
+      "exact_source_url": "https://www.kontentino.com/features/approvals/",
+      "raw_fingerprint": "0442cc691a53f5ea25e5bac0a5ad0bf23dfb25ffd8d1ba298d1fe9c0fecaa120",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Kontentino",
+        "company": "Kontentino",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-012",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-kontentino",
+        "industry": "Social Media Management Software",
+        "interpretation": "Lowers friction for client sign-off, demonstrating that agency-to-client approval handoff is already solved outside the design authoring tool.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Kontentino enables 1-click external client approval links requiring no client login or password, supporting a two-tier review chain (internal team approval followed by client sign-off) with audit logging.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Send one-click approval links to clients without requiring them to create a login or remember passwords. Two-tier approval processes separate internal team review from client sign-off.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://www.kontentino.com/features/approvals/",
+        "strength": 4,
+        "subtype": "approvals",
+        "type": "substitute"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Kontentino",
+      "evidence_id": "mb-market-013",
+      "exact_source_url": "https://www.kontentino.com/pricing/",
+      "raw_fingerprint": "3e7e3efd901c9858a785b02d2b0cc99ab7f603cbc33b0a359ef47810ba369a00",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Kontentino",
+        "company": "Kontentino",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-013",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-kontentino",
+        "industry": "Social Media Management Software",
+        "interpretation": "Establishes established pricing for multi-client agency approval suites, indicating that agencies pay roughly €5 to €15 per client profile per month for collaboration infrastructure.",
+        "money_amount": 49.0,
+        "money_currency": "EUR",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "Kontentino pricing starts at €49/month billed annually (€65/month monthly) for 3 users and 10 client profiles; Standard is €109/month for 10 users and 40 profiles; Pro is €199/month for unlimited profiles.",
+        "observed_at": "2026-09-08",
+        "polarity": "neutral",
+        "recurrence": "monthly",
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Starter plan is €49/month billed annually (€65 monthly) for 3 users and 10 profiles. Standard plan is €109/month (€145 monthly) for 10 users and 40 profiles. Pro plan is €199/month (€265 monthly).",
+        "source_tier": "A",
+        "source_type": "official_pricing",
+        "source_url": "https://www.kontentino.com/pricing/",
+        "strength": 3,
+        "subtype": "pricing",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "SocialPilot",
+      "evidence_id": "mb-market-014",
+      "exact_source_url": "https://www.socialpilot.co/features/client-management",
+      "raw_fingerprint": "eedcc7660996f123f127483d492444deaa447c08bd514fffdfc3ae56c246b7f7",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "SocialPilot",
+        "company": "SocialPilot",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-014",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-socialpilot",
+        "industry": "Social Media Management Software",
+        "interpretation": "Substitutes in the social management tier offer white-label multi-client review dashboards, proving that client presentation and approval layers are heavily commoditized.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "SocialPilot provides client management modules with dedicated sub-accounts, white-label client approval dashboards, and automated review notification workflows.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Manage multiple clients through dedicated sub-accounts. Clients get customized review dashboards and approval workflows under your agency's white-label domain.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://www.socialpilot.co/features/client-management",
+        "strength": 4,
+        "subtype": "client_isolation",
+        "type": "substitute"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "SocialPilot",
+      "evidence_id": "mb-market-015",
+      "exact_source_url": "https://www.socialpilot.co/pricing",
+      "raw_fingerprint": "f2d4729e945c9c2132614fc221bcd0aca6f95bb6bbb2675de93d592db0028688",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "SocialPilot",
+        "company": "SocialPilot",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-015",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-socialpilot",
+        "industry": "Social Media Management Software",
+        "interpretation": "Positions social multi-account management and client approval portals at $85–$170/month for agencies managing 20–40 accounts.",
+        "money_amount": 85.0,
+        "money_currency": "USD",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "SocialPilot plans range from Essentials at $17/month billed annually (5 accounts) to Premium at $85/month (20 accounts, client management) and Ultimate at $170/month (40 accounts, white-label).",
+        "observed_at": "2026-09-08",
+        "polarity": "neutral",
+        "recurrence": "monthly",
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Essentials is $17/mo billed annually (1 user, 5 accounts). Standard is $34/mo (3 users, 10 accounts). Premium is $85/mo (6 users, 20 accounts). Ultimate is $170/mo (unlimited users, 40 accounts).",
+        "source_tier": "A",
+        "source_type": "official_pricing",
+        "source_url": "https://www.socialpilot.co/pricing",
+        "strength": 3,
+        "subtype": "pricing",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Buffer",
+      "evidence_id": "mb-market-016",
+      "exact_source_url": "https://buffer.com/pricing",
+      "raw_fingerprint": "7d83946fc9f1615d81299d0c0c5a16b13790f98a4cc043a64ef8c3d766e961b4",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Buffer",
+        "company": "Buffer",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-016",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-buffer",
+        "industry": "Social Media Management Software",
+        "interpretation": "Highlights agency-level social suite pricing; Buffer provides approval routing and scheduling but delegates graphic creation entirely to external Canva integrations or manual uploads.",
+        "money_amount": 100.0,
+        "money_currency": "USD",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "Buffer offers an Agency plan at $100/month billed annually ($120/month monthly) covering 10 social channels, custom user access controls, and draft approval flows ($5/month per additional channel).",
+        "observed_at": "2026-09-08",
+        "polarity": "neutral",
+        "recurrence": "monthly",
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Agency plan is $100/month billed annually ($120/month monthly) for 10 channels. Additional channels are $5/month each. Includes custom permissions and approval workflows.",
+        "source_tier": "A",
+        "source_type": "official_pricing",
+        "source_url": "https://buffer.com/pricing",
+        "strength": 3,
+        "subtype": "pricing",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-market-012"
+      ],
+      "exact_source_url": "https://www.kontentino.com/features/approvals/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-013"
+      ],
+      "exact_source_url": "https://www.kontentino.com/pricing/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-014"
+      ],
+      "exact_source_url": "https://www.socialpilot.co/features/client-management"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-015"
+      ],
+      "exact_source_url": "https://www.socialpilot.co/pricing"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-016"
+      ],
+      "exact_source_url": "https://buffer.com/pricing"
+    }
+  ]
+}

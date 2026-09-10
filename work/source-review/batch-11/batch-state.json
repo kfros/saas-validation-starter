@@ -1,0 +1,23 @@
+{
+  "batch_snapshot_sha256": "2963baa03c58e1167c10eb001a82c81db757f66ed52039be6802224217609ae0",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-skeptic-006",
+    "mb-skeptic-007",
+    "mb-skeptic-008",
+    "mb-skeptic-009",
+    "mb-skeptic-010"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-skeptic-006",
+    "mb-skeptic-007",
+    "mb-skeptic-008",
+    "mb-skeptic-009",
+    "mb-skeptic-010"
+  ],
+  "schema_version": 1
+}

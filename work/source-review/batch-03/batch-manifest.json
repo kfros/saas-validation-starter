@@ -1,0 +1,287 @@
+{
+  "batch_snapshot_sha256": "25b1bfa7891818a8e4e602700845598d391dac6e9e76a9b5ee3ea693d7609018",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "Kasia-K",
+      "evidence_id": "mb-wtp-010",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/kti4jk/is_it_legal_to_use_canva_as_part_of_your_social/",
+      "raw_fingerprint": "153363eb1d9af09ee138ae8a61ae59c2870177ac7dbc8ccc07b1cd8986b8a1bd",
+      "raw_path": "ideas/multi-brand-content/raw/wtp/evidence.jsonl",
+      "raw_record": {
+        "agent": "wtp-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Kasia-K",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-wtp-010",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-kasia-k",
+        "industry": "Social Media Marketing",
+        "interpretation": "Direct negative evidence against software WTP: demonstrates that free-tier design tools combined with manual template tweaking are considered good enough for client service delivery, dampening conversion pressure.",
+        "money_amount": 0.0,
+        "money_currency": "USD",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "Practitioner reports that Canva's free tier is legally and commercially sufficient for creating client ad campaigns and social deliverables by manually adjusting templates to client brand identity, avoiding paid tool subscriptions.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": "monthly",
+        "role": "Social Media Marketer",
+        "source_date": "2021-01-09",
+        "source_excerpt": "It's free (at least there is a free version) and you can use its' templates and other visual elements for business purposes. Sure you can use it to create an ad campaign. I would just recommend you to edit the template - not to use it as it is. Just adjust it to your client or your brand identity.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/kti4jk/is_it_legal_to_use_canva_as_part_of_your_social/",
+        "strength": 4,
+        "subtype": "free_tier_retention",
+        "type": "wtp"
+      },
+      "raw_track": "wtp",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Huge_Razzmatazz_985",
+      "evidence_id": "mb-pain-002",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ueutvu/comment/otqnc0d/",
+      "raw_fingerprint": "1cdd2c105a602cdb8851edd781e3fdaf1497cd8932b826552047f918e21ffac9",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Huge_Razzmatazz_985",
+        "company": null,
+        "company_size": "1 person",
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-002",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-huge_razzmatazz_985",
+        "industry": "marketing_services",
+        "interpretation": "Contradictory evidence showing that some solo multi-brand operators find standard recurring post and graphic production manageable and low-friction under existing workflows.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A solo marketing operator managing 5 clients reports that producing three posts per week with captions, graphics, and video editing per client is manageable alongside broader retainer duties without dedicated production software.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "weekly",
+        "role": "Solo Marketing Operator",
+        "source_date": "2026-06-25",
+        "source_excerpt": "• Social media management, monthly content calendars, photo and video shoots, three posts per week, captions, graphics, video editing and audience engagement\n• Market research, campaign planning, promotional strategy, lead generation, reporting and ongoing optimization\n\nA one person team managing this workload for 5 clients.\n\nThe workload you outlined sounds manageable, and I stand by that.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ueutvu/comment/otqnc0d/",
+        "strength": 4,
+        "subtype": "workload_sufficiency",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Recent_Nature_8474",
+      "evidence_id": "mb-pain-003",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1kiemdm/comment/mrla7gn/",
+      "raw_fingerprint": "4df733a388c51684b44ad816bbf0de8abd9c1dbc5dac09186aadacc1fb0f5fde",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Recent_Nature_8474",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-003",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-recent_nature_8474",
+        "industry": "marketing_services",
+        "interpretation": "Demonstrates that assembling content across multiple unintegrated AI and production tools causes severe context switching and manual copy-paste overhead.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": "employee_time",
+        "observation": "A former social media practitioner using five distinct AI and design tools spent ~4 hours daily manually assembling fragmented content and assets scattered across multiple platforms.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "daily",
+        "role": "Former SMM practitioner / SaaS builder",
+        "source_date": "2025-05-10",
+        "source_excerpt": "Even after using 5 different AI tools, it made no real difference. as everything lived in different places, i was spending almost 4 hours everyday putting together thing.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1kiemdm/comment/mrla7gn/",
+        "strength": 4,
+        "subtype": "tool_fragmentation",
+        "type": "gap"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "DJAYK47",
+      "evidence_id": "mb-pain-004",
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/1sc2a5m/found_out_canva_removed_the_styles_menu_mid/",
+      "raw_fingerprint": "1395c1b412cd16e88bfeab3c6d21970310e7f9f2b662aa32ce9ae1fd44f08d4b",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "DJAYK47",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-004",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-djayk47",
+        "industry": "marketing_services",
+        "interpretation": "Shows that relying on template-level styling mechanisms creates operational risk when platform UI changes break brand styling workflows under client deadlines.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A web designer setting up a brand kit in Canva for a client discovered during a client meeting that Canva had removed the styles menu feature without warning, disrupting the application of brand colors and fonts across templates.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "ad_hoc",
+        "role": "Web Designer",
+        "source_date": "2026-04-04",
+        "source_excerpt": "went to apply brand styles like I've done maybe a few hundred times... and the feature was just gone. No tooltip, no alert, nothing. Canva's own help article on this - https://www.canva.com/help/apply-brand-kit-colors/ - is also now outdated and useless.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/canva/comments/1sc2a5m/found_out_canva_removed_the_styles_menu_mid/",
+        "strength": 3,
+        "subtype": "style_propagation",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "ayecl",
+      "evidence_id": "mb-pain-005",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ueutvu/comment/ouf4wov/",
+      "raw_fingerprint": "9237ae12f7e6e3dd2a6ca62ae3177f556d673cb8e597284aec34259763e5c030",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "ayecl",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-005",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-ayecl",
+        "industry": "marketing_services",
+        "interpretation": "Identifies revisions and asset chasing as recurring operational bottlenecks in client retainer execution, though stated as advisory guidance rather than an audit of the author's specific firm.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "An agency practitioner advising on workload estimation identifies client revisions, asset chasing, and reporting as unbudgeted operational factors that make weekly retainer execution substantially heavier than planned.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "weekly",
+        "role": "Agency practitioner / consultant",
+        "source_date": "2026-06-29",
+        "source_excerpt": "The hidden killers are revisions, asset chasing, and reporting. If those are not in the estimate, every week looks lighter on paper than it is in real life.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ueutvu/comment/ouf4wov/",
+        "strength": 4,
+        "subtype": "revision_toil",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-wtp-010"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/kti4jk/is_it_legal_to_use_canva_as_part_of_your_social/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-002"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ueutvu/comment/otqnc0d/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-003"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1kiemdm/comment/mrla7gn/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-004"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/1sc2a5m/found_out_canva_removed_the_styles_menu_mid/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-005"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ueutvu/comment/ouf4wov/"
+    }
+  ]
+}

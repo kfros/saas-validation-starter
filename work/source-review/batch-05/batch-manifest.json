@@ -1,0 +1,279 @@
+{
+  "batch_snapshot_sha256": "0256c86db379d37d24e1cb717dc69ae00d3404cfbbe64f13088492a25241aa16",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "k_rocker",
+      "evidence_id": "mb-pain-011",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/comment/n2su5nh/",
+      "raw_fingerprint": "5938c46d0ec9a6a1610e99506dd4cfb9f4b3a4b855f262a6f8644aa51596f66b",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "k_rocker",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-011",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-k_rocker",
+        "industry": "marketing_services",
+        "interpretation": "Contradictory evidence showing that collaborative Canva documents can serve as a sufficient substitute for review workflows without dedicated approval software.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "An agency team practitioner reports using a single shared Canva document formatted as mock social posts where copywriters, designers, and clients collaborate and provide feedback directly in-browser.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "monthly",
+        "role": "Agency practitioner",
+        "source_date": "2025-07-12",
+        "source_excerpt": "We started a canva template - it looks like a social media post. We’ll literally add the text/imagery right in there and share it with everyone, copy guys can add copy, designers can add designs, client can view it and add feedback. Single document, shared. Works with everyone, you just need a browser.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/comment/n2su5nh/",
+        "strength": 4,
+        "subtype": "collaborative_canvas_sufficiency",
+        "type": "substitute"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Commercial_Carob_977",
+      "evidence_id": "mb-pain-012",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1o7es1o/comment/nocl8p3/",
+      "raw_fingerprint": "41e1340455505ea50764fa97f130707ecf56cdcfab143203ab63e07b221f2468",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Commercial_Carob_977",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-012",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-commercial_carob_977",
+        "industry": "marketing_services",
+        "interpretation": "Highlights that client revision workflows suffer from communication channel fragmentation, complicating task tracking across external stakeholders.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "An agency team practitioner reports that despite starting with centralized briefs in Google Docs, client feedback spreads across WhatsApp, Slack, and Gmail, prompting them to adopt Briefmatic to track tasks.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "per_client",
+        "role": "Agency team practitioner",
+        "source_date": "2025-11-11",
+        "source_excerpt": "We try to start with a memo style brief in a google doc and centralise the feedback through comments as tasks but sooner or later the chat spreads to whatsapp, slack & gmail so we have our team on Briefmatic to share and track the work.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1o7es1o/comment/nocl8p3/",
+        "strength": 3,
+        "subtype": "revision_channel_fragmentation",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "maddiecoder",
+      "evidence_id": "mb-pain-013",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1pirk74/comment/o1zv78c/",
+      "raw_fingerprint": "526cda009accc2d16201e8e66e6a560abcd0fe19f923f54adc2fb09f0fe7aaaa",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "maddiecoder",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-013",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-maddiecoder",
+        "industry": "marketing_services",
+        "interpretation": "Demonstrates that generic AI copy generation fails to sustain differentiated voice, leading practitioners to rely on manual Canva and spreadsheet workflows.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A marketing practitioner testing tools for work found that AI copy tools (Jasper, Copy.ai) produce homogeneous output over time, returning to Canva plus manual copy adjustments and spreadsheets.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "weekly",
+        "role": "Marketing tool evaluator / content practitioner",
+        "source_date": "2026-01-27",
+        "source_excerpt": "for content creation i still use canva + manual tweaking. tried jasper and copy.ai but they all sound the same after a while",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1pirk74/comment/o1zv78c/",
+        "strength": 4,
+        "subtype": "ai_voice_homogeneity",
+        "type": "gap"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "PopularReception6422",
+      "evidence_id": "mb-pain-014",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1m0gx6l/client_want_me_to_use_ai_to_reduce_cost/",
+      "raw_fingerprint": "0753894b30bf500011029833186011d7e6f217f6bb8cd73b32845d91f4034c77",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "PopularReception6422",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-014",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-popularreception6422",
+        "industry": "marketing_services",
+        "interpretation": "Confirms that general LLMs suffer from brand context loss and stylistic drift, requiring ongoing manual editing to produce client-acceptable copy.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A social media marketer tasked by a client with using AI to reduce costs reports that ChatGPT loses brand context and consistently generates generic off-brand copy requiring human rewriting.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "weekly",
+        "role": "Social media marketer / ad manager",
+        "source_date": "2025-07-15",
+        "source_excerpt": "ChatGPT seems to have amnesia, but my client want me to use it to reduce costs. However! It CONSISTENTLY creates generic off-brand slop. Is there a tool where the AI is actually 'aware' of my brand and how to write words that sound HUMAN?? I can't handle another em dash (—).",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1m0gx6l/client_want_me_to_use_ai_to_reduce_cost/",
+        "strength": 4,
+        "subtype": "brand_context_amnesia",
+        "type": "gap"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Prudent-Bad-8786",
+      "evidence_id": "mb-pain-015",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/",
+      "raw_fingerprint": "8f962fdb1436c827a0f37ac344f78f9f158c0f887b56831db06e184fae5b1251",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Prudent-Bad-8786",
+        "company": null,
+        "company_size": "small agency",
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-015",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-prudent-bad-8786",
+        "industry": "marketing_services",
+        "interpretation": "Illustrates the risk of version desynchronization when static exports decouple from source designs, resulting in unpropagated revisions going live.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A small agency managing 6 clients published an incorrect event date because revisions made to the Canva design were not synchronized with the static PNG already exported to the publishing scheduler.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "per_client",
+        "role": "Small agency practitioner / operations",
+        "source_date": "2026-08-11",
+        "source_excerpt": "Thursday the post goes out with the old date on it anyway, because what actually got pushed to the scheduler was the export from the Friday before. Nobody caught it, there was nothing to catch it with. Once it's exported, it's just a PNG sitting in a queue, it has no idea the design behind it moved on.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/",
+        "strength": 4,
+        "subtype": "version_desynchronization",
+        "type": "risk"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-pain-011"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/comment/n2su5nh/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-012"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1o7es1o/comment/nocl8p3/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-013"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1pirk74/comment/o1zv78c/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-014"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1m0gx6l/client_want_me_to_use_ai_to_reduce_cost/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-015"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/"
+    }
+  ]
+}

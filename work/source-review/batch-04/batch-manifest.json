@@ -1,0 +1,283 @@
+{
+  "batch_snapshot_sha256": "366d845b09d62f9275f993ee43f3498b47a128c20310f4419e66c867223fd85e",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "nataliakalinska",
+      "evidence_id": "mb-pain-006",
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/1rk9bj6/comment/o8kv01e/",
+      "raw_fingerprint": "f7d06ca29bd6440edd77ab0b6f623fca307e22c6db46be63cbafc2256206585a",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "nataliakalinska",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-006",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-nataliakalinska",
+        "industry": "marketing_services",
+        "interpretation": "Demonstrates that template-based bulk generation requires manual layout cleanup due to rigid text bounding boxes, reducing anticipated batch time savings.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A Canva user utilizing Bulk Create for batch graphics notes that fluctuating word and character counts frequently require manually reviewing and adjusting individual slides after generation.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "per_client",
+        "role": "Content creator",
+        "source_date": "2026-03-04",
+        "source_excerpt": "In my experience, you often have to tweak the text slightly after adding it through Bulk Create. But it very much depends on how mindful you are of the space you have in the original design and how well you plan for the word/character count beforehand. It's a mixed bag, I had generations when I didn't have to tweak a thing, and some that I had to go over some slides.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/canva/comments/1rk9bj6/comment/o8kv01e/",
+        "strength": 3,
+        "subtype": "bulk_create_cleanup",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "consy_man786",
+      "evidence_id": "mb-pain-007",
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/yo0m6r/bulk_create_with_two_lines/",
+      "raw_fingerprint": "3f26aa4c3784fb186c8a1cd2bf838bef6eda1f4e2d2ad0b6736242a8f32a4582",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "consy_man786",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-007",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-consy_man786",
+        "industry": "marketing_services",
+        "interpretation": "Illustrates rigid data-mapping limitations in current template engines that collapse multi-line copy formatting and force manual post-generation edits.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A designer attempting to bulk-create multi-line text across two layers in Canva found that the tool merges lines into single flat strings, breaking multi-line layouts.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "ad_hoc",
+        "role": "Designer",
+        "source_date": "2022-11-06",
+        "source_excerpt": "I have a project where I have to bulk create a text in two different layers. When I try bulk create, it just combines both in one line. For example,\nFLO\nRIDA\nThis is how I want it but bulk create just combines both and writes FLORIDA in one word. How can I change this?",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/canva/comments/yo0m6r/bulk_create_with_two_lines/",
+        "strength": 3,
+        "subtype": "bulk_create_formatting_rigidity",
+        "type": "gap"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "dvdmcn",
+      "evidence_id": "mb-pain-008",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/mzutga/comment/gw3ipmq/",
+      "raw_fingerprint": "dbf333b4c80d5f1031b3187a016b624a4d6ee3355cc3553b5e2e79cce9f6b0f0",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "dvdmcn",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-008",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-dvdmcn",
+        "industry": "marketing_services",
+        "interpretation": "Highlights the operational risk of visual asset cross-contamination when managing parallel content pipelines for multiple client brands without strict context isolation.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A social media practitioner managing campaigns for multiple clients experienced cross-brand asset contamination when an image from one client was mistakenly included in another client's multi-card carousel.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "ad_hoc",
+        "role": "Social Media Marketer",
+        "source_date": "2021-04-27",
+        "source_excerpt": "Aside from normal typos which give me panic attacks every time I see one of my client posts in my personal feed but I can remember once running a ton of Facebook ads and an image from another client ended up in the carousel of my client. I’ve hated Facebook Ad manager so much ever since.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/mzutga/comment/gw3ipmq/",
+        "strength": 4,
+        "subtype": "asset_cross_contamination",
+        "type": "risk"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Ok-Guitar4196",
+      "evidence_id": "mb-pain-009",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/how_do_you_deliver_monthly_social_media_posts_to/",
+      "raw_fingerprint": "33870cac529e05118edb2c7b2b5fd31891764f34bc0fb14d6212213649fe7427",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Ok-Guitar4196",
+        "company": null,
+        "company_size": "small agency",
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-009",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-ok-guitar4196",
+        "industry": "marketing_services",
+        "interpretation": "Demonstrates that multi-tool batch assembly introduces formatting bugs and repetitive manual maintenance across client deliverables.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A graphic designer at a small agency producing monthly batches of social posts across platforms reports formatting errors when copy-pasting from Google Slides to Figma and repetitive toil manually adjusting profile images and dates across post auto-frames.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "monthly",
+        "role": "Agency Graphic Designer",
+        "source_date": "2025-07-11",
+        "source_excerpt": "The process of copy and pasting from Gslides to Figma results in weird text formatting. Like odd spacing or underlines on links (clients are picky and expect mockup to look identical to how it will appear on social media). Error also occurs here because I have to change every small detail of the auto frame for each post, like the individual date, the profile image, sometimes these small details are overlooked in the larger process.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/how_do_you_deliver_monthly_social_media_posts_to/",
+        "strength": 4,
+        "subtype": "batch_formatting_degradation",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "GiraffeDelicious5649",
+      "evidence_id": "mb-pain-010",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sa5r9a/solo_social_managers_how_tf_are_you_staying/",
+      "raw_fingerprint": "cc913a663f54ff29d43f80a0786ed370d0d0bec6a020393ab664e95cda321a14",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "GiraffeDelicious5649",
+        "company": null,
+        "company_size": "solo",
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-010",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-giraffedelicious5649",
+        "industry": "marketing_services",
+        "interpretation": "Shows that organizing and staging raw client media across devices and tools is a major time sink in solo multi-client workflows.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": "employee_time",
+        "observation": "A solo social media manager handling multiple ongoing content clients reports losing hours searching for specific assets across 20+ folders and manually transferring media between mobile devices, desktop, and Canva.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "weekly",
+        "role": "Solo Social Media Manager",
+        "source_date": "2026-04-02",
+        "source_excerpt": "I have around 20 different folders where I organize the content I receive based on different categories and tbh, I could split them out even further, but this many folders is already becoming a problem. My overall issue is I'm WASTING hours of my precious time trying to find specific videos/photos when editing. It's even worse because I have to add the assets to multiple places (on my phone and on my computer/Canva)",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sa5r9a/solo_social_managers_how_tf_are_you_staying/",
+        "strength": 4,
+        "subtype": "asset_retrieval_friction",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-pain-006"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/1rk9bj6/comment/o8kv01e/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-007"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/yo0m6r/bulk_create_with_two_lines/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-008"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/mzutga/comment/gw3ipmq/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-009"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1lx80ha/how_do_you_deliver_monthly_social_media_posts_to/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-010"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sa5r9a/solo_social_managers_how_tf_are_you_staying/"
+    }
+  ]
+}

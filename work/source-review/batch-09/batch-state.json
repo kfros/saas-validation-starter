@@ -1,0 +1,23 @@
+{
+  "batch_snapshot_sha256": "838f54f951a66afbc693133a1f90d32f3259bf01cda15b1d5c70bf790e56454b",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-workflow-010",
+    "mb-workflow-011",
+    "mb-workflow-012",
+    "mb-workflow-013",
+    "mb-workflow-014"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-workflow-010",
+    "mb-workflow-011",
+    "mb-workflow-012",
+    "mb-workflow-013",
+    "mb-workflow-014"
+  ],
+  "schema_version": 1
+}

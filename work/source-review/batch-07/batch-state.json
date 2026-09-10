@@ -1,0 +1,23 @@
+{
+  "batch_snapshot_sha256": "18b7c9babfa7af0b8e98b6ec2e61741557f0189b322fe01986a6f100cd45d059",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-pain-021",
+    "mb-workflow-001",
+    "mb-workflow-002",
+    "mb-workflow-003",
+    "mb-workflow-004"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-pain-021",
+    "mb-workflow-001",
+    "mb-workflow-002",
+    "mb-workflow-003",
+    "mb-workflow-004"
+  ],
+  "schema_version": 1
+}

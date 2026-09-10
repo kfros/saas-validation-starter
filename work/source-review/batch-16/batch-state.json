@@ -1,0 +1,23 @@
+{
+  "batch_snapshot_sha256": "5b85e918d9417f07870a6617b8525f9d8475d92d900694b9f61a2bd900a6ef7e",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-market-017",
+    "mb-market-018",
+    "mb-market-019",
+    "mb-market-020",
+    "mb-market-021"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-market-017",
+    "mb-market-018",
+    "mb-market-019",
+    "mb-market-020",
+    "mb-market-021"
+  ],
+  "schema_version": 1
+}

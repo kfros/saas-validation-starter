@@ -1,0 +1,279 @@
+{
+  "batch_snapshot_sha256": "41b7d7dbc651e362ae19faeaeaeaf444622c2d68019ded2af49fcb0bbe427b44",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "Luaanebonvoy311",
+      "evidence_id": "mb-pain-016",
+      "exact_source_url": "https://www.reddit.com/r/graphic_design/comments/194g5un/comment/khj8mjo/",
+      "raw_fingerprint": "d2b04b9f8c3efb8b5ecb287fc0e489ad170e0aaa3e60e2e203e9f0c589909682",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Luaanebonvoy311",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-016",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-luaanebonvoy311",
+        "industry": "marketing_services",
+        "interpretation": "Contradictory evidence indicating that price-sensitive clients often accept basic template designs, limiting willingness to pay for specialized multi-brand design services.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "An employee at a design firm reports losing price-sensitive clients to Canva because clients on tight budgets accept low-cost or free templates even if designs look generic.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "ad_hoc",
+        "role": "Design agency employee",
+        "source_date": "2024-01-12",
+        "source_excerpt": "The company I work for has lost many customers to Canva. It’s hard to beat free/low cost designs… especially clients on tight budgets and don’t mind looking like everyone else out there who uses Canva👎🏽",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/graphic_design/comments/194g5un/comment/khj8mjo/",
+        "strength": 4,
+        "subtype": "client_template_satisfaction",
+        "type": "substitute"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Capital-Act-5704",
+      "evidence_id": "mb-pain-017",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1hs150n/planable_crossposting_issues/",
+      "raw_fingerprint": "597147d00d777da7598078a568a247aaea1d1ccd1da846eceb89d8407b613bbc",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Capital-Act-5704",
+        "company": "nonprofit",
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-017",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-capital-act-5704",
+        "industry": "nonprofit",
+        "interpretation": "Illustrates cross-network tagging friction in social scheduling tools, although observed in an in-house nonprofit workflow rather than an external multi-brand provider.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A marketing professional at a nonprofit scheduling posts across Facebook, Instagram, and LinkedIn found that Planable cannot handle platform-specific entity tags for partners and donors in unified campaigns, forcing manual creation of separate posts for each platform.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "per_client",
+        "role": "Nonprofit marketing professional",
+        "source_date": "2025-01-02",
+        "source_excerpt": "To get around this manually, I normally schedule 3 seperate posts (I can't even do them as 1 campaign) and tag the specific profile for each platform, then schedule them to go live at the same time. It is a total waste of time to use Planable for me unless I am not tagging any parties, which is rare.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1hs150n/planable_crossposting_issues/",
+        "strength": 3,
+        "subtype": "cross_platform_metadata_breakdown",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "FdINI",
+      "evidence_id": "mb-pain-018",
+      "exact_source_url": "https://www.reddit.com/r/graphic_design/comments/1aylev1/comment/krvpcjs/",
+      "raw_fingerprint": "860816c6363ea94d66ae762389fcc8a0fabf3af160b2c5a7800eb70ce629efcb",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "FdINI",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-018",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-fdini",
+        "industry": "marketing_services",
+        "interpretation": "Illustrates that client onboarding frequently provides degraded brand inputs, creating manual asset remediation that automated generation pipelines cannot handle cleanly.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A design agency practitioner reports receiving severely degraded client assets (scanned PDFs embedded in Word documents) that required manual logo recreation before design work could proceed.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "per_client",
+        "role": "Design agency practitioner",
+        "source_date": "2024-02-24",
+        "source_excerpt": "Scan of a pdf, embedded in an email, printed from said email, attached in a word doc, saved in an email file, then attached in an email and forwarded to us with \"will this work\", as we saw the whole email chain. Went through several stakeholders. We remade the logo, then a week later we got an email from the brand (not the client) with the original pdf of brand guidelines.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/graphic_design/comments/1aylev1/comment/krvpcjs/",
+        "strength": 4,
+        "subtype": "client_asset_degradation",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Summer_Macaroon",
+      "evidence_id": "mb-pain-019",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1w7wee3/comment/p7yha5i/",
+      "raw_fingerprint": "3463f5a1392a2a28e47c8392dc6d4b6651fa18a802be6a276e9bb2e235f9a99d",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Summer_Macaroon",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-019",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-summer_macaroon",
+        "industry": "marketing_services",
+        "interpretation": "Contradictory evidence showing that practitioners reject automated generation when post-generation editorial correction effort exceeds manual creation speed.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A social media content practitioner abandoned AI generation tools after finding that correcting poor AI outputs consumed more time than creating content manually.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "ad_hoc",
+        "role": "Social media content practitioner",
+        "source_date": "2026-09-05",
+        "source_excerpt": "Why use AI when I can do it better and faster? I tried it, and for me it is just a waste of time (don't tell me I'm prompting it wrong, because it is not the case), and it gives very bad results, and I would have to waste a lot of time to fix it. And on top of that, I get to keep my brain sharp.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1w7wee3/comment/p7yha5i/",
+        "strength": 4,
+        "subtype": "ai_automation_rejection",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "heymae13",
+      "evidence_id": "mb-pain-020",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1tkbwzm/comment/onac80v/",
+      "raw_fingerprint": "79fd0d3221109c9b2d5175d8f82abc39225ebea576a7d9f9548869fa44618ae9",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "heymae13",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-020",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-heymae13",
+        "industry": "marketing_services",
+        "interpretation": "Demonstrates that preview interfaces lack platform-accurate fidelity, forcing redundant manual checks across devices before publication.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A social media practitioner reports that preview windows in scheduling tools frequently fail to match native platform cropping, requiring redundant manual verification on physical phones.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "weekly",
+        "role": "Social media practitioner / publisher",
+        "source_date": "2026-05-22",
+        "source_excerpt": "honestly the biggest headache for me is when the preview window doesnt match how it actually looks on the platform. i hate spending time setting everything up just for the cropping to be totally off when it goes live. its super frustrating cuz i have to double check everything on my phone anyway",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1tkbwzm/comment/onac80v/",
+        "strength": 3,
+        "subtype": "preview_fidelity_mismatch",
+        "type": "gap"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-pain-016"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/graphic_design/comments/194g5un/comment/khj8mjo/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-017"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1hs150n/planable_crossposting_issues/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-018"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/graphic_design/comments/1aylev1/comment/krvpcjs/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-019"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1w7wee3/comment/p7yha5i/"
+    },
+    {
+      "evidence_ids": [
+        "mb-pain-020"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1tkbwzm/comment/onac80v/"
+    }
+  ]
+}

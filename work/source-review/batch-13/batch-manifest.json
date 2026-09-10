@@ -1,0 +1,279 @@
+{
+  "batch_snapshot_sha256": "e8d732da1b28556c81e4b3ce81e425b40adc62addd5808649117be22ffdd981e",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "Canva",
+      "evidence_id": "mb-market-002",
+      "exact_source_url": "https://www.canva.com/help/article/bulk-create/",
+      "raw_fingerprint": "ad07d3fcf71bef88a15ff243bd42b7375fc1b1864981b5190939208e95adee9b",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Canva",
+        "company": "Canva",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-002",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-canva",
+        "industry": "Graphic Design Software",
+        "interpretation": "While batch creation exists, outputs are detached static pages. If a client requests a global layout or branding revision across a 30-post batch, the operator must manually edit every page or regenerate from scratch.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Canva Bulk Create maps tabular data (CSV/XLSX or manual) to text and image placeholders, generating up to 300 pages at once as a detached multi-page design document without retroactive propagation from template changes.",
+        "observed_at": "2026-09-08",
+        "polarity": "supports",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Use Bulk Create to generate multiple designs simultaneously by importing data from a CSV file, manual entry, or supported apps. Connect data fields to design elements to generate up to 300 rows.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://www.canva.com/help/article/bulk-create/",
+        "strength": 4,
+        "subtype": "batch_propagation",
+        "type": "gap"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Canva",
+      "evidence_id": "mb-market-003",
+      "exact_source_url": "https://www.canva.com/pricing/",
+      "raw_fingerprint": "976cc8cd394283938d6f27d2c6620bfd6270c7242ae57467c05451a8f93d22b1",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Canva",
+        "company": "Canva",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-003",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-canva",
+        "industry": "Graphic Design Software",
+        "interpretation": "Established benchmark price for design authoring and template tooling; per-seat pricing becomes expensive if external client reviewers must be invited into the workspace.",
+        "money_amount": 15.0,
+        "money_currency": "USD",
+        "money_period": "monthly",
+        "money_signal": "competitor_price",
+        "observation": "Canva Pro is priced at $15/month or $120/year for single users, while Canva for Teams starts at $100/seat/year (or $30/month for up to 3 users), with additional seats costing $100/seat/year.",
+        "observed_at": "2026-09-08",
+        "polarity": "neutral",
+        "recurrence": "monthly",
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Canva Pro costs $15/month or $120/year for one person. Canva for Teams is $100/seat/year (minimum 3 seats = $300/year) or $30/month for the first 3 users.",
+        "source_tier": "A",
+        "source_type": "official_pricing",
+        "source_url": "https://www.canva.com/pricing/",
+        "strength": 3,
+        "subtype": "pricing",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "money_amount",
+        "money_currency",
+        "money_period",
+        "money_type",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Canva",
+      "evidence_id": "mb-market-004",
+      "exact_source_url": "https://www.canva.com/help/request-approval/",
+      "raw_fingerprint": "232fc0474e1a1c683a1987435881798fc408dbec93baf28d7beb3ace850e835f",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Canva",
+        "company": "Canva",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-004",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-canva",
+        "industry": "Graphic Design Software",
+        "interpretation": "Canva's approval workflow is designed for internal enterprise governance rather than agency-to-client review loops, leaving a handoff gap for client sign-off.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Canva provides in-platform Team Design Approvals where members request approval from team admins before downloading or publishing, but lacks native external client guest approval links without workspace seat access.",
+        "observed_at": "2026-09-08",
+        "polarity": "supports",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Team members can request approvals for designs before publishing or downloading. Administrators or designated approvers can approve or reject with feedback.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://www.canva.com/help/request-approval/",
+        "strength": 3,
+        "subtype": "approvals",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Adobe",
+      "evidence_id": "mb-market-005",
+      "exact_source_url": "https://helpx.adobe.com/express/using/brand-kits.html",
+      "raw_fingerprint": "bff43dcc27803a8a3fc505a17bd162c778550c27b5398146f5877ea78e1ee466",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Adobe",
+        "company": "Adobe",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-005",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-adobe",
+        "industry": "Creative Software",
+        "interpretation": "Adobe Express provides multi-brand asset repositories with deep desktop design ecosystem integration, serving as an established substitute for brand kit management.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Adobe Express provides Brand Kits (logos, color themes, fonts) integrated with Adobe Creative Cloud Libraries, enabling synchronization of master brand assets across Adobe applications.",
+        "observed_at": "2026-09-08",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Create and manage Brand Kits in Adobe Express with colors, fonts, and logos. Shared Adobe Creative Cloud Libraries allow teams to access consistent assets across Adobe applications.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://helpx.adobe.com/express/using/brand-kits.html",
+        "strength": 4,
+        "subtype": "brand_assets",
+        "type": "market"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Adobe",
+      "evidence_id": "mb-market-006",
+      "exact_source_url": "https://helpx.adobe.com/express/using/bulk-create.html",
+      "raw_fingerprint": "51af3b2ecf73b052cf49c6fd2368162a9e9831080f26bb47ee67d595d484abe1",
+      "raw_path": "ideas/multi-brand-content/raw/market/evidence.jsonl",
+      "raw_record": {
+        "agent": "market-research",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Adobe",
+        "company": "Adobe",
+        "company_size": null,
+        "geography": null,
+        "icp": "MULTIBRAND-OPERATOR-01",
+        "id": "mb-market-006",
+        "idea": "multi-brand-content",
+        "independence_key": "vendor-adobe",
+        "industry": "Creative Software",
+        "interpretation": "Although linked graphic components update, multi-page social batch templates cannot dynamically reflow text and adjust multi-page carousel layouts when brand specs change, requiring manual rework.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "Adobe Express features Bulk Create functionality mapping spreadsheet columns to design variations; linked assets in CC Libraries sync updates, but template-level layout and copy reflow across generated variants does not automatically cascade.",
+        "observed_at": "2026-09-08",
+        "polarity": "supports",
+        "recurrence": null,
+        "role": null,
+        "source_date": "2026-01-01",
+        "source_excerpt": "Use bulk create in Adobe Express to generate multiple variations of a design from a spreadsheet. Linked CC Library assets update when source files change, but layout reflow across generated variants remains manual.",
+        "source_tier": "A",
+        "source_type": "official_docs",
+        "source_url": "https://helpx.adobe.com/express/using/bulk-create.html",
+        "strength": 3,
+        "subtype": "batch_propagation",
+        "type": "gap"
+      },
+      "raw_track": "market",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-market-002"
+      ],
+      "exact_source_url": "https://www.canva.com/help/article/bulk-create/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-003"
+      ],
+      "exact_source_url": "https://www.canva.com/pricing/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-004"
+      ],
+      "exact_source_url": "https://www.canva.com/help/request-approval/"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-005"
+      ],
+      "exact_source_url": "https://helpx.adobe.com/express/using/brand-kits.html"
+    },
+    {
+      "evidence_ids": [
+        "mb-market-006"
+      ],
+      "exact_source_url": "https://helpx.adobe.com/express/using/bulk-create.html"
+    }
+  ]
+}

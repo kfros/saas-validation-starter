@@ -1,0 +1,276 @@
+{
+  "batch_snapshot_sha256": "2963baa03c58e1167c10eb001a82c81db757f66ed52039be6802224217609ae0",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "Prudent-Bad-8786",
+      "evidence_id": "mb-skeptic-006",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/",
+      "raw_fingerprint": "bc553eff51a69c62031e48ac7ffbe01e61c402389197f50e212726569c9ab2f2",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Prudent-Bad-8786",
+        "company": null,
+        "company_size": "small agency",
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-006",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-prudent-bad-8786",
+        "industry": "Social Media Marketing",
+        "interpretation": "Accidental support: Confirms the operational vulnerability of flat static image exports between design tools and schedulers, where revisions made in the design tool fail to propagate to downstream queues.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A practitioner at a small agency managing 6 clients reports an incident where a post published with an outdated event date: a client requested a date change, the designer updated the Canva design within an hour, but the scheduler published the prior week's static PNG export because the queue had no link to the updated design.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "weekly",
+        "role": "Small agency practitioner / operations",
+        "source_date": "2026-08-11",
+        "source_excerpt": "Thursday the post goes out with the old date on it anyway, because what actually got pushed to the scheduler was the export from the Friday before. Nobody caught it, there was nothing to catch it with. Once it's exported, it's just a PNG sitting in a queue, it has no idea the design behind it moved on.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/",
+        "strength": 4,
+        "subtype": "version_propagation_failure",
+        "type": "gap"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Mannymac2000",
+      "evidence_id": "mb-skeptic-007",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/148zs2w/comment/jo3h3e8/",
+      "raw_fingerprint": "0873e79618cb6016283c86e29bf3cb742c5b7439fbf0345ec23f881b2a744ff7",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Mannymac2000",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-007",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-mannymac2000",
+        "industry": "Social Media Freelance",
+        "interpretation": "Demonstrates that established Canva/Mojo templates are considered sufficient and fast for weekly client batches by some freelance practitioners, reducing the perceived urgency for specialized batch generation software.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A freelance social media manager advising on managing multiple clients reports producing weekly content in batches using pre-made templates for each client on Canva and Mojo, noting that for quotes and product promos only specific text needs changing in a few clicks.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": "weekly",
+        "role": "Freelance social media manager",
+        "source_date": "2023-06-14",
+        "source_excerpt": "I have templates for each client on canva and mojo. So only specific info needs changed each time. So for quotes and product promo for example, a few clicks and it’s done. It looks good on the grid too.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/148zs2w/comment/jo3h3e8/",
+        "strength": 4,
+        "subtype": "manual_template_sufficiency",
+        "type": "substitute"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Unable-Connection-58",
+      "evidence_id": "mb-skeptic-008",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sl3obg/is_anyone_feeling_the_ai_slop_burnout_how_im/",
+      "raw_fingerprint": "894c86a29d3db05c3852085a6b4cff099104a01afd79a5d0bfda1315f9d88a77",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Unable-Connection-58",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-008",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-unable-connection-58",
+        "industry": "Marketing Agency",
+        "interpretation": "Illustrates practitioner risk of client dissatisfaction and engagement decline when relying heavily on automated AI generation, leading some marketers to pull back from automated content workflows.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A marketing practitioner with 6 years of experience reports almost losing a client after automating content creation: although production efficiency increased by 40%, audience engagement dropped severely because users tuned out generic automated AI content, prompting a pivot back to unedited human video.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": "Marketing practitioner / agency operator",
+        "source_date": "2026-04-14",
+        "source_excerpt": "I almost lost a client last month because we automated everything. Our efficiency was up 40%, but engagement tanked. People were just scrolling past the perfection.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sl3obg/is_anyone_feeling_the_ai_slop_burnout_how_im/",
+        "strength": 4,
+        "subtype": "ai_content_abandonment",
+        "type": "risk"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "Carey251",
+      "evidence_id": "mb-skeptic-009",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sl3obg/is_anyone_else_feeling_the_ai_slop_burnout_how_im/og4p5bj/",
+      "raw_fingerprint": "1c832fdf6914fe9d9e043fd21be878fe0c4165f9fcdc1331bb2f5f3cf65fe8c8",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "Carey251",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-009",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-carey251",
+        "industry": "Marketing",
+        "interpretation": "Shows that high-quality static image generation via AI prompts introduces a significant prompt iteration time burden, though practitioners may tolerate this when comparing it to live production costs.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A marketing practitioner notes that generating satisfactory static images with AI prompts requires hours of prompt tuning and refinement rather than being a one-click process, though they consider this prompt labor preferable to the cost and logistics of a physical photoshoot.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": "Content creator / marketer",
+        "source_date": "2026-04-14",
+        "source_excerpt": "Learning how to write prompts is an entire skillset in itself and to get a polished images is not at all a one click trick. It can take me hours to use AI prompts to get an end product I am happy with. It seems to defeat the purpose but then you consider the cost for a model, a space to rent, coordinating and planning, setting up lighting and other tools, driving there, gas, etc then writiing a 500 word prompt and refining for hours doesn't seem so bad. I will add these are for statics.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sl3obg/is_anyone_else_feeling_the_ai_slop_burnout_how_im/og4p5bj/",
+        "strength": 3,
+        "subtype": "ai_editing_time_penalty",
+        "type": "risk"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    },
+    {
+      "canonical_author_or_entity": "JoshOlufemii",
+      "evidence_id": "mb-skeptic-010",
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1oamrin/comment/nkez6lb/",
+      "raw_fingerprint": "3963e1f0e23352733fc0518fd67bd3231fbbb6443163cff54ffac98aeeebc26b",
+      "raw_path": "ideas/multi-brand-content/raw/skeptic/evidence.jsonl",
+      "raw_record": {
+        "agent": "skeptic",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "JoshOlufemii",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-skeptic-010",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-josholufemii",
+        "industry": "Content Marketing",
+        "interpretation": "Contextual: Highlights that AI drafting in creative writing can introduce an editing time penalty that exceeds manual writing effort, though this observation specifically addresses long-form video scripting rather than short static social copy.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A video creator and marketer notes that while AI assists in brainstorming and structuring long-form YouTube videos, it struggles with creative nuance in scriptwriting, where editing AI-generated scripts routinely takes more time than writing them from scratch.",
+        "observed_at": "2026-09-09",
+        "polarity": "contradicts",
+        "recurrence": null,
+        "role": "Video creator / content marketer",
+        "source_date": "2025-10-20",
+        "source_excerpt": "That being said, AI still falls behind when it comes to deeper creative work, especially scriptwriting or anything extensive. It doesn’t understand timing, humor, or emotion the way you do. Even with a strong prompt. Correcting AI scripts usually ends up taking more time than just writing them from scratch.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1oamrin/comment/nkez6lb/",
+        "strength": 2,
+        "subtype": "ai_rework_penalty",
+        "type": "risk"
+      },
+      "raw_track": "skeptic",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-skeptic-006"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1vlj75n/published_a_client_post_with_an_old_visual/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-007"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/148zs2w/comment/jo3h3e8/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-008"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sl3obg/is_anyone_feeling_the_ai_slop_burnout_how_im/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-009"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1sl3obg/is_anyone_else_feeling_the_ai_slop_burnout_how_im/og4p5bj/"
+    },
+    {
+      "evidence_ids": [
+        "mb-skeptic-010"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1oamrin/comment/nkez6lb/"
+    }
+  ]
+}

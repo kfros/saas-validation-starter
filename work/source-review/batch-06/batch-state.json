@@ -1,0 +1,23 @@
+{
+  "batch_snapshot_sha256": "41b7d7dbc651e362ae19faeaeaeaf444622c2d68019ded2af49fcb0bbe427b44",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-pain-016",
+    "mb-pain-017",
+    "mb-pain-018",
+    "mb-pain-019",
+    "mb-pain-020"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-pain-016",
+    "mb-pain-017",
+    "mb-pain-018",
+    "mb-pain-019",
+    "mb-pain-020"
+  ],
+  "schema_version": 1
+}
