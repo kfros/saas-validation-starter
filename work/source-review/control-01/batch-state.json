@@ -4,11 +4,17 @@
   "completed_capture_fingerprints": {
     "capture-control01-mb-pain-001": "89919071b8e4b22e01516fb0c99bab269169e08f2d4842274dd2becb59c011fa",
     "capture-control01-mb-wtp-001": "dd92c154e4735f5635fb4637030184d4b633939eb2a6f2225d8b7594b8c61d5b",
-    "capture-control01-mb-wtp-001-aux-psily1": "9a31eb27accc4205349a6a4b369b14641cddff08a98d6fcb249a7681c2b6341b"
+    "capture-control01-mb-wtp-001-aux-psily1": "9a31eb27accc4205349a6a4b369b14641cddff08a98d6fcb249a7681c2b6341b",
+    "capture-control01-mb-wtp-005": "224cc0de6259f9edbe86b3beb766334350476a1e2ee6f67e83c3fe235d18da77",
+    "capture-control01-mb-wtp-008": "be951c2e4e69b001dd30f4f79aeb0082b5a8e1a5360505e440f2e3f0b651463f",
+    "capture-control01-mb-wtp-009": "24021e2c24fbfd99adf989a75bd0e96fc30980e92ad58748495c8f04f7c1a3fe"
   },
   "completed_review_fingerprints": {
     "mb-pain-001": "dfd33b2c0d9d27927dfc6e99090ecf1221744d37b1492c8934174c791e48fdc5",
-    "mb-wtp-001": "7df41e7d1d29ded4b6af651577febb6e1ff209b45479c49285f2f614aa7249a8"
+    "mb-wtp-001": "7df41e7d1d29ded4b6af651577febb6e1ff209b45479c49285f2f614aa7249a8",
+    "mb-wtp-005": "a243daee8884c5307b1ee972ff5cfa7c470fe112c039c5890e7ba99a8d846a34",
+    "mb-wtp-008": "a9c3d20fd9988d6a0cc988d76586bf6e05108a5333cbd7e0cee499a37d6f2fd6",
+    "mb-wtp-009": "d115a11b025d0b1f94631a5ea8a0236e39f12d187f4a8c16d2f034cfddd0bba7"
   },
   "idea_id": "multi-brand-content",
   "ids": [
@@ -20,12 +26,11 @@
   ],
   "processed_ids": [
     "mb-pain-001",
-    "mb-wtp-001"
-  ],
-  "remaining_ids": [
+    "mb-wtp-001",
     "mb-wtp-005",
     "mb-wtp-008",
     "mb-wtp-009"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

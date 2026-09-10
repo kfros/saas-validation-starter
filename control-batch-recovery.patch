@@ -1,0 +1,587 @@
+From 37ea61e8a532b7a4e3a22d3efb778ccd1d544d91 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Thu, 10 Sep 2026 12:26:41 +0200
+Subject: [PATCH] Recover control batch issue shapes and prepare bounded resume
+
+---
+ docs/codex/control-recovery-249030f.md        | 74 +++++++++++++++++++
+ docs/codex/source-review-contract.md          | 28 +++++++
+ methodology/source-review-schema.json         | 26 ++++++-
+ .../codex/20-source-review-control-batch.md   | 18 ++++-
+ prompts/codex/21-resume-control-batch.md      | 73 ++++++++++++++++++
+ scripts/audit_review_pipeline.py              | 37 +++++++---
+ scripts/test_audit_review_pipeline.py         | 53 +++++++++++++
+ .../batch-manifest.json                       | 63 ++++++++++++++++
+ .../control-01-scope-recheck/batch-state.json | 15 ++++
+ .../control-01-scope-recheck/captures.jsonl   |  0
+ .../control-01-scope-recheck/reviews.jsonl    |  0
+ .../source-review/control-01/batch-state.json | 11 ++-
+ work/source-review/control-01/captures.jsonl  |  4 +-
+ work/source-review/control-01/reviews.jsonl   |  2 +-
+ 14 files changed, 383 insertions(+), 21 deletions(-)
+ create mode 100644 docs/codex/control-recovery-249030f.md
+ create mode 100644 prompts/codex/21-resume-control-batch.md
+ create mode 100644 work/source-review/control-01-scope-recheck/batch-manifest.json
+ create mode 100644 work/source-review/control-01-scope-recheck/batch-state.json
+ create mode 100644 work/source-review/control-01-scope-recheck/captures.jsonl
+ create mode 100644 work/source-review/control-01-scope-recheck/reviews.jsonl
+
+diff --git a/docs/codex/control-recovery-249030f.md b/docs/codex/control-recovery-249030f.md
+new file mode 100644
+index 0000000..b52e661
+--- /dev/null
++++ b/docs/codex/control-recovery-249030f.md
+@@ -0,0 +1,74 @@
++# Control batch recovery after 249030f
++
++This is an engineering recovery note, not source evidence or a Stage 1 verdict.
++Original commit: `249030f83e9e53b0ce663513c40bd100d4ec5ec2`.
++
++## What the commit actually retained
++
++- Two reviews: completed `mb-pain-001` and uncheckpointed `mb-wtp-001`.
++- Three source fragments, all attributed to one Reddit URL and the same external
++  result ID, `turn0view0`. They represent separate speakers/fragments; their count
++  does not establish three independent page retrievals.
++- No captures/reviews for `mb-wtp-005`, `mb-wtp-008`, or `mb-wtp-009`. Findings in
++  the conversation are leads to reopen, not substitutes for those missing files.
++
++## Mechanical recovery performed
++
++The old schema allowed arbitrary objects in two issue arrays while the Python
++checker required exact keys. In the retained WTP review, all four repair objects
++used `action` instead of `observed_value`. The latter is now copied from the
++matching already-recorded discrepancy. The original action text is preserved
++in `reason`; no new source-dependent claim is introduced.
++
++The existing WTP decision remains PARTIALLY_VERIFIED. Running checkpoint fills
++its deterministic hashes and records it as processed. Processed means a review
++was checkpointed; it does not mean the evidence is VERIFIED or gate-eligible.
++
++After recovery, `control-01` has:
++
++- processed: `mb-pain-001`, `mb-wtp-001`;
++- remaining: `mb-wtp-005`, `mb-wtp-008`, `mb-wtp-009`;
++- blocked: none.
++
++The completed pain review and its capture fingerprints were preserved. All raw
++records, source fragments, speakers, tool/result IDs and inspection dates were
++preserved. Only the WTP issue structure and derived checkpoint data changed.
++No original page was newly inspected by this engineering recovery.
++
++## Content concern requiring a fresh scope review
++
++The existing pain review promotes a designer working with an agency and about
++five clients to full `IN_SCOPE`. Its saved fragment does not establish hands-on
++ownership, SMB clientele or recurring static production/revision as required by
++the fixed `MULTIBRAND-OPERATOR-01` hypothesis. A real permissions/setup problem
++can remain useful while full scope and target-job recurrence are UNKNOWN.
++
++Do not edit the sealed review or its fingerprint map to force a change. A separate
++empty one-ID batch is prepared at `work/source-review/control-01-scope-recheck/`.
++Its new review is a revision for `mb-pain-001`, not an additional independent
++signal. Reopen the original source; use the scope requirements without filling
++missing facts from the thread topic. Keep broad role support separate from full
++scope membership and per-client setup separate from repeated production work.
++
++`mb-wtp-001` already acknowledges missing role, target-job use and recurrence.
++Its saved `interpretation=SUPPORTED` still deserves a later content check because
++the canonical interpretation asserts WTP for multi-brand asset separation.
++This mechanical recovery does not endorse that overreach, certify the other
++captured claims, or turn its PARTIALLY_VERIFIED row into admissible G3 evidence.
++
++## Resume
++
++Use `prompts/codex/21-resume-control-batch.md`. Both manifests already exist;
++there is no need to prepare or reset either batch again. First review the single
++pain revision, then finish only the three remaining WTP IDs in the original
++batch. No raw repair, final audit assembly or Judge is part of this run.
++
++If retrieval fails, preserve the honest partial state. If the permitted structural
++repair still fails, preserve the files and exact error without repeatedly issuing
++the same command. The explicit local `Get-Content -LiteralPath` read exception
++replaces the overly restrictive read boundary for these inputs only.
++
++At a later authorized assembly, select at most one accepted current review per
++raw ID. Never concatenate the old pain review and its revision into duplicate
++evidence, add their counts together, or select a VERIFIED version just because
++it produces a better outcome. A blocked revision leaves the concern unresolved.
+diff --git a/docs/codex/source-review-contract.md b/docs/codex/source-review-contract.md
+index f916704..737613f 100644
+--- a/docs/codex/source-review-contract.md
++++ b/docs/codex/source-review-contract.md
+@@ -14,6 +14,34 @@ a fragment hash. Reviews bind one known raw ID to its canonical fingerprint,
+ capture IDs, field-level decisions, audit/scope proposals, money/impact/substitute
+ assessments, discrepancies and the raw-owner repair queue.
+ 
++### Exact issue objects
++
++Read the `$defs.discrepancy` and `$defs.rawOwnerRepair` definitions in the sidecar
++schema before writing issues. Each object permits only these keys:
++
++| Array | Required keys |
++| --- | --- |
++| `discrepancies` | `field`, `raw_value`, `observed_value`, `material`, `reason` |
++| `raw_owner_repairs` | `field`, `observed_value`, `reason` |
++
++`material` is a JSON boolean, not a string. Keep exact raw values where the issue
++names a raw field. `observed_value` records the supported observation or explicit
++unknown; it is not a command to execute. Put the requested action in `reason`.
++Do not introduce an `action` key or substitute an action for an observed value.
++The checker now reports the ID, array index, missing keys and unexpected keys for
++all malformed issue objects together. It neither fills missing observations nor
++accepts unknown keys to make a checkpoint pass. Empty arrays remain valid when
++there is no source/raw discrepancy, including an uninspected blocked source.
++
++Synthetic shape example only; never copy its facts into a real record:
++
++```json
++{
++  "discrepancies": [{"field": "money_currency", "raw_value": "USD", "observed_value": null, "material": true, "reason": "Synthetic example: currency was not established."}],
++  "raw_owner_repairs": [{"field": "money_currency", "observed_value": null, "reason": "Synthetic example: source lacks currency support; the raw owner should leave it unknown until verified."}]
++}
++```
++
+ Canonical JSON serialization is UTF-8 JSON with sorted keys, no insignificant
+ spaces and `ensure_ascii=false`. Raw fingerprints use that serialization. Fragment
+ hashes normalize Unicode to NFKC and line endings to LF. Direct quote containment
+diff --git a/methodology/source-review-schema.json b/methodology/source-review-schema.json
+index 8fa7815..e51afad 100644
+--- a/methodology/source-review-schema.json
++++ b/methodology/source-review-schema.json
+@@ -9,6 +9,28 @@
+   ],
+   "$defs": {
+     "nullableString": {"type": ["string", "null"]},
++    "discrepancy": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["field", "raw_value", "observed_value", "material", "reason"],
++      "properties": {
++        "field": {"type": "string", "minLength": 1},
++        "raw_value": {},
++        "observed_value": {},
++        "material": {"type": "boolean"},
++        "reason": {"type": "string", "minLength": 1}
++      }
++    },
++    "rawOwnerRepair": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["field", "observed_value", "reason"],
++      "properties": {
++        "field": {"type": "string", "minLength": 1},
++        "observed_value": {},
++        "reason": {"type": "string", "minLength": 1}
++      }
++    },
+     "capture": {
+       "type": "object",
+       "additionalProperties": false,
+@@ -116,8 +138,8 @@
+             "evidence_needed": {"$ref": "#/$defs/nullableString"}
+           }
+         },
+-        "discrepancies": {"type": "array", "items": {"type": "object"}},
+-        "raw_owner_repairs": {"type": "array", "items": {"type": "object"}}
++        "discrepancies": {"type": "array", "items": {"$ref": "#/$defs/discrepancy"}},
++        "raw_owner_repairs": {"type": "array", "items": {"$ref": "#/$defs/rawOwnerRepair"}}
+       }
+     }
+   }
+diff --git a/prompts/codex/20-source-review-control-batch.md b/prompts/codex/20-source-review-control-batch.md
+index 945aa9d..8ede32e 100644
+--- a/prompts/codex/20-source-review-control-batch.md
++++ b/prompts/codex/20-source-review-control-batch.md
+@@ -12,9 +12,16 @@ operational clauses of the older idea protocol:
+ 
+ 1. Write only batch artifacts under `work/source-review/control-01/`, not the
+    final `ideas/multi-brand-content/evidence/` outputs.
+-2. The only terminal command the reviewing agent may run is the exact
+-   `checkpoint-batch` command below. The human runs `prepare-batch` before the
+-   review. Do not run the old phase checker during this batch.
++2. Terminal use is limited to the exact `checkpoint-batch` command below and
++   read-only local input inspection via `Get-Content -LiteralPath <path>`.
++   Approved paths are `AGENTS.md`, `.agents/skills/source-review-batch/SKILL.md`,
++   `docs/codex/source-review-contract.md`, `methodology/source-review-schema.json`,
++   this launch prompt, the target idea's `hypothesis.yaml`, `research-protocol.md`
++   and `audit-checklist.md`, and the prepared batch manifest/state/captures/reviews.
++   Prefer a local file-reading tool when available. No shell expressions,
++   pipelines, network reads or other paths are authorized by this read exception.
++   The human runs `prepare-batch` before the review. Do not run the old phase
++   checker during this batch.
+ 
+ Every other protocol restriction remains in force: known exact URLs only,
+ authorized public browser/retrieval tools, no terminal research/scraping, no new
+@@ -41,6 +48,11 @@ source.
+   constructed monthly total.
+ 
+ Write valid v1 `captures.jsonl` and `reviews.jsonl` in that state directory.
++Read the exact issue-object definitions and example in the contract before
++writing `discrepancies` or `raw_owner_repairs`. The repair array needs
++`field`, `observed_value`, `reason`; requested actions go in `reason`, never an
++extra `action` field. The discrepancy array also needs `raw_value` and the
++boolean `material`. Use the diagnostic's full path/missing/unexpected-key list.
+ Use each manifest row's generated `raw_record`, `raw_fingerprint` and
+ `required_claim_fields`; do not invent fragments, authors, result IDs or
+ successful outcomes. Material source/raw differences must be represented both as
+diff --git a/prompts/codex/21-resume-control-batch.md b/prompts/codex/21-resume-control-batch.md
+new file mode 100644
+index 0000000..4e60d02
+--- /dev/null
++++ b/prompts/codex/21-resume-control-batch.md
+@@ -0,0 +1,73 @@
++# Resume the control batch after structural recovery
++
++Read `AGENTS.md`, `.agents/skills/source-review-batch/SKILL.md`,
++`docs/codex/source-review-contract.md`, `docs/codex/control-recovery-249030f.md`,
++`methodology/source-review-schema.json`, and the target idea's `hypothesis.yaml`,
++`research-protocol.md`, and `audit-checklist.md`.
++
++## Exact task boundaries
++
++This prompt replaces the initial control-batch launch for this recovery only.
++Two batches are already prepared. Write only inside:
++
++- `work/source-review/control-01-scope-recheck/`: new review of `mb-pain-001`.
++- `work/source-review/control-01/`: remaining `mb-wtp-005`, `mb-wtp-008`, `mb-wtp-009`.
++
++Read each manifest/state before acting. Preserve every completed review/capture
++in the original batch exactly; in particular do not rewrite completed pain or
++WTP-001, remove fingerprint guards, or re-prepare/reset a batch. The separate
++pain review is a revision requiring later resolution, never a sixth evidence row.
++
++As a narrow override of the old protocol, read-only `Get-Content -LiteralPath
++<path>` is allowed for the instruction/contract files named above, this launch
++prompt and the manifest/state/captures/reviews in these two directories. Prefer
++an available file-reading tool. No other paths, shell expressions/pipelines,
++network access through the terminal or additional terminal commands are allowed
++apart from the two exact checkpoints below. This overrides only local input
++reading, batch output paths and checkpoint commands; retain the public-source,
++no-new-discovery, retry and partial-run restrictions.
++
++Use only original public URLs in the manifests with an authorized public-source
++retrieval tool. No terminal scraping, internal brain/cache files, fabricated tool
++IDs, conversation-only findings promoted to captures, outreach or raw edits.
++
++## Work sequence
++
++1. Inspect `mb-pain-001` in the separate scope-recheck batch. Reopen the original
++   page. For each scope requirement state what the source establishes and what
++   remains unknown: external service, multiple unrelated brands, recurring static
++   production/revision, owner-led hands-on work, SMB clientele. A designer/agency
++   label and five clients do not establish the remaining attributes. Recheck the
++   scope and gate eligibility independently from the useful broad pain observation.
++   Never infer recurring production from a per-client permissions setup question.
++2. Finish only the three remaining WTP IDs in the original batch. Previous prose
++   about their findings is a lead; no retained captures for them were present in
++   249030f. Inspect and preserve each source fragment and speaker now. Focus on
++   direct quote fidelity, amount/period/transaction, role and scope. Distinguish
++   statics counts from hours, task times from invented monthly totals, and an
++   offer/list price from an actual purchase.
++3. Checkpoint after each completed or blocked record using the applicable command.
++
++```powershell
++& 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' scripts/audit_review_pipeline.py checkpoint-batch --state-dir work/source-review/control-01-scope-recheck
++```
++
++```powershell
++& 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' scripts/audit_review_pipeline.py checkpoint-batch --state-dir work/source-review/control-01
++```
++
++Before writing any issues, use the exact nested definitions in the sidecar schema:
++discrepancies need `field`, `raw_value`, `observed_value`, boolean `material`,
++`reason`; raw-owner repairs need `field`, `observed_value`, `reason`. Put the
++requested action in `reason`, not an extra `action` key. Unknown stays unknown.
++Use the full diagnostic to repair all listed structural issues in the permitted
++repair attempt. Do not infer a replacement observed value merely to satisfy shape.
++
++If tools fail, preserve a truthful BLOCKED/PENDING record and stop as required by
++the protocol. Uninspected monetary rows can keep all money facts null and all
++money decisions UNKNOWN without an invented discrepancy. One structural repair
++and one rerun remain the limit; if still failing, preserve the files and error.
++
++Finish with separate processed/blocked/remaining lists for both batches, source
++inspection results, known discrepancies and raw-owner actions. Stop after these
++four reviews. No final rendering, canonical consolidation, raw repair or Judge.
+diff --git a/scripts/audit_review_pipeline.py b/scripts/audit_review_pipeline.py
+index a53fa88..86b7b5c 100644
+--- a/scripts/audit_review_pipeline.py
++++ b/scripts/audit_review_pipeline.py
+@@ -34,6 +34,8 @@ CLAIM_FIELDS = {
+     "money_period", "money_type", "recurrence", "role_scope", "interpretation",
+ }
+ CONTROL_IDS = ("mb-pain-001", "mb-wtp-001", "mb-wtp-005", "mb-wtp-008", "mb-wtp-009")
++DISCREPANCY_FIELDS = {"field", "raw_value", "observed_value", "material", "reason"}
++RAW_OWNER_REPAIR_FIELDS = {"field", "observed_value", "reason"}
+ 
+ 
+ class ReviewError(ValueError):
+@@ -166,6 +168,31 @@ def nonempty_string(value):
+     return isinstance(value, str) and bool(value.strip())
+ 
+ 
++def validate_review_issue_shapes(rid, discrepancies, repairs):
++    """Report all issue-object shape errors together, before semantic checks."""
++    errors = []
++    for name, items, expected in (("discrepancies", discrepancies, DISCREPANCY_FIELDS),
++                                  ("raw_owner_repairs", repairs, RAW_OWNER_REPAIR_FIELDS)):
++        if not isinstance(items, list):
++            errors.append(f"{rid}.{name}: expected array")
++            continue
++        for index, item in enumerate(items):
++            path = f"{rid}.{name}[{index}]"
++            if not isinstance(item, dict):
++                errors.append(f"{path}: expected object")
++                continue
++            missing, extra = expected - set(item), set(item) - expected
++            if missing or extra:
++                errors.append(f"{path}: missing={sorted(missing)} unexpected={sorted(extra)}; "
++                              f"required={sorted(expected)}")
++            for field in ("field", "reason"):
++                if field in item and not nonempty_string(item[field]):
++                    errors.append(f"{path}.{field}: expected nonempty string")
++            if name == "discrepancies" and "material" in item and type(item["material"]) is not bool:
++                errors.append(f"{path}.material: expected boolean")
++    require(not errors, "invalid review issue structure:\n" + "\n".join(errors))
++
++
+ def iso_datetime(value):
+     require(nonempty_string(value), "inspection/review timestamp required")
+     try:
+@@ -370,20 +397,12 @@ def validate_review(review, raw, locations, captures):
+             f"{rid}: missing required claim decisions {expected_claim_fields(raw[rid]) - set(claim_by_field)}")
+     discrepancies = review["discrepancies"]
+     repairs = review["raw_owner_repairs"]
+-    require(isinstance(discrepancies, list) and isinstance(repairs, list),
+-            f"{rid}: discrepancies/repair queue must be lists")
++    validate_review_issue_shapes(rid, discrepancies, repairs)
+     discrepancy_fields = set()
+     for item in discrepancies:
+-        require(isinstance(item, dict) and set(item) ==
+-                {"field", "raw_value", "observed_value", "material", "reason"} and
+-                nonempty_string(item["field"]) and type(item["material"]) is bool and
+-                nonempty_string(item["reason"]), f"{rid}: invalid discrepancy")
+         discrepancy_fields.add(item["field"])
+     repair_fields = set()
+     for item in repairs:
+-        require(isinstance(item, dict) and set(item) == {"field", "observed_value", "reason"} and
+-                nonempty_string(item["field"]) and nonempty_string(item["reason"]),
+-                f"{rid}: invalid raw-owner repair")
+         repair_fields.add(item["field"])
+     material_discrepancies = {x["field"] for x in discrepancies if x["material"]}
+     require(material_discrepancies <= repair_fields,
+diff --git a/scripts/test_audit_review_pipeline.py b/scripts/test_audit_review_pipeline.py
+index 8d9d817..d2aa28e 100644
+--- a/scripts/test_audit_review_pipeline.py
++++ b/scripts/test_audit_review_pipeline.py
+@@ -389,6 +389,59 @@ class PipelineTests(unittest.TestCase):
+         with self.assertRaisesRegex(arp.ReviewError, "repair queue differs"):
+             arp.check_candidate(self.root, self.review_dir, self.output)
+ 
++    def test_issue_diagnostics_report_missing_and_extra_fields_together(self):
++        rid = "mb-wtp-synthetic-2"
++        discrepancies = [{"field": "money_currency", "raw_value": "USD",
++                          "observed_value": None, "reason": "Synthetic unknown currency."}]
++        repairs = [{"field": "money_currency", "action": "Synthetic repair instruction.",
++                    "reason": "Synthetic missing support."}]
++        with self.assertRaises(arp.ReviewError) as caught:
++            arp.validate_review_issue_shapes(rid, discrepancies, repairs)
++        message = str(caught.exception)
++        self.assertIn(f"{rid}.discrepancies[0]", message)
++        self.assertIn("missing=['material']", message)
++        self.assertIn(f"{rid}.raw_owner_repairs[0]", message)
++        self.assertIn("missing=['observed_value'] unexpected=['action']", message)
++        discrepancies[0]["material"] = "true"
++        with self.assertRaisesRegex(arp.ReviewError, "material: expected boolean"):
++            arp.validate_review_issue_shapes(rid, discrepancies, [])
++
++    def test_issue_schema_declares_the_exact_runtime_shapes(self):
++        schema = arp.read_json(Path(__file__).resolve().parents[1] / "methodology/source-review-schema.json")
++        for definition, field, expected in (
++            ("discrepancy", "discrepancies", arp.DISCREPANCY_FIELDS),
++            ("rawOwnerRepair", "raw_owner_repairs", arp.RAW_OWNER_REPAIR_FIELDS),
++        ):
++            with self.subTest(definition=definition):
++                shape = schema["$defs"][definition]
++                self.assertEqual(set(shape["required"]), expected)
++                self.assertEqual(set(shape["properties"]), expected)
++                self.assertIs(shape["additionalProperties"], False)
++                self.assertEqual(schema["$defs"]["review"]["properties"][field]["items"],
++                                 {"$ref": f"#/$defs/{definition}"})
++
++    def test_repaired_issue_shape_can_checkpoint_without_changing_raw_or_audit_decision(self):
++        review = copy.deepcopy(self.reviews[2])
++        review["audit"]["status"] = "PARTIALLY_VERIFIED"
++        review["scope"].update(scope_status="UNKNOWN", provider_form="UNKNOWN", supporting_evidence_ids=[])
++        next(c for c in review["claim_decisions"] if c["field"] == "money_currency")["decision"] = "UNKNOWN"
++        review["discrepancies"] = [{"field": "money_currency", "raw_value": "USD",
++            "observed_value": "Synthetic currency unknown.", "material": True,
++            "reason": "Synthetic currency claim needs review."}]
++        review["raw_owner_repairs"] = [{"field": "money_currency",
++            "observed_value": "Synthetic currency unknown.",
++            "reason": "Synthetic reason. Requested action: confirm currency before raw repair."}]
++        state_dir = self.root / "issue-repair-batch"
++        arp.prepare_batch(self.root, state_dir, [review["evidence_id"]])
++        arp.write_jsonl(state_dir / "reviews.jsonl", [review])
++        arp.write_jsonl(state_dir / "captures.jsonl", [self.captures[2]])
++        state = arp.checkpoint_batch(self.root, state_dir)
++        saved = arp.read_jsonl(state_dir / "reviews.jsonl", "review")[0]
++        self.assertEqual(state["processed_ids"], [review["evidence_id"]])
++        self.assertEqual(saved["audit"], review["audit"])
++        self.assertEqual(saved["raw_owner_repairs"], review["raw_owner_repairs"])
++        self.assertEqual(arp.load_raw(self.root)[0], self.raw)
++
+ 
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/work/source-review/control-01-scope-recheck/batch-manifest.json b/work/source-review/control-01-scope-recheck/batch-manifest.json
+new file mode 100644
+index 0000000..3d1a607
+--- /dev/null
++++ b/work/source-review/control-01-scope-recheck/batch-manifest.json
+@@ -0,0 +1,63 @@
++{
++  "batch_snapshot_sha256": "20022c9812a1e46d69e97a19346c9d950bb84d2b1960a2a56088b478ec4dc79d",
++  "idea_id": "multi-brand-content",
++  "records": [
++    {
++      "canonical_author_or_entity": "UniversityWestern346",
++      "evidence_id": "mb-pain-001",
++      "exact_source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/",
++      "raw_fingerprint": "64e8cf886c3b26c8b8353542cef59bae01116a6554e57a2551c9d9cdffa2aa87",
++      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
++      "raw_record": {
++        "agent": "pain-mining",
++        "audit_reason": null,
++        "audit_status": "PENDING",
++        "author_or_entity": "UniversityWestern346",
++        "company": null,
++        "company_size": null,
++        "geography": null,
++        "icp": null,
++        "id": "mb-pain-001",
++        "idea": "multi-brand-content",
++        "independence_key": "reddit-user-universitywestern346",
++        "industry": "marketing_services",
++        "interpretation": "Indicates that standard template tools create multi-tenant permissions and brand isolation overhead when managing multiple distinct client brands.",
++        "money_amount": null,
++        "money_currency": null,
++        "money_period": null,
++        "money_signal": null,
++        "observation": "A designer working with a marketing agency managing ~5 clients reports friction in Canva when attempting to share client-specific brand kits and templates without exposing other clients' designs.",
++        "observed_at": "2026-09-09",
++        "polarity": "supports",
++        "recurrence": "per_client",
++        "role": "Designer working with marketing agency",
++        "source_date": "2025-11-06",
++        "source_excerpt": "We have about 5 clients that we manage with more on the way. We want to set up brand kits for each (which I know how to do) and share those brand kits and accompanying designs with those clients. So client A only has access to Client A’s kits/templates, etc.",
++        "source_tier": "A",
++        "source_type": "reddit",
++        "source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/",
++        "strength": 3,
++        "subtype": "brand_isolation",
++        "type": "pain"
++      },
++      "raw_track": "pain",
++      "required_claim_fields": [
++        "attribution",
++        "interpretation",
++        "observation",
++        "quote",
++        "recurrence",
++        "role_scope"
++      ]
++    }
++  ],
++  "schema_version": 1,
++  "source_groups": [
++    {
++      "evidence_ids": [
++        "mb-pain-001"
++      ],
++      "exact_source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/"
++    }
++  ]
++}
+diff --git a/work/source-review/control-01-scope-recheck/batch-state.json b/work/source-review/control-01-scope-recheck/batch-state.json
+new file mode 100644
+index 0000000..48e9688
+--- /dev/null
++++ b/work/source-review/control-01-scope-recheck/batch-state.json
+@@ -0,0 +1,15 @@
++{
++  "batch_snapshot_sha256": "20022c9812a1e46d69e97a19346c9d950bb84d2b1960a2a56088b478ec4dc79d",
++  "blocked_ids": [],
++  "completed_capture_fingerprints": {},
++  "completed_review_fingerprints": {},
++  "idea_id": "multi-brand-content",
++  "ids": [
++    "mb-pain-001"
++  ],
++  "processed_ids": [],
++  "remaining_ids": [
++    "mb-pain-001"
++  ],
++  "schema_version": 1
++}
+diff --git a/work/source-review/control-01-scope-recheck/captures.jsonl b/work/source-review/control-01-scope-recheck/captures.jsonl
+new file mode 100644
+index 0000000..e69de29
+diff --git a/work/source-review/control-01-scope-recheck/reviews.jsonl b/work/source-review/control-01-scope-recheck/reviews.jsonl
+new file mode 100644
+index 0000000..e69de29
+diff --git a/work/source-review/control-01/batch-state.json b/work/source-review/control-01/batch-state.json
+index cbb0243..b4ef38a 100644
+--- a/work/source-review/control-01/batch-state.json
++++ b/work/source-review/control-01/batch-state.json
+@@ -2,10 +2,13 @@
+   "batch_snapshot_sha256": "2f350215e32ef37e3ecb863da8fe52a84d6c8111b58075125a918db0b3961e96",
+   "blocked_ids": [],
+   "completed_capture_fingerprints": {
+-    "capture-control01-mb-pain-001": "89919071b8e4b22e01516fb0c99bab269169e08f2d4842274dd2becb59c011fa"
++    "capture-control01-mb-pain-001": "89919071b8e4b22e01516fb0c99bab269169e08f2d4842274dd2becb59c011fa",
++    "capture-control01-mb-wtp-001": "dd92c154e4735f5635fb4637030184d4b633939eb2a6f2225d8b7594b8c61d5b",
++    "capture-control01-mb-wtp-001-aux-psily1": "9a31eb27accc4205349a6a4b369b14641cddff08a98d6fcb249a7681c2b6341b"
+   },
+   "completed_review_fingerprints": {
+-    "mb-pain-001": "dfd33b2c0d9d27927dfc6e99090ecf1221744d37b1492c8934174c791e48fdc5"
++    "mb-pain-001": "dfd33b2c0d9d27927dfc6e99090ecf1221744d37b1492c8934174c791e48fdc5",
++    "mb-wtp-001": "7df41e7d1d29ded4b6af651577febb6e1ff209b45479c49285f2f614aa7249a8"
+   },
+   "idea_id": "multi-brand-content",
+   "ids": [
+@@ -16,10 +19,10 @@
+     "mb-wtp-009"
+   ],
+   "processed_ids": [
+-    "mb-pain-001"
++    "mb-pain-001",
++    "mb-wtp-001"
+   ],
+   "remaining_ids": [
+-    "mb-wtp-001",
+     "mb-wtp-005",
+     "mb-wtp-008",
+     "mb-wtp-009"
+diff --git a/work/source-review/control-01/captures.jsonl b/work/source-review/control-01/captures.jsonl
+index fc971f3..ce0867f 100644
+--- a/work/source-review/control-01/captures.jsonl
++++ b/work/source-review/control-01/captures.jsonl
+@@ -1,3 +1,3 @@
+ {"attributed_speaker":"UniversityWestern346","capture_id":"capture-control01-mb-pain-001","external_result_id":"turn0view0","fragment":"UniversityWestern346 — Business vs Enterprise for managing multiple clients\nHello,\n\nI am a designer who is working with a marketing agency and I’ve been tasked with figuring out which Canva type is right for us. We have about 5 clients that we manage with more on the way. We want to set up brand kits for each (which I know how to do) and share those brand kits and accompanying designs with those clients. So client A only has access to Client A’s kits/templates, etc.\nMy question here is what is the best way to do this? Do we buy a Business account and add each client as a team member but only grant them access to certain templates? We’re thinking we’ll have to do this and build their Canva account price into their billing but I just want to make sure I’m understanding this process correctly and Canva has no way of contacting anyone to ask actual questions.","fragment_sha256":"de45dd4a3f397c83b6d33501604f89352a35c33dd764f186f137ffe48cf6f8bd","inspected_at":"2026-09-10T10:34:48+02:00","local_attempt_id":"control-01-attempt-001","locator":"Reddit post by UniversityWestern346; retrieval result turn0view0 lines 16-24","outcome":"SUCCESS","requested_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","resolved_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","retrieval_tool":"web.open","schema_version":1}
+-{"schema_version":1,"capture_id":"capture-control01-mb-wtp-001","requested_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","resolved_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","locator":"Reddit comment by New-Activity-8659; retrieval result turn0view0 lines 45-58","attributed_speaker":"New-Activity-8659","inspected_at":"2026-09-10T10:34:48+02:00","retrieval_tool":"web.open","external_result_id":"turn0view0","local_attempt_id":"control-01-attempt-002","outcome":"SUCCESS","fragment":"New-Activity-8659\nI was just going to say, you'll be fine with Pro and wouldn't even need the business plan, but MAN they have dramatically changed their pricing and access structure since I came on board. For reference, I'm on a teams legacy plan which is $120/yr with 1000 brand kits and a TB of storage.\n\nIt looks like even the business plan caps out your brand kits at 100. Unreal.\nAnyways, the biggest question would be --- do you need your clients to be able to create content, make edits, etc - or do you just want a repository of all of their designs, their brand standards, etc, that they have access to?\nIf you're just sharing designs, templates, etc, I think you'd be far better off with just a cloud storage solution and good organization.\nIf not, it might be worth talking to their sales team.","fragment_sha256":null}
+-{"schema_version":1,"capture_id":"capture-control01-mb-wtp-001-aux-psily1","requested_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","resolved_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","locator":"Separate Reddit comment by psily1; retrieval result turn0view0 lines 71-79","attributed_speaker":"psily1","inspected_at":"2026-09-10T10:34:48+02:00","retrieval_tool":"web.open","external_result_id":"turn0view0","local_attempt_id":"control-01-attempt-002-aux","outcome":"SUCCESS","fragment":"psily1\nI would recommend the Business option, since you mentioned that you have 5 clients and potentially more on the way. This new tier was made in mind for SMB customers like you, who need room to scale up.\n\nEnterprise licenses start at 25 seat minimum (idk this may have been lowered to 10), so you would have to buy the minimum seat amount at $300 per person/per year.\nIn terms of workflows I think it makes sense to add your customers into the team, create folders for each customer, and make sure their folder is only shared with them. You can also add brand kits to folders and share that brand kit only with them as well.","fragment_sha256":null}
++{"attributed_speaker":"New-Activity-8659","capture_id":"capture-control01-mb-wtp-001","external_result_id":"turn0view0","fragment":"New-Activity-8659\nI was just going to say, you'll be fine with Pro and wouldn't even need the business plan, but MAN they have dramatically changed their pricing and access structure since I came on board. For reference, I'm on a teams legacy plan which is $120/yr with 1000 brand kits and a TB of storage.\n\nIt looks like even the business plan caps out your brand kits at 100. Unreal.\nAnyways, the biggest question would be --- do you need your clients to be able to create content, make edits, etc - or do you just want a repository of all of their designs, their brand standards, etc, that they have access to?\nIf you're just sharing designs, templates, etc, I think you'd be far better off with just a cloud storage solution and good organization.\nIf not, it might be worth talking to their sales team.","fragment_sha256":"f6670e39d1516a92eba1fa07a0f57aa0a61cb6aaa303428bde56ca63edfd2a97","inspected_at":"2026-09-10T10:34:48+02:00","local_attempt_id":"control-01-attempt-002","locator":"Reddit comment by New-Activity-8659; retrieval result turn0view0 lines 45-58","outcome":"SUCCESS","requested_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","resolved_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","retrieval_tool":"web.open","schema_version":1}
++{"attributed_speaker":"psily1","capture_id":"capture-control01-mb-wtp-001-aux-psily1","external_result_id":"turn0view0","fragment":"psily1\nI would recommend the Business option, since you mentioned that you have 5 clients and potentially more on the way. This new tier was made in mind for SMB customers like you, who need room to scale up.\n\nEnterprise licenses start at 25 seat minimum (idk this may have been lowered to 10), so you would have to buy the minimum seat amount at $300 per person/per year.\nIn terms of workflows I think it makes sense to add your customers into the team, create folders for each customer, and make sure their folder is only shared with them. You can also add brand kits to folders and share that brand kit only with them as well.","fragment_sha256":"86070940972012f23973b0ec68b447677882b55619f209ac1db47410ce97a1a4","inspected_at":"2026-09-10T10:34:48+02:00","local_attempt_id":"control-01-attempt-002-aux","locator":"Separate Reddit comment by psily1; retrieval result turn0view0 lines 71-79","outcome":"SUCCESS","requested_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","resolved_url":"https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/","retrieval_tool":"web.open","schema_version":1}
+diff --git a/work/source-review/control-01/reviews.jsonl b/work/source-review/control-01/reviews.jsonl
+index c56513b..2438448 100644
+--- a/work/source-review/control-01/reviews.jsonl
++++ b/work/source-review/control-01/reviews.jsonl
+@@ -1,2 +1,2 @@
+ {"audit":{"independence_key":"reddit-user-universitywestern346","reason":"The exact source, speaker, quote and all material claims are supported by the retrieved post; the source is the same discussion named in the manifest.","status":"VERIFIED"},"blocker":null,"capture_ids":["capture-control01-mb-pain-001"],"claim_decisions":[{"capture_id":"capture-control01-mb-pain-001","decision":"SUPPORTED","field":"attribution","material":true,"reason":"The retrieved post is authored by UniversityWestern346, matching the canonical author.","speaker":"UniversityWestern346"},{"capture_id":"capture-control01-mb-pain-001","decision":"SUPPORTED","field":"interpretation","material":true,"reason":"The post directly shows plan, permission, client-isolation and support-contact overhead for a marketing agency managing separate client brand assets.","speaker":"UniversityWestern346"},{"capture_id":"capture-control01-mb-pain-001","decision":"SUPPORTED","field":"observation","material":true,"reason":"The speaker states they are a designer working with a marketing agency, manage about five clients, and need each client restricted to its own kits and templates.","speaker":"UniversityWestern346"},{"capture_id":"capture-control01-mb-pain-001","decision":"SUPPORTED","field":"quote","material":true,"reason":"The canonical excerpt is contained verbatim in the retrieved post after permitted whitespace normalization.","speaker":"UniversityWestern346"},{"capture_id":"capture-control01-mb-pain-001","decision":"SUPPORTED","field":"recurrence","material":true,"reason":"The isolation setup is explicitly repeated for each of about five current clients, with more clients expected.","speaker":"UniversityWestern346"},{"capture_id":"capture-control01-mb-pain-001","decision":"SUPPORTED","field":"role_scope","material":true,"reason":"The speaker explicitly identifies as a designer working with a marketing agency that manages multiple client accounts.","speaker":"UniversityWestern346"}],"discrepancies":[],"evidence_id":"mb-pain-001","impact_assessment":{"eligible_gates":["G1","G2","G4"],"exclusion_reason":null,"unresolved_questions":["The post does not establish the time or cash cost of the permission and brand-isolation overhead."]},"money_assessment":null,"raw_fingerprint":"64e8cf886c3b26c8b8353542cef59bae01116a6554e57a2551c9d9cdffa2aa87","raw_owner_repairs":[],"raw_path":"ideas/multi-brand-content/raw/pain/evidence.jsonl","raw_track":"pain","reviewed_at":"2026-09-10T10:34:48+02:00","reviewer_agent":"codex-source-review-batch","schema_version":1,"scope":{"provider_form":"AGENCY","reason":"The speaker explicitly works with a marketing agency managing about five separate client brands and is responsible for their Canva setup.","scope_status":"IN_SCOPE","supporting_evidence_ids":["mb-pain-001"]},"scope_dependency_fingerprint":"17cadbc0942e994718846a1b6b4eb511bbf4d84b48b8608c3020ff09eb4fc597","state":"COMPLETE","substitute_assessment":null}
+-{"schema_version":1,"evidence_id":"mb-wtp-001","raw_track":"wtp","raw_path":"ideas/multi-brand-content/raw/wtp/evidence.jsonl","raw_fingerprint":"ecf3b1068d3223afe5ee90ca990067c5b5bb335465440ed9eee7b5a5abc239ee","scope_dependency_fingerprint":"0000000000000000000000000000000000000000000000000000000000000000","reviewed_at":"2026-09-10T10:34:48+02:00","reviewer_agent":"codex-source-review-batch","state":"COMPLETE","blocker":null,"capture_ids":["capture-control01-mb-wtp-001","capture-control01-mb-wtp-001-aux-psily1"],"claim_decisions":[{"field":"attribution","decision":"SUPPORTED","reason":"The $120/year legacy-plan statement is authored by New-Activity-8659, matching the canonical author; the $300/person/year statement is visibly a separate comment by psily1.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"interpretation","decision":"SUPPORTED","reason":"The speaker reports being on a legacy paid plan and reacts negatively to the changed pricing/access structure; $10/month is only the arithmetic equivalent of the stated $120/year, not a stated billing period.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"money_amount","decision":"SUPPORTED","reason":"The canonical amount 120 is stated as $120/year by the canonical speaker. The separate $300 amount belongs to psily1 and is not attributed to this record.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"money_currency","decision":"UNKNOWN","reason":"The source uses the $ symbol but does not state USD or the speaker's billing geography.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"money_period","decision":"SUPPORTED","reason":"The source explicitly states $120/yr, supporting annual as the period.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"money_type","decision":"SUPPORTED","reason":"The first-person statement 'I'm on a teams legacy plan' together with its price supports actual paid SaaS plan use.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"observation","decision":"UNKNOWN","reason":"Active legacy-plan use, 1,000 brand kits and 1 TB storage are supported, but the commenter does not explicitly say they use the plan to manage multiple brand designs.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"quote","decision":"SUPPORTED","reason":"The canonical excerpt is contained verbatim in the canonical speaker's comment after permitted whitespace normalization.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"recurrence","decision":"UNKNOWN","reason":"The source supports annual billing but does not state monthly recurrence of the work or use.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true},{"field":"role_scope","decision":"UNKNOWN","reason":"The canonical speaker does not identify as a designer/content creator or establish their own multi-client operating role in the retrieved comment.","capture_id":"capture-control01-mb-wtp-001","speaker":"New-Activity-8659","material":true}],"audit":{"status":"PARTIALLY_VERIFIED","reason":"The exact $120/year legacy-plan statement, annual period, speaker and plan features are supported, and $300/person/year belongs to psily1; USD, monthly recurrence, the claimed role and the commenter's own multi-brand use remain unsupported.","independence_key":"reddit-user-new-activity-8659"},"scope":{"scope_status":"UNKNOWN","provider_form":"UNKNOWN","supporting_evidence_ids":[],"reason":"The commenter discusses a multi-client scenario but does not establish their own role, provider form or operation of multiple client brands."},"money_assessment":{"payer":"New-Activity-8659 or their organization","recipient":"Canva","work_bought_or_done":"Teams legacy plan access including 1,000 brand kits and 1 TB storage","payment_status":"PAID","transaction_type":"ACTUAL","amount_basis":"$120 per year as stated by New-Activity-8659; currency not explicitly identified","unresolved_unknowns":["Whether the dollar sign denotes USD","Who legally pays the subscription","Whether the subscription is used for the target multi-client job","The $300 per-person per-year enterprise figure is a separate speaker's statement and is not part of this payer's transaction"]},"impact_assessment":{"eligible_gates":["G3"],"exclusion_reason":null,"unresolved_questions":["Provider role and in-scope multi-brand use are not established.","Currency is not explicitly stated."]},"substitute_assessment":null,"discrepancies":[{"field":"money_currency","raw_value":"USD","observed_value":"Dollar symbol only; currency and geography unstated","reason":"The exact source does not name USD, so the canonical currency is stronger than the observed fact.","material":true},{"field":"observation","raw_value":"Plan is used for managing multiple brand designs","observed_value":"The commenter states plan ownership and features but not their own multi-brand use","reason":"The canonical observation imports the thread's scenario into the commenter's own usage without an explicit statement.","material":true},{"field":"recurrence","raw_value":"monthly","observed_value":"Annual plan price is stated; work/use recurrence is not stated","reason":"Monthly recurrence is not present in the canonical speaker's comment and must not be inferred from an annual price.","material":true},{"field":"role_scope","raw_value":"Designer / Content Creator; MULTIBRAND-OPERATOR-01","observed_value":"Canonical speaker's role and own provider scope are not stated","reason":"The speaker gives plan advice but does not identify their occupation, provider form or own client workload.","material":true}],"raw_owner_repairs":[{"field":"money_currency","action":"Set currency to unknown/null unless an original source explicitly establishes USD.","reason":"The source supplies only the $ symbol."},{"field":"observation","action":"Remove the unsupported claim that the canonical speaker uses the plan for multi-brand management, or add only separately sourced support in a new owned record.","reason":"The thread topic cannot be silently promoted into the commenter's own use case."},{"field":"recurrence","action":"Do not use monthly; retain annual only as the billing period and leave work recurrence unknown.","reason":"The source states annual pricing and no monthly work cadence."},{"field":"role_scope","action":"Remove the invented Designer / Content Creator role and in-scope ICP assignment unless supported by an original source.","reason":"No occupation or own multi-client role is stated by New-Activity-8659."}]}
++{"audit":{"independence_key":"reddit-user-new-activity-8659","reason":"The exact $120/year legacy-plan statement, annual period, speaker and plan features are supported, and $300/person/year belongs to psily1; USD, monthly recurrence, the claimed role and the commenter's own multi-brand use remain unsupported.","status":"PARTIALLY_VERIFIED"},"blocker":null,"capture_ids":["capture-control01-mb-wtp-001","capture-control01-mb-wtp-001-aux-psily1"],"claim_decisions":[{"capture_id":"capture-control01-mb-wtp-001","decision":"SUPPORTED","field":"attribution","material":true,"reason":"The $120/year legacy-plan statement is authored by New-Activity-8659, matching the canonical author; the $300/person/year statement is visibly a separate comment by psily1.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"SUPPORTED","field":"interpretation","material":true,"reason":"The speaker reports being on a legacy paid plan and reacts negatively to the changed pricing/access structure; $10/month is only the arithmetic equivalent of the stated $120/year, not a stated billing period.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"SUPPORTED","field":"money_amount","material":true,"reason":"The canonical amount 120 is stated as $120/year by the canonical speaker. The separate $300 amount belongs to psily1 and is not attributed to this record.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"UNKNOWN","field":"money_currency","material":true,"reason":"The source uses the $ symbol but does not state USD or the speaker's billing geography.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"SUPPORTED","field":"money_period","material":true,"reason":"The source explicitly states $120/yr, supporting annual as the period.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"SUPPORTED","field":"money_type","material":true,"reason":"The first-person statement 'I'm on a teams legacy plan' together with its price supports actual paid SaaS plan use.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"UNKNOWN","field":"observation","material":true,"reason":"Active legacy-plan use, 1,000 brand kits and 1 TB storage are supported, but the commenter does not explicitly say they use the plan to manage multiple brand designs.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"SUPPORTED","field":"quote","material":true,"reason":"The canonical excerpt is contained verbatim in the canonical speaker's comment after permitted whitespace normalization.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"UNKNOWN","field":"recurrence","material":true,"reason":"The source supports annual billing but does not state monthly recurrence of the work or use.","speaker":"New-Activity-8659"},{"capture_id":"capture-control01-mb-wtp-001","decision":"UNKNOWN","field":"role_scope","material":true,"reason":"The canonical speaker does not identify as a designer/content creator or establish their own multi-client operating role in the retrieved comment.","speaker":"New-Activity-8659"}],"discrepancies":[{"field":"money_currency","material":true,"observed_value":"Dollar symbol only; currency and geography unstated","raw_value":"USD","reason":"The exact source does not name USD, so the canonical currency is stronger than the observed fact."},{"field":"observation","material":true,"observed_value":"The commenter states plan ownership and features but not their own multi-brand use","raw_value":"Plan is used for managing multiple brand designs","reason":"The canonical observation imports the thread's scenario into the commenter's own usage without an explicit statement."},{"field":"recurrence","material":true,"observed_value":"Annual plan price is stated; work/use recurrence is not stated","raw_value":"monthly","reason":"Monthly recurrence is not present in the canonical speaker's comment and must not be inferred from an annual price."},{"field":"role_scope","material":true,"observed_value":"Canonical speaker's role and own provider scope are not stated","raw_value":"Designer / Content Creator; MULTIBRAND-OPERATOR-01","reason":"The speaker gives plan advice but does not identify their occupation, provider form or own client workload."}],"evidence_id":"mb-wtp-001","impact_assessment":{"eligible_gates":["G3"],"exclusion_reason":null,"unresolved_questions":["Provider role and in-scope multi-brand use are not established.","Currency is not explicitly stated."]},"money_assessment":{"amount_basis":"$120 per year as stated by New-Activity-8659; currency not explicitly identified","payer":"New-Activity-8659 or their organization","payment_status":"PAID","recipient":"Canva","transaction_type":"ACTUAL","unresolved_unknowns":["Whether the dollar sign denotes USD","Who legally pays the subscription","Whether the subscription is used for the target multi-client job","The $300 per-person per-year enterprise figure is a separate speaker's statement and is not part of this payer's transaction"],"work_bought_or_done":"Teams legacy plan access including 1,000 brand kits and 1 TB storage"},"raw_fingerprint":"ecf3b1068d3223afe5ee90ca990067c5b5bb335465440ed9eee7b5a5abc239ee","raw_owner_repairs":[{"field":"money_currency","observed_value":"Dollar symbol only; currency and geography unstated","reason":"The source supplies only the $ symbol. Requested raw-owner action: Set currency to unknown/null unless an original source explicitly establishes USD."},{"field":"observation","observed_value":"The commenter states plan ownership and features but not their own multi-brand use","reason":"The thread topic cannot be silently promoted into the commenter's own use case. Requested raw-owner action: Remove the unsupported claim that the canonical speaker uses the plan for multi-brand management, or add only separately sourced support in a new owned record."},{"field":"recurrence","observed_value":"Annual plan price is stated; work/use recurrence is not stated","reason":"The source states annual pricing and no monthly work cadence. Requested raw-owner action: Do not use monthly; retain annual only as the billing period and leave work recurrence unknown."},{"field":"role_scope","observed_value":"Canonical speaker's role and own provider scope are not stated","reason":"No occupation or own multi-client role is stated by New-Activity-8659. Requested raw-owner action: Remove the invented Designer / Content Creator role and in-scope ICP assignment unless supported by an original source."}],"raw_path":"ideas/multi-brand-content/raw/wtp/evidence.jsonl","raw_track":"wtp","reviewed_at":"2026-09-10T10:34:48+02:00","reviewer_agent":"codex-source-review-batch","schema_version":1,"scope":{"provider_form":"UNKNOWN","reason":"The commenter discusses a multi-client scenario but does not establish their own role, provider form or operation of multiple client brands.","scope_status":"UNKNOWN","supporting_evidence_ids":[]},"scope_dependency_fingerprint":"f58d71f206e2c093260ac16c2faae006ae03b262b49c0dcfc616ea59a135dbe7","state":"COMPLETE","substitute_assessment":null}
+-- 
+2.51.1
+
