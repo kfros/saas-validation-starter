@@ -1,0 +1,119 @@
+From f13d02b9ee3e1d30048273e002681bc83f25566a Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Thu, 10 Sep 2026 09:43:50 +0200
+Subject: [PATCH] Allow uninspected money reviews to checkpoint as blocked
+
+---
+ docs/codex/source-review-contract.md  |  7 ++++
+ scripts/audit_review_pipeline.py      | 15 +++++++-
+ scripts/test_audit_review_pipeline.py | 50 +++++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+), 1 deletion(-)
+
+diff --git a/docs/codex/source-review-contract.md b/docs/codex/source-review-contract.md
+index ec6f9ac..f916704 100644
+--- a/docs/codex/source-review-contract.md
++++ b/docs/codex/source-review-contract.md
+@@ -62,6 +62,13 @@ pricing is UNKNOWN payment plus OFFER. A conflicting assessment must contradict
+ or leave unknown the money-type claim and queue a material `money_signal` action
+ for the raw owner; it cannot remain VERIFIED.
+ 
++An uninspected BLOCKED/PENDING money row may keep payment and transaction UNKNOWN,
++all money fact fields null, and all money claim decisions UNKNOWN. That absence of
++knowledge is not a material source/raw contradiction and does not require a
++fabricated money_signal discrepancy or raw-owner repair. Keep its blocker and
++unresolved questions instead. Observed conflicts still require the normal repair
++queue; this exception cannot authorize VERIFIED.
++
+ `render --allow-incomplete` creates a checkpoint candidate in which missing rows
+ are PENDING and scope UNKNOWN. Only a complete strict render/check can enter the
+ ordinary `audit` and therefore `judge` path. The checker compares both Markdown
+diff --git a/scripts/audit_review_pipeline.py b/scripts/audit_review_pipeline.py
+index 202d076..a53fa88 100644
+--- a/scripts/audit_review_pipeline.py
++++ b/scripts/audit_review_pipeline.py
+@@ -389,7 +389,20 @@ def validate_review(review, raw, locations, captures):
+     require(material_discrepancies <= repair_fields,
+             f"{rid}: material discrepancies missing from raw-owner repair queue")
+     money_conflicts = money_assessment_conflicts(raw[rid], money) if money is not None else []
+-    if money_conflicts:
++    # A failed inspection supplies no observed transaction classification.
++    # UNKNOWN is a blocker, not evidence contradicting the raw money signal.
++    # Keep the exception narrow: no asserted money facts or supported/contradicted
++    # money claims, and only a BLOCKED/PENDING review. Actual conflicts still
++    # require a raw-owner action; VERIFIED continues to reject money_conflicts.
++    uninspected_money = (
++        money is not None and review["state"] == "BLOCKED" and audit["status"] == "PENDING"
++        and money["payment_status"] == "UNKNOWN" and money["transaction_type"] == "UNKNOWN"
++        and all(money[field] is None for field in
++                ("payer", "recipient", "work_bought_or_done", "amount_basis"))
++        and all(claim_by_field[field]["decision"] == "UNKNOWN" for field in
++                ("money_type", "money_amount", "money_currency", "money_period"))
++    )
++    if money_conflicts and not uninspected_money:
+         require(claim_by_field["money_type"]["decision"] in {"CONTRADICTED", "UNKNOWN"},
+                 f"{rid}: contradictory money assessment requires non-supported money_type decision")
+         require("money_signal" in material_discrepancies and "money_signal" in repair_fields,
+diff --git a/scripts/test_audit_review_pipeline.py b/scripts/test_audit_review_pipeline.py
+index 597dfcc..8d9d817 100644
+--- a/scripts/test_audit_review_pipeline.py
++++ b/scripts/test_audit_review_pipeline.py
+@@ -263,6 +263,56 @@ class PipelineTests(unittest.TestCase):
+                 self.assertEqual(arp.money_assessment_conflicts(
+                     {**base, "money_signal": signal}, assessment), [])
+ 
++    def test_uninspected_money_blocker_checkpoints_without_invented_raw_repair(self):
++        review = copy.deepcopy(self.reviews[2])
++        capture = copy.deepcopy(self.captures[2])
++        review.update(state="BLOCKED", blocker="Synthetic source quota error; source not inspected.")
++        review["audit"].update(status="PENDING", reason=review["blocker"])
++        review["scope"].update(scope_status="UNKNOWN", provider_form="UNKNOWN", supporting_evidence_ids=[])
++        review["impact_assessment"].update(eligible_gates=[], exclusion_reason=review["blocker"])
++        review["money_assessment"].update(
++            payer=None, recipient=None, work_bought_or_done=None, amount_basis=None,
++            payment_status="UNKNOWN", transaction_type="UNKNOWN",
++            unresolved_unknowns=["Synthetic source inaccessible; no observed payment or contradiction."])
++        for claim in review["claim_decisions"]:
++            claim.update(decision="UNKNOWN", capture_id=None, speaker=None, reason=review["blocker"])
++        capture.update(outcome="BLOCKED", fragment=None, fragment_sha256=None,
++                       resolved_url=None, locator=None, attributed_speaker=None)
++        review["scope_dependency_fingerprint"] = arp.scope_dependency(review, self.raw)
++        state_dir = self.root / "uninspected-money-batch"
++        arp.prepare_batch(self.root, state_dir, [review["evidence_id"]])
++        arp.write_jsonl(state_dir / "reviews.jsonl", [review])
++        arp.write_jsonl(state_dir / "captures.jsonl", [capture])
++        state = arp.checkpoint_batch(self.root, state_dir)
++        self.assertEqual(state["blocked_ids"], [review["evidence_id"]])
++        self.assertEqual(state["processed_ids"], [])
++        saved = arp.read_jsonl(state_dir / "reviews.jsonl", "blocked review")[0]
++        self.assertEqual(saved["audit"]["status"], "PENDING")
++        self.assertEqual(saved["discrepancies"], [])
++        self.assertEqual(saved["raw_owner_repairs"], [])
++        self.assertEqual(arp.load_raw(self.root)[0], self.raw)
++        # Successful source access later resumes this same record normally.
++        arp.write_jsonl(state_dir / "captures.jsonl", [capture, self.captures[2] | {
++            "capture_id": "capture-money-retry", "local_attempt_id": "attempt-money-retry"}])
++        resumed = copy.deepcopy(self.reviews[2])
++        resumed["capture_ids"] = [capture["capture_id"], "capture-money-retry"]
++        for claim in resumed["claim_decisions"]:
++            claim["capture_id"] = "capture-money-retry"
++        arp.write_jsonl(state_dir / "reviews.jsonl", [resumed])
++        state = arp.checkpoint_batch(self.root, state_dir)
++        self.assertEqual(state["processed_ids"], [review["evidence_id"]])
++        self.assertEqual(state["blocked_ids"], [])
++
++    def test_blocked_money_with_observed_conflict_still_needs_raw_owner_repair(self):
++        review = copy.deepcopy(self.reviews[2])
++        review.update(state="BLOCKED", blocker="Synthetic remaining inspection blocked.")
++        review["audit"].update(status="PENDING", reason=review["blocker"])
++        review["money_assessment"].update(payment_status="FREE", transaction_type="HYPOTHETICAL")
++        next(c for c in review["claim_decisions"] if c["field"] == "money_type")["decision"] = "CONTRADICTED"
++        with self.assertRaisesRegex(arp.ReviewError, "must queue material money_signal repair"):
++            arp.validate_review(review, self.raw, self.locations,
++                                {c["capture_id"]: c for c in self.captures})
++
+     def test_material_conflict_routes_to_queue_and_blocks_verified(self):
+         rows = copy.deepcopy(self.reviews)
+         rows[0]["discrepancies"] = [{"field": "author_or_entity", "raw_value": "Speaker A",
+-- 
+2.51.1
+

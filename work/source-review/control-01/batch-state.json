@@ -1,0 +1,28 @@
+{
+  "batch_snapshot_sha256": "2f350215e32ef37e3ecb863da8fe52a84d6c8111b58075125a918db0b3961e96",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {
+    "capture-control01-mb-pain-001": "89919071b8e4b22e01516fb0c99bab269169e08f2d4842274dd2becb59c011fa"
+  },
+  "completed_review_fingerprints": {
+    "mb-pain-001": "dfd33b2c0d9d27927dfc6e99090ecf1221744d37b1492c8934174c791e48fdc5"
+  },
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-pain-001",
+    "mb-wtp-001",
+    "mb-wtp-005",
+    "mb-wtp-008",
+    "mb-wtp-009"
+  ],
+  "processed_ids": [
+    "mb-pain-001"
+  ],
+  "remaining_ids": [
+    "mb-wtp-001",
+    "mb-wtp-005",
+    "mb-wtp-008",
+    "mb-wtp-009"
+  ],
+  "schema_version": 1
+}
