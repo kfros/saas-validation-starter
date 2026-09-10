@@ -1,8 +1,17 @@
 {
   "batch_snapshot_sha256": "2963baa03c58e1167c10eb001a82c81db757f66ed52039be6802224217609ae0",
-  "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "blocked_ids": [
+    "mb-skeptic-007",
+    "mb-skeptic-008",
+    "mb-skeptic-009",
+    "mb-skeptic-010"
+  ],
+  "completed_capture_fingerprints": {
+    "capture-batch11-mb-skeptic-006-a1": "4b95544eb6c8e206219edc9a98b3c305561e8fa19d51cf6d0632bf4f9ca155f3"
+  },
+  "completed_review_fingerprints": {
+    "mb-skeptic-006": "a7c25125224f94babd35e3766d63a03cb26e814f5bde33f3517f9874a3aaafd9"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-skeptic-006",
@@ -11,13 +20,9 @@
     "mb-skeptic-009",
     "mb-skeptic-010"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
-    "mb-skeptic-006",
-    "mb-skeptic-007",
-    "mb-skeptic-008",
-    "mb-skeptic-009",
-    "mb-skeptic-010"
+  "processed_ids": [
+    "mb-skeptic-006"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

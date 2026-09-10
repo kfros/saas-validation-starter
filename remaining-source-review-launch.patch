@@ -1,0 +1,595 @@
+From 37af6cc2f8227ad140ad50784be202665790bb58 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Thu, 10 Sep 2026 15:38:00 +0300
+Subject: [PATCH] Add reusable source-review launch and prepare next WTP batch
+
+---
+ CODEX-RUNBOOK.md                              |  86 ++++-
+ prompts/codex/22-review-prepared-batch.md     | 132 ++++++++
+ work/source-review/wtp-02/batch-manifest.json | 294 ++++++++++++++++++
+ work/source-review/wtp-02/batch-state.json    |  23 ++
+ work/source-review/wtp-02/captures.jsonl      |   0
+ work/source-review/wtp-02/reviews.jsonl       |   0
+ 6 files changed, 532 insertions(+), 3 deletions(-)
+ create mode 100644 prompts/codex/22-review-prepared-batch.md
+ create mode 100644 work/source-review/wtp-02/batch-manifest.json
+ create mode 100644 work/source-review/wtp-02/batch-state.json
+ create mode 100644 work/source-review/wtp-02/captures.jsonl
+ create mode 100644 work/source-review/wtp-02/reviews.jsonl
+
+diff --git a/CODEX-RUNBOOK.md b/CODEX-RUNBOOK.md
+index 4b96cde..d509b6b 100644
+--- a/CODEX-RUNBOOK.md
++++ b/CODEX-RUNBOOK.md
+@@ -1,8 +1,8 @@
+ # Codex: настройка проекта и исправление аудита
+ 
+-Комплект подготовлен поверх `241d04317c5ce93ba37982b67c62fc535c7b4727`.
+-Он добавляет инструкции и инженерное задание. Сам генератор, новый checker и
+-проверка источников ещё не выполнены — их создаст/запустит следующий этап.
++Текущий этап после `4649a2f`: контрольные пакеты завершены, продолжаем проверку
++оставшихся источников по разделу 6. Инженерный pipeline уже реализован.
++Разделы 1–4 описывают исходную настройку поверх `241d043`; повторять её не нужно.
+ 
+ ## Что настраиваем
+ 
+@@ -192,3 +192,83 @@ candidate в `ideas/`, raw repair и Judge требуют отдельных я
+ ```powershell
+ & $auditPython scripts/reproduce_05de6b6.py --repo .
+ ```
++
++## 6. Продолжить аудит после контрольного пакета
++
++`20-source-review-control-batch.md` и `21-resume-control-batch.md` сохраняются для
++истории контрольного запуска и восстановления. Следующие пакеты используют
++`prompts/codex/22-review-prepared-batch.md` с одним параметром `BATCH_DIR`.
++Skill, checker, schema и market gates для этого перехода не меняются.
++
++Состояние на базе `4649a2f`: проверены пять уникальных raw-ID из 80, остаются 75.
++Новая проверка `mb-pain-001` в `control-01-scope-recheck` должна заменить старую
++при отдельной консолидации; обе исторические версии сохраняются в своих пакетах.
++Она не добавляет шестую evidence row. Ни один запуск ниже не выполняет эту
++консолидацию и не переносит прежние VERIFIED автоматически.
++
++### Ближайший запуск
++
++Пакет `work/source-review/wtp-02/` уже подготовлен офлайн из canonical raw:
++
++- `mb-wtp-002`
++- `mb-wtp-003`
++- `mb-wtp-004`
++- `mb-wtp-006`
++- `mb-wtp-007`
++
++Его captures/reviews пусты, все пять ID находятся в remaining. Подготовка пакета
++не является проверкой источников. Повторять `prepare-batch` для него не нужно.
++
++В новом разговоре Codex отправь:
++
++```text
++Выполни prompts/codex/22-review-prepared-batch.md.
++BATCH_DIR = work/source-review/wtp-02
++Проверь только этот подготовленный пакет. После его checkpoint остановись.
++```
++
++При прерывании повтори тот же запуск: агент прочитает state и продолжит только
++blocked/remaining, сохранив завершённые reviews. Если checkpoint не прошёл после
++разрешённой структурной правки, сначала разбирается конкретный блокер; новый
++разговор сам по себе не делает незапечатанную запись завершённой.
++
++После этого пакета вне контрольной пятёрки остаётся ещё `mb-wtp-010`, а также
++непроверенные IDs других треков. Следующий пакет определяется по каноническому
++списку и уже завершённым review, а не по количеству файлов или captures.
++
++### Последующие пакеты
++
++Подготавливай только известные непроверенные ID, максимум пять на пакет, через
++существующий `prepare-batch`. Это отдельная офлайн-подготовка, не команда внутри
++ограниченного research-запуска. Например, для оставшегося WTP-ID:
++
++```powershell
++& 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' scripts/audit_review_pipeline.py prepare-batch --state-dir work/source-review/wtp-03 --ids mb-wtp-010
++```
++
++Затем используй тот же промпт 22, меняя только параметр:
++
++```text
++Выполни prompts/codex/22-review-prepared-batch.md.
++BATCH_DIR = work/source-review/wtp-03
++Проверь только этот подготовленный пакет. После его checkpoint остановись.
++```
++
++Этот пример не утверждает, что `wtp-03` уже создан. Для pain/workflow/market/
++skeptic нужен такой же заранее подготовленный пакет известных ID. Не запускай
++два разговора с записью в одну директорию. Ревизии завершённых ID готовятся в
++отдельных директориях с последующим явным выбором одной версии на raw-ID.
++
++### Когда переходить к Judge
++
++После покрытия всех 80 raw-ID нужна отдельная сборка актуальных reviews/captures,
++разрешение ревизий и строгие `render/check`, затем перенос согласованного аудита
++в canonical evidence в рамках отдельной задачи. Raw-owner actions нельзя
++применять механически: изменение raw делает зависимые reviews устаревшими.
++Если запись остаётся частично подтверждённой, её можно сохранить с этим статусом;
++добиваться VERIFIED для каждой записи не требуется.
++
++BLOCKED/PENDING и `--allow-incomplete` не дают разрешения на обычный Judge.
++Полное покрытие аудита тоже не означает PASS: Judge использует только допустимые
++свидетельства и существующие gates. Не меняй scope, пороги или код, чтобы получить
++положительный результат.
+diff --git a/prompts/codex/22-review-prepared-batch.md b/prompts/codex/22-review-prepared-batch.md
+new file mode 100644
+index 0000000..4cb4540
+--- /dev/null
++++ b/prompts/codex/22-review-prepared-batch.md
+@@ -0,0 +1,132 @@
++# Review or resume one prepared source-review batch
++
++## Bind this launch
++
++The user supplies one concrete repository-relative `BATCH_DIR`, for example
++`work/source-review/wtp-02`. It must name an already prepared directory under
++`work/source-review/`, without `..`, a wildcard or a shell expression. This is a
++literal prompt parameter, not a PowerShell variable. Substitute that exact path
++for `<BATCH_DIR>` in the command below before executing it.
++
++Review only this batch, with at most five known raw IDs. If the path or required
++manifest/state is missing, report the missing preparation and stop. Do not choose
++a different batch, prepare/reset this one, or begin another batch automatically.
++
++## Read the contract and saved progress
++
++Read these repository files:
++
++- `AGENTS.md`
++- `.agents/skills/source-review-batch/SKILL.md`
++- `docs/codex/source-review-contract.md`
++- `methodology/source-review-schema.json`
++- `methodology/evidence-schema.json`
++- `ideas/multi-brand-content/hypothesis.yaml`
++- `ideas/multi-brand-content/research-protocol.md`
++- `ideas/multi-brand-content/audit-checklist.md`
++- This launch prompt.
++- The selected directory's `batch-manifest.json`, `batch-state.json`,
++  `captures.jsonl` and `reviews.jsonl`.
++
++Use the manifest's generated raw records, fingerprints, required claim fields,
++canonical authors/entities and exact URL groups. Their content is the claim to
++test, not source proof. Existing reports and historical VERIFIED labels do not
++establish what a source says.
++
++Preserve every checkpointed completed review and its captures exactly. Resume
++only blocked/remaining IDs from the saved state. If the entire batch is already
++processed, report that fact and finish without reopening or rewriting it. A new
++semantic review of a completed ID belongs in a separately prepared revision
++batch; do not edit the sealed review to make this run pass.
++
++## Narrow operational override
++
++For this launch, the bound `BATCH_DIR` and the bound checkpoint command below
++explicitly replace the old protocol's Auditor write-directory and terminal
++allowlist. They do not change source standards, scope, market gates or roles.
++
++- Write only `captures.jsonl`, `reviews.jsonl` and checkpoint-managed
++  `batch-state.json` inside the selected directory. Keep its manifest unchanged.
++- Local file-reading tools may read the inputs listed above. In the terminal,
++  allow only read-only `Get-Content -LiteralPath <path>` for those exact inputs
++  and the bound checkpoint command below. No additional shell expressions,
++  pipelines or terminal commands. The checkpoint may read canonical raw and its
++  dependencies internally; that does not authorize terminal research.
++- Open only exact public source URLs listed in the manifest through an
++  authorized browser/public-source retrieval tool. Inspect the relevant post and
++  speaker's comments; record any actual redirect. No discovery/search, terminal
++  HTTP clients, scrapers, Antigravity brain/cache, outreach or invented captures.
++- No raw edits, final evidence writes, rendering, consolidation, Judge, tool or
++  skill changes in this run. Do not run the old phase checker.
++
++## Source review
++
++1. Inspect each unfinished ID against its exact original public source. A shared
++   URL may serve several IDs, but preserve each speaker and raw-ID binding. Save
++   the actual small relevant returned fragments and locators, honest timestamps,
++   tool/result IDs when exposed, and unique local attempt IDs. Unknown tool
++   metadata stays null; a locally invented ID is never an external result ID.
++2. Use the v1 schema to decide every required claim at its original strength:
++   quote, author, observation, interpretation, recurrence, money and role/scope.
++   Bind decisions to the capture and actual speaker. An accurate paraphrase may
++   support an observation but cannot pass exact quote containment. Absence of
++   evidence is UNKNOWN; distinguish it from a direct contradiction or an excerpt
++   that is absent from the inspected source. Neither can receive VERIFIED when
++   material and unresolved.
++3. For monetary evidence, separate firsthand spending/use, paid labor, adoption,
++   intention and advertised prices. A firsthand spending report does not require
++   an invoice or an exact amount to be evidence. Conversely, signup alone does
++   not establish a charged amount. Preserve supported ownership/use/switching
++   facts even when payment, currency or amount is unknown. Do not invent an
++   hourly rate, payment period, monthly total or units for output counts.
++4. Assess all five scope requirements from `hypothesis.yaml`. Separate the
++   speaker's role, the provider's characteristics and buying authority. Employee
++   testimony can establish paid labor without establishing owner-led provider
++   fit; an agency label cannot establish all scope requirements. Unknown fit is
++   not proof of exclusion. Preserve supported contrary facts too.
++5. Fill money/impact/substitute assessments as required by the schema and record
++   a concrete gate exclusion when appropriate. `substitute_assessment` is null
++   for non-substitute rows. Do not promote an interpretation or gate eligibility
++   merely because a checkpoint accepts its structure.
++6. Record material raw/source discrepancies and raw-owner actions without
++   changing raw. Exact nested keys:
++   - discrepancy: `field`, `raw_value`, `observed_value`, boolean `material`,
++     `reason`;
++   - raw-owner repair: `field`, `observed_value`, `reason`.
++   Put the requested action in `reason`, never an extra `action` key. Keep the
++   actual raw value and supported observation/unknown distinct. A summarized
++   observed value is not automatically a replacement exact quote.
++7. Checkpoint after each completed or blocked record using the command below.
++
++```powershell
++& 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' scripts/audit_review_pipeline.py checkpoint-batch --state-dir <BATCH_DIR>
++```
++
++For `BATCH_DIR = work/source-review/wtp-02`, the only checkpoint is:
++
++```powershell
++& 'C:\Users\acer\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' scripts/audit_review_pipeline.py checkpoint-batch --state-dir work/source-review/wtp-02
++```
++
++The example does not authorize touching `wtp-02` when another directory is bound.
++If this runtime is unavailable, report the blocker; do not change runtime paths
++or repair infrastructure inside the research run.
++
++## Stop and resume honestly
++
++For quota/resource exhaustion, make at most one permitted retry. If it repeats,
++checkpoint truthful BLOCKED/PENDING state and stop PARTIAL. Stop after three
++consecutive tool failures. Uninspected monetary rows may keep money facts null,
++payment/transaction UNKNOWN and money decisions UNKNOWN; lack of access does not
++justify an invented discrepancy or REJECTED status.
++
++On a checkpoint structural failure, read the full diagnostic and make at most
++one structural repair to unfinished records, then one rerun. Never invent facts
++or change completed reviews/fingerprint guards to satisfy it. If it still fails,
++preserve the sidecars and report the exact error; the failed record is unsealed.
++
++Finish with the selected directory, checkpoint result, processed/blocked/remaining
++IDs, source links, material discrepancies and raw-owner actions. Say explicitly
++that batch completion is not full-audit completion or a market verdict. Stop
++after this batch. Do not automatically run Judge or require every row to become
++VERIFIED.
+diff --git a/work/source-review/wtp-02/batch-manifest.json b/work/source-review/wtp-02/batch-manifest.json
+new file mode 100644
+index 0000000..e4b3ab0
+--- /dev/null
++++ b/work/source-review/wtp-02/batch-manifest.json
+@@ -0,0 +1,294 @@
++{
++  "batch_snapshot_sha256": "12173f88df7d31c951a5b7a65e17be684e3de51436c657481e9e7d73499e1d5d",
++  "idea_id": "multi-brand-content",
++  "records": [
++    {
++      "canonical_author_or_entity": "UniversityWestern346",
++      "evidence_id": "mb-wtp-002",
++      "exact_source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/",
++      "raw_fingerprint": "998570a92a811ed46ae8df0c1c93833109c0a304e796bce98f120c695f903d24",
++      "raw_path": "ideas/multi-brand-content/raw/wtp/evidence.jsonl",
++      "raw_record": {
++        "agent": "wtp-research",
++        "audit_reason": null,
++        "audit_status": "PENDING",
++        "author_or_entity": "UniversityWestern346",
++        "company": null,
++        "company_size": null,
++        "geography": null,
++        "icp": null,
++        "id": "mb-wtp-002",
++        "idea": "multi-brand-content",
++        "independence_key": "reddit-user-universitywestern346",
++        "industry": "Marketing Agency / Design Services",
++        "interpretation": "Establishes stated willingness to pay of $30/month for multi-brand design controls, intended as a client retainer pass-through rather than internal margin absorption. As an unexecuted planned purchase, it represents stated intent rather than revealed spend.",
++        "money_amount": 30.0,
++        "money_currency": "USD",
++        "money_period": "monthly",
++        "money_signal": "stated_wtp",
++        "observation": "Solo agency designer managing 5 client brands with expansion plans is evaluating upgrading from Canva Pro to Canva Business at $30/month for multiple brand kits and controls, intending to pass the subscription fee to clients ($6 each).",
++        "observed_at": "2026-09-09",
++        "polarity": "neutral",
++        "recurrence": "monthly",
++        "role": "Agency Designer / Freelance Designer",
++        "source_date": "2025-11-06",
++        "source_excerpt": "Currently handling about 5 clients and looking to take on more. It's getting hard to manage with Canva pro (I'm the only designer). I'm looking at Canva Business, because it allows multiple brand kits and controls. The $30/mo fee is something I can just pass to the clients (divide among them, $6 each).",
++        "source_tier": "A",
++        "source_type": "reddit",
++        "source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/",
++        "strength": 3,
++        "subtype": "stated_wtp",
++        "type": "wtp"
++      },
++      "raw_track": "wtp",
++      "required_claim_fields": [
++        "attribution",
++        "interpretation",
++        "money_amount",
++        "money_currency",
++        "money_period",
++        "money_type",
++        "observation",
++        "quote",
++        "recurrence",
++        "role_scope"
++      ]
++    },
++    {
++      "canonical_author_or_entity": "NikiforovAleksandr",
++      "evidence_id": "mb-wtp-003",
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/ycgaw2/should_i_pay_for_a_clients_later_subscription/",
++      "raw_fingerprint": "247af984fb9e2b64d33c2b4d046a6bcf105bd308f0fead0d7a76ccf9ff21a925",
++      "raw_path": "ideas/multi-brand-content/raw/wtp/evidence.jsonl",
++      "raw_record": {
++        "agent": "wtp-research",
++        "audit_reason": null,
++        "audit_status": "PENDING",
++        "author_or_entity": "NikiforovAleksandr",
++        "company": null,
++        "company_size": null,
++        "geography": null,
++        "icp": "MULTIBRAND-OPERATOR-01",
++        "id": "mb-wtp-003",
++        "idea": "multi-brand-content",
++        "independence_key": "reddit-user-nikiforovaleksandr",
++        "industry": "Social Media Marketing",
++        "interpretation": "Reveals actual multi-tenant software spend absorbed by the provider as an internal overhead cost ($2/account/month), demonstrating low per-account willingness to pay.",
++        "money_amount": 200.0,
++        "money_currency": "USD",
++        "money_period": "unknown",
++        "money_signal": "saas_spend",
++        "observation": "SMM provider pays $200 for a bulk 100-account software tier (Postmypost) out of agency operating expenses to manage client accounts rather than charging clients separate tool fees.",
++        "observed_at": "2026-09-08",
++        "polarity": "supports",
++        "recurrence": "monthly",
++        "role": "Social Media Manager / Agency Operator",
++        "source_date": "2022-10-24",
++        "source_excerpt": "I buy 100 accounts for only $200. My clients don't pay for a service subscription.",
++        "source_tier": "A",
++        "source_type": "reddit",
++        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/ycgaw2/should_i_pay_for_a_clients_later_subscription/",
++        "strength": 4,
++        "subtype": "saas_spend",
++        "type": "wtp"
++      },
++      "raw_track": "wtp",
++      "required_claim_fields": [
++        "attribution",
++        "interpretation",
++        "money_amount",
++        "money_currency",
++        "money_period",
++        "money_type",
++        "observation",
++        "quote",
++        "recurrence",
++        "role_scope"
++      ]
++    },
++    {
++      "canonical_author_or_entity": "Broad_Perspective166",
++      "evidence_id": "mb-wtp-004",
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1m7dkeb/what_platform_do_you_use_for_client_approvals_on/",
++      "raw_fingerprint": "3294b9efb6b83078d84c36f10f03ad73f985669122ed4e1ca7f85f3cfd24b422",
++      "raw_path": "ideas/multi-brand-content/raw/wtp/evidence.jsonl",
++      "raw_record": {
++        "agent": "wtp-research",
++        "audit_reason": null,
++        "audit_status": "PENDING",
++        "author_or_entity": "Broad_Perspective166",
++        "company": null,
++        "company_size": null,
++        "geography": null,
++        "icp": null,
++        "id": "mb-wtp-004",
++        "idea": "multi-brand-content",
++        "independence_key": "reddit-user-broad-perspective166",
++        "industry": "Social Media Marketing",
++        "interpretation": "Demonstrates price sensitivity and pricing resistance for multi-brand grid preview and client approval capabilities. Does not prove active dollar expenditure or billing period, and should not be cited as confirmed software spend.",
++        "money_amount": null,
++        "money_currency": null,
++        "money_period": null,
++        "money_signal": "unknown",
++        "observation": "Practitioner uses Planable for social media client approvals and finds it quite good, but seeks alternatives because Planable charges heavily ('charges a bomb') for its Grid view planner, which is the only view needed. Specific paid tier, dollar spend, and billing period are unstated.",
++        "observed_at": "2026-09-09",
++        "polarity": "neutral",
++        "recurrence": "unknown",
++        "role": "Social Media Practitioner",
++        "source_date": "2025-07-23",
++        "source_excerpt": "What platform do you use for client approvals? We currently use Planable which is quite good, but they charge a bomb for their Grid view (which is the only view we need). Any alternatives with a good grid view?",
++        "source_tier": "A",
++        "source_type": "reddit",
++        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1m7dkeb/what_platform_do_you_use_for_client_approvals_on/",
++        "strength": 3,
++        "subtype": "price_friction",
++        "type": "wtp"
++      },
++      "raw_track": "wtp",
++      "required_claim_fields": [
++        "attribution",
++        "interpretation",
++        "money_amount",
++        "money_currency",
++        "money_period",
++        "money_type",
++        "observation",
++        "quote",
++        "recurrence",
++        "role_scope"
++      ]
++    },
++    {
++      "canonical_author_or_entity": "whyanalyze",
++      "evidence_id": "mb-wtp-006",
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/",
++      "raw_fingerprint": "12627fcbbb881f20b19ca983e72542278d1936035098093152bdc09b2737dd86",
++      "raw_path": "ideas/multi-brand-content/raw/wtp/evidence.jsonl",
++      "raw_record": {
++        "agent": "wtp-research",
++        "audit_reason": null,
++        "audit_status": "PENDING",
++        "author_or_entity": "whyanalyze",
++        "company": null,
++        "company_size": null,
++        "geography": "United States (NYC)",
++        "icp": "MULTIBRAND-OPERATOR-01",
++        "id": "mb-wtp-006",
++        "idea": "multi-brand-content",
++        "independence_key": "reddit-user-whyanalyze",
++        "industry": "Social Media Marketing",
++        "interpretation": "Establishes substantial outsourced labor spending ($1,500/mo) for social content production, while illustrating that human subcontracting fails due to coordination overhead and narrow margins.",
++        "money_amount": 1500.0,
++        "money_currency": "USD",
++        "money_period": "monthly",
++        "money_signal": "contractor_spend",
++        "observation": "Agency owner paid a contractor $1,500/month in New York to produce 6-8 graphics, 6 videos, and 10-12 stories per month, but canceled the arrangement because communication overhead and coordination wiped out profitability.",
++        "observed_at": "2026-09-08",
++        "polarity": "supports",
++        "recurrence": "monthly",
++        "role": "SMM Agency Owner",
++        "source_date": "2025-02-24",
++        "source_excerpt": "I came back here to mention I dropped this effort/contract entirely. Long story short — endless hours of communication and planning with minimal to zero profit. Clients want a lot. Subcontractors want to do minimal unless you’re going with their $4k-$5k monthly plan",
++        "source_tier": "A",
++        "source_type": "reddit",
++        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/",
++        "strength": 5,
++        "subtype": "contractor_spend",
++        "type": "wtp"
++      },
++      "raw_track": "wtp",
++      "required_claim_fields": [
++        "attribution",
++        "interpretation",
++        "money_amount",
++        "money_currency",
++        "money_period",
++        "money_type",
++        "observation",
++        "quote",
++        "recurrence",
++        "role_scope"
++      ]
++    },
++    {
++      "canonical_author_or_entity": "United_Broccoli_4032",
++      "evidence_id": "mb-wtp-007",
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/",
++      "raw_fingerprint": "e6a68ef736620e896f4318902c51e5e5c8f0cbb130c4e295a9dd8d87d37199ad",
++      "raw_path": "ideas/multi-brand-content/raw/wtp/evidence.jsonl",
++      "raw_record": {
++        "agent": "wtp-research",
++        "audit_reason": null,
++        "audit_status": "PENDING",
++        "author_or_entity": "United_Broccoli_4032",
++        "company": null,
++        "company_size": null,
++        "geography": null,
++        "icp": "MULTIBRAND-OPERATOR-01",
++        "id": "mb-wtp-007",
++        "idea": "multi-brand-content",
++        "independence_key": "reddit-user-united-broccoli-4032",
++        "industry": "Social Media Marketing",
++        "interpretation": "Demonstrates prevailing willingness to allocate $400-$800/month of a client retainer to execution labor, bounding the addressable cost of goods sold for post creation.",
++        "money_amount": 600.0,
++        "money_currency": "USD",
++        "money_period": "monthly",
++        "money_signal": "contractor_spend",
++        "observation": "Practitioner documents standard subcontracting rates for client social media production: $400 to $800 per month flat fee per client (or $20-$40/hour), targeting a 50% agency margin against $1,500/month client retainers.",
++        "observed_at": "2026-09-08",
++        "polarity": "supports",
++        "recurrence": "monthly",
++        "role": "Agency Practitioner",
++        "source_date": "2025-02-24",
++        "source_excerpt": "Flat-rate per client: $400 – $800 / month (standard for 3–5 posts/week + community engagement). Hourly rate: $20 – $40 / hour... Maintain at least a 50%+ profit margin (e.g., charge client $1,500/mo, pay contractor $600/mo, keeping $900/mo margin).",
++        "source_tier": "A",
++        "source_type": "reddit",
++        "source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/",
++        "strength": 4,
++        "subtype": "contractor_spend",
++        "type": "wtp"
++      },
++      "raw_track": "wtp",
++      "required_claim_fields": [
++        "attribution",
++        "interpretation",
++        "money_amount",
++        "money_currency",
++        "money_period",
++        "money_type",
++        "observation",
++        "quote",
++        "recurrence",
++        "role_scope"
++      ]
++    }
++  ],
++  "schema_version": 1,
++  "source_groups": [
++    {
++      "evidence_ids": [
++        "mb-wtp-002"
++      ],
++      "exact_source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/"
++    },
++    {
++      "evidence_ids": [
++        "mb-wtp-003"
++      ],
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/ycgaw2/should_i_pay_for_a_clients_later_subscription/"
++    },
++    {
++      "evidence_ids": [
++        "mb-wtp-004"
++      ],
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1m7dkeb/what_platform_do_you_use_for_client_approvals_on/"
++    },
++    {
++      "evidence_ids": [
++        "mb-wtp-006",
++        "mb-wtp-007"
++      ],
++      "exact_source_url": "https://www.reddit.com/r/SocialMediaMarketing/comments/1ixclwe/how_much_to_pay_social_media_manager_contractors/"
++    }
++  ]
++}
+diff --git a/work/source-review/wtp-02/batch-state.json b/work/source-review/wtp-02/batch-state.json
+new file mode 100644
+index 0000000..d70bdf2
+--- /dev/null
++++ b/work/source-review/wtp-02/batch-state.json
+@@ -0,0 +1,23 @@
++{
++  "batch_snapshot_sha256": "12173f88df7d31c951a5b7a65e17be684e3de51436c657481e9e7d73499e1d5d",
++  "blocked_ids": [],
++  "completed_capture_fingerprints": {},
++  "completed_review_fingerprints": {},
++  "idea_id": "multi-brand-content",
++  "ids": [
++    "mb-wtp-002",
++    "mb-wtp-003",
++    "mb-wtp-004",
++    "mb-wtp-006",
++    "mb-wtp-007"
++  ],
++  "processed_ids": [],
++  "remaining_ids": [
++    "mb-wtp-002",
++    "mb-wtp-003",
++    "mb-wtp-004",
++    "mb-wtp-006",
++    "mb-wtp-007"
++  ],
++  "schema_version": 1
++}
+diff --git a/work/source-review/wtp-02/captures.jsonl b/work/source-review/wtp-02/captures.jsonl
+new file mode 100644
+index 0000000..e69de29
+diff --git a/work/source-review/wtp-02/reviews.jsonl b/work/source-review/wtp-02/reviews.jsonl
+new file mode 100644
+index 0000000..e69de29
+-- 
+2.51.1
+

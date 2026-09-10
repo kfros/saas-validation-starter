@@ -1,8 +1,20 @@
 {
   "batch_snapshot_sha256": "5b85e918d9417f07870a6617b8525f9d8475d92d900694b9f61a2bd900a6ef7e",
   "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "completed_capture_fingerprints": {
+    "capture-b16-mb-market-017-a1": "397394dae093f2dc3a3953bc323dd05832255ac6658ce693782659aceb612a35",
+    "capture-b16-mb-market-018-a1": "27856a517d8b85a226fe4c9d89f399779b0ae043f995c9e9162b0b50b0840f5b",
+    "capture-b16-mb-market-019-a1": "30f3c60fe1f0930dbb58773c98a72d4e0ab73dacae060482741a1bdfae980463",
+    "capture-b16-mb-market-020-a1": "0ba6dbdd46adf68cde2c108ed247d655836b1937f8ddafa3ff9ea3122166fd61",
+    "capture-b16-mb-market-021-a1": "819ecfd47b0094ca8de5aaa29fb96565b4821e4192db9e984ef272f3926b3df2"
+  },
+  "completed_review_fingerprints": {
+    "mb-market-017": "9f97079882a9134880a778599eceecb9cf04a96b56be761c8918c3bf49f64f4b",
+    "mb-market-018": "030bb7f740026b4a7c05944688deb81fb6e52aa2011082672bb7d82db9b56e4e",
+    "mb-market-019": "13863fa5d9ac68d358b21d1bbcd6606792c23213ae020435038c73a7fbc6edc7",
+    "mb-market-020": "28a6bec8fe79479ea98b218d22a8b5d93e1ca7a5533d308fbc12a958b7674dbe",
+    "mb-market-021": "29afb26e733faaf8c189e033101529e9f7287a750febb9d6bee2d18ec10c7c75"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-market-017",
@@ -11,13 +23,13 @@
     "mb-market-020",
     "mb-market-021"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
+  "processed_ids": [
     "mb-market-017",
     "mb-market-018",
     "mb-market-019",
     "mb-market-020",
     "mb-market-021"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

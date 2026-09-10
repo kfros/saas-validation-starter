@@ -1,8 +1,20 @@
 {
   "batch_snapshot_sha256": "18b7c9babfa7af0b8e98b6ec2e61741557f0189b322fe01986a6f100cd45d059",
-  "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "blocked_ids": [
+    "mb-pain-021"
+  ],
+  "completed_capture_fingerprints": {
+    "capture-b07-mb-workflow-001": "d3011b1feb52ece9f706b2bd605ea843587bdd78df606844390c6ecb3dbcf204",
+    "capture-b07-mb-workflow-002": "1b53b0469beb2e78a0a05f2683d4b7e1de58c79ea69458bf2a8b07f80deca8b8",
+    "capture-b07-mb-workflow-003": "ec0e419e84e678e4dd679c154dd339043ee571347fafb7697c085dd4621c8b5c",
+    "capture-b07-mb-workflow-004": "fb887b662e667b9ae511007896edf9b9c90bce003877c87886a029c60c50283e"
+  },
+  "completed_review_fingerprints": {
+    "mb-workflow-001": "5417ba4d1b2d58866030368ea0530afd13028d50aaf11fceb1f657ba7c5ececb",
+    "mb-workflow-002": "8239f729b2134bed535fb291b2934333a7dfab6d1c909b5fa17460fb1a2b87ea",
+    "mb-workflow-003": "cdf824e1089bfa2d27e12c36bc9f48c34dd0e54df3690da42c8433970d7c5afc",
+    "mb-workflow-004": "0743c0618578a50643caf9c8a40333af31fc57a544929cc4ee539e0bb5599ba5"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-pain-021",
@@ -11,13 +23,12 @@
     "mb-workflow-003",
     "mb-workflow-004"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
-    "mb-pain-021",
+  "processed_ids": [
     "mb-workflow-001",
     "mb-workflow-002",
     "mb-workflow-003",
     "mb-workflow-004"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

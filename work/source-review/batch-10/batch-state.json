@@ -1,8 +1,25 @@
 {
   "batch_snapshot_sha256": "e3b4252ef0d9948d18593eddc1a031492fa71398533a078891bd28d45eae891a",
-  "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "blocked_ids": [
+    "mb-skeptic-001"
+  ],
+  "completed_capture_fingerprints": {
+    "capture-b10-mb-skeptic-002-core": "2af25880de4c78e491edbc25303097cac4223b1befddd828a4f0d57c62af6611",
+    "capture-b10-mb-skeptic-002-limits": "d7635460d12a6f41b7854cfca00a312a93cb59a8ac33c8700ef920713600dd0b",
+    "capture-b10-mb-skeptic-003-content-planner": "16b93a9161b141e014690cb411534990587fdea66607d692ac92d2fd436b0f83",
+    "capture-b10-mb-skeptic-003-main": "c1901e763f9cdea4c7d0281962dee4243c1b4f8fd3e31a420d9b232a5d90d7b8",
+    "capture-b10-mb-skeptic-003-output": "d24303c8e1599637f2373131d74ddcce3274e1b615b38851fc11b8dd91826f7d",
+    "capture-b10-mb-skeptic-003-upload": "d9dea55f0ab693e512cd5701467610d608f5800a08c034a81fa8aad23e05a520",
+    "capture-b10-planable-pricing": "207cd4ca42ce5387fe5363df4060e2e11c3e50e543baa1a92f778298faa37d76",
+    "capture-b10-planable-workflow": "5bfda20f03bb2b6f8652a1ccfa1afb0331b5717df04c95376f7bc95c8fb38f6c",
+    "capture-b10-planable-workspace": "f01a5abe9215e4dd987a272c0367633f5bffc3a443f47edb9db6efed5ebb948e"
+  },
+  "completed_review_fingerprints": {
+    "mb-skeptic-002": "a1ee3515f74d4ced3a6d102fc983913b3b1c76037ec405f821a2ead4baf5c9a2",
+    "mb-skeptic-003": "6599db6cbe823dec0dfe50245a9e192eb567f3ae19322e652bbf7b48fb4ef57e",
+    "mb-skeptic-004": "41bc002630a1b82751423631f9d93524101a6ba9625b0927cf87be62ec5cc6ae",
+    "mb-skeptic-005": "eb53e50721998ab29103f430389e19217c3ec66e711fc2b8b322b9cbf09916f3"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-skeptic-001",
@@ -11,13 +28,12 @@
     "mb-skeptic-004",
     "mb-skeptic-005"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
-    "mb-skeptic-001",
+  "processed_ids": [
     "mb-skeptic-002",
     "mb-skeptic-003",
     "mb-skeptic-004",
     "mb-skeptic-005"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

@@ -1,8 +1,18 @@
 {
   "batch_snapshot_sha256": "0256c86db379d37d24e1cb717dc69ae00d3404cfbbe64f13088492a25241aa16",
-  "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "blocked_ids": [
+    "mb-pain-011",
+    "mb-pain-012",
+    "mb-pain-013"
+  ],
+  "completed_capture_fingerprints": {
+    "capture-batch05-mb-pain-014-attempt-1": "a3b8c004f815ee4c795cf86443b2f363d6678606c8e84b696794b7187bdec151",
+    "capture-batch05-mb-pain-015-attempt-1": "582e5ae0978cd1413c89826982e2817d1ba45a7cdf7b106424f927c933ccdc0b"
+  },
+  "completed_review_fingerprints": {
+    "mb-pain-014": "cdb105d233b9dcf10a09c50068c9cf53c8cb54240b65a9116fb51186eeec7fca",
+    "mb-pain-015": "fe4457168fabd6791c48e740aa19f57049fc6edfd7ab4e5699c26361f2ef734c"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-pain-011",
@@ -11,13 +21,10 @@
     "mb-pain-014",
     "mb-pain-015"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
-    "mb-pain-011",
-    "mb-pain-012",
-    "mb-pain-013",
+  "processed_ids": [
     "mb-pain-014",
     "mb-pain-015"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

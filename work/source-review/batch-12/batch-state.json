@@ -1,8 +1,24 @@
 {
   "batch_snapshot_sha256": "7edf3ff64b2d45705038980cb3621302c35c30814c4a073bc549fd7f5b2e9127",
-  "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "blocked_ids": [
+    "mb-market-001"
+  ],
+  "completed_capture_fingerprints": {
+    "capture-b12-mb-skeptic-011-browser-2": "800540350dae3875b3f19c9fb1b86041e5eef854555898d6ac9f92661b42246f",
+    "capture-b12-mb-skeptic-011-browser-setup-1": "57e384be1b746751e8862e2c364421e0b2ea0f5f51a58882877484b089459777",
+    "capture-b12-mb-skeptic-011-web-1": "43e21ff0534386f057da85593aca1663fc0a65b2cd22276f195ea20b8e6c2c06",
+    "capture-b12-mb-skeptic-012-browser-1": "4e933a74e0b91cc3f651794ebdc534cea89c1c653923311d1a378bbd0bd481de",
+    "capture-b12-mb-skeptic-012-web-1": "f5bc949d763a1a6f7f8f98a8a13ecd075a4af36c73f87683dfad2109d8753335",
+    "capture-b12-mb-skeptic-013-browser-1": "b4c148ae4c3a61e9651757a97107588848d08accbd2e8b9bc9619ca911d1a535",
+    "capture-b12-mb-skeptic-013-web-1": "9e3ca096a44de5ee7d0113e84ac42cb519ad21ee9cd83344701258a9fd8d80f2",
+    "capture-b12-mb-skeptic-014-web-1": "a7719f31bd7478291a6be25c1ac92dbb59f22e8cd19f04152eb07fc3a399b23d"
+  },
+  "completed_review_fingerprints": {
+    "mb-skeptic-011": "5d288764a37d992651b4697dd15471efd8b1381f90015dc0a4257843baed71d0",
+    "mb-skeptic-012": "5000aa8c1076c543b93a07ff642a774fc1a6baecb318bdc1c238245d98063cec",
+    "mb-skeptic-013": "f8ef583477f92c450ff7915912cf5aac19b238851d0a80a2ddc29892bc912b14",
+    "mb-skeptic-014": "14cbf1a574863cf0e7424116fd87d36bc94a767130b4783cb7770c8febe48d11"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-skeptic-011",
@@ -11,13 +27,12 @@
     "mb-skeptic-014",
     "mb-market-001"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
+  "processed_ids": [
     "mb-skeptic-011",
     "mb-skeptic-012",
     "mb-skeptic-013",
-    "mb-skeptic-014",
-    "mb-market-001"
+    "mb-skeptic-014"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }

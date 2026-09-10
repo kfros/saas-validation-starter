@@ -1,8 +1,19 @@
 {
   "batch_snapshot_sha256": "cc24a3d6d7b575cdcc57f4807b83f7594917b792c4bc32db83523216cbe984ba",
   "blocked_ids": [],
-  "completed_capture_fingerprints": {},
-  "completed_review_fingerprints": {},
+  "completed_capture_fingerprints": {
+    "capture-b08-mb-workflow-005-01": "c4055828597b1cda1560d4da4792065d30a6779273fe0a74cc15b96e74020539",
+    "capture-b08-meaningful-contact-01": "c9bdc669f6853c75d409faf6492458347bfd4cc80fa3c095074de7dc9a3f7080",
+    "capture-b08-meaningful-home-01": "d388a4510fa77a1e05bd0d0fda9fb2b1c9fc3b1dec2148d4913ffd1cf557d050",
+    "capture-b08-sugarpunch-home-01": "e8fb5b4cb6d5d5e23d87fc22b100fd4c1781102e8edb2bccad624f9212d8c74c"
+  },
+  "completed_review_fingerprints": {
+    "mb-workflow-005": "616a7b33e40ee29902a73c41ff054f366975da95bbebdfe93c9927180693683d",
+    "mb-workflow-006": "f4c3c364b4cf4a82dff33f2d7993b1e48a0f933799d5720d42e4922d073cdb2b",
+    "mb-workflow-007": "e196b994ed2246939ec926751992de875a5e5b065854f0ef810d5b0959e55bea",
+    "mb-workflow-008": "359153a2a4a36c198704493505963a6ee53382173c15914ef2cf0d852b0913e3",
+    "mb-workflow-009": "96ca2ff5dd61b95d67506c7a7aa3309663fcb27d7f3927bc1ea92d657b8b796b"
+  },
   "idea_id": "multi-brand-content",
   "ids": [
     "mb-workflow-005",
@@ -11,13 +22,13 @@
     "mb-workflow-008",
     "mb-workflow-009"
   ],
-  "processed_ids": [],
-  "remaining_ids": [
+  "processed_ids": [
     "mb-workflow-005",
     "mb-workflow-006",
     "mb-workflow-007",
     "mb-workflow-008",
     "mb-workflow-009"
   ],
+  "remaining_ids": [],
   "schema_version": 1
 }
