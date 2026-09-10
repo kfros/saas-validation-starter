@@ -12,9 +12,16 @@ operational clauses of the older idea protocol:
 
 1. Write only batch artifacts under `work/source-review/control-01/`, not the
    final `ideas/multi-brand-content/evidence/` outputs.
-2. The only terminal command the reviewing agent may run is the exact
-   `checkpoint-batch` command below. The human runs `prepare-batch` before the
-   review. Do not run the old phase checker during this batch.
+2. Terminal use is limited to the exact `checkpoint-batch` command below and
+   read-only local input inspection via `Get-Content -LiteralPath <path>`.
+   Approved paths are `AGENTS.md`, `.agents/skills/source-review-batch/SKILL.md`,
+   `docs/codex/source-review-contract.md`, `methodology/source-review-schema.json`,
+   this launch prompt, the target idea's `hypothesis.yaml`, `research-protocol.md`
+   and `audit-checklist.md`, and the prepared batch manifest/state/captures/reviews.
+   Prefer a local file-reading tool when available. No shell expressions,
+   pipelines, network reads or other paths are authorized by this read exception.
+   The human runs `prepare-batch` before the review. Do not run the old phase
+   checker during this batch.
 
 Every other protocol restriction remains in force: known exact URLs only,
 authorized public browser/retrieval tools, no terminal research/scraping, no new
@@ -41,6 +48,11 @@ source.
   constructed monthly total.
 
 Write valid v1 `captures.jsonl` and `reviews.jsonl` in that state directory.
+Read the exact issue-object definitions and example in the contract before
+writing `discrepancies` or `raw_owner_repairs`. The repair array needs
+`field`, `observed_value`, `reason`; requested actions go in `reason`, never an
+extra `action` field. The discrepancy array also needs `raw_value` and the
+boolean `material`. Use the diagnostic's full path/missing/unexpected-key list.
 Use each manifest row's generated `raw_record`, `raw_fingerprint` and
 `required_claim_fields`; do not invent fragments, authors, result IDs or
 successful outcomes. Material source/raw differences must be represented both as

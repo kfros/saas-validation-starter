@@ -1,0 +1,15 @@
+{
+  "batch_snapshot_sha256": "20022c9812a1e46d69e97a19346c9d950bb84d2b1960a2a56088b478ec4dc79d",
+  "blocked_ids": [],
+  "completed_capture_fingerprints": {},
+  "completed_review_fingerprints": {},
+  "idea_id": "multi-brand-content",
+  "ids": [
+    "mb-pain-001"
+  ],
+  "processed_ids": [],
+  "remaining_ids": [
+    "mb-pain-001"
+  ],
+  "schema_version": 1
+}

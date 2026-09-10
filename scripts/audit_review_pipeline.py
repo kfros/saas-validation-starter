@@ -34,6 +34,8 @@ CLAIM_FIELDS = {
     "money_period", "money_type", "recurrence", "role_scope", "interpretation",
 }
 CONTROL_IDS = ("mb-pain-001", "mb-wtp-001", "mb-wtp-005", "mb-wtp-008", "mb-wtp-009")
+DISCREPANCY_FIELDS = {"field", "raw_value", "observed_value", "material", "reason"}
+RAW_OWNER_REPAIR_FIELDS = {"field", "observed_value", "reason"}
 
 
 class ReviewError(ValueError):
@@ -164,6 +166,31 @@ def index_unique(rows, field, label):
 
 def nonempty_string(value):
     return isinstance(value, str) and bool(value.strip())
+
+
+def validate_review_issue_shapes(rid, discrepancies, repairs):
+    """Report all issue-object shape errors together, before semantic checks."""
+    errors = []
+    for name, items, expected in (("discrepancies", discrepancies, DISCREPANCY_FIELDS),
+                                  ("raw_owner_repairs", repairs, RAW_OWNER_REPAIR_FIELDS)):
+        if not isinstance(items, list):
+            errors.append(f"{rid}.{name}: expected array")
+            continue
+        for index, item in enumerate(items):
+            path = f"{rid}.{name}[{index}]"
+            if not isinstance(item, dict):
+                errors.append(f"{path}: expected object")
+                continue
+            missing, extra = expected - set(item), set(item) - expected
+            if missing or extra:
+                errors.append(f"{path}: missing={sorted(missing)} unexpected={sorted(extra)}; "
+                              f"required={sorted(expected)}")
+            for field in ("field", "reason"):
+                if field in item and not nonempty_string(item[field]):
+                    errors.append(f"{path}.{field}: expected nonempty string")
+            if name == "discrepancies" and "material" in item and type(item["material"]) is not bool:
+                errors.append(f"{path}.material: expected boolean")
+    require(not errors, "invalid review issue structure:\n" + "\n".join(errors))
 
 
 def iso_datetime(value):
@@ -370,20 +397,12 @@ def validate_review(review, raw, locations, captures):
             f"{rid}: missing required claim decisions {expected_claim_fields(raw[rid]) - set(claim_by_field)}")
     discrepancies = review["discrepancies"]
     repairs = review["raw_owner_repairs"]
-    require(isinstance(discrepancies, list) and isinstance(repairs, list),
-            f"{rid}: discrepancies/repair queue must be lists")
+    validate_review_issue_shapes(rid, discrepancies, repairs)
     discrepancy_fields = set()
     for item in discrepancies:
-        require(isinstance(item, dict) and set(item) ==
-                {"field", "raw_value", "observed_value", "material", "reason"} and
-                nonempty_string(item["field"]) and type(item["material"]) is bool and
-                nonempty_string(item["reason"]), f"{rid}: invalid discrepancy")
         discrepancy_fields.add(item["field"])
     repair_fields = set()
     for item in repairs:
-        require(isinstance(item, dict) and set(item) == {"field", "observed_value", "reason"} and
-                nonempty_string(item["field"]) and nonempty_string(item["reason"]),
-                f"{rid}: invalid raw-owner repair")
         repair_fields.add(item["field"])
     material_discrepancies = {x["field"] for x in discrepancies if x["material"]}
     require(material_discrepancies <= repair_fields,

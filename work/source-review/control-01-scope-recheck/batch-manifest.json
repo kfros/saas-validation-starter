@@ -1,0 +1,63 @@
+{
+  "batch_snapshot_sha256": "20022c9812a1e46d69e97a19346c9d950bb84d2b1960a2a56088b478ec4dc79d",
+  "idea_id": "multi-brand-content",
+  "records": [
+    {
+      "canonical_author_or_entity": "UniversityWestern346",
+      "evidence_id": "mb-pain-001",
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/",
+      "raw_fingerprint": "64e8cf886c3b26c8b8353542cef59bae01116a6554e57a2551c9d9cdffa2aa87",
+      "raw_path": "ideas/multi-brand-content/raw/pain/evidence.jsonl",
+      "raw_record": {
+        "agent": "pain-mining",
+        "audit_reason": null,
+        "audit_status": "PENDING",
+        "author_or_entity": "UniversityWestern346",
+        "company": null,
+        "company_size": null,
+        "geography": null,
+        "icp": null,
+        "id": "mb-pain-001",
+        "idea": "multi-brand-content",
+        "independence_key": "reddit-user-universitywestern346",
+        "industry": "marketing_services",
+        "interpretation": "Indicates that standard template tools create multi-tenant permissions and brand isolation overhead when managing multiple distinct client brands.",
+        "money_amount": null,
+        "money_currency": null,
+        "money_period": null,
+        "money_signal": null,
+        "observation": "A designer working with a marketing agency managing ~5 clients reports friction in Canva when attempting to share client-specific brand kits and templates without exposing other clients' designs.",
+        "observed_at": "2026-09-09",
+        "polarity": "supports",
+        "recurrence": "per_client",
+        "role": "Designer working with marketing agency",
+        "source_date": "2025-11-06",
+        "source_excerpt": "We have about 5 clients that we manage with more on the way. We want to set up brand kits for each (which I know how to do) and share those brand kits and accompanying designs with those clients. So client A only has access to Client A’s kits/templates, etc.",
+        "source_tier": "A",
+        "source_type": "reddit",
+        "source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/",
+        "strength": 3,
+        "subtype": "brand_isolation",
+        "type": "pain"
+      },
+      "raw_track": "pain",
+      "required_claim_fields": [
+        "attribution",
+        "interpretation",
+        "observation",
+        "quote",
+        "recurrence",
+        "role_scope"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_groups": [
+    {
+      "evidence_ids": [
+        "mb-pain-001"
+      ],
+      "exact_source_url": "https://www.reddit.com/r/canva/comments/1oqdoe9/business_vs_enterprise_for_managing_multiple/"
+    }
+  ]
+}

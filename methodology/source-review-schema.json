@@ -9,6 +9,28 @@
   ],
   "$defs": {
     "nullableString": {"type": ["string", "null"]},
+    "discrepancy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "raw_value", "observed_value", "material", "reason"],
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "raw_value": {},
+        "observed_value": {},
+        "material": {"type": "boolean"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "rawOwnerRepair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "observed_value", "reason"],
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "observed_value": {},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
     "capture": {
       "type": "object",
       "additionalProperties": false,
@@ -116,8 +138,8 @@
             "evidence_needed": {"$ref": "#/$defs/nullableString"}
           }
         },
-        "discrepancies": {"type": "array", "items": {"type": "object"}},
-        "raw_owner_repairs": {"type": "array", "items": {"type": "object"}}
+        "discrepancies": {"type": "array", "items": {"$ref": "#/$defs/discrepancy"}},
+        "raw_owner_repairs": {"type": "array", "items": {"$ref": "#/$defs/rawOwnerRepair"}}
       }
     }
   }

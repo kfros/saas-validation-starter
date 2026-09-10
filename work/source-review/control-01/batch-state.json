@@ -2,10 +2,13 @@
   "batch_snapshot_sha256": "2f350215e32ef37e3ecb863da8fe52a84d6c8111b58075125a918db0b3961e96",
   "blocked_ids": [],
   "completed_capture_fingerprints": {
-    "capture-control01-mb-pain-001": "89919071b8e4b22e01516fb0c99bab269169e08f2d4842274dd2becb59c011fa"
+    "capture-control01-mb-pain-001": "89919071b8e4b22e01516fb0c99bab269169e08f2d4842274dd2becb59c011fa",
+    "capture-control01-mb-wtp-001": "dd92c154e4735f5635fb4637030184d4b633939eb2a6f2225d8b7594b8c61d5b",
+    "capture-control01-mb-wtp-001-aux-psily1": "9a31eb27accc4205349a6a4b369b14641cddff08a98d6fcb249a7681c2b6341b"
   },
   "completed_review_fingerprints": {
-    "mb-pain-001": "dfd33b2c0d9d27927dfc6e99090ecf1221744d37b1492c8934174c791e48fdc5"
+    "mb-pain-001": "dfd33b2c0d9d27927dfc6e99090ecf1221744d37b1492c8934174c791e48fdc5",
+    "mb-wtp-001": "7df41e7d1d29ded4b6af651577febb6e1ff209b45479c49285f2f614aa7249a8"
   },
   "idea_id": "multi-brand-content",
   "ids": [
@@ -16,10 +19,10 @@
     "mb-wtp-009"
   ],
   "processed_ids": [
-    "mb-pain-001"
+    "mb-pain-001",
+    "mb-wtp-001"
   ],
   "remaining_ids": [
-    "mb-wtp-001",
     "mb-wtp-005",
     "mb-wtp-008",
     "mb-wtp-009"

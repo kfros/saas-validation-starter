@@ -389,6 +389,59 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(arp.ReviewError, "repair queue differs"):
             arp.check_candidate(self.root, self.review_dir, self.output)
 
+    def test_issue_diagnostics_report_missing_and_extra_fields_together(self):
+        rid = "mb-wtp-synthetic-2"
+        discrepancies = [{"field": "money_currency", "raw_value": "USD",
+                          "observed_value": None, "reason": "Synthetic unknown currency."}]
+        repairs = [{"field": "money_currency", "action": "Synthetic repair instruction.",
+                    "reason": "Synthetic missing support."}]
+        with self.assertRaises(arp.ReviewError) as caught:
+            arp.validate_review_issue_shapes(rid, discrepancies, repairs)
+        message = str(caught.exception)
+        self.assertIn(f"{rid}.discrepancies[0]", message)
+        self.assertIn("missing=['material']", message)
+        self.assertIn(f"{rid}.raw_owner_repairs[0]", message)
+        self.assertIn("missing=['observed_value'] unexpected=['action']", message)
+        discrepancies[0]["material"] = "true"
+        with self.assertRaisesRegex(arp.ReviewError, "material: expected boolean"):
+            arp.validate_review_issue_shapes(rid, discrepancies, [])
+
+    def test_issue_schema_declares_the_exact_runtime_shapes(self):
+        schema = arp.read_json(Path(__file__).resolve().parents[1] / "methodology/source-review-schema.json")
+        for definition, field, expected in (
+            ("discrepancy", "discrepancies", arp.DISCREPANCY_FIELDS),
+            ("rawOwnerRepair", "raw_owner_repairs", arp.RAW_OWNER_REPAIR_FIELDS),
+        ):
+            with self.subTest(definition=definition):
+                shape = schema["$defs"][definition]
+                self.assertEqual(set(shape["required"]), expected)
+                self.assertEqual(set(shape["properties"]), expected)
+                self.assertIs(shape["additionalProperties"], False)
+                self.assertEqual(schema["$defs"]["review"]["properties"][field]["items"],
+                                 {"$ref": f"#/$defs/{definition}"})
+
+    def test_repaired_issue_shape_can_checkpoint_without_changing_raw_or_audit_decision(self):
+        review = copy.deepcopy(self.reviews[2])
+        review["audit"]["status"] = "PARTIALLY_VERIFIED"
+        review["scope"].update(scope_status="UNKNOWN", provider_form="UNKNOWN", supporting_evidence_ids=[])
+        next(c for c in review["claim_decisions"] if c["field"] == "money_currency")["decision"] = "UNKNOWN"
+        review["discrepancies"] = [{"field": "money_currency", "raw_value": "USD",
+            "observed_value": "Synthetic currency unknown.", "material": True,
+            "reason": "Synthetic currency claim needs review."}]
+        review["raw_owner_repairs"] = [{"field": "money_currency",
+            "observed_value": "Synthetic currency unknown.",
+            "reason": "Synthetic reason. Requested action: confirm currency before raw repair."}]
+        state_dir = self.root / "issue-repair-batch"
+        arp.prepare_batch(self.root, state_dir, [review["evidence_id"]])
+        arp.write_jsonl(state_dir / "reviews.jsonl", [review])
+        arp.write_jsonl(state_dir / "captures.jsonl", [self.captures[2]])
+        state = arp.checkpoint_batch(self.root, state_dir)
+        saved = arp.read_jsonl(state_dir / "reviews.jsonl", "review")[0]
+        self.assertEqual(state["processed_ids"], [review["evidence_id"]])
+        self.assertEqual(saved["audit"], review["audit"])
+        self.assertEqual(saved["raw_owner_repairs"], review["raw_owner_repairs"])
+        self.assertEqual(arp.load_raw(self.root)[0], self.raw)
+
 
 if __name__ == "__main__":
     unittest.main()

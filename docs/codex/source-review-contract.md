@@ -14,6 +14,34 @@ a fragment hash. Reviews bind one known raw ID to its canonical fingerprint,
 capture IDs, field-level decisions, audit/scope proposals, money/impact/substitute
 assessments, discrepancies and the raw-owner repair queue.
 
+### Exact issue objects
+
+Read the `$defs.discrepancy` and `$defs.rawOwnerRepair` definitions in the sidecar
+schema before writing issues. Each object permits only these keys:
+
+| Array | Required keys |
+| --- | --- |
+| `discrepancies` | `field`, `raw_value`, `observed_value`, `material`, `reason` |
+| `raw_owner_repairs` | `field`, `observed_value`, `reason` |
+
+`material` is a JSON boolean, not a string. Keep exact raw values where the issue
+names a raw field. `observed_value` records the supported observation or explicit
+unknown; it is not a command to execute. Put the requested action in `reason`.
+Do not introduce an `action` key or substitute an action for an observed value.
+The checker now reports the ID, array index, missing keys and unexpected keys for
+all malformed issue objects together. It neither fills missing observations nor
+accepts unknown keys to make a checkpoint pass. Empty arrays remain valid when
+there is no source/raw discrepancy, including an uninspected blocked source.
+
+Synthetic shape example only; never copy its facts into a real record:
+
+```json
+{
+  "discrepancies": [{"field": "money_currency", "raw_value": "USD", "observed_value": null, "material": true, "reason": "Synthetic example: currency was not established."}],
+  "raw_owner_repairs": [{"field": "money_currency", "observed_value": null, "reason": "Synthetic example: source lacks currency support; the raw owner should leave it unknown until verified."}]
+}
+```
+
 Canonical JSON serialization is UTF-8 JSON with sorted keys, no insignificant
 spaces and `ensure_ascii=false`. Raw fingerprints use that serialization. Fragment
 hashes normalize Unicode to NFKC and line endings to LF. Direct quote containment
