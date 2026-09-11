@@ -1,0 +1,174 @@
+{
+  "scope_id": "GEO-AGENCY-01",
+  "scope_name": "Independent SEO agencies with 2–20 staff serving SMB clients on recurring retainers",
+  "records": [
+    {
+      "evidence_id": "geo-market-otterly-pricing",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Vendor product pricing page for Otterly.ai, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-market-peec-agency-plans",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Vendor agency tier pricing page for Peec AI, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-market-semrush-plans",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Enterprise SEO suite pricing page for Semrush, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-market-seranking-plans",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "SEO platform pricing page for SE Ranking, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-market-seranking-agency-pack",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "SEO platform add-on pricing page for SE Ranking, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-typicalbadger-patchwork-stack",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-pain-reddit-typicalbadger-patchwork-stack"
+      ],
+      "reason": "Author Typical-Badger1922 explicitly operates a small independent multi-client agency managing weekly client prompt checks and Looker Studio reporting."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety"
+      ],
+      "reason": "Author nothabkuuys explicitly identifies as a smaller agency owner managing client retainers and expectations across AI search engines."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-pain-reddit-jjnasty-losing-game-oneoff-audit"
+      ],
+      "reason": "Author jjnasty operates in agency management advising on SMB client packaging, retainer line items, and quarterly visibility audits."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-pain-reddit-erickrealz-agency-attribution-impossibility"
+      ],
+      "reason": "Author erickrealz explicitly works at an independent SEO agency handling client accounts and retainers."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute"
+      ],
+      "reason": "Author ThirdEyesOfTheWorld explicitly owns an independent SEO agency serving clients on recurring retainers."
+    },
+    {
+      "evidence_id": "geo-pain-reddit-arash60-defensive-monthly-client-reporting",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-pain-reddit-arash60-defensive-monthly-client-reporting"
+      ],
+      "reason": "Author Arash-60 is an agency SEO lead managing monthly client SEO reports and contract baselines for SMB clients."
+    },
+    {
+      "evidence_id": "geo-wtp-reddit-peec-usage",
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Practitioner comment on r/SEO; team size and agency structure cannot be verified against GEO-AGENCY-01."
+    },
+    {
+      "evidence_id": "geo-wtp-upwork-pr-agency-contract",
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Source URL blocked by Cloudflare Turnstile anti-bot protection; unverified agency structure."
+    },
+    {
+      "evidence_id": "geo-wtp-blog-agency-manual-hours",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Author Elsa Ji is a content marketer at Topify (software vendor), not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-workflow-01-whatifweb-profile",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-workflow-01-whatifweb-profile"
+      ],
+      "reason": "Verified Christchurch boutique studio (3-5 staff) serving SMB clients with web development and AI search optimization."
+    },
+    {
+      "evidence_id": "geo-workflow-04-sornai-profile",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-workflow-04-sornai-profile"
+      ],
+      "reason": "Verified independent boutique AI SEO agency (2-10 staff) serving SaaS, e-commerce, cybersecurity, and legal clients on retainers."
+    },
+    {
+      "evidence_id": "geo-workflow-06-sornai-reporting-cadence",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-workflow-04-sornai-profile"
+      ],
+      "reason": "Weekly client reporting deliverable for SORN.AI, verified as a 2-10 employee boutique agency in geo-workflow-04-sornai-profile."
+    },
+    {
+      "evidence_id": "geo-workflow-07-butter-marketing-profile",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-workflow-07-butter-marketing-profile"
+      ],
+      "reason": "Verified London agency with 2-9 employees focusing 70% of its service on Generative Engine Optimization for SMB clients."
+    },
+    {
+      "evidence_id": "geo-workflow-11-reachability-clutch",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-workflow-11-reachability-clutch"
+      ],
+      "reason": "Public B2B directory verifying reachable discovery channel specifically segmented for 2-9 and 10-49 employee SEO agencies."
+    },
+    {
+      "evidence_id": "geo-workflow-12-manual-workaround-labor",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "geo-workflow-04-sornai-profile"
+      ],
+      "reason": "First-hand quote from Stanislava Smiljanic at SORN.AI, verified as a 2-10 employee independent agency in geo-workflow-04-sornai-profile."
+    },
+    {
+      "evidence_id": "geo-skeptic-substitute-semrush-ai-tracking",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Vendor product documentation for Semrush, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-skeptic-risk-sampling-noise-variance",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Independent academic and industry measurement research, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-skeptic-risk-openai-search-pricing",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Infrastructure provider documentation for OpenAI, not an independent SEO agency."
+    },
+    {
+      "evidence_id": "geo-skeptic-risk-openai-tos-scraping",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Platform legal agreement for OpenAI, not an independent SEO agency."
+    }
+  ]
+}

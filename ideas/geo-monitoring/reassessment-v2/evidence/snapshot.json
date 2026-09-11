@@ -1,0 +1,47 @@
+{
+  "blocked_evidence_ids": [
+    "geo-wtp-upwork-pr-agency-contract"
+  ],
+  "created_at": "2026-09-11T17:38:30Z",
+  "files": {
+    "audit-summary.md": "6b547709c050232d0e209f76a6a2e3f9e1e90048a3937730e4967f6e4127c1eb",
+    "evidence.jsonl": "31c5d40d38bf8dd3078e43f01da11e2a955c569e6dd6d16ac5e5f8c9a5cb9b12",
+    "high-impact-review.md": "dbf868ca2d89e71a2f23ec6ed2cfc36a3376aaa08504a8037c33538a42f8af4b",
+    "review-log.jsonl": "78f6c145441049f4a5096716916b80a5f3c826248fc85a22aa0efa28408cb67f",
+    "scope-map.json": "4c896786eab4cd8ff7ecac230c01b3f590e36612a38d1ae7029ef0bd9ba42f1c"
+  },
+  "idea_id": "geo-monitoring",
+  "policy_version": "v2",
+  "repaired_evidence_ids": [
+    "geo-pain-reddit-arash60-defensive-monthly-client-reporting"
+  ],
+  "reviewed_evidence_ids": [
+    "geo-market-otterly-pricing",
+    "geo-market-peec-agency-plans",
+    "geo-market-semrush-plans",
+    "geo-market-seranking-plans",
+    "geo-market-seranking-agency-pack",
+    "geo-pain-reddit-typicalbadger-patchwork-stack",
+    "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety",
+    "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
+    "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
+    "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
+    "geo-pain-reddit-arash60-defensive-monthly-client-reporting",
+    "geo-wtp-reddit-peec-usage",
+    "geo-wtp-blog-agency-manual-hours",
+    "geo-workflow-01-whatifweb-profile",
+    "geo-workflow-04-sornai-profile",
+    "geo-workflow-06-sornai-reporting-cadence",
+    "geo-workflow-07-butter-marketing-profile",
+    "geo-workflow-11-reachability-clutch",
+    "geo-workflow-12-manual-workaround-labor",
+    "geo-skeptic-substitute-semrush-ai-tracking",
+    "geo-skeptic-risk-sampling-noise-variance",
+    "geo-skeptic-risk-openai-search-pricing",
+    "geo-skeptic-risk-openai-tos-scraping"
+  ],
+  "snapshot_id": "snap-geo-v2-001",
+  "source_baseline_commit": "3bf758f",
+  "tooling_commit": "8718a9ffaaab2023c9b11413769a90f6d466bd1e",
+  "unexamined_budget_remaining": "Bounded budget complete."
+}
