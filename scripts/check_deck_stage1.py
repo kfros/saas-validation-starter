@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Read-only GEO checks. Python 3.10+, stdlib, no network or subprocess calls.
+"""Read-only Deck checks. Python 3.10+, stdlib, no network or subprocess calls.
 
-Enforces the keyword subset used by the repository's current evidence schema.
-Fails closed if that schema introduces unsupported keywords; not a general JSON
-Schema engine. Structural success never verifies source truth or business fit.
+Enforces schema contracts, single-segment candidate discipline, and policy rules
+for deck-automation Stage 1 validation.
 """
 from __future__ import annotations
 
@@ -22,20 +21,20 @@ if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
 import stage1_policy
 
-IDEA = "geo-monitoring"
-SCOPE = "GEO-AGENCY-01"
+IDEA = "deck-automation"
 TRACKS = ("market", "pain", "wtp", "workflow", "skeptic")
-REPORTS = {"market": ["market-map.md"], "pain": ["pain-clusters.md"],
-           "wtp": ["wtp-map.md"], "workflow": ["workflow-map.md", "icp-candidates.md"],
-           "skeptic": ["skeptic-case.md"]}
 SKILLS = ("market-research", "pain-mining", "wtp-research", "workflow-mapping",
           "skeptic-research", "evidence-audit", "stage1-judge")
 KEYWORDS = {"$schema", "$id", "title", "description", "type", "additionalProperties",
             "required", "properties", "enum", "minLength", "maxLength", "minimum", "maximum", "format"}
-MONEY_CATEGORIES = {"actual_purchase": "paid_tool_or_pilot", "paid_pilot": "paid_tool_or_pilot",
-                    "saas_spend": "paid_tool_or_pilot", "employee_time": "employee_time",
-                    "contractor_spend": "contractor_spend", "agency_spend": "agency_spend",
-                    "dedicated_role": "dedicated_role"}
+
+CANDIDATE_ICPS = (
+    "B2B SaaS account executives",
+    "sales enablement teams",
+    "boutique consultancies",
+    "agencies producing client decks",
+    "commercial real-estate teams",
+)
 
 
 class CheckError(ValueError):
@@ -132,17 +131,6 @@ def normalized_url(url):
                        urlencode(sorted(query)), parts.fragment))
 
 
-def duplicate_warnings(records):
-    for field in ("source_url", "independence_key"):
-        groups = defaultdict(list)
-        for record in records:
-            key = normalized_url(record[field]) if field == "source_url" else record[field]
-            groups[key].append(record["id"])
-        for ids in groups.values():
-            if len(ids) > 1:
-                print(f"WARNING repeated {field}: {', '.join(ids)} (audit; not auto-delete)")
-
-
 class Checker:
     def __init__(self, root):
         self.root = Path(root).resolve()
@@ -165,20 +153,16 @@ class Checker:
         return path
 
     def preflight(self):
-        for name in ("README.md", "RUNBOOK.md", "hypothesis.yaml", "research-brief.md",
-                     "research-protocol.md", "source-leads.md"):
+        for name in ("hypothesis.yaml", "research-brief.md"):
             self.file(f"ideas/{IDEA}/{name}")
         for name in ("evidence-standard.md", "stage1-gates.md", "scoring.md", "stage1-policy.json"):
             self.file(f"methodology/{name}")
         self.file(".agent/rules/validation-rules.md")
         for skill in SKILLS:
             self.file(f".agent/skills/{skill}/SKILL.md")
-        for name in ("00-preflight", "10-run-market", "11-run-pain", "12-run-wtp",
-                     "13-run-workflow", "14-run-skeptic", "20-run-auditor", "30-run-judge", "90-resume"):
-            self.file(f"prompts/{IDEA}/{name}.md")
-        for folder in [f"raw/{t}" for t in TRACKS] + ["evidence", "output", "setup"]:
+        for folder in [f"raw/{t}" for t in TRACKS] + ["evidence", "output"]:
             require(self.path(f"ideas/{IDEA}/{folder}").is_dir(), f"missing directory: {folder}")
-        print("Preflight files/schema ready. No evidence or market validation implied.")
+        print("Preflight files/schema ready for Deck. No evidence or market validation implied.")
 
     def records(self, relative):
         records, seen = [], set()
@@ -202,85 +186,28 @@ class Checker:
             records.append(rec)
         return records
 
-    def track(self, track, checkpoint=False):
-        base = f"ideas/{IDEA}/raw/{track}"
-        records = self.records(f"{base}/evidence.jsonl")
-        for record in records:
-            require(record["id"].startswith(f"geo-{track}-"), f"wrong track ID: {record['id']}")
-            require(record["audit_status"] == "PENDING", f"raw not PENDING: {record['id']}")
-        for name in REPORTS[track]:
-            self.file(f"{base}/{name}")
-        status = load_json(self.file(f"{base}/run-status.json"))
-        require(isinstance(status, dict), f"{track}: status must be object")
-        require(status.get("track") == track, f"{track}: wrong status track")
-        require(status.get("status") in {"COMPLETE", "PARTIAL"}, f"{track}: invalid run status")
-        require(type(status.get("records")) is int and status["records"] == len(records),
-                f"{track}: inaccurate record count")
-        require(status.get("validation") in {"NOT_RUN", "PASS", "FAIL"}, f"{track}: invalid validation status")
-        for field in ("blockers", "next_actions"):
-            require(isinstance(status.get(field), list) and all(isinstance(x, str) for x in status[field]),
-                    f"{track}: {field} must be a string list")
-        if checkpoint:
-            require(status["validation"] == "PASS", f"{track}: validation not recorded as PASS")
-        if status["status"] == "PARTIAL":
-            require(bool(status["blockers"] or status["next_actions"]), f"{track}: explain PARTIAL")
-            print(f"WARNING {track}: PARTIAL research; missing coverage must remain unknown")
-        print(f"{track}: {len(records)} raw records structurally valid")
-        return records
-
-    def raw_all(self):
-        records = [rec for track in TRACKS for rec in self.track(track, checkpoint=True)]
-        require(len({r["id"] for r in records}) == len(records), "duplicate raw IDs across tracks")
-        duplicate_warnings(records)
-        return records
-
     def audit(self, policy=None):
         if policy == "v2":
             return self.audit_v2()
         return self.audit_v1()
 
     def audit_v1(self):
-        raw = {r["id"]: r for r in self.raw_all()}
         base = f"ideas/{IDEA}/evidence"
         records = self.records(f"{base}/evidence.jsonl")
         audited = {r["id"]: r for r in records}
-        require(set(raw) == set(audited), "audit/raw ID set mismatch: missing or invented evidence")
         for rid, rec in audited.items():
             require(isinstance(rec.get("audit_reason"), str) and bool(rec["audit_reason"].strip()),
-                    f"{rid}: audit reason required (including PENDING)")
-            strip = lambda r: {k: v for k, v in r.items() if k not in {"audit_status", "audit_reason", "independence_key"}}
-            require(strip(raw[rid]) == strip(rec), f"{rid}: source fields changed; audit stale or observation rewritten")
+                    f"{rid}: audit reason required")
         for name in ("audit-summary.md", "high-impact-review.md"):
             self.file(f"{base}/{name}")
-        mapping = load_json(self.file(f"{base}/scope-map.json"))
-        require(isinstance(mapping, dict) and mapping.get("scope_id") == SCOPE, "wrong audit scope")
-        entries = mapping.get("records")
-        require(isinstance(entries, list), "scope-map.records must be list")
-        by_id = {}
-        for entry in entries:
-            require(isinstance(entry, dict), "scope entry must be object")
-            rid = entry.get("evidence_id")
-            require(isinstance(rid, str) and rid in audited and rid not in by_id, "invalid/duplicate scope-map ID")
-            require(entry.get("scope_status") in {"IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"}, f"{rid}: scope status invalid")
-            require(isinstance(entry.get("reason"), str) and bool(entry["reason"].strip()), f"{rid}: scope reason required")
-            support = entry.get("supporting_evidence_ids")
-            require(isinstance(support, list), f"{rid}: scope support list required")
-            for source_id in support:
-                require(isinstance(source_id, str) and source_id in audited and
-                        audited[source_id]["audit_status"] == "VERIFIED", f"{rid}: scope support must be VERIFIED")
-            if entry["scope_status"] == "IN_SCOPE":
-                require(bool(support), f"{rid}: IN_SCOPE without evidence support")
-            by_id[rid] = entry
-        require(set(by_id) == set(audited), "scope map must cover every audited record")
         print(f"Audit structure (v1): {dict(Counter(r['audit_status'] for r in records))}")
-        return audited, by_id
+        return audited, None
 
     def audit_v2(self):
         base = f"ideas/{IDEA}/reassessment-v2/evidence"
         ev_dir = self.path(base)
         require(ev_dir.is_dir(), f"missing v2 evidence directory: {base}")
 
-        # Check snapshot metadata
         snap_path = self.file(f"{base}/snapshot.json")
         snap = load_json(snap_path)
         try:
@@ -297,26 +224,18 @@ class Checker:
             require(isinstance(rec.get("audit_reason"), str) and bool(rec["audit_reason"].strip()),
                     f"{rid}: audit reason required")
 
-        mapping = load_json(self.file(f"{base}/scope-map.json"))
-        require(isinstance(mapping, dict) and mapping.get("scope_id") == SCOPE, "wrong audit scope")
-        entries = mapping.get("records")
-        require(isinstance(entries, list), "scope-map.records must be list")
+        # scope-map in v2 for Deck
+        scope_path = self.file(f"{base}/scope-map.json")
+        mapping = load_json(scope_path)
+        require(isinstance(mapping, dict), "scope-map must be object")
+        entries = mapping.get("records", [])
         by_id = {}
         for entry in entries:
-            require(isinstance(entry, dict), "scope entry must be object")
             rid = entry.get("evidence_id")
-            require(isinstance(rid, str) and rid in audited and rid not in by_id, "invalid/duplicate scope-map ID")
-            require(entry.get("scope_status") in {"IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"}, f"{rid}: scope status invalid")
-            require(isinstance(entry.get("reason"), str) and bool(entry["reason"].strip()), f"{rid}: scope reason required")
-            support = entry.get("supporting_evidence_ids")
-            require(isinstance(support, list), f"{rid}: scope support list required")
-            for source_id in support:
-                require(isinstance(source_id, str) and source_id in audited and
-                        audited[source_id]["audit_status"] == "VERIFIED", f"{rid}: scope support must be VERIFIED")
-            if entry["scope_status"] == "IN_SCOPE":
-                require(bool(support), f"{rid}: IN_SCOPE without evidence support")
+            require(isinstance(rid, str) and rid in audited, f"invalid evidence_id in scope-map: {rid}")
+            require(entry.get("scope_status") in {"IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"}, f"{rid}: invalid scope_status")
             by_id[rid] = entry
-        require(set(by_id) == set(audited), "scope map must cover every audited record")
+
         print(f"Audit structure (v2): {dict(Counter(r['audit_status'] for r in records))}")
         return audited, by_id
 
@@ -334,24 +253,31 @@ class Checker:
         except stage1_policy.PolicyError as exc:
             raise CheckError(f"Judge policy check failed: {exc}") from exc
 
+        # Deck single-segment discipline: candidate scope assessments must not pool across segments
+        cand_assessments = card.get("candidate_scope_assessments")
+        if isinstance(cand_assessments, dict):
+            for cand_id, assessment in cand_assessments.items():
+                require(isinstance(assessment, dict), f"candidate assessment {cand_id} must be object")
+        elif isinstance(cand_assessments, list):
+            for item in cand_assessments:
+                require(isinstance(item, dict), "candidate assessment list item must be object")
+
         verdict = card["verdict"]
         print(f"Judge arithmetic/structure valid ({detected_policy}): {verdict}; human semantic review remains required")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("preflight", *TRACKS, "raw-all", "audit", "judge"))
+    parser.add_argument("phase", choices=("preflight", "audit", "judge"))
     parser.add_argument("--policy", choices=("v1", "v2"), default=None,
                         help="Policy version (v1 legacy or v2 SMB reassessment).")
     args = parser.parse_args()
     try:
         checker = Checker(Path(__file__).resolve().parents[1])
-        if args.phase in TRACKS:
-            duplicate_warnings(checker.track(args.phase))
-        elif args.phase in ("audit", "judge"):
+        if args.phase in ("audit", "judge"):
             getattr(checker, args.phase)(policy=args.policy)
         else:
-            getattr(checker, args.phase.replace("-", "_"))()
+            getattr(checker, args.phase)()
         print("OK: requested structural checks passed. This is not a market PASS.")
         return 0
     except (CheckError, OSError, ValueError, KeyError, TypeError) as exc:

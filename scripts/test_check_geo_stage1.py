@@ -285,7 +285,12 @@ class WorkflowTests(unittest.TestCase):
         self.checker.raw_all()
 
     def test_outside_workspace_symlink_denied(self):
-        (self.root / "escape").symlink_to(self.root.parent, target_is_directory=True)
+        try:
+            (self.root / "escape").symlink_to(self.root.parent, target_is_directory=True)
+        except OSError as exc:
+            if getattr(exc, "winerror", None) == 1314:
+                self.skipTest("Windows symlink privilege required")
+            raise
         with self.assertRaises(geo.CheckError):
             self.checker.path("escape/example")
 

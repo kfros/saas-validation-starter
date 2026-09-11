@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.example/saas-validation/stage1-policy.json",
+  "title": "Stage 1 Decision Policies",
+  "description": "Machine-readable gate thresholds, resolution contracts, and verdict rules for Stage 1 validation (v1 legacy baseline and v2 SMB reassessment).",
+  "policy_versions": {
+    "v1": {
+      "version": "v1",
+      "name": "Stage 1 Baseline Policy",
+      "description": "Historical Stage 1 gate thresholds and verdict rules.",
+      "layout": "legacy",
+      "gates": {
+        "G1": {
+          "name": "Concrete pain",
+          "min_independent_count": 20,
+          "description": "At least 20 independent VERIFIED concrete pain signals."
+        },
+        "G2": {
+          "name": "Recurrence",
+          "min_confidence": "MEDIUM",
+          "allowed_confidences": ["HIGH", "MEDIUM"],
+          "description": "At least MEDIUM confidence that core job recurs often enough for a SaaS relationship."
+        },
+        "G3": {
+          "name": "Existing spend / WTP",
+          "min_independent_count": 5,
+          "min_categories": 2,
+          "allowed_money_categories": [
+            "paid_tool_or_pilot",
+            "employee_time",
+            "contractor_spend",
+            "agency_spend",
+            "dedicated_role"
+          ],
+          "description": "At least 5 independent VERIFIED money signals across at least 2 distinct categories."
+        },
+        "G4": {
+          "name": "Repeatable gap in existing solutions",
+          "min_independent_count": 10,
+          "cluster_required": true,
+          "description": "At least 10 independent VERIFIED gap signals clustered around repeatable problems."
+        },
+        "G5": {
+          "name": "ICP reachability",
+          "min_confidence": "MEDIUM",
+          "allowed_confidences": ["HIGH", "MEDIUM"],
+          "description": "At least MEDIUM reachability confidence."
+        },
+        "G6": {
+          "name": "No killer substitute",
+          "no_killer_substitute": true,
+          "description": "No low-friction sufficient substitute that defeats planned value proposition."
+        }
+      },
+      "verdict_rules": {
+        "PASS": {
+          "all_gates_pass": true
+        },
+        "CONDITIONAL_PASS": {
+          "allowed_unknown_gates": 1,
+          "required_pass_gates": 5,
+          "max_fail_gates": 0,
+          "condition_type": "single_string"
+        },
+        "FAIL": {
+          "requires_cited_contradiction": true
+        },
+        "INSUFFICIENT_EVIDENCE": {
+          "unmet_thresholds_without_contradiction": true
+        }
+      }
+    },
+    "v2": {
+      "version": "v2",
+      "name": "Stage 1 SMB Reassessment Policy",
+      "description": "Admission policy for SMB product hypotheses to prospect mining and customer discovery interviews (<= 8 interviews). Not MVP approval.",
+      "layout": "reassessment-v2",
+      "discovery_plan": {
+        "max_interviews": 8,
+        "recommended_next_action": "LIMITED_CUSTOMER_DISCOVERY"
+      },
+      "gates": {
+        "G1": {
+          "name": "Concrete pain",
+          "min_independent_count": 5,
+          "description": "At least 5 independent VERIFIED examples of experienced concrete pain/workarounds for assessed scope."
+        },
+        "G2": {
+          "name": "Recurrence",
+          "min_confidence": "MEDIUM",
+          "allowed_confidences": ["HIGH", "MEDIUM"],
+          "description": "At least MEDIUM confidence in recurrence of core job from observed frequency."
+        },
+        "G3": {
+          "name": "Existing spend / WTP",
+          "min_independent_count": 3,
+          "min_categories": 1,
+          "allowed_money_categories": [
+            "paid_tool_or_pilot",
+            "employee_time",
+            "contractor_spend",
+            "agency_spend",
+            "dedicated_role"
+          ],
+          "stated_wtp_in_numeric_count": false,
+          "description": "At least 3 independent VERIFIED examples of actual target-job spending or actually performed costly work. One category is sufficient; report full breakdown. Stated WTP excluded from threshold."
+        },
+        "G4": {
+          "name": "Repeatable gap in existing solutions",
+          "min_independent_count": 3,
+          "cluster_required": true,
+          "min_cluster_size": 3,
+          "description": "At least 3 independent VERIFIED examples supporting one coherent, repeated gap/workaround rather than 3 unrelated complaints. Report clusters and member IDs."
+        },
+        "G5": {
+          "name": "ICP reachability",
+          "min_confidence": "MEDIUM",
+          "allowed_confidences": ["HIGH", "MEDIUM"],
+          "description": "At least MEDIUM confidence that relevant buyers can be found through a concrete acquisition surface."
+        },
+        "G6": {
+          "name": "No killer substitute",
+          "no_killer_substitute": true,
+          "description": "No evidenced sufficient substitute defeating value proposition for assessed scope. Unresolved substitute fit remains UNKNOWN."
+        }
+      },
+      "verdict_rules": {
+        "PASS": {
+          "all_gates_pass": true,
+          "scope_must_be_coherent": true
+        },
+        "CONDITIONAL_PASS": {
+          "required_pass_gates": ["G1", "G5"],
+          "max_fail_gates": 0,
+          "allowed_resolution_methods": ["INTERVIEW"],
+          "forbidden_resolution_methods_for_conditional": ["TECHNICAL_CHECK", "SOURCE_RESEARCH"],
+          "all_unknown_gates_must_be_covered": true,
+          "max_interview_cap": 8,
+          "recommended_next_action": "LIMITED_CUSTOMER_DISCOVERY"
+        },
+        "FAIL": {
+          "requires_cited_contradiction": true,
+          "insufficient_evidence_is_not_fail": true
+        },
+        "INSUFFICIENT_EVIDENCE": {
+          "unmet_thresholds_or_material_unknowns_without_strong_contradiction": true
+        }
+      },
+      "condition_schema": {
+        "required_fields": [
+          "condition_id",
+          "gate_ids",
+          "resolution_method",
+          "exact_unknown",
+          "supporting_evidence_ids",
+          "respondent_qualification",
+          "observable_information_to_request",
+          "continue_criteria",
+          "stop_criteria"
+        ],
+        "allowed_resolution_methods": ["INTERVIEW", "TECHNICAL_CHECK", "SOURCE_RESEARCH"]
+      },
+      "snapshot_schema": {
+        "required_files": [
+          "evidence.jsonl",
+          "scope-map.json",
+          "review-log.jsonl",
+          "audit-summary.md",
+          "snapshot.json"
+        ],
+        "snapshot_json_required_fields": [
+          "snapshot_id",
+          "created_at",
+          "base_commit",
+          "idea_id",
+          "policy_version",
+          "files",
+          "reviewed_evidence_ids",
+          "blocked_evidence_ids",
+          "repaired_evidence_ids",
+          "unexamined_budget_remaining"
+        ]
+      }
+    }
+  }
+}

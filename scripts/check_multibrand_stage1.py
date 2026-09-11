@@ -23,6 +23,7 @@ SCRIPTS_DIR = str(Path(__file__).resolve().parent)
 if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
 from audit_review_pipeline import ReviewError, check_candidate
+import stage1_policy
 
 IDEA = "multi-brand-content"
 SCOPE = "MULTIBRAND-OPERATOR-01"
@@ -174,10 +175,11 @@ def dataset_summary(records, scope):
 
 
 class Checker:
-    def __init__(self, root, strict_reviews=True):
+    def __init__(self, root, strict_reviews=True, policy="v1"):
         self.root = Path(root).resolve()
         self.idea = self.root / "ideas" / IDEA
         self.strict_reviews = strict_reviews
+        self.policy = policy
         self.review_impacts = None
         self.schema = load_json(self.path("methodology/evidence-schema.json"))
         check_schema_contract(self.schema)
@@ -440,15 +442,24 @@ class Checker:
                     bool(candidate["scope_id"].strip()) and candidate["scope_id"] != SCOPE and
                     candidate.get("status") == "UNVALIDATED" and isinstance(candidate.get("reason"), str) and
                     bool(candidate["reason"].strip()), "adjacent candidates must remain explicitly UNVALIDATED")
+        if self.policy == "v2":
+            try:
+                stage1_policy.validate_scorecard_against_policy(card, "v2", records, scope)
+            except stage1_policy.PolicyError as exc:
+                raise CheckError(f"Judge v2 policy check failed: {exc}") from exc
+            print(f"Judge arithmetic/structure valid (v2): {verdict}; human semantic review remains required")
+            return
+
         print(f"Judge arithmetic/structure valid: {verdict}; human semantic review remains required")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("phase", choices=("preflight", *TRACKS, "raw-all", "audit", "judge"))
+    parser.add_argument("--policy", choices=("v1", "v2"), default="v1", help="Policy version (default: v1).")
     args = parser.parse_args()
     try:
-        checker = Checker(Path(__file__).resolve().parents[1])
+        checker = Checker(Path(__file__).resolve().parents[1], policy=args.policy)
         if args.phase in TRACKS:
             duplicate_warnings(checker.track(args.phase))
         else:
