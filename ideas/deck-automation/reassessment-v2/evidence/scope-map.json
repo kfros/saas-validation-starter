@@ -1,0 +1,205 @@
+{
+  "scope_id": "boutique_consultancies",
+  "scope_name": "Boutique consultancies and management advisory firms preparing bespoke client presentations",
+  "candidate_scope": "boutique_consultancies",
+  "records": [
+    {
+      "evidence_id": "ev-pain-faang-no-deck-workflow",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Enterprise technology sales rep at FAANG bypassing sales decks; pertains to enterprise software account executives rather than boutique management consultancies."
+    },
+    {
+      "evidence_id": "ev-skp-infosec-procurement-hurdles",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Industry report on 4.2-week enterprise CRM security reviews and SOC 2 audits for sales software; blocked/error URL and not applicable to boutique consultancy scope."
+    },
+    {
+      "evidence_id": "ev-skp-m365-copilot-ppt-features",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Official Microsoft documentation for bundled Office AI; substitute assessment context rather than target consultancy practitioner evidence."
+    },
+    {
+      "evidence_id": "ev-skp-m365-copilot-brand-templates",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Official Microsoft documentation for brand templates in Copilot; incumbent substitute context evaluated for G6."
+    },
+    {
+      "evidence_id": "ev-skp-m365-copilot-pricing",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Official Microsoft pricing page ($30/user/mo); incumbent substitute pricing context."
+    },
+    {
+      "evidence_id": "ev-pain-consulting-thirty-percent-time",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-consulting-thirty-percent-time"
+      ],
+      "reason": "First-hand management consultant comment documenting 30% of workday spent formatting PowerPoint slides in client advisory engagements."
+    },
+    {
+      "evidence_id": "ev-pain-consulting-client-theme-rework",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-consulting-client-theme-rework"
+      ],
+      "reason": "First-hand consultant comment documenting slide-by-slide recoloring of a 30-page deck to match client brand theme standards."
+    },
+    {
+      "evidence_id": "ev-pain-consulting-daily-formatting-hours",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-consulting-daily-formatting-hours"
+      ],
+      "reason": "Consultancy practitioner reports spending at least 3 hours daily on PowerPoint formatting tweaks per manager review notes."
+    },
+    {
+      "evidence_id": "ev-pain-llm-thinking-vs-slide-admin",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-llm-thinking-vs-slide-admin"
+      ],
+      "reason": "Consulting practitioner confirms conversational LLMs assist with analytical thinking but leave the manual administrative formatting of slides unsolved."
+    },
+    {
+      "evidence_id": "ev-wtp-consulting-formatting-time",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-wtp-consulting-formatting-time"
+      ],
+      "reason": "Former consultant confirms ~50% of time spent on slide formatting and internal reviews in consulting deliverables."
+    },
+    {
+      "evidence_id": "ev-wf-consulting-monthly-deck-copy-paste",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-wf-consulting-monthly-deck-copy-paste"
+      ],
+      "reason": "Consultant reports spending 2 hours monthly manually updating 60 figures across a recurring 40-slide leadership deck."
+    },
+    {
+      "evidence_id": "ev-wf-consulting-claude-skills-breakage",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-wf-consulting-claude-skills-breakage"
+      ],
+      "reason": "Consulting project team uses custom Claude skills to assemble recurring PMO/SteerCo decks after Excel-linked think-cell decks proved fragile."
+    },
+    {
+      "evidence_id": "ev-wtp-consulting-thinkcell-pricing",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Vendor list pricing page for think-cell software (23.90 EUR/mo), representing competitor software pricing rather than buyer-side consultancy spend."
+    },
+    {
+      "evidence_id": "ev-mkt-thinkcell-spend",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-mkt-thinkcell-spend"
+      ],
+      "reason": "Vendr procurement benchmark confirms consulting and advisory teams allocate $260–$325/user/year for think-cell to automate PowerPoint charting and slide layout."
+    },
+    {
+      "evidence_id": "ev-gap-copilot-firmwide-unusable-decks",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-gap-copilot-firmwide-unusable-decks"
+      ],
+      "reason": "Corporate professional services firmwide rollout of Microsoft Copilot failed because employees across the firm are unable to create usable slide decks."
+    },
+    {
+      "evidence_id": "ev-gap-copilot-desktop-custom-template-failure",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-gap-copilot-desktop-custom-template-failure"
+      ],
+      "reason": "PowerPoint desktop user confirms inability to select custom corporate templates when generating decks with Copilot, forcing manual slide-by-slide copy-pasting."
+    },
+    {
+      "evidence_id": "ev-pain-gamma-ignores-corporate-templates",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-gamma-ignores-corporate-templates"
+      ],
+      "reason": "Presentation designer reports Gamma completely disregards uploaded PowerPoint templates, generating off-brand and unusable layouts for professional deliverables."
+    },
+    {
+      "evidence_id": "ev-pain-gamma-export-corrupted-content",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-gamma-export-corrupted-content"
+      ],
+      "reason": "Paying user reports Gamma export to PowerPoint (.pptx) causes content corruption, missing sections, and broken layouts unsuitable for professional client sharing."
+    },
+    {
+      "evidence_id": "ev-gap-beautifulai-export-templates-jeff",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-gap-beautifulai-export-templates-jeff"
+      ],
+      "reason": "Client services practitioner reports exporting outside Beautiful.ai smart templates breaks PowerPoint formatting when sharing editable decks with clients, multiplying manual effort 3x."
+    },
+    {
+      "evidence_id": "ev-gap-storydoc-no-pptx-export-nasrullah",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-gap-storydoc-no-pptx-export-nasrullah"
+      ],
+      "reason": "Paying subscriber reports Storydoc lacks native PowerPoint (.pptx) export, providing only unusable multi-slide PDFs incompatible with client deliverable requirements."
+    },
+    {
+      "evidence_id": "ev-pain-pptx-master-slide-corruption",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "IN_SCOPE",
+      "supporting_evidence_ids": [
+        "ev-pain-pptx-master-slide-corruption"
+      ],
+      "reason": "Corporate presentation creator reports pasting slides between decks corrupts master slide templates, breaks design inheritance, and creates messy layouts."
+    },
+    {
+      "evidence_id": "ev-wtp-contradiction-manual-template-pushback",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Sales practitioner advising one-time master template purchase for enterprise sales calls rather than advisory deliverables in boutique consultancies."
+    },
+    {
+      "evidence_id": "ev-pain-outsourced-deck-freelancer",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Freelance presentation designer handling sales lead decks for sales reps on monthly retainer rather than management consulting advisory deliverables."
+    },
+    {
+      "evidence_id": "ev-wf-reachability-apmp-association",
+      "candidate_scope": "boutique_consultancies",
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Association of Proposal Management Professionals (APMP) represents corporate bid and RFP managers; does not establish a discoverable, contactable prospect surface for boutique consultancies."
+    }
+  ]
+}

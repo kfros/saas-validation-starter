@@ -1,0 +1,61 @@
+{
+  "blocked_evidence_ids": [
+    "ev-skp-infosec-procurement-hurdles"
+  ],
+  "created_at": "2026-09-11T19:19:53Z",
+  "files": {
+    "audit-summary.md": "e1e44c58993fd24ea26f2a7e7909f7b8abb32566fb399dd6fbe4ee636edfcd8d",
+    "evidence.jsonl": "f45fb970227a915af2b40797da186caeb75971e5eda0838728c5e5d3cede413e",
+    "high-impact-review.md": "24628596c18ab43c4db04421dbb327b836c87156ed6f69b8666d53d6447ae59a",
+    "review-log.jsonl": "68838d77579da282a8f106be17daacb6edf88281eb2d6a30b5139fc7b13357d2",
+    "scope-map.json": "48c7e3dc326de63f9c4b03423fe995220438da659382598fc6a451c8cd2b9b87"
+  },
+  "idea_id": "deck-automation",
+  "policy_version": "v2",
+  "repaired_evidence_ids": [
+    "ev-skp-m365-copilot-ppt-features",
+    "ev-skp-m365-copilot-brand-templates",
+    "ev-skp-m365-copilot-pricing",
+    "ev-pain-consulting-daily-formatting-hours",
+    "ev-wtp-consulting-formatting-time",
+    "ev-wf-consulting-monthly-deck-copy-paste",
+    "ev-wf-consulting-claude-skills-breakage",
+    "ev-wtp-consulting-thinkcell-pricing",
+    "ev-mkt-thinkcell-spend",
+    "ev-gap-copilot-desktop-custom-template-failure",
+    "ev-pain-gamma-ignores-corporate-templates",
+    "ev-gap-beautifulai-export-templates-jeff",
+    "ev-gap-storydoc-no-pptx-export-nasrullah",
+    "ev-pain-pptx-master-slide-corruption",
+    "ev-wf-reachability-apmp-association"
+  ],
+  "reviewed_evidence_ids": [
+    "ev-pain-faang-no-deck-workflow",
+    "ev-skp-m365-copilot-ppt-features",
+    "ev-skp-m365-copilot-brand-templates",
+    "ev-skp-m365-copilot-pricing",
+    "ev-pain-consulting-thirty-percent-time",
+    "ev-pain-consulting-client-theme-rework",
+    "ev-pain-consulting-daily-formatting-hours",
+    "ev-pain-llm-thinking-vs-slide-admin",
+    "ev-wtp-consulting-formatting-time",
+    "ev-wf-consulting-monthly-deck-copy-paste",
+    "ev-wf-consulting-claude-skills-breakage",
+    "ev-wtp-consulting-thinkcell-pricing",
+    "ev-mkt-thinkcell-spend",
+    "ev-gap-copilot-firmwide-unusable-decks",
+    "ev-gap-copilot-desktop-custom-template-failure",
+    "ev-pain-gamma-ignores-corporate-templates",
+    "ev-pain-gamma-export-corrupted-content",
+    "ev-gap-beautifulai-export-templates-jeff",
+    "ev-gap-storydoc-no-pptx-export-nasrullah",
+    "ev-pain-pptx-master-slide-corruption",
+    "ev-wtp-contradiction-manual-template-pushback",
+    "ev-pain-outsourced-deck-freelancer",
+    "ev-wf-reachability-apmp-association"
+  ],
+  "snapshot_id": "snap-deck-v2-001",
+  "source_baseline_commit": "3bf758f",
+  "tooling_commit": "2a40154c2d17237cc71488ef1c8b41d0403807e5",
+  "unexamined_budget_remaining": "Bounded budget complete."
+}
