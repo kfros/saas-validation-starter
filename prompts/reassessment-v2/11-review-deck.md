@@ -1,12 +1,15 @@
 # 11 — Deck Targeted Source Review (v2)
 
 Launch in a **fresh conversation** with **High reasoning**.
-Enable `/browser` and invoke `/evidence-audit`.
+Enable `/browser` and invoke `/evidence-audit` in **v2 reassessment mode**.
 
 Paste the prompt below into the conversation:
 
 ```text
-Perform a bounded Stage 1 v2 source review for ideas/deck-automation.
+Perform a bounded Stage 1 v2 source review for ideas/deck-automation using evidence-audit in v2 reassessment mode.
+
+Review Baseline:
+Historical evidence (`ideas/deck-automation/evidence/evidence.jsonl` at commit 3bf758f), not raw tracks (`raw/*`), is the canonical review baseline. Do not reopen every raw track.
 
 Read:
 - `ideas/deck-automation/hypothesis.yaml`
@@ -14,12 +17,12 @@ Read:
 - `methodology/stage1-policy.json` (policy v2 rules)
 - `methodology/stage1-gates.md`
 - `methodology/evidence-standard.md`
-- `ideas/deck-automation/evidence/evidence.jsonl` (historical baseline)
+- `ideas/deck-automation/evidence/evidence.jsonl` (historical baseline at commit 3bf758f)
 - `ideas/deck-automation/evidence/audit-summary.md`
 - `ideas/deck-automation/evidence/high-impact-review.md`
 
 Objective:
-Identify the smallest decisive set of positive and contradictory records needed to assess the v2 policy thresholds (G1 >= 5, G2 >= MEDIUM, G3 >= 3, G4 >= 3, G5 >= MEDIUM, G6 no killer substitute).
+Identify the smallest decisive set of positive and contradictory records needed to assess the v2 policy thresholds (G1 >= 5, G2 >= MEDIUM, G3 >= 3, G4 >= 3, G5 >= MEDIUM, G6 no killer substitute). Do not reopen raw tracks by default. Use a bounded review budget.
 
 Scope Discipline:
 Deck retains its declared candidate segments:

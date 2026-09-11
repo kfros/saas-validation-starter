@@ -28,13 +28,13 @@ Each step executes in an **isolated fresh conversation** on the same local git r
   - `scripts/stage1_policy.py`, `scripts/check_geo_stage1.py`, `scripts/check_deck_stage1.py`, `scripts/check_multibrand_stage1.py`
   - `scripts/test_stage1_v2_policy.py`
   - `prompts/reassessment-v2/` (all launch prompts and this runbook).
-- **Verification**: `python -m unittest discover -s scripts -p "test_*.py"` (102 tests pass).
+- **Verification**: `python -m unittest discover -s scripts -p "test_*.py"` (128 tests in test suite).
 
 ---
 
 ## Step 2: GEO Targeted Source Review
 - **Conversation Setup**: New conversation. High reasoning. Enable `/browser` and invoke `/evidence-audit`.
-- **Launch Action**: Copy and paste the entire prompt from [`prompts/reassessment-v2/10-review-geo.md`](file:///c:/Work/Projects/saas-validation-starter/prompts/reassessment-v2/10-review-geo.md).
+- **Launch Action**: Copy and paste the entire prompt from [prompts/reassessment-v2/10-review-geo.md](10-review-geo.md).
 - **Write Directory**: `ideas/geo-monitoring/reassessment-v2/evidence/`
 - **Supported Terminal Commands**:
   ```bash
@@ -58,7 +58,7 @@ Each step executes in an **isolated fresh conversation** on the same local git r
 
 ## Step 3: Deck Targeted Source Review
 - **Conversation Setup**: New conversation. High reasoning. Enable `/browser` and invoke `/evidence-audit`.
-- **Launch Action**: Copy and paste the entire prompt from [`prompts/reassessment-v2/11-review-deck.md`](file:///c:/Work/Projects/saas-validation-starter/prompts/reassessment-v2/11-review-deck.md).
+- **Launch Action**: Copy and paste the entire prompt from [prompts/reassessment-v2/11-review-deck.md](11-review-deck.md).
 - **Write Directory**: `ideas/deck-automation/reassessment-v2/evidence/`
 - **Supported Terminal Commands**:
   ```bash
@@ -79,7 +79,7 @@ Each step executes in an **isolated fresh conversation** on the same local git r
 
 ## Step 4: GEO Stage 1 Judge
 - **Conversation Setup**: Fresh conversation. High reasoning. **DO NOT enable `/browser`**. Invoke `/stage1-judge`.
-- **Launch Action**: Copy and paste the entire prompt from [`prompts/reassessment-v2/20-judge-geo.md`](file:///c:/Work/Projects/saas-validation-starter/prompts/reassessment-v2/20-judge-geo.md).
+- **Launch Action**: Copy and paste the entire prompt from [prompts/reassessment-v2/20-judge-geo.md](20-judge-geo.md).
 - **Write Directory**: `ideas/geo-monitoring/reassessment-v2/output/`
 - **Supported Terminal Command**:
   ```bash
@@ -98,7 +98,7 @@ Each step executes in an **isolated fresh conversation** on the same local git r
 
 ## Step 5: Deck Stage 1 Judge
 - **Conversation Setup**: Fresh conversation. High reasoning. **DO NOT enable `/browser`**. Invoke `/stage1-judge`.
-- **Launch Action**: Copy and paste the entire prompt from [`prompts/reassessment-v2/21-judge-deck.md`](file:///c:/Work/Projects/saas-validation-starter/prompts/reassessment-v2/21-judge-deck.md).
+- **Launch Action**: Copy and paste the entire prompt from [prompts/reassessment-v2/21-judge-deck.md](21-judge-deck.md).
 - **Write Directory**: `ideas/deck-automation/reassessment-v2/output/`
 - **Supported Terminal Command**:
   ```bash

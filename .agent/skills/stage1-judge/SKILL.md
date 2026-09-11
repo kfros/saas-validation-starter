@@ -23,8 +23,8 @@ Decide whether the researched hypothesis deserves Stage 2 prospect mining and di
 Read:
 - target `hypothesis.yaml` and `research-brief.md`;
 - `methodology/stage1-gates.md`, `methodology/scoring.md`, and `methodology/stage1-policy.json`;
-- for v1 evaluations: target `evidence/evidence.jsonl`, `audit-summary.md`, and `high-impact-review.md` (and `scope-map.json` where present);
-- for v2 reassessments: `reassessment-v2/evidence/evidence.jsonl`, `scope-map.json`, `audit-summary.md`, `high-impact-review.md`, and `snapshot.json`.
+- for v1 evaluations: target `ideas/<idea>/evidence/evidence.jsonl`, `audit-summary.md`, and `high-impact-review.md` (and `scope-map.json` where present);
+- for v2 reassessments: `ideas/<idea>/reassessment-v2/evidence/evidence.jsonl`, `scope-map.json`, `audit-summary.md`, `high-impact-review.md`, and `snapshot.json`.
 
 ## Scope integrity
 
@@ -48,11 +48,13 @@ Follow the policy version specified in the launch prompt:
 - **v2 Policy** (SMB Reassessment):
   - G1: $\ge 5$ independent VERIFIED pain signals for assessed scope
   - G2: $\ge \text{MEDIUM}$ recurrence confidence
-  - G3: $\ge 3$ independent VERIFIED money signals from $\ge 1$ eligible revealed category (`paid_tool_or_pilot`, `internal_labor`, `outsourced_labor`, `dedicated_role`); full breakdown reported; stated WTP excluded from numeric count
+  - G3: $\ge 3$ independent VERIFIED money signals from $\ge 1$ eligible category. Canonical evidence `money_signal` values: `actual_purchase`, `paid_pilot`, `saas_spend`, `employee_time`, `contractor_spend`, `agency_spend`, `dedicated_role`. `paid_tool_or_pilot` may be described only as a normalized reporting category grouping `actual_purchase`, `paid_pilot`, and `saas_spend` (do not use `internal_labor` or `outsourced_labor`). Full breakdown reported; stated WTP excluded from numeric count.
   - G4: $\ge 3$ independent VERIFIED gap signals supporting 1 coherent repeated gap cluster; member IDs reported
   - G5: $\ge \text{MEDIUM}$ reachability confidence
   - G6: no killer substitute; unresolved substitute makes G6 UNKNOWN
-  - CONDITIONAL PASS: G1 and G5 PASS; 0 FAIL; all UNKNOWN gates covered by condition objects with `resolution_method: INTERVIEW`; $\le 8$ interviews cap in `discovery_plan`; recommended next action `LIMITED_CUSTOMER_DISCOVERY`. Material technical/cost/access constraints prevent CONDITIONAL PASS.
+  - PASS: all 6 gates PASS; requires `discovery_plan` with `interview_cap` $\le 8$ and `recommended_next_action: LIMITED_CUSTOMER_DISCOVERY`.
+  - CONDITIONAL PASS: G1 and G5 PASS; 0 FAIL; all UNKNOWN gates covered by condition objects with `resolution_method: INTERVIEW`; requires `discovery_plan` with `interview_cap` $\le 8$ and `recommended_next_action: LIMITED_CUSTOMER_DISCOVERY`. Material technical/cost/access constraints prevent CONDITIONAL PASS.
+  - Scorecard binding: `input_commit_or_snapshot` must equal `snapshot.json.snapshot_id` exactly, never `3bf758f`.
 
 ## Counting protocol
 
@@ -84,8 +86,9 @@ Count only records describing an actual workflow problem, cost, delay, error, fr
 Use only records that explicitly establish frequency of the core job/problem for the assessed ICP.
 
 ### G3 — Existing spend / WTP
-Eligible revealed behavior categories: `paid_tool_or_pilot`, `internal_labor`, `outsourced_labor`, `dedicated_role`.
-`competitor_price` never counts toward G3. Stated WTP is preserved as context but excluded from v2 numeric counts. Unpriced actual labor counts as labor without inventing dollar amounts.
+Canonical evidence `money_signal` values: `actual_purchase`, `paid_pilot`, `saas_spend`, `employee_time`, `contractor_spend`, `agency_spend`, `dedicated_role`.
+`paid_tool_or_pilot` may be described only as a normalized reporting category grouping `actual_purchase`, `paid_pilot`, and `saas_spend` (do not use `internal_labor` or `outsourced_labor`).
+`competitor_price` never counts toward G3. Stated WTP is preserved as context but excluded from v2 numeric counts. Unpriced actual labor counts as costly labor without inventing dollar amounts.
 
 ### G4 — Repeatable gap
 Count only experienced workarounds, manual cleanup, missing capability with demonstrated workflow impact, quality failures, or workflow breaks. Group counted records into coherent clusters with member IDs.
@@ -98,18 +101,18 @@ Assess substitutes for the same ICP, input, output, workflow, and quality bar. A
 
 ## Verdict logic
 
-- `PASS`: every core gate passes for one coherent declared scope.
+- `PASS`: every core gate passes for one coherent declared scope. Requires `discovery_plan` with `interview_cap` $\le 8$; `recommended_next_action: LIMITED_CUSTOMER_DISCOVERY`.
 - `CONDITIONAL PASS`:
   - In v1: no gate fails, 5 PASS, exactly 1 UNKNOWN answerable via Stage 2 interviews. Single condition string.
-  - In v2: G1 and G5 PASS; 0 gates FAIL; every remaining UNKNOWN gate is covered by a structured condition object with `resolution_method: INTERVIEW`; `discovery_plan.interview_cap` $\le 8$; `recommended_next_action: LIMITED_CUSTOMER_DISCOVERY`. Any material unresolved technical feasibility, access, or cost constraint prevents CONDITIONAL PASS and requires a technical check.
+  - In v2: G1 and G5 PASS; 0 gates FAIL; every remaining UNKNOWN gate is covered by a structured condition object with `resolution_method: INTERVIEW`; requires `discovery_plan` with `interview_cap` $\le 8$; `recommended_next_action: LIMITED_CUSTOMER_DISCOVERY`. Any material unresolved technical feasibility, access, or cost constraint prevents CONDITIONAL PASS and requires a technical check.
 - `FAIL`: a core assumption of the evaluated scope is strongly contradicted by cited VERIFIED evidence.
 - `INSUFFICIENT EVIDENCE`: thresholds are not met or material assumptions remain unknown without strong contradiction. Stage 2 is not authorized.
 
 When conducting a v2 reassessment, the report must compare old and new verdicts and distinguish the effects of policy changes, evidence corrections, and scope interpretation.
 
-## Outputs
+## Outputs and Verification
 
-- For v1: write to `ideas/<idea>/output/` (`stage1-report.md` and `scorecard.json`).
-- For v2: write to `ideas/<idea>/reassessment-v2/output/` (`stage1-report.md` and `scorecard.json`).
+- For v1: write to `ideas/<idea>/output/` (`stage1-report.md` and `scorecard.json`). Verify with `python scripts/check_<idea>_stage1.py judge --policy v1`.
+- For v2: write to `ideas/<idea>/reassessment-v2/output/` (`stage1-report.md` and `scorecard.json`). In `scorecard.json`, `input_commit_or_snapshot` must equal `snapshot.json.snapshot_id` exactly, never `3bf758f`. Verify with `python scripts/check_<idea>_stage1.py judge --policy v2`.
 
-Ensure the JSON is syntactically valid using `python -m json.tool <path-to-scorecard.json>`.
+The checker parses JSON directly and validates all schema, identity, and arithmetic contracts. Keep terminal execution strictly limited to the checker command; do not run separate ad-hoc scripts or `python -m json.tool`.

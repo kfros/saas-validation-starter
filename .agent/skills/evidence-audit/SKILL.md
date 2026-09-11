@@ -19,13 +19,39 @@ Turn raw `PENDING` records into a canonical audited dataset. Verify what each re
 - Do not rewrite an unsupported observation into a weaker claim merely to mark it `VERIFIED`.
 - Do not issue PASS, CONDITIONAL PASS, FAIL, or INSUFFICIENT EVIDENCE.
 
+## Operational Modes
+
+The skill operates in one of two explicit modes depending on the launch prompt:
+
+### v1 Legacy Mode
+- Selected for legacy Stage 1 validation runs.
+- Preserves the existing `raw/*` inputs, legacy `ideas/<idea>/evidence/` outputs, and `validate_evidence` / `find_duplicates` commands.
+
+### v2 Reassessment Mode
+- Selected when the launch prompt specifies `policy v2` (e.g. SMB reassessment).
+- Inspects only a bounded subset of records from the historical `ideas/<idea>/evidence/evidence.jsonl` baseline.
+- Does **not** reopen every raw track (`raw/*`).
+- Writes only to `ideas/<idea>/reassessment-v2/evidence/`.
+- Produces `evidence.jsonl`, `scope-map.json`, `review-log.jsonl`, `audit-summary.md`, `high-impact-review.md`, and sealed `snapshot.json`.
+- `review-log.jsonl` must strictly follow `methodology/stage1-policy.json`, including `independence_key` and all canonical bindings (`exact_url`, `speaker_or_entity`, `independence_key`, `audit_status`, `audit_reason`, whitespace-normalized fragment containment, scope-map synchronization, and traceable modification logging).
+- Terminal commands are strictly limited to the idea-specific `seal_v2_snapshot.py` and v2 audit checker commands explicitly declared by the launch prompt.
+- The v2 launch prompt overrides v1-only Inputs, Outputs, and Mechanical checks sections.
+
 ## Inputs
 
+### For v1 Legacy Mode:
 Read:
-
 - the target `hypothesis.yaml` and `research-brief.md`;
 - `methodology/evidence-standard.md`, `methodology/evidence-schema.json`, and `methodology/stage1-gates.md`;
 - every target `raw/*/evidence.jsonl` file.
+
+### For v2 Reassessment Mode:
+Read:
+- the target `hypothesis.yaml`, `research-brief.md`, and `research-protocol.md`;
+- `methodology/stage1-policy.json`, `methodology/stage1-gates.md`, and `methodology/evidence-standard.md`;
+- `ideas/<idea>/evidence/evidence.jsonl` (canonical historical baseline at commit `3bf758f`);
+- historical `ideas/<idea>/evidence/scope-map.json` and `ideas/<idea>/evidence/high-impact-review.md`.
+Do not reopen raw tracks (`raw/*`). Inspection is bounded to the review leads and budget specified by the v2 launch prompt.
 
 ## Audit protocol
 
@@ -85,21 +111,38 @@ An inaccessible page is not VERIFIED. Distinguish a source failure from an Antig
 
 ## Outputs
 
-Write only to the target idea's `evidence` directory:
-
+### For v1 Legacy Mode:
+Write only to the target idea's `evidence` directory (`ideas/<idea>/evidence/`):
 - `evidence.jsonl`: all consolidated records with status and audit reason;
 - `audit-summary.md`: status counts by type, source tier, ICP, and money signal; duplicate groups; blocked records; and counts potentially eligible for each gate without declaring a gate result;
-- `high-impact-review.md`: every VERIFIED or PARTIALLY_VERIFIED money record, the strongest positive and contradictory records, all substitute candidates, and every record whose inclusion could change a gate.
+- `high-impact-review.md`: every VERIFIED or PARTIALLY_VERIFIED money record, the strongest positive and contradictory records, all substitute candidates, and every record whose inclusion could change a gate;
+- `scope-map.json`: scope attribution mapping where present.
+
+### For v2 Reassessment Mode:
+Write strictly to the target idea's v2 reassessment directory (`ideas/<idea>/reassessment-v2/evidence/`):
+- `evidence.jsonl`: canonical audited records with direct source quotes and audit reasons;
+- `scope-map.json`: scope attribution mapping for the assessed candidate segment with verified support links;
+- `review-log.jsonl`: line-by-line inspection log conforming to `methodology/stage1-policy.json`, including `independence_key` and canonical bindings;
+- `audit-summary.md`: narrative audit summary detailing reviewed vs unexamined records and budget coverage;
+- `high-impact-review.md`: documentation of excluded, unexamined, or contradictory records;
+- `snapshot.json`: generated and sealed snapshot manifest created via `scripts/seal_v2_snapshot.py`.
 
 The outputs must let the Judge reproduce every count without browsing.
 
 ## Mechanical checks
 
+### For v1 Legacy Mode:
 After writing the canonical JSONL, run only:
-
 ```bash
 python scripts/validate_evidence.py <idea-path>/evidence/evidence.jsonl
 python scripts/find_duplicates.py <idea-path>/evidence/evidence.jsonl
 ```
 
-Do not use `python -c`, PowerShell one-liners, `jsonschema` snippets, or Antigravity cache inspection. If validation fails, repair only the reported local JSONL problem and rerun the validator once. If it still fails, record the blocker and stop.
+### For v2 Reassessment Mode:
+Run only the idea-specific snapshot sealing tool and audit checker command declared by the launch prompt:
+```bash
+python scripts/seal_v2_snapshot.py --idea <idea> --snapshot-id <snapshot-id>
+python scripts/check_<idea>_stage1.py audit --policy v2
+```
+
+Do not use `python -c`, PowerShell one-liners, `jsonschema` snippets, ad-hoc scrapers, or Antigravity cache inspection. If validation fails, repair only the reported local structural problem and rerun the validator once. If it still fails, record the blocker and stop.
