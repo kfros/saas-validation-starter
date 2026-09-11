@@ -34,51 +34,39 @@
     },
     {
       "evidence_id": "geo-pain-reddit-typicalbadger-patchwork-stack",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-pain-reddit-typicalbadger-patchwork-stack"
-      ],
-      "reason": "Author Typical-Badger1922 explicitly operates a small independent multi-client agency managing weekly client prompt checks and Looker Studio reporting."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Author operates a small agency with weekly client prompt checks and Looker Studio reporting, but source does not provide explicit proof of headcount (2–20 staff)."
     },
     {
       "evidence_id": "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety"
-      ],
-      "reason": "Author nothabkuuys explicitly identifies as a smaller agency owner managing client retainers and expectations across AI search engines."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Author identifies as smaller agency owner managing client retainers, but source does not provide explicit proof of headcount (2–20 staff)."
     },
     {
       "evidence_id": "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-pain-reddit-jjnasty-losing-game-oneoff-audit"
-      ],
-      "reason": "Author jjnasty operates in agency management advising on SMB client packaging, retainer line items, and quarterly visibility audits."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Agency strategist advises on SMB client packaging, but source provides no headcount or agency size verification."
     },
     {
       "evidence_id": "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-pain-reddit-erickrealz-agency-attribution-impossibility"
-      ],
-      "reason": "Author erickrealz explicitly works at an independent SEO agency handling client accounts and retainers."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Author works at an agency handling SEO for clients, but source does not verify agency headcount (2–20 staff)."
     },
     {
       "evidence_id": "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute"
-      ],
-      "reason": "Author ThirdEyesOfTheWorld explicitly owns an independent SEO agency serving clients on recurring retainers."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Author states owning an agency that added AI referral monitoring to current SEO retainers, but source provides no proof of headcount (2–20 staff)."
     },
     {
       "evidence_id": "geo-pain-reddit-arash60-defensive-monthly-client-reporting",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-pain-reddit-arash60-defensive-monthly-client-reporting"
-      ],
-      "reason": "Author Arash-60 is an agency SEO lead managing monthly client SEO reports and contract baselines for SMB clients."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Author manages monthly client SEO reports and contract baselines, but source provides no headcount proof for agency size (2–20 staff)."
     },
     {
       "evidence_id": "geo-wtp-reddit-peec-usage",
@@ -100,27 +88,21 @@
     },
     {
       "evidence_id": "geo-workflow-01-whatifweb-profile",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-workflow-01-whatifweb-profile"
-      ],
-      "reason": "Verified Christchurch boutique studio (3-5 staff) serving SMB clients with web development and AI search optimization."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Studio profile confirmed on company blog, but the cited source does not state team size (3–5 staff)."
     },
     {
       "evidence_id": "geo-workflow-04-sornai-profile",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-workflow-04-sornai-profile"
-      ],
-      "reason": "Verified independent boutique AI SEO agency (2-10 staff) serving SaaS, e-commerce, cybersecurity, and legal clients on retainers."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Agency profile confirmed on homepage, but cited source does not verify team size (2–10 staff)."
     },
     {
       "evidence_id": "geo-workflow-06-sornai-reporting-cadence",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "geo-workflow-04-sornai-profile"
-      ],
-      "reason": "Weekly client reporting deliverable for SORN.AI, verified as a 2-10 employee boutique agency in geo-workflow-04-sornai-profile."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Weekly reporting cadence confirmed on case study, but underlying agency profile (geo-workflow-04-sornai-profile) lacks explicit headcount verification."
     },
     {
       "evidence_id": "geo-workflow-07-butter-marketing-profile",

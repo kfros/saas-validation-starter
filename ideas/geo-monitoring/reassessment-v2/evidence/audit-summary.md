@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary & Status Breakdown
 
-This bounded Stage 1 v2 audit assesses the smallest decisive subset of evidence required to evaluate the v2 policy thresholds (G1 $\ge 5$, G2 $\ge$ MEDIUM, G3 $\ge 3$, G4 $\ge 3$, G5 $\ge$ MEDIUM, G6 no killer substitute) for candidate scope `GEO-AGENCY-01`.
+This bounded Stage 1 v2 audit assesses the smallest decisive subset of evidence required to evaluate policy v2 structural criteria for candidate scope `GEO-AGENCY-01`.
 
 Rather than reopening all 87 baseline records or performing redundant web crawling, this audit evaluated 24 high-impact records across positive, contradictory, and scope-defining categories, preserving 63 records in the unexamined baseline budget.
 
@@ -35,7 +35,7 @@ Rather than reopening all 87 baseline records or performing redundant web crawli
 ### Lead 1: Separating Tool Use from Paid Software Spend
 - **Record**: `geo-pain-reddit-arash60-defensive-monthly-client-reporting`
 - **Finding**: Practitioner `Arash-60` (Agency SEO Lead) describes using Guzu.ai to establish client baseline rankings across ChatGPT, Gemini, and Perplexity for monthly SEO reports. However, the source provides no evidence of a paid subscription or corporate software expenditure (could be free tier or client-provided).
-- **Audit Decision**: Tool usage and monthly reporting pain are verified for G1 and G2. Canonical field `money_signal` was normalized from `saas_spend` to `null` (traceable in `review-log.jsonl` modifications). Excluded from Gate 3 spend count.
+- **Audit Decision**: Tool usage and monthly reporting are verified, but canonical field `money_signal` was normalized from `saas_spend` to `null` (traceable in `review-log.jsonl` modifications). Excluded from Gate 3 spend count.
 
 ### Lead 2: Vendor Marketing Arithmetic vs. Observed Agency Labor
 - **Record**: `geo-wtp-blog-agency-manual-hours`
@@ -47,19 +47,22 @@ Rather than reopening all 87 baseline records or performing redundant web crawli
 - **Finding**: Stanislava Smiljanic (SORN.AI) stated: *"It would be very manual, with a ton of print screens and manual research of prompts with VPN, Stanislava says of the alternative."* This represents a counterfactual estimation of what work *would* be required without specialized software, not a record of actual manual hours logged by agency staff.
 - **Audit Decision**: Reclassified from `VERIFIED` to `PARTIALLY_VERIFIED`. Excluded from Gate 3 labor count.
 
-### Lead 4: Scope Verification (`GEO-AGENCY-01`)
-- **Verified In-Scope Agencies (2–20 staff)**:
-  - `Typical-Badger1922` (`geo-pain-reddit-typicalbadger-patchwork-stack`)
-  - `nothabkuuys` (`geo-pain-reddit-nothabkuuys-small-agency-client-anxiety`)
-  - `jjnasty` (`geo-pain-reddit-jjnasty-losing-game-oneoff-audit`)
-  - `erickrealz` (`geo-pain-reddit-erickrealz-agency-attribution-impossibility`)
-  - `ThirdEyesOfTheWorld` (`geo-pain-reddit-thirdeyesoftheworld-bundled-substitute`)
-  - `Arash-60` (`geo-pain-reddit-arash60-defensive-monthly-client-reporting`)
-  - `What IF Web` (`geo-workflow-01-whatifweb-profile`, 3–5 staff)
-  - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`, 2–10 staff)
-  - `Butter Marketing` (`geo-workflow-07-butter-marketing-profile`, 2–9 staff)
-  - `Clutch Directory Channel` (`geo-workflow-11-reachability-clutch`, directory filter for 2–9 / 10–49 staff)
-- **Scope Discipline**: Solo consultants, individual website owners, and anonymous Reddit users without verified agency headcount (`maltelandwehr`, `trustmeimnotnotlying`, `tachichuchi`, `billhartzer`) are classified as `UNKNOWN` scope and strictly excluded from G1–G5 thresholds.
+### Lead 4: Scope Discipline & Verification (`GEO-AGENCY-01`)
+- **Strict Scope Definition**: Independent SEO agencies with 2–20 staff serving SMB clients on recurring retainers. Under repository rules, references to "clients", "our clients", "smaller agency", contracts, or retainers alone do not establish full scope without explicit proof of both 2–20 staff and SMB clients.
+- **Verified In-Scope Agencies**:
+  - `Butter Marketing` (`geo-workflow-07-butter-marketing-profile`, 2–9 staff verified on Clutch directory)
+  - `Clutch Directory Channel` (`geo-workflow-11-reachability-clutch`, public directory filter specifically segmenting 2–9 and 10–49 employee agencies)
+- **Reclassified to UNKNOWN Scope (Unverified Headcount or Entity Structure)**:
+  - `Typical-Badger1922` (`geo-pain-reddit-typicalbadger-patchwork-stack`): reports small agency operations, but source lacks explicit headcount proof (2–20 staff).
+  - `nothabkuuys` (`geo-pain-reddit-nothabkuuys-small-agency-client-anxiety`): mentions smaller agency, but headcount unverified.
+  - `jjnasty` (`geo-pain-reddit-jjnasty-losing-game-oneoff-audit`): agency strategist role without agency headcount verification.
+  - `erickrealz` (`geo-pain-reddit-erickrealz-agency-attribution-impossibility`): agency SEO specialist role without headcount verification.
+  - `ThirdEyesOfTheWorld` (`geo-pain-reddit-thirdeyesoftheworld-bundled-substitute`): agency owner role without headcount verification.
+  - `Arash-60` (`geo-pain-reddit-arash60-defensive-monthly-client-reporting`): agency SEO lead role without headcount verification.
+  - `What IF Web` (`geo-workflow-01-whatifweb-profile`): cited blog URL confirms studio services, but does not state team size (3–5 staff).
+  - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`): cited homepage/case study does not state team size (2–10 staff).
+  - `maltelandwehr` (`geo-wtp-reddit-peec-usage`): practitioner comment without verified agency headcount.
+  - `UK PR Agency` (`geo-wtp-upwork-pr-agency-contract`): retrieval blocked; agency headcount unverified.
 
 ### Lead 5: Substitutes and Technical Feasibility Constraints
 - **Incumbent Bundles**: SE Ranking (€109–€235/mo + €59/mo white label) and Semrush ($199–$549/mo + $20/mo) bundle daily AI search tracking into core subscriptions.
@@ -68,21 +71,22 @@ Rather than reopening all 87 baseline records or performing redundant web crawli
   - *Sampling Variance*: Non-zero LLM temperature requires $n=7$ repeats per prompt to achieve standard error $<0.10$ (Jay Sim, arXiv:2604.07585). Naive single checks yield 10%–34% noise.
   - *API Unit Economics*: OpenAI Web Search costs $10–$25 per 1,000 calls. Statistically sound checks across 50 prompts $\times$ 7 repeats $\times$ 4 surfaces cost $14–$35 per client audit in raw API fees alone.
   - *Legal Constraints*: OpenAI Terms of Use (updated Jan 16, 2026) explicitly prohibit programmatic output extraction and anti-bot circumvention, making consumer UI scraping legally and technically fragile.
+- **Substitute Uncertainty**: Whether bundled offerings from SE Ranking, Semrush, or manual workflows are a sufficient substitute for `GEO-AGENCY-01` remains materially unresolved and is left for Stage 1 Judge evaluation.
 
 ---
 
 ## 3. Potential Gate Eligibility Summary (Input to Stage 1 Judge)
 
-*Note: Per Rules 17–19, the Evidence Auditor does not issue gate verdicts. The following counts summarize audited records satisfying structural eligibility criteria under Policy v2:*
+*Note: Per Rules 17–20, the Evidence Auditor does not issue gate verdicts or recommend decisions (PASS, CONDITIONAL PASS, FAIL). The following counts summarize audited records satisfying structural eligibility criteria under Policy v2:*
 
-| Gate | Policy v2 Requirement | Audited Eligible Count | Status Indication | Key Eligible Evidence IDs |
-| :--- | :--- | :---: | :---: | :--- |
-| **G1: Concrete Pain** | $\ge 5$ independent in-scope VERIFIED records | **6** | PASS | `geo-pain-reddit-typicalbadger-patchwork-stack`, `geo-pain-reddit-nothabkuuys-small-agency-client-anxiety`, `geo-pain-reddit-jjnasty-losing-game-oneoff-audit`, `geo-pain-reddit-erickrealz-agency-attribution-impossibility`, `geo-pain-reddit-thirdeyesoftheworld-bundled-substitute`, `geo-pain-reddit-arash60-defensive-monthly-client-reporting` |
-| **G2: Recurrence** | $\ge$ MEDIUM confidence, recurring core job | **4** (HIGH) | PASS | `geo-pain-reddit-typicalbadger-patchwork-stack` (weekly), `geo-pain-reddit-arash60-defensive-monthly-client-reporting` (monthly), `geo-workflow-06-sornai-reporting-cadence` (weekly), `geo-pain-reddit-thirdeyesoftheworld-bundled-substitute` (monthly) |
-| **G3: Existing Spend / WTP** | $\ge 3$ independent VERIFIED spend/labor records | **1** | UNKNOWN | Counted: `geo-pain-reddit-typicalbadger-patchwork-stack` (`employee_time`). Excluded: `geo-wtp-blog-agency-manual-hours` (PARTIALLY_VERIFIED), `geo-workflow-12-manual-workaround-labor` (PARTIALLY_VERIFIED), `geo-wtp-upwork-pr-agency-contract` (BLOCKED), `geo-wtp-reddit-peec-usage` (UNKNOWN scope), `geo-pain-reddit-arash60-defensive-monthly-client-reporting` (money_signal null) |
-| **G4: Repeatable Gap** | $\ge 3$ independent records, cluster size $\ge 3$ | **5** (Cluster: 5) | PASS | Cluster `client_reporting_rework_under_volatility`: `geo-pain-reddit-typicalbadger-patchwork-stack`, `geo-pain-reddit-arash60-defensive-monthly-client-reporting`, `geo-pain-reddit-nothabkuuys-small-agency-client-anxiety`, `geo-pain-reddit-erickrealz-agency-attribution-impossibility`, `geo-pain-reddit-jjnasty-losing-game-oneoff-audit` |
-| **G5: ICP Reachability** | $\ge$ MEDIUM confidence, concrete channel | **4** (HIGH) | PASS | `geo-workflow-11-reachability-clutch` (searchable directory with 2–9 and 10–49 employee filters), supported by profiles `geo-workflow-01-whatifweb-profile`, `geo-workflow-04-sornai-profile`, `geo-workflow-07-butter-marketing-profile` |
-| **G6: No Killer Substitute** | Verified substitute context, no killer | **8** context | PASS | Verified context across SE Ranking, Semrush, Otterly, Peec, OpenAI pricing/ToS, and sampling variance. No single killer substitute, but significant bundling and margin constraints |
+| Gate | Policy v2 Structural Rule | Audited Eligible Count | Audited In-Scope Records | Notes on Eligibility & Exclusions |
+| :--- | :--- | :---: | :--- | :--- |
+| **G1: Concrete Pain** | $\ge 5$ independent in-scope VERIFIED records | **0** in-scope | None | 6 pain records verified (`Typical-Badger1922`, `nothabkuuys`, `jjnasty`, `erickrealz`, `ThirdEyesOfTheWorld`, `Arash-60`), but all 6 lack explicit headcount verification and are classified UNKNOWN scope. |
+| **G2: Recurrence** | $\ge$ MEDIUM confidence, recurring core job | **0** in-scope | None | Cadence verified in `Typical-Badger1922` (weekly), `Arash-60` (monthly), and `SORN.AI` (weekly), but underlying records have UNKNOWN scope. `ThirdEyesOfTheWorld` recurrence normalized to null. |
+| **G3: Existing Spend / WTP** | $\ge 3$ independent VERIFIED spend/labor records | **0** in-scope | None | `Typical-Badger1922` has UNKNOWN scope; `Topify` and `SORN.AI` workaround are PARTIALLY_VERIFIED; `Upwork` is BLOCKED/PENDING; `Peec usage` is UNKNOWN scope and money_signal null; `Arash-60` money_signal null. |
+| **G4: Repeatable Gap** | $\ge 3$ independent records, cluster size $\ge 3$ | **0** in-scope (4 out-of-scope/unknown) | None in-scope | If in-scope required: 0. Across the evaluated subset without scope restriction: 4 records qualify under reporting/attribution pain cluster (`Typical-Badger1922`, `nothabkuuys`, `jjnasty`, `erickrealz`). `Arash-60` excluded as tool use lacked paid spend. |
+| **G5: ICP Reachability** | $\ge$ MEDIUM confidence, concrete channel | **2** in-scope | `geo-workflow-07-butter-marketing-profile`, `geo-workflow-11-reachability-clutch` | `Clutch Directory Channel` verifies searchable directory with 2–9 and 10–49 employee filters, supported by `Butter Marketing` (2–9 staff verified on Clutch). `What IF Web` and `SORN.AI` profiles are UNKNOWN scope. |
+| **G6: No Killer Substitute** | Verified substitute context | **8** context | `geo-market-otterly-pricing`, `geo-market-semrush-plans`, `geo-market-seranking-plans`, `geo-market-seranking-agency-pack`, `geo-skeptic-substitute-semrush-ai-tracking`, `geo-skeptic-risk-sampling-noise-variance`, `geo-skeptic-risk-openai-search-pricing`, `geo-skeptic-risk-openai-tos-scraping` | Comprehensive context verified across incumbent suites, pure-play tools, sampling noise, and API costs/ToS. Commercial substitute fit and sufficiency remain materially unresolved for Judge determination. |
 
 ---
 

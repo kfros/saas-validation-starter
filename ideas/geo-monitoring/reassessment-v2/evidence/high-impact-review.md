@@ -17,18 +17,18 @@ This review details the forensic re-examination of candidate money signals in th
 ### Candidate Signal 1: Typical-Badger1922 (Costly Employee Labor)
 - **ID**: `geo-pain-reddit-typicalbadger-patchwork-stack`
 - **Speaker / Source**: `Typical-Badger1922` on `r/agency`
-- **Audit Status**: `VERIFIED` | **Scope**: `IN_SCOPE` (`GEO-AGENCY-01`)
+- **Audit Status**: `VERIFIED` | **Scope**: `UNKNOWN`
 - **Signal**: `employee_time`
-- **Evidence Review**: The author explicitly operates a small multi-client agency. They report "burning months on manual testing" across tools and executing recurring manual prompt testing for 20 high-priority client queries weekly per account because automated tools miss citations. They subsequently spend hours stitching disparate outputs into Looker Studio for monthly reporting.
-- **Audit Decision**: **ELIGIBLE FOR GATE 3**. This is first-hand evidence of repeated, costly internal agency labor dedicated to the exact target job (weekly prompt verification and monthly client deliverable generation).
+- **Evidence Review**: The author describes operating a small agency testing stacks and executing recurring manual prompt testing for 20 high-priority client queries weekly per account, stitching disparate outputs into Looker Studio for client reporting. However, the source does not provide explicit proof of agency headcount (2–20 staff). Additionally, the raw claim of "spending hours" was not directly stated by the author and was removed from the canonical observation.
+- **Audit Decision**: **EXCLUDED FROM GATE 3**. While internal labor is described, the lack of explicit headcount verification places the record in `UNKNOWN` scope, excluding it from Gate 3 in-scope spend/labor thresholds.
 
 ### Candidate Signal 2: Arash-60 (Tool Use vs. Paid Spend)
 - **ID**: `geo-pain-reddit-arash60-defensive-monthly-client-reporting`
 - **Speaker / Source**: `Arash-60` on `r/seogrowth`
-- **Audit Status**: `VERIFIED` | **Scope**: `IN_SCOPE` (`GEO-AGENCY-01`)
+- **Audit Status**: `VERIFIED` | **Scope**: `UNKNOWN`
 - **Signal**: Normalized from `saas_spend` to `null`
-- **Evidence Review**: Live source inspection of comment `o3bbluh` confirms that Arash-60 uses Guzu.ai to establish client baseline rankings at contract inception and delivers monthly percentage change reports. However, the text contains zero evidence that the agency pays for Guzu.ai (it may be a free tier, trial, or client-provided seat). In accordance with Rule 6 (separate observation from interpretation) and the Evidence Standard, tool adoption cannot be promoted to revealed spending without direct proof of payment.
-- **Audit Decision**: **EXCLUDED FROM GATE 3**. Eligible for G1 (pain) and G2 (monthly recurrence), but canonical field `money_signal` is normalized to `null`.
+- **Evidence Review**: Live source inspection of comment `o3bbluh` confirms that Arash-60 uses Guzu.ai to establish client baseline rankings at contract inception and delivers monthly percentage change reports. However, the text contains zero evidence that the agency pays for Guzu.ai (it may be a free tier, trial, or client-provided seat), and the source does not verify agency headcount (2–20 staff). In accordance with Rule 6 (separate observation from interpretation) and the Evidence Standard, tool adoption cannot be promoted to revealed spending without direct proof of payment.
+- **Audit Decision**: **EXCLUDED FROM GATE 3**. Canonical field `money_signal` was normalized to `null`, and scope is `UNKNOWN`.
 
 ### Candidate Signal 3: Elsa Ji / Topify (Vendor Arithmetic vs. Agency Labor)
 - **ID**: `geo-wtp-blog-agency-manual-hours`
@@ -43,16 +43,16 @@ This review details the forensic re-examination of candidate money signals in th
 - **Speaker / Source**: `Stanislava Smiljanic` on `otterly.ai/blog/geo-case-study-sornai/`
 - **Audit Status**: `PARTIALLY_VERIFIED` | **Scope**: `IN_SCOPE`
 - **Signal**: `employee_time` (disallowed)
-- **Evidence Review**: Stanislava Smiljanic is an in-scope agency co-founder (SORN.AI, 2–10 staff). However, her quote states: *"Without a specialized tool, tracking prompts would be very manual, with a ton of print screens and manual research of prompts with VPN, Stanislava says of the alternative."* The phrasing explicitly describes a hypothetical alternative ("would be very manual..."), not a verified record of hours actually logged or payroll spent performing manual checks.
+- **Evidence Review**: Stanislava Smiljanic is an agency co-founder at SORN.AI. However, her quote states: *"Without a specialized tool, tracking prompts would be very manual, with a ton of print screens and manual research of prompts with VPN, Stanislava says of the alternative."* The phrasing explicitly describes a hypothetical alternative ("would be very manual..."), not a verified record of hours actually logged or payroll spent performing manual checks.
 - **Audit Decision**: **EXCLUDED FROM GATE 3**. Reclassified as `PARTIALLY_VERIFIED`. Counterfactual descriptions of what work *would* be needed in the absence of tools cannot substitute for observed labor expenditure.
 
-### Candidate Signal 5: maltelandwehr / Peec AI User (Unverified Scope)
+### Candidate Signal 5: maltelandwehr / Peec AI User (Unverified Scope & Spend)
 - **ID**: `geo-wtp-reddit-peec-usage`
 - **Speaker / Source**: `maltelandwehr` on `r/SEO`
 - **Audit Status**: `VERIFIED` | **Scope**: `UNKNOWN`
-- **Signal**: `saas_spend`
-- **Evidence Review**: The author explicitly confirms paying for and using Peec AI for visibility reporting and content optimization. However, their organizational identity, agency affiliation, and team size cannot be verified against the 2–20 employee threshold of `GEO-AGENCY-01`.
-- **Audit Decision**: **EXCLUDED FROM GATE 3**. Under strict scope integrity rules, evidence from practitioners whose team size or business model is UNKNOWN cannot be pooled into the candidate ICP count.
+- **Signal**: Normalized from `saas_spend` to `null`
+- **Evidence Review**: The author confirms using Peec AI for visibility reporting and content optimization ("I use Peec AI"). However, the comment does not state or prove payment, and their organizational identity and agency headcount cannot be verified against `GEO-AGENCY-01`.
+- **Audit Decision**: **EXCLUDED FROM GATE 3**. `money_signal` and `money_period` normalized to `null`, and scope is `UNKNOWN`.
 
 ### Candidate Signal 6: UK PR Agency Upwork Contract (Access Blocked)
 - **ID**: `geo-wtp-upwork-pr-agency-contract`
@@ -63,10 +63,9 @@ This review details the forensic re-examination of candidate money signals in th
 - **Audit Decision**: **EXCLUDED FROM GATE 3**. Retained as `PENDING` and cannot be counted toward any threshold.
 
 ### Summary of Gate 3 Eligibility
-- **Counted Independent Signals**: **1** (`geo-pain-reddit-typicalbadger-patchwork-stack`, `Typical-Badger1922`)
-- **Policy v2 Threshold**: $\ge 3$ independent signals
-- **Audit Outcome**: **GATE 3 STATUS IS UNKNOWN**.
-- **Implication**: This shortfall does not cause a FAIL verdict under v2 policy. Instead, it fulfills the exact condition for `CONDITIONAL PASS`, where unverified willingness to pay is designated as an explicit interview topic to be resolved during limited customer discovery ($n \le 8$ interviews).
+- **Counted In-Scope Signals**: **0**
+- **Excluded Candidates**: 6 candidate records reviewed and excluded (1 due to unverified scope, 2 normalized due to lack of payment proof, 2 due to partially verified/counterfactual claims, 1 blocked).
+- **Audit Note**: No candidate record satisfies both verified revealed spend/labor and verified `GEO-AGENCY-01` scope. Gate 3 status determination is reserved for the Stage 1 Judge.
 
 ---
 
@@ -85,22 +84,24 @@ Vendor rate cards establish market pricing benchmarks, though they do not repres
    - Otterly.ai Standard costs €189/mo for 100 prompts (150 for agency partners), but charges heavy add-on surcharges for Claude (€109/mo) and Gemini (€59/mo).
    - Peec AI agency plans range from €205/mo (1 client) to €675/mo (5–7 client projects).
    - *Impact*: Multi-client pure-play tools are priced for funded mid-market agencies, leaving small independent agencies (2–20 staff) underserved.
+4. **Substitute Uncertainty**:
+   - Whether bundled incumbent suites (SE Ranking, Semrush) or manual spot-check routines provide a sufficient, adequate substitute for `GEO-AGENCY-01` remains materially unresolved in the evidence and is reserved for Stage 1 Judge evaluation.
 
 ---
 
 ## 3. Strongest Positive Evidence (ICP & Workflow Coherence)
 
-The bounded dataset establishes strong evidence for problem existence and operational workflow:
+The bounded dataset establishes qualitative evidence for problem existence and operational workflow, while scope discipline distinguishes verified headcount from unverified practitioners:
 
-1. **Direct Agency Pain & Client Anxiety**:
+1. **Direct Agency Pain & Client Anxiety (Unverified Headcount / UNKNOWN Scope)**:
    - `nothabkuuys` (`geo-pain-reddit-nothabkuuys-small-agency-client-anxiety`): Small agency owner describes intense friction managing SMB client expectations across Google AIO, ChatGPT, and Claude, and confusion over billing models.
-   - `Typical-Badger1922` (`geo-pain-reddit-typicalbadger-patchwork-stack`): Documents weekly prompt checking routines and the necessity of stitching data into Looker Studio to demonstrate trendlines to clients.
-2. **Verified Boutique Agency Workflow Profiles**:
-   - `What IF Web` (`geo-workflow-01-whatifweb-profile`, 3–5 staff): Confirms client traffic erosion triggers AI optimization audits; prompts are modeled from sales conversations; deliverables focus on citability and directory presence.
-   - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`, 2–10 staff): Delivers weekly AI visibility reports using Brand Visibility Index quadrant charts comparing clients against 4 competitors.
+   - `Typical-Badger1922` (`geo-pain-reddit-typicalbadger-patchwork-stack`): Documents weekly prompt checking routines and stitching data into Looker Studio to demonstrate trendlines to clients.
+2. **Verified In-Scope Boutique Agency & Channel**:
    - `Butter Marketing` (`geo-workflow-07-butter-marketing-profile`, 2–9 staff): Verified London agency on Clutch dedicating 70% of operations to Generative Engine Optimization.
-3. **Targeted Acquisition Channel**:
-   - `Clutch Directory` (`geo-workflow-11-reachability-clutch`): Provides verified public directory filters specifically segmenting independent agencies by headcount (2–9 and 10–49 employees) and service line (GEO / SEO).
+   - `Clutch Directory Channel` (`geo-workflow-11-reachability-clutch`): Provides verified public directory filters specifically segmenting independent agencies by headcount (2–9 and 10–49 employees) and service line (GEO / SEO).
+3. **Workflow Profiles with Unverified Headcount (UNKNOWN Scope)**:
+   - `What IF Web` (`geo-workflow-01-whatifweb-profile`): Blog confirms agency services and Otterly partnership, but does not verify team size (3–5 staff).
+   - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`): Homepage and Otterly case study confirm weekly client reporting cadence, but do not verify team size (2–10 staff).
 
 ---
 
@@ -116,17 +117,12 @@ The bounded dataset establishes strong evidence for problem existence and operat
 
 ---
 
-## 5. Decision Architecture for Stage 1 Judge
+## 5. Summary of Audited Counts for Stage 1 Judge
 
-Under Policy v2, this evidence structure provides a coherent, grounded basis for decision-making:
-- **G1 (Concrete Pain)**: 6 independent verified in-scope records $\rightarrow$ **PASS**.
-- **G2 (Recurrence)**: Weekly and monthly client reporting cadences $\rightarrow$ **PASS**.
-- **G3 (Existing Spend / WTP)**: 1 verified labor record vs. 3 required $\rightarrow$ **UNKNOWN**.
-- **G4 (Repeatable Gap)**: Clustered around `client_reporting_rework_under_volatility` $\rightarrow$ **PASS**.
-- **G5 (ICP Reachability)**: Clutch directory filter $\rightarrow$ **PASS**.
-- **G6 (No Killer Substitute)**: Verified context; no killer substitute $\rightarrow$ **PASS**.
-
-This distribution matches the exact prerequisites for **`CONDITIONAL PASS`** under v2 policy:
-- G1 and G5 pass;
-- No gate fails;
-- The single UNKNOWN gate (G3) can be addressed via limited customer discovery interviews ($n \le 8$), structured specifically to verify whether agency buyers will pay $\ge \$100$/mo for automated reporting or will continue relying on bundled suite add-ons and manual spot-checks.
+Per Repository Rules 17–20 and Evidence Audit boundaries, the Evidence Auditor does not issue gate verdicts or recommend Stage 1 decisions (PASS, CONDITIONAL PASS, FAIL). Gate-eligibility counts based strictly on verified, in-scope records:
+- **G1 (Concrete Pain)**: 0 in-scope verified records (6 pain records reviewed, all classified UNKNOWN scope due to unverified agency headcount).
+- **G2 (Recurrence)**: 0 in-scope verified records (cadences observed in Typical-Badger1922, Arash-60, and SORN.AI, but underlying records have UNKNOWN scope).
+- **G3 (Existing Spend / WTP)**: 0 in-scope verified spend/labor records.
+- **G4 (Repeatable Gap)**: 0 in-scope verified records (4 out-of-scope/unknown records in qualitative reporting/attribution cluster).
+- **G5 (ICP Reachability)**: 2 in-scope verified records (`geo-workflow-07-butter-marketing-profile`, `geo-workflow-11-reachability-clutch`).
+- **G6 (No Killer Substitute)**: 8 verified context records. Fit, sufficiency, and defensibility of incumbent bundles and manual workarounds remain materially unresolved for Judge determination.
