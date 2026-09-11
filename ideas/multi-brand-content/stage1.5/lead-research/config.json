@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "idea_id": "multi-brand-content",
+  "scope_id": "MULTIBRAND-OPERATOR-01",
+  "working_language": "English",
+  "geography": "GLOBAL_ENGLISH",
+  "target_qualified_leads": 50,
+  "target_substantive_conversations": 5,
+  "max_counted_conversations": 8,
+  "max_new_qualified_per_research_run": 10,
+  "max_candidates_examined_per_research_run": 20,
+  "required_confirmed_claims": [
+    "ACTIVE_BUSINESS",
+    "ENGLISH_SERVICE",
+    "EXTERNAL_SERVICE_PROVIDER",
+    "TEAM_SIZE_2_20",
+    "OWNER_IDENTITY",
+    "ORGANIC_SOCIAL_MANAGEMENT",
+    "RECURRING_CONTENT_SERVICE",
+    "STATIC_OR_CAROUSEL_CONTENT",
+    "MULTIPLE_CLIENT_BRANDS",
+    "PUBLIC_BUSINESS_CONTACT"
+  ],
+  "screening_unknowns_allowed": [
+    "SMB_CLIENTELE",
+    "OWNER_HANDS_ON_PRODUCTION",
+    "RECURRING_REVISION_PAIN",
+    "CURRENT_TOOL_STACK",
+    "BUDGET_AUTHORITY",
+    "WILLINGNESS_TO_PAY"
+  ],
+  "screening_disqualifying_contradictions": [
+    "SMB_CLIENTELE",
+    "OWNER_HANDS_ON_PRODUCTION"
+  ],
+  "priority_a_requires": [
+    "SMB_CLIENTELE",
+    "OWNER_HANDS_ON_PRODUCTION"
+  ],
+  "hard_exclusions": [
+    "SOLO_PROVIDER_OR_TEAM_BELOW_2",
+    "TEAM_ABOVE_20_OR_CONFLICTING_RANGE",
+    "IN_HOUSE_SINGLE_BRAND_TEAM",
+    "SOFTWARE_VENDOR_OR_DIRECTORY",
+    "PAID_ADS_ONLY",
+    "VIDEO_ONLY_OR_INFLUENCER_ONLY",
+    "NO_RECURRING_CONTENT_SERVICE",
+    "NO_MULTIPLE_CLIENT_BRAND_SUPPORT",
+    "NO_PUBLIC_BUSINESS_CONTACT_ROUTE",
+    "INACTIVE_STALE_OR_AMBIGUOUS_IDENTITY"
+  ],
+  "outreach_authorized": false
+}

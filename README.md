@@ -62,6 +62,12 @@ These are defaults, not discovered facts. Edit `ideas/deck-automation/hypothesis
 
 See `ANTIGRAVITY-RUNBOOK.md`.
 
+## Stage 1.5 exploratory lead research
+
+For hypotheses explicitly retained after `INSUFFICIENT EVIDENCE`, the bounded
+lead-research and independent-review workflow is documented in
+`prompts/stage1.5/RUNBOOK.md`. It does not authorize outreach or development.
+
 ## Important principle
 
 A missing fact remains `UNKNOWN`. Agents must not convert plausible assumptions into evidence.

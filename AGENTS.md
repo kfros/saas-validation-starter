@@ -18,6 +18,14 @@ to source evidence; successful code checks do not validate a market.
   source repair. An inaccessible source does not receive fresh VERIFIED status.
 - **Judge:** use eligible audited evidence and the existing gates. Do not browse,
   backfill evidence or silently broaden the hypothesis to improve a verdict.
+- **Stage 1.5 lead research:** build a public, source-backed screening funnel for
+  the explicitly selected exploratory scope. This role may discover candidate
+  organizations, but it does not contact them, count interviews, change a Stage
+  1 verdict or authorize product development.
+- **Stage 1.5 lead audit:** independently test the canonical lead dataset,
+  source bindings, duplicates, totals, public contact routes and qualification
+  claims. Record findings separately; do not silently repair the lead owner's
+  files or perform outreach.
 
 Do not advance to another role/stage merely because the current task finished.
 
@@ -35,6 +43,9 @@ Read the files relevant to the selected task, especially:
 - `scripts/`: local deterministic checks and tests.
 - `.agent/`: existing Antigravity instructions; preserve this singular path.
 - `.agents/skills/` and `prompts/codex/`: Codex workflows and launch tasks.
+- `ideas/<idea>/stage1.5/`: exploratory lead research, screening and interview
+  artifacts. These are not Stage 1 evidence and cannot retroactively alter a
+  Stage 1 scorecard.
 
 The methodology is shared across tools. Do not change thresholds, scope, verdict
 rules or evidence eligibility unless the user explicitly asks for that change.

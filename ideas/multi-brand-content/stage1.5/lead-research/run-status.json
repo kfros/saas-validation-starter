@@ -1,0 +1,17 @@
+{
+  "blockers": [],
+  "excluded_leads": 0,
+  "hold_leads": 0,
+  "idea_id": "multi-brand-content",
+  "lead_summary_sha256": "9fd8ac4449a27964987bac2f478d6fafcd2d020bcd9e64ff5ba90f5e562d2805",
+  "notes": null,
+  "phase": "LEAD_RESEARCH",
+  "priority_counts": {},
+  "qualified_leads": 0,
+  "schema_version": 1,
+  "scope_id": "MULTIBRAND-OPERATOR-01",
+  "source_records": 0,
+  "status": "IN_PROGRESS",
+  "target_qualified_leads": 50,
+  "total_leads": 0
+}

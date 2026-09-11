@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/stage15-lead-schema.json",
+  "title": "Stage 1.5 lead-research records",
+  "schema_version": 1,
+  "$defs": {
+    "claimStatus": {
+      "enum": ["CONFIRMED", "UNKNOWN", "CONTRADICTED"]
+    },
+    "claimName": {
+      "enum": [
+        "ACTIVE_BUSINESS",
+        "ENGLISH_SERVICE",
+        "EXTERNAL_SERVICE_PROVIDER",
+        "TEAM_SIZE_2_20",
+        "OWNER_IDENTITY",
+        "ORGANIC_SOCIAL_MANAGEMENT",
+        "RECURRING_CONTENT_SERVICE",
+        "STATIC_OR_CAROUSEL_CONTENT",
+        "MULTIPLE_CLIENT_BRANDS",
+        "PUBLIC_BUSINESS_CONTACT",
+        "SMB_CLIENTELE",
+        "OWNER_HANDS_ON_PRODUCTION",
+        "RECURRING_REVISION_PAIN",
+        "CURRENT_TOOL_STACK",
+        "BUDGET_AUTHORITY",
+        "WILLINGNESS_TO_PAY"
+      ]
+    },
+    "sourceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "source_id",
+        "lead_id",
+        "url",
+        "source_kind",
+        "publisher",
+        "retrieved_at",
+        "retrieval_outcome",
+        "retrieval_tool",
+        "locator",
+        "exact_fragment",
+        "supports",
+        "notes"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "source_id": {"type": "string", "pattern": "^mb-src-[0-9]{4}$"},
+        "lead_id": {"type": "string", "pattern": "^mb-lead-[0-9]{3}$"},
+        "url": {"type": "string", "format": "uri"},
+        "source_kind": {
+          "enum": [
+            "OFFICIAL_SITE",
+            "OFFICIAL_CONTACT",
+            "OFFICIAL_TEAM",
+            "OFFICIAL_PORTFOLIO",
+            "LINKEDIN_COMPANY",
+            "LINKEDIN_FOUNDER",
+            "AGENCY_DIRECTORY",
+            "COMPANY_REGISTRY",
+            "OTHER_PUBLIC_PAGE"
+          ]
+        },
+        "publisher": {"type": "string", "minLength": 1},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "retrieval_outcome": {"enum": ["SUCCESS", "BLOCKED", "NOT_FOUND", "ERROR"]},
+        "retrieval_tool": {"type": "string", "minLength": 1},
+        "locator": {"type": ["string", "null"]},
+        "exact_fragment": {"type": ["string", "null"], "maxLength": 1200},
+        "supports": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/claimName"}
+        },
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "leadRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "lead_id",
+        "idea_id",
+        "scope_id",
+        "organization_name",
+        "organization_key",
+        "website_url",
+        "canonical_domain",
+        "city",
+        "country",
+        "working_language",
+        "team_size_min",
+        "team_size_max",
+        "team_size_label",
+        "owner_name",
+        "owner_role",
+        "qualification",
+        "claim_source_ids",
+        "contact_channel",
+        "contact_url",
+        "contact_source_id",
+        "source_ids",
+        "screening_unknowns",
+        "status",
+        "priority",
+        "exclusion_reasons",
+        "duplicate_of",
+        "notes",
+        "last_verified_at"
+      ],
+      "properties": {
+        "schema_version": {"const": 1},
+        "lead_id": {"type": "string", "pattern": "^mb-lead-[0-9]{3}$"},
+        "idea_id": {"const": "multi-brand-content"},
+        "scope_id": {"const": "MULTIBRAND-OPERATOR-01"},
+        "organization_name": {"type": "string", "minLength": 1},
+        "organization_key": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "website_url": {"type": "string", "format": "uri"},
+        "canonical_domain": {"type": "string", "pattern": "^[a-z0-9.-]+$"},
+        "city": {"type": ["string", "null"]},
+        "country": {"type": ["string", "null"]},
+        "working_language": {"enum": ["English", "UNKNOWN"]},
+        "team_size_min": {"type": ["integer", "null"], "minimum": 1},
+        "team_size_max": {"type": ["integer", "null"], "minimum": 1},
+        "team_size_label": {"type": ["string", "null"]},
+        "owner_name": {"type": ["string", "null"]},
+        "owner_role": {"type": ["string", "null"]},
+        "qualification": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/claimStatus"}
+        },
+        "claim_source_ids": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^mb-src-[0-9]{4}$"}
+          }
+        },
+        "contact_channel": {
+          "enum": ["CONTACT_FORM", "BOOKING_PAGE", "BUSINESS_EMAIL_PAGE", "COMPANY_LINKEDIN", "NONE"]
+        },
+        "contact_url": {"type": ["string", "null"], "format": "uri"},
+        "contact_source_id": {"type": ["string", "null"], "pattern": "^mb-src-[0-9]{4}$"},
+        "source_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^mb-src-[0-9]{4}$"}
+        },
+        "screening_unknowns": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/claimName"}
+        },
+        "status": {"enum": ["QUALIFIED_FOR_SCREENING", "HOLD", "EXCLUDED"]},
+        "priority": {"enum": ["A", "B", "C", "NONE"]},
+        "exclusion_reasons": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "duplicate_of": {"type": ["string", "null"], "pattern": "^mb-lead-[0-9]{3}$"},
+        "notes": {"type": ["string", "null"]},
+        "last_verified_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  },
+  "oneOf": [
+    {"$ref": "#/$defs/leadRecord"},
+    {"$ref": "#/$defs/sourceRecord"}
+  ]
+}
