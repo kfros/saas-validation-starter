@@ -1,0 +1,372 @@
+{
+  "idea_id": "deck-automation",
+  "policy_version": "v2",
+  "input_commit_or_snapshot": "snap-deck-v2-002",
+  "evaluation_date": "2026-09-11",
+  "verdict": "INSUFFICIENT EVIDENCE",
+  "rationale": "Stage 1 v2 reassessment for candidate scope boutique_consultancies (Boutique consultancies and management advisory firms preparing bespoke client presentations) under sealed snapshot snap-deck-v2-002 yields INSUFFICIENT EVIDENCE to authorize Stage 2 customer discovery (stage2_authorized: false). While Policy v2 calibrated gate thresholds to an SMB discovery scale (G1 threshold lowered from 20 to 5; G3 from 5 to 3; G4 from 10 to 3), candidate scope discipline forbids cross-segment pooling and requires direct, captured evidence of target ICP attribution. Sealed snapshot snap-deck-v2-002 contains 0 IN_SCOPE records, 0 eligible records for G1-G5, and 4 substitute-context records for G6. In particular, 13 candidate records documenting slide formatting friction (30% to 50% of working time, 3+ hours daily) and software shortcomings (Copilot template failures, Gamma export corruption, Beautiful.ai formatting breaks) lack explicit source-level proof that the speakers belong to SMB/boutique consultancies rather than MBB, Big 4, or internal corporate teams, placing them in UNKNOWN scope and eligible_gates: []. Narrative statements in audit-summary.md or high-impact-review.md asserting that boutique consultancies use decks as a core billable deliverable and that Microsoft Copilot or think-cell do not solve the complete boutique consultancy workflow are unverified hypotheses, not established findings. Crucially, absence of direct boutique-consultancy attribution represents missing evidence, not market contradiction. Under canonical Policy v2, a FAIL verdict requires strong VERIFIED evidence contradicting a core assumption specifically for the evaluated scope; OUT_OF_SCOPE substitute, FAANG AE, enterprise sales, generic presentation user, and competitor pricing records cannot independently justify FAIL for boutique consultancies. Because thresholds remain unmet (G1: 0, G2: 0, G3: 0, G4: 0, G5: 0) and G6 remains UNKNOWN with 4 verified substitute context records (Microsoft 365 Copilot capabilities/pricing and think-cell benchmark spend) without strong in-scope contradiction, the verdict is strictly INSUFFICIENT EVIDENCE rather than FAIL. Customer discovery interviews are not authorized in this scorecard.",
+  "stage2_authorized": false,
+  "recommended_next_action": "REPAIR_RESEARCH",
+  "discovery_plan": null,
+  "conditions": null,
+  "condition": null,
+  "evaluated_scope": {
+    "scope_id": "boutique_consultancies",
+    "scope_name": "Boutique consultancies and management advisory firms preparing bespoke client presentations"
+  },
+  "gates": {
+    "G1": {
+      "name": "Concrete pain",
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=5 independent VERIFIED examples of experienced concrete pain/workarounds for assessed scope",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "ev-pain-consulting-thirty-percent-time",
+          "reason": "Scope UNKNOWN: Consultant on r/consulting documents spending 30% of workday formatting slides, but source lacks explicit verification of boutique/SMB consultancy firm type or size."
+        },
+        {
+          "evidence_id": "ev-pain-consulting-client-theme-rework",
+          "reason": "Scope UNKNOWN: Consultant on r/consulting reports manual slide-by-slide recoloring of 30-page deck, but generic client deliverable reference does not establish boutique firm affiliation."
+        },
+        {
+          "evidence_id": "ev-pain-consulting-daily-formatting-hours",
+          "reason": "Scope UNKNOWN: Consultant on r/consulting reports 3+ hours daily formatting slides per manager stickies, but firm type and headcount are unstated."
+        },
+        {
+          "evidence_id": "ev-pain-llm-thinking-vs-slide-admin",
+          "reason": "Scope UNKNOWN: Knowledge worker on r/consulting observes LLMs assist with ideation but not formatting admin; source does not identify boutique consultancy practitioner."
+        },
+        {
+          "evidence_id": "ev-pain-faang-no-deck-workflow",
+          "reason": "Scope OUT_OF_SCOPE: Enterprise sales AE at FAANG describes bypassing sales decks for live platform demos; pertains to enterprise software sales rather than boutique consultancies and cannot serve as contradiction for this scope."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether recurring slide formatting pain is experienced specifically within SMB/boutique consultancies or is concentrated in MBB/Big 4 analyst pools.",
+        "Whether boutique consultancies treat bespoke deck formatting as a core billable deliverable that warrants dedicated automation software, or if manual crafting is intentional and valued by clients."
+      ]
+    },
+    "G2": {
+      "name": "Recurrence",
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=MEDIUM confidence in recurrence of core job from observed frequency",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "ev-pain-consulting-thirty-percent-time",
+          "reason": "Scope UNKNOWN: Daily formatting labor cadence observed, but boutique consultancy scope unverified."
+        },
+        {
+          "evidence_id": "ev-pain-consulting-daily-formatting-hours",
+          "reason": "Scope UNKNOWN: Daily 3+ hours formatting cadence observed, but firm size and type unstated."
+        },
+        {
+          "evidence_id": "ev-wf-consulting-monthly-deck-copy-paste",
+          "reason": "Scope OUT_OF_SCOPE: Monthly 40-slide reporting deck describes internal corporate FP&A / CFO reporting, not bespoke client deliverables by a boutique consultancy."
+        },
+        {
+          "evidence_id": "ev-wf-consulting-claude-skills-breakage",
+          "reason": "Scope UNKNOWN: Recurring PMO/SteerCo deck assembly observed, but consultancy firm type and size unstated."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether bespoke client presentations recur frequently enough in boutique consultancies to justify a recurring SaaS subscription.",
+        "Whether pitch/proposal deck production occurs on a weekly/monthly basis per consultant or only during infrequent bidding cycles."
+      ]
+    },
+    "G3": {
+      "name": "Existing spend / WTP",
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=3 independent VERIFIED examples of actual target-job spending or actually performed costly work from >=1 eligible category; stated WTP excluded",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "contradictory_evidence_ids": [],
+      "breakdown_by_category": {},
+      "high_impact_excluded": [
+        {
+          "evidence_id": "ev-wtp-consulting-formatting-time",
+          "reason": "Scope UNKNOWN: Consultant estimates 50% working time spent on formatting and reviews, but firm size/type is unverified."
+        },
+        {
+          "evidence_id": "ev-pain-consulting-thirty-percent-time",
+          "reason": "Scope UNKNOWN: 30% workday formatting labor described, but firm affiliation unverified."
+        },
+        {
+          "evidence_id": "ev-pain-consulting-daily-formatting-hours",
+          "reason": "Scope UNKNOWN: 3 hours daily formatting labor described, but firm type/size unverified."
+        },
+        {
+          "evidence_id": "ev-mkt-thinkcell-spend",
+          "reason": "Scope OUT_OF_SCOPE: Vendr procurement benchmark reflects competitor_price, explicitly disallowed for G3 under Policy v2; preserved as substitute context for G6."
+        },
+        {
+          "evidence_id": "ev-wtp-consulting-thinkcell-pricing",
+          "reason": "Scope OUT_OF_SCOPE and PARTIALLY_VERIFIED: Vendor list price (23.90 EUR/mo Suite) reflects competitor pricing context, not buyer-side spend."
+        },
+        {
+          "evidence_id": "ev-wtp-contradiction-manual-template-pushback",
+          "reason": "Scope OUT_OF_SCOPE: Sales practitioner template pushback pertains to enterprise sales rather than boutique consultancies."
+        },
+        {
+          "evidence_id": "ev-pain-outsourced-deck-freelancer",
+          "reason": "Scope OUT_OF_SCOPE: Freelance designer hired by sales reps, not boutique consultancies."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Actual monthly software spend or contractor budget allocated by boutique consultancies specifically for presentation creation.",
+        "Whether boutique consulting partners are willing to pay >= $100/mo for presentation automation or prefer junior consultant labor."
+      ]
+    },
+    "G4": {
+      "name": "Repeatable gap in existing solutions",
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=3 independent VERIFIED examples supporting one coherent, repeated gap/workaround cluster with >=3 members",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "contradictory_evidence_ids": [],
+      "clusters": {},
+      "high_impact_excluded": [
+        {
+          "evidence_id": "ev-gap-copilot-desktop-custom-template-failure",
+          "reason": "Scope UNKNOWN: PowerPoint desktop Copilot custom template failure verified, but speaker firm affiliation unstated."
+        },
+        {
+          "evidence_id": "ev-pain-gamma-ignores-corporate-templates",
+          "reason": "Scope UNKNOWN: Gamma disregards presentation templates verified, but author is generic presentation designer."
+        },
+        {
+          "evidence_id": "ev-pain-pptx-master-slide-corruption",
+          "reason": "Scope UNKNOWN: Duplicate master slide corruption verified, but author is generic corporate template specialist."
+        },
+        {
+          "evidence_id": "ev-pain-gamma-export-corrupted-content",
+          "reason": "Scope UNKNOWN: PPTX export layout breakage verified, but user firm affiliation unstated."
+        },
+        {
+          "evidence_id": "ev-gap-beautifulai-export-templates-jeff",
+          "reason": "Scope UNKNOWN: Beautiful.ai export formatting breakage verified, but firm affiliation unstated."
+        },
+        {
+          "evidence_id": "ev-gap-storydoc-no-pptx-export-nasrullah",
+          "reason": "Scope UNKNOWN: Storydoc lack of PPTX download verified, but speaker is individual pitch deck creator."
+        },
+        {
+          "evidence_id": "ev-gap-copilot-firmwide-unusable-decks",
+          "reason": "Scope UNKNOWN: Firmwide Copilot unusable decks verified, but generic enterprise corporate setting."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Whether corporate template fidelity and PPTX export corruption represent an acute blocker for boutique consultancies specifically.",
+        "Whether boutique consultancies rely on native PowerPoint (.pptx) or use alternative deliverable formats."
+      ]
+    },
+    "G5": {
+      "name": "ICP reachability",
+      "status": "UNKNOWN",
+      "threshold_or_rule": ">=MEDIUM confidence that relevant buyers can be found through a concrete acquisition surface",
+      "independent_count": 0,
+      "counted_evidence_ids": [],
+      "contradictory_evidence_ids": [],
+      "high_impact_excluded": [
+        {
+          "evidence_id": "ev-wf-reachability-apmp-association",
+          "reason": "Status PARTIALLY_VERIFIED and Scope OUT_OF_SCOPE: APMP represents corporate bid and RFP proposal managers; event listings do not establish a discoverable, contactable prospect surface for boutique consultancies."
+        },
+        {
+          "evidence_id": "ev-skp-infosec-procurement-hurdles",
+          "reason": "Status PENDING and Scope OUT_OF_SCOPE: Inaccessible source (HTTP 502 Bad Gateway); pertains to enterprise CRM integrations rather than boutique consultancies."
+        }
+      ],
+      "confidence": "LOW",
+      "material_unknowns": [
+        "Identification of a verified, contactable prospect channel (e.g. boutique consultancy associations, specialized directories, or LinkedIn Sales Navigator filters) matching founder-led outbound.",
+        "Whether managing partners or practice leads at boutique consultancies are reachable without heavy enterprise procurement gatekeepers."
+      ]
+    },
+    "G6": {
+      "name": "No killer substitute",
+      "status": "UNKNOWN",
+      "threshold_or_rule": "No evidenced sufficient substitute defeating value proposition for assessed scope. Requires verified substitute assessment context.",
+      "independent_count": 4,
+      "counted_evidence_ids": [
+        "ev-skp-m365-copilot-ppt-features",
+        "ev-skp-m365-copilot-brand-templates",
+        "ev-skp-m365-copilot-pricing",
+        "ev-mkt-thinkcell-spend"
+      ],
+      "contradictory_evidence_ids": [],
+      "breakdown_by_category": {
+        "Bundled Incumbent Office AI": [
+          "ev-skp-m365-copilot-ppt-features",
+          "ev-skp-m365-copilot-brand-templates",
+          "ev-skp-m365-copilot-pricing"
+        ],
+        "PowerPoint Chart Automation": [
+          "ev-mkt-thinkcell-spend"
+        ]
+      },
+      "high_impact_excluded": [
+        {
+          "evidence_id": "ev-wtp-consulting-thinkcell-pricing",
+          "reason": "Status PARTIALLY_VERIFIED and OUT_OF_SCOPE: Vendor list price (23.90 EUR/mo Suite); preserved as supporting pricing context."
+        },
+        {
+          "evidence_id": "ev-wf-consulting-claude-skills-breakage",
+          "reason": "Scope UNKNOWN: Describes using Claude skills for PMO/SteerCo decks due to fragile think-cell links, but firm type/size unverified."
+        }
+      ],
+      "confidence": "MEDIUM",
+      "material_unknowns": [
+        "Whether Microsoft 365 Copilot ($23.50-$30/user/mo) or think-cell ($19.20-$26.90/user/mo) sufficiently satisfy the presentation workflows of boutique consultancies, or whether unaddressed workflow gaps leave room for a specialized tool.",
+        "Whether boutique consultancies use presentation decks as their core billable deliverable, and whether they perceive Copilot/think-cell as complete or incomplete solutions (both remain unverified hypotheses)."
+      ]
+    }
+  },
+  "dimension_scores": {
+    "pain_strength": 1,
+    "recurrence_confidence": 1,
+    "revealed_wtp": 0,
+    "current_solution_gap": 1,
+    "icp_clarity": 2,
+    "reachability": 0,
+    "substitute_risk": 3,
+    "evidence_quality": 3,
+    "source_diversity": 3,
+    "overall_confidence": 2
+  },
+  "scope_integrity_notes": "All six gates were strictly evaluated against sealed snapshot snap-deck-v2-002 for candidate scope boutique_consultancies. Candidate scope discipline strictly forbids pooling evidence across disparate ICP candidates. Out of 24 bounded review records, exactly 0 are IN_SCOPE for boutique_consultancies (13 are UNKNOWN, 11 are OUT_OF_SCOPE). Candidate Reddit and Trustpilot records documenting formatting friction, template corruption, and export failures lack direct source-level verification of boutique/SMB consultancy firm type and size, and cannot be counted toward G1-G5 thresholds. Narrative statements in audit summaries asserting that consultancies deliver decks as core billable products or that incumbents leave an unserved boutique workflow are unverified hypotheses, not evidence. Absence of direct boutique consultancy attribution represents missing evidence, not contradiction. Contradictory records from enterprise sales (FAANG AE ditching decks, master sales template workarounds, CRM InfoSec hurdles) are OUT_OF_SCOPE and cannot independently justify a FAIL verdict for boutique consultancies. Because thresholds are unmet and no strong in-scope contradiction exists, the verdict is INSUFFICIENT EVIDENCE under Policy v2.",
+  "candidate_scope_assessments": {
+    "boutique_consultancies": {
+      "icp_name": "boutique consultancies",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "total_attributable_records": 0,
+      "gate_breakdown": {
+        "G1_pain": {
+          "status": "UNKNOWN",
+          "count": 0,
+          "counted_ids": [],
+          "contradictory_ids": [],
+          "notes": "Candidate Reddit records lack explicit verification of boutique/SMB firm status."
+        },
+        "G2_recurrence": {
+          "status": "UNKNOWN",
+          "confidence": "LOW",
+          "counted_ids": [],
+          "notes": "Recurring formatting cadence unverified for target scope."
+        },
+        "G3_spend": {
+          "status": "UNKNOWN",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Candidate labor records lack scope attribution; think-cell spend is competitor_price (disallowed for G3)."
+        },
+        "G4_gap": {
+          "status": "UNKNOWN",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Candidate gap records lack target scope attribution."
+        },
+        "G5_reachability": {
+          "status": "UNKNOWN",
+          "count": 0,
+          "counted_ids": [],
+          "notes": "Zero verified contactable acquisition channels for boutique consultancies."
+        },
+        "G6_substitutes": {
+          "status": "UNKNOWN",
+          "count": 4,
+          "counted_ids": [
+            "ev-skp-m365-copilot-ppt-features",
+            "ev-skp-m365-copilot-brand-templates",
+            "ev-skp-m365-copilot-pricing",
+            "ev-mkt-thinkcell-spend"
+          ],
+          "notes": "Microsoft 365 Copilot and think-cell provide verified substitute context; same-job sufficiency for boutique consultancies remains an unverified hypothesis."
+        }
+      },
+      "rationale": "Primary evaluated candidate scope in v2 reassessment. Snapshot snap-deck-v2-002 contains 0 IN_SCOPE records, yielding 0 eligible signals for G1-G5 and 4 substitute context records for G6. No strong in-scope contradiction exists; verdict is INSUFFICIENT EVIDENCE."
+    },
+    "b2b_saas_account_executives": {
+      "icp_name": "B2B SaaS account executives",
+      "status": "UNVALIDATED",
+      "total_attributable_records": 0,
+      "notes": "Historical primary ICP contradicted in v1 (sales reps abandoning decks for live software demos, 10-slide master templates compressing customization to 10-15 min, Microsoft Copilot embedded natively). Excluded from v2 candidate evaluation."
+    },
+    "sales_enablement_teams": {
+      "icp_name": "sales enablement teams",
+      "status": "UNVALIDATED",
+      "total_attributable_records": 0,
+      "notes": "Historical candidate contradicted in v1 by entrenched enterprise platforms (Seismic, Highspot), governance lockdowns, and SOC 2 procurement hurdles violating solo-founder constraints. Excluded from v2 candidate evaluation."
+    },
+    "agencies_producing_client_decks": {
+      "icp_name": "agencies producing client decks",
+      "status": "UNVALIDATED",
+      "total_attributable_records": 0,
+      "notes": "Historical candidate contradicted in v1 by delegation of Google Slides customization to low-cost virtual assistants or adoption of interactive web proposal tools (Qwilr). Excluded from v2 candidate evaluation."
+    },
+    "professional_services_firms": {
+      "icp_name": "professional-services firms",
+      "status": "UNVALIDATED",
+      "total_attributable_records": 0,
+      "notes": "Unexamined in bounded reassessment subset; shares workflow traits with consultancies but lacks dedicated verified evidence."
+    },
+    "commercial_real_estate_teams": {
+      "icp_name": "commercial real-estate teams",
+      "status": "UNVALIDATED",
+      "total_attributable_records": 0,
+      "notes": "Historical candidate contradicted in v1 by Buildout market monopoly across 50,000+ brokers and institutional investor skepticism toward narrative pitch decks. Excluded from v2 candidate evaluation."
+    }
+  },
+  "strongest_positive_evidence": [
+    {
+      "evidence_id": "ev-pain-consulting-thirty-percent-time",
+      "finding": "Consultant on r/consulting reports spending approximately 30% of each workday formatting PowerPoint slides (scope UNKNOWN due to unverified firm type/size)."
+    },
+    {
+      "evidence_id": "ev-pain-consulting-client-theme-rework",
+      "finding": "Consultant on r/consulting documents tedious manual slide-by-slide recoloring of a 30-page deck to match client brand themes (scope UNKNOWN)."
+    },
+    {
+      "evidence_id": "ev-pain-consulting-daily-formatting-hours",
+      "finding": "Consultant on r/consulting reports spending at least 3 hours daily formatting slides based on manager review stickies (scope UNKNOWN)."
+    },
+    {
+      "evidence_id": "ev-gap-copilot-desktop-custom-template-failure",
+      "finding": "PowerPoint desktop Copilot cannot access custom corporate templates, forcing users to generate default slides and manually paste them into corporate templates (scope UNKNOWN)."
+    }
+  ],
+  "strongest_negative_evidence": [
+    {
+      "evidence_id": "ev-skp-m365-copilot-pricing",
+      "finding": "Microsoft 365 Copilot is aggressively priced at $23.50-$30/user/month, creating an incumbent price anchor below the founder's $100/mo minimum ARPU constraint."
+    },
+    {
+      "evidence_id": "ev-skp-m365-copilot-ppt-features",
+      "finding": "Microsoft Copilot natively converts structured Word documents into multi-slide PowerPoint presentations using styles and headings."
+    },
+    {
+      "evidence_id": "ev-skp-m365-copilot-brand-templates",
+      "finding": "Microsoft Copilot supports organizational .potx presentation templates and Brand Kits, learning layout structure from slide placeholders."
+    },
+    {
+      "evidence_id": "ev-mkt-thinkcell-spend",
+      "finding": "Vendr marketplace data benchmarks think-cell volume tier pricing at $19.20-$26.90/user/month ($260-$325/yr), establishing an entrenched market standard for PowerPoint data charting."
+    }
+  ],
+  "top_unknowns": [
+    "Target Scope Attribution: Whether recurring slide formatting friction and administrative overhead documented in r/consulting apply to boutique consultancies and management advisory firms (SMB) or are concentrated in MBB/Big 4 analyst pools.",
+    "Core Deliverable Hypothesis: Whether boutique consultancies use PowerPoint decks as their primary billable deliverable that warrants dedicated automation software, or if manual crafting is intentional and valued by clients (currently an unverified hypothesis).",
+    "Same-Job Sufficiency of Incumbents: Whether bundled Microsoft 365 Copilot ($23.50–$30/mo) and think-cell ($19.20–$26.90/mo) sufficiently resolve the boutique consultancy presentation workflow, or whether unaddressed template fidelity and qualitative slide layout gaps create a commercially defensible software wedge (currently an unverified hypothesis).",
+    "Willingness to Pay & Procurement: Whether boutique consultancy partners will allocate >= $100/mo software budget for presentation automation rather than relying on junior consultant labor or one-time template fixes.",
+    "Contactable Acquisition Surface: Identification of a verified, scalable acquisition channel matching founder-led outbound (0 verified reachability channels currently exist in evidence)."
+  ]
+}
