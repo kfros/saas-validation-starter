@@ -62,15 +62,32 @@ def seal_snapshot(idea: str, snapshot_id: str | None = None, unexamined_budget: 
     for name in REQUIRED_FILES:
         file_hashes[name] = compute_sha256(ev_dir / name)
 
-    # Parse and validate review-log.jsonl
-    review_log_entries = stage1_policy.validate_review_log(ev_dir / "review-log.jsonl")
-
     # Read evidence.jsonl
     evidence_records = {}
     for line in (ev_dir / "evidence.jsonl").read_text(encoding="utf-8").splitlines():
         if line.strip():
             rec = json.loads(line)
             evidence_records[rec["id"]] = rec
+
+    # Parse scope-map.json
+    scope_records = {}
+    scope_path = ev_dir / "scope-map.json"
+    if scope_path.is_file():
+        scope_data = json.loads(scope_path.read_text(encoding="utf-8"))
+        for entry in scope_data.get("records", []):
+            if isinstance(entry, dict) and "evidence_id" in entry:
+                scope_records[entry["evidence_id"]] = entry
+
+    # Load baseline records
+    baseline_records = stage1_policy.load_historical_baseline_evidence(idea, repo_root=ROOT)
+
+    # Parse and validate review-log.jsonl
+    review_log_entries = stage1_policy.validate_review_log(
+        ev_dir / "review-log.jsonl",
+        evidence_records=evidence_records,
+        scope_records=scope_records,
+        baseline_records=baseline_records,
+    )
 
     reviewed_ids = [
         eid for eid, entry in review_log_entries.items()
@@ -106,7 +123,13 @@ def seal_snapshot(idea: str, snapshot_id: str | None = None, unexamined_budget: 
     snap_file.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     # Validate sealed snapshot
-    stage1_policy.validate_v2_snapshot(payload, ev_dir, review_log_entries, evidence_records)
+    stage1_policy.validate_v2_snapshot(
+        payload,
+        ev_dir,
+        review_log_entries=review_log_entries,
+        evidence_records=evidence_records,
+        expected_idea_id=idea,
+    )
     print(f"OK: sealed snapshot {snap_id} in {snap_file.relative_to(ROOT)}")
     return snap_file
 

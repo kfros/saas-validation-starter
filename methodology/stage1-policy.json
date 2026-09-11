@@ -197,6 +197,7 @@
           "evidence_id",
           "exact_url",
           "speaker_or_entity",
+          "independence_key",
           "locator",
           "retrieved_fragment",
           "retrieval_outcome",

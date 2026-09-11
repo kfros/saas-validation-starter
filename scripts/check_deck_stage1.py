@@ -191,6 +191,18 @@ class Checker:
             records.append(rec)
         return records
 
+    def raw_all(self):
+        records = []
+        seen = set()
+        for track in TRACKS:
+            path = f"ideas/{IDEA}/raw/{track}/evidence.jsonl"
+            track_records = self.records(path)
+            for rec in track_records:
+                require(rec["id"] not in seen, f"duplicate raw ID across tracks: {rec['id']}")
+                seen.add(rec["id"])
+                records.append(rec)
+        return records
+
     def audit(self, policy=None):
         if policy == "v2":
             return self.audit_v2()
@@ -224,17 +236,6 @@ class Checker:
             require(isinstance(rec.get("audit_reason"), str) and bool(rec["audit_reason"].strip()),
                     f"{rid}: audit reason required")
 
-        # review-log validation
-        rev_path = self.file(f"{base}/review-log.jsonl")
-        review_log_entries = stage1_policy.validate_review_log(rev_path, evidence_records=audited)
-
-        snap_path = self.file(f"{base}/snapshot.json")
-        snap = load_json(snap_path)
-        try:
-            stage1_policy.validate_v2_snapshot(snap, ev_dir, review_log_entries=review_log_entries, evidence_records=audited)
-        except stage1_policy.PolicyError as exc:
-            raise CheckError(f"v2 snapshot error: {exc}") from exc
-
         # scope-map in v2 for Deck
         scope_path = self.file(f"{base}/scope-map.json")
         mapping = load_json(scope_path)
@@ -252,7 +253,7 @@ class Checker:
                     f"{rid}: candidate scope {cand!r} must be one of {CANDIDATE_ICPS}")
             entry["candidate_scope"] = normalize_candidate(cand)
             require(isinstance(entry.get("reason"), str) and bool(entry["reason"].strip()), f"{rid}: scope reason required")
-            support = entry.get("supporting_evidence_ids")
+            support = entry.get("supporting_evidence_ids", [])
             require(isinstance(support, list), f"{rid}: scope support list required")
             for sid in support:
                 require(isinstance(sid, str) and sid in audited and audited[sid]["audit_status"] == "VERIFIED",
@@ -262,6 +263,30 @@ class Checker:
             by_id[rid] = entry
 
         require(set(by_id) == set(audited), "scope map must cover every audited record")
+
+        # review-log validation
+        baseline_records = stage1_policy.load_historical_baseline_evidence(IDEA, self.root)
+        rev_path = self.file(f"{base}/review-log.jsonl")
+        review_log_entries = stage1_policy.validate_review_log(
+            rev_path,
+            evidence_records=audited,
+            scope_records=by_id,
+            baseline_records=baseline_records,
+        )
+
+        snap_path = self.file(f"{base}/snapshot.json")
+        snap = load_json(snap_path)
+        try:
+            stage1_policy.validate_v2_snapshot(
+                snap,
+                ev_dir,
+                review_log_entries=review_log_entries,
+                evidence_records=audited,
+                expected_idea_id=IDEA,
+            )
+        except stage1_policy.PolicyError as exc:
+            raise CheckError(f"v2 snapshot error: {exc}") from exc
+
         print(f"Audit structure (v2): {dict(Counter(r['audit_status'] for r in records))}")
         return audited, by_id
 
@@ -319,15 +344,27 @@ class Checker:
                     require(rec_cand == norm_eval,
                             f"{gname}: record {eid} candidate scope {rec_cand!r} does not match evaluated scope {eval_scope!r} (cross-segment pooling forbidden)")
 
+        baseline_records = stage1_policy.load_historical_baseline_evidence(IDEA, self.root)
         rev_log_path = self.path(f"ideas/{IDEA}/reassessment-v2/evidence/review-log.jsonl")
-        review_log = stage1_policy.validate_review_log(rev_log_path, evidence_records=records)
+        review_log = stage1_policy.validate_review_log(
+            rev_log_path,
+            evidence_records=records,
+            scope_records=scope,
+            baseline_records=baseline_records,
+        )
         snap = load_json(self.file(f"ideas/{IDEA}/reassessment-v2/evidence/snapshot.json"))
 
         try:
             detected_policy = stage1_policy.detect_policy_from_scorecard(card, requested_policy="v2", layout_name="reassessment-v2")
             stage1_policy.validate_scorecard_against_policy(
-                card, detected_policy, records, scope,
-                review_log=review_log, expected_snapshot_id=snap["snapshot_id"],
+                card,
+                detected_policy,
+                records,
+                scope,
+                review_log=review_log,
+                expected_snapshot_id=snap["snapshot_id"],
+                expected_idea_id=IDEA,
+                allowed_scope_ids=CANDIDATE_ICPS,
             )
         except stage1_policy.PolicyError as exc:
             raise CheckError(f"Judge policy check failed: {exc}") from exc

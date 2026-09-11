@@ -289,18 +289,7 @@ class Checker:
             require(isinstance(rec.get("audit_reason"), str) and bool(rec["audit_reason"].strip()),
                     f"{rid}: audit reason required")
 
-        # review-log validation
-        rev_path = self.file(f"{base}/review-log.jsonl")
-        review_log_entries = stage1_policy.validate_review_log(rev_path, evidence_records=audited)
-
-        # Check snapshot metadata
-        snap_path = self.file(f"{base}/snapshot.json")
-        snap = load_json(snap_path)
-        try:
-            stage1_policy.validate_v2_snapshot(snap, ev_dir, review_log_entries=review_log_entries, evidence_records=audited)
-        except stage1_policy.PolicyError as exc:
-            raise CheckError(f"v2 snapshot error: {exc}") from exc
-
+        # scope-map validation first
         mapping = load_json(self.file(f"{base}/scope-map.json"))
         require(isinstance(mapping, dict) and mapping.get("scope_id") == SCOPE, "wrong audit scope")
         entries = mapping.get("records")
@@ -321,6 +310,31 @@ class Checker:
                 require(bool(support), f"{rid}: IN_SCOPE without evidence support")
             by_id[rid] = entry
         require(set(by_id) == set(audited), "scope map must cover every audited record")
+
+        # review-log validation
+        baseline_records = stage1_policy.load_historical_baseline_evidence(IDEA, self.root)
+        rev_path = self.file(f"{base}/review-log.jsonl")
+        review_log_entries = stage1_policy.validate_review_log(
+            rev_path,
+            evidence_records=audited,
+            scope_records=by_id,
+            baseline_records=baseline_records,
+        )
+
+        # Check snapshot metadata
+        snap_path = self.file(f"{base}/snapshot.json")
+        snap = load_json(snap_path)
+        try:
+            stage1_policy.validate_v2_snapshot(
+                snap,
+                ev_dir,
+                review_log_entries=review_log_entries,
+                evidence_records=audited,
+                expected_idea_id=IDEA,
+            )
+        except stage1_policy.PolicyError as exc:
+            raise CheckError(f"v2 snapshot error: {exc}") from exc
+
         print(f"Audit structure (v2): {dict(Counter(r['audit_status'] for r in records))}")
         return audited, by_id
 
@@ -407,15 +421,27 @@ class Checker:
         card = load_json(self.file(f"{base}/scorecard.json"))
         require(isinstance(card, dict), "scorecard must be object")
 
+        baseline_records = stage1_policy.load_historical_baseline_evidence(IDEA, self.root)
         rev_log_path = self.path(f"ideas/{IDEA}/reassessment-v2/evidence/review-log.jsonl")
-        review_log = stage1_policy.validate_review_log(rev_log_path, evidence_records=records)
+        review_log = stage1_policy.validate_review_log(
+            rev_log_path,
+            evidence_records=records,
+            scope_records=scope,
+            baseline_records=baseline_records,
+        )
         snap = load_json(self.file(f"ideas/{IDEA}/reassessment-v2/evidence/snapshot.json"))
 
         try:
             detected_policy = stage1_policy.detect_policy_from_scorecard(card, requested_policy="v2", layout_name="reassessment-v2")
             stage1_policy.validate_scorecard_against_policy(
-                card, detected_policy, records, scope,
-                review_log=review_log, expected_snapshot_id=snap["snapshot_id"],
+                card,
+                detected_policy,
+                records,
+                scope,
+                review_log=review_log,
+                expected_snapshot_id=snap["snapshot_id"],
+                expected_idea_id=IDEA,
+                expected_scope_id=SCOPE,
             )
         except stage1_policy.PolicyError as exc:
             raise CheckError(f"Judge policy check failed: {exc}") from exc

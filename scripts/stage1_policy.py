@@ -12,6 +12,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 from collections import Counter
 from datetime import date, datetime
 from pathlib import Path
@@ -24,6 +25,10 @@ BASE_COMMIT = "3bf758f"
 
 # Mapping to group equivalent tool signals for category diversity
 TOOL_SIGNALS = {"actual_purchase", "paid_pilot", "saas_spend"}
+
+
+def normalize_candidate(name: str) -> str:
+    return re.sub(r"[-\s]+", "_", name.strip().lower())
 
 
 class PolicyError(ValueError):
@@ -41,6 +46,41 @@ def load_policy_definitions(policy_file: Path | None = None) -> dict[str, Any]:
         raise PolicyError(f"missing policy definition file: {target}")
     data = json.loads(target.read_text(encoding="utf-8"))
     return data.get("policy_versions", {})
+
+
+def load_historical_baseline_evidence(
+    idea: str,
+    repo_root: Path | None = None,
+    commit: str = BASE_COMMIT,
+) -> dict[str, Any]:
+    """Load baseline evidence records from Git blob at commit 3bf758f.
+
+    Falls back to local file ideas/<idea>/evidence/evidence.jsonl if git command fails.
+    """
+    root = repo_root or ROOT
+    lines = []
+    try:
+        res = subprocess.run(
+            ["git", "show", f"{commit}:ideas/{idea}/evidence/evidence.jsonl"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        lines = res.stdout.splitlines()
+    except Exception:
+        local_file = root / "ideas" / idea / "evidence" / "evidence.jsonl"
+        if local_file.is_file():
+            lines = local_file.read_text(encoding="utf-8").splitlines()
+        else:
+            return {}
+
+    records = {}
+    for line in lines:
+        if line.strip():
+            rec = json.loads(line)
+            records[rec["id"]] = rec
+    return records
 
 
 def compute_sha256(path: Path) -> str:
@@ -107,6 +147,8 @@ def validate_review_log(
     policy_def: dict[str, Any] | None = None,
     evidence_records: dict[str, Any] | None = None,
     raw_records: dict[str, Any] | None = None,
+    scope_records: dict[str, Any] | None = None,
+    baseline_records: dict[str, Any] | None = None,
 ) -> dict[str, dict[str, Any]]:
     """Validate review-log.jsonl strictly against its contract."""
     if not path.is_file():
@@ -118,7 +160,7 @@ def validate_review_log(
     policies = policy_def or load_policy_definitions()
     schema = policies.get("v2", {}).get("review_log_schema", {}) if "v2" in policies else policies.get("review_log_schema", {})
     required_fields = set(schema.get("required_fields", [
-        "evidence_id", "exact_url", "speaker_or_entity", "locator", "retrieved_fragment",
+        "evidence_id", "exact_url", "speaker_or_entity", "independence_key", "locator", "retrieved_fragment",
         "retrieval_outcome", "audit_status", "audit_reason", "scope_status",
         "scope_support", "eligible_gates", "blocker"
     ]))
@@ -144,6 +186,9 @@ def validate_review_log(
         eid = item["evidence_id"]
         require(isinstance(eid, str) and bool(eid.strip()), f"{label}: invalid evidence_id")
         require(eid not in entries, f"{label}: duplicate evidence_id in review log: {eid}")
+
+        ikey = item.get("independence_key")
+        require(isinstance(ikey, str) and bool(ikey.strip()), f"{label}: invalid independence_key")
 
         url = item["exact_url"]
         require(isinstance(url, str), f"{label}: exact_url must be string")
@@ -191,36 +236,80 @@ def validate_review_log(
                     require("before" in mod and "after" in mod,
                             f"{label}: modification on field {fld} requires both 'before' and 'after'")
 
-        # Evidence ID binding
+        # Evidence ID binding and field checks
         if evidence_records is not None:
             require(eid in evidence_records, f"{label}: reviewed evidence ID {eid} does not exist in evidence.jsonl")
+            ev = evidence_records[eid]
+            require(item["exact_url"] == ev.get("source_url"),
+                    f"{label}: exact_url mismatch with evidence record: {item['exact_url']!r} != {ev.get('source_url')!r}")
+            require(item["speaker_or_entity"] == ev.get("author_or_entity"),
+                    f"{label}: speaker_or_entity mismatch with evidence record: {item['speaker_or_entity']!r} != {ev.get('author_or_entity')!r}")
+            require(item["independence_key"] == ev.get("independence_key"),
+                    f"{label}: independence_key mismatch with evidence record: {item['independence_key']!r} != {ev.get('independence_key')!r}")
+            require(item["audit_status"] == ev.get("audit_status"),
+                    f"{label}: audit_status mismatch with evidence record: {item['audit_status']!r} != {ev.get('audit_status')!r}")
+            require(item["audit_reason"] == ev.get("audit_reason"),
+                    f"{label}: audit_reason mismatch with evidence record: {item['audit_reason']!r} != {ev.get('audit_reason')!r}")
+            if item["audit_status"] == "VERIFIED":
+                require(item["retrieval_outcome"] == "SUCCESS",
+                        f"{label}: audit_status VERIFIED requires retrieval_outcome SUCCESS, got {item['retrieval_outcome']!r}")
+            if item["retrieval_outcome"] == "SUCCESS":
+                excerpt = ev.get("source_excerpt")
+                fragment = item.get("retrieved_fragment", "")
+                if excerpt:
+                    norm_excerpt = " ".join(str(excerpt).split())
+                    norm_fragment = " ".join(str(fragment).split())
+                    require(norm_excerpt in norm_fragment,
+                            f"{label}: source_excerpt not contained in retrieved_fragment after whitespace normalization")
 
-        # Traceable field modifications check against raw baseline
-        if raw_records is not None and evidence_records is not None and eid in raw_records and eid in evidence_records:
-            raw_rec = raw_records[eid]
-            ev_rec = evidence_records[eid]
-            mods = item.get("modifications", [])
-            mod_map = {}
-            if isinstance(mods, list):
-                for m in mods:
-                    if isinstance(m, dict) and "field" in m:
-                        mod_map[m["field"]] = m
-            elif isinstance(mods, dict):
-                mod_map = mods
+        # Scope map binding
+        if scope_records is not None:
+            require(eid in scope_records, f"{label}: evidence ID {eid} not found in scope-map")
+            sc = scope_records[eid]
+            require(item["scope_status"] == sc.get("scope_status"),
+                    f"{label}: scope_status mismatch with scope-map: {item['scope_status']!r} != {sc.get('scope_status')!r}")
+            expected_support = sc.get("scope_support") if "scope_support" in sc else sc.get("supporting_evidence_ids", [])
+            require(item["scope_support"] == expected_support,
+                    f"{label}: scope_support mismatch with scope-map: {item['scope_support']!r} != {expected_support!r}")
 
-            for fld in set(raw_rec) | set(ev_rec):
-                if fld in {"audit_status", "audit_reason"}:
-                    continue
-                v_raw = raw_rec.get(fld)
-                v_ev = ev_rec.get(fld)
-                if v_raw != v_ev:
-                    require(fld in mod_map,
-                            f"{label}: field {fld!r} modified between raw and evidence but has no traceable entry in review log modifications")
-                    entry_mod = mod_map[fld]
-                    require(entry_mod.get("before") == v_raw,
-                            f"{label}: field {fld!r} before value mismatch: expected {v_raw!r}, got {entry_mod.get('before')!r}")
+        # Baseline records binding and modification tracking
+        ref_records = baseline_records if baseline_records is not None else raw_records
+        if ref_records is not None:
+            require(eid in ref_records,
+                    f"{label}: evidence_id {eid!r} does not exist in baseline records")
+            base_rec = ref_records[eid]
+            if evidence_records is not None and eid in evidence_records:
+                ev_rec = evidence_records[eid]
+                mods = item.get("modifications", [])
+                mod_map = {}
+                if isinstance(mods, list):
+                    for m in mods:
+                        if isinstance(m, dict) and "field" in m:
+                            mod_map[m["field"]] = m
+                elif isinstance(mods, dict):
+                    mod_map = mods
+
+                for fld in set(base_rec) | set(ev_rec):
+                    if fld in {"audit_status", "audit_reason"}:
+                        continue
+                    v_base = base_rec.get(fld)
+                    v_ev = ev_rec.get(fld)
+                    if v_base != v_ev:
+                        require(fld in mod_map,
+                                f"{label}: unlogged canonical modification: field {fld!r} modified between baseline and evidence record without traceable entry in review-log modifications")
+                        entry_mod = mod_map[fld]
+                        require(entry_mod.get("before") == v_base,
+                                f"{label}: field {fld!r} modification before value mismatch: expected {v_base!r}, got {entry_mod.get('before')!r}")
+                        require(entry_mod.get("after") == v_ev,
+                                f"{label}: field {fld!r} modification after value mismatch: expected {v_ev!r}, got {entry_mod.get('after')!r}")
+
+                for fld, entry_mod in mod_map.items():
+                    v_base = base_rec.get(fld)
+                    v_ev = ev_rec.get(fld)
+                    require(entry_mod.get("before") == v_base,
+                            f"{label}: modification on {fld!r} before value mismatch: expected {v_base!r}, got {entry_mod.get('before')!r}")
                     require(entry_mod.get("after") == v_ev,
-                            f"{label}: field {fld!r} after value mismatch: expected {v_ev!r}, got {entry_mod.get('after')!r}")
+                            f"{label}: modification on {fld!r} after value mismatch: expected {v_ev!r}, got {entry_mod.get('after')!r}")
 
         entries[eid] = item
 
@@ -232,6 +321,7 @@ def validate_v2_snapshot(
     evidence_dir: Path,
     review_log_entries: dict[str, Any] | None = None,
     evidence_records: dict[str, Any] | None = None,
+    expected_idea_id: str | None = None,
 ) -> None:
     """Validate v2 review snapshot metadata, hashes, and ID bindings."""
     required = {
@@ -247,6 +337,10 @@ def validate_v2_snapshot(
             f"snapshot source_baseline_commit must be {BASE_COMMIT!r}, found: {snapshot.get('source_baseline_commit')!r}")
     require(isinstance(snapshot["tooling_commit"], str) and bool(snapshot["tooling_commit"].strip()),
             "snapshot tooling_commit must be a non-empty string")
+
+    if expected_idea_id is not None:
+        require(snapshot.get("idea_id") == expected_idea_id,
+                f"snapshot idea_id mismatch: expected {expected_idea_id!r}, found {snapshot.get('idea_id')!r}")
 
     # Date check
     ts_str = snapshot["created_at"]
@@ -307,6 +401,13 @@ def validate_v2_snapshot(
             if eid in evidence_records:
                 require(evidence_records[eid].get("audit_status") != "VERIFIED",
                         f"blocked ID {eid} cannot be marked VERIFIED in evidence.jsonl")
+        ev_ids = set(evidence_records)
+        require(ev_ids == (reviewed_ids | blocked_ids),
+                f"every evidence.jsonl record must belong to reviewed_evidence_ids or blocked_evidence_ids, mismatch: missing={ev_ids - (reviewed_ids | blocked_ids)}, extra={(reviewed_ids | blocked_ids) - ev_ids}")
+        if review_log_entries is not None:
+            rev_ids = set(review_log_entries)
+            require(rev_ids == ev_ids,
+                    f"every evidence.jsonl record must have exactly one review-log row, mismatch: missing={ev_ids - rev_ids}, extra={rev_ids - ev_ids}")
 
 
 def validate_v2_discovery_plan(card: dict[str, Any], p_def: dict[str, Any]) -> None:
@@ -428,11 +529,30 @@ def validate_scorecard_against_policy(
     review_log: dict[str, Any] | None = None,
     policy_definitions: dict[str, Any] | None = None,
     expected_snapshot_id: str | None = None,
+    expected_idea_id: str | None = None,
+    expected_scope_id: str | None = None,
+    allowed_scope_ids: tuple[str, ...] | list[str] | None = None,
 ) -> None:
     """Validate scorecard strictly against supplied policy definitions without hardcoded constants."""
     policies = policy_definitions or load_policy_definitions()
     p_def = policies.get(policy)
     require(p_def is not None, f"no policy definition found for {policy}")
+
+    card_idea = card.get("idea_id")
+    require(isinstance(card_idea, str) and bool(card_idea.strip()), "scorecard requires non-empty idea_id")
+    if expected_idea_id is not None:
+        require(card_idea == expected_idea_id, f"scorecard idea_id mismatch: expected {expected_idea_id!r}, found {card_idea!r}")
+
+    eval_scope = card.get("evaluated_scope")
+    require(isinstance(eval_scope, dict), "scorecard requires evaluated_scope object")
+    eval_scope_id = eval_scope.get("scope_id")
+    if expected_scope_id is not None:
+        require(eval_scope_id == expected_scope_id, f"scorecard evaluated_scope mismatch: expected scope_id {expected_scope_id!r}, found {eval_scope_id!r}")
+    elif allowed_scope_ids is not None:
+        require(eval_scope_id is not None, "scorecard evaluated_scope missing scope_id")
+        norm_eval = normalize_candidate(eval_scope_id)
+        norm_allowed = {normalize_candidate(s) for s in allowed_scope_ids}
+        require(norm_eval in norm_allowed, f"scorecard evaluated_scope {eval_scope_id!r} not in declared candidate scopes: {allowed_scope_ids}")
 
     verdict = card.get("verdict")
     require(verdict in {"PASS", "CONDITIONAL PASS", "FAIL", "INSUFFICIENT EVIDENCE"}, f"invalid verdict: {verdict!r}")
@@ -450,6 +570,7 @@ def validate_scorecard_against_policy(
         if expected_snapshot_id is not None:
             require(snap_ref == expected_snapshot_id,
                     f"input_commit_or_snapshot mismatch: expected {expected_snapshot_id!r}, found {snap_ref!r}")
+        require(review_log is not None, "v2 scorecard validation requires review-log entries")
 
     # Validate individual gates
     for name, gate in gates.items():
@@ -466,7 +587,16 @@ def validate_scorecard_against_policy(
                 if scope_records and name != "G6":
                     require(scope_records.get(cid, {}).get("scope_status") == "IN_SCOPE",
                             f"{name}: contradictory evidence {cid} is not IN_SCOPE")
-                if review_log and cid in review_log:
+                if policy == "v2":
+                    require(cid in review_log, f"{name}: contradictory ID {cid} absent from review-log")
+                    rentry = review_log[cid]
+                    require(rentry.get("retrieval_outcome") == "SUCCESS",
+                            f"{name}: contradictory ID {cid} retrieval_outcome is not SUCCESS in review-log ({rentry.get('retrieval_outcome')!r})")
+                    require(rentry.get("audit_status") == "VERIFIED",
+                            f"{name}: contradictory ID {cid} audit_status is not VERIFIED in review-log ({rentry.get('audit_status')!r})")
+                    require(name in rentry.get("eligible_gates", []),
+                            f"{name}: contradictory ID {cid} is not eligible for {name} in review-log")
+                elif review_log and cid in review_log:
                     require(name in review_log[cid].get("eligible_gates", []),
                             f"{name}: contradictory ID {cid} is not eligible for {name}")
 
@@ -477,7 +607,16 @@ def validate_scorecard_against_policy(
         for x in ids:
             require(x in records, f"{name}: counted evidence ID {x} not in audited records")
             require(records[x].get("audit_status") == "VERIFIED", f"{name}: non-VERIFIED record counted: {x}")
-            if review_log and x in review_log:
+            if policy == "v2":
+                require(x in review_log, f"{name}: counted evidence ID {x} absent from review-log")
+                rentry = review_log[x]
+                require(rentry.get("retrieval_outcome") == "SUCCESS",
+                        f"{name}: counted evidence ID {x} retrieval_outcome is not SUCCESS in review-log ({rentry.get('retrieval_outcome')!r})")
+                require(rentry.get("audit_status") == "VERIFIED",
+                        f"{name}: counted evidence ID {x} audit_status is not VERIFIED in review-log ({rentry.get('audit_status')!r})")
+                require(name in rentry.get("eligible_gates", []),
+                        f"{name}: counted record {x} is not eligible for {name} in review-log")
+            elif review_log and x in review_log:
                 require(name in review_log[x].get("eligible_gates", []),
                         f"{name}: counted record {x} is not eligible for {name} in review-log")
 
