@@ -272,7 +272,7 @@ class Checker:
                 require(bool(support), f"{rid}: IN_SCOPE without evidence support")
             by_id[rid] = entry
         require(set(by_id) == set(audited), "scope map must cover every audited record")
-        print(f"Audit structure (v1): {dict(Counter(r['audit_status'] for r in records))}")
+        print(f"Audit structure: {dict(Counter(r['audit_status'] for r in records))}")
         return audited, by_id
 
     def audit_v2(self):
@@ -280,22 +280,26 @@ class Checker:
         ev_dir = self.path(base)
         require(ev_dir.is_dir(), f"missing v2 evidence directory: {base}")
 
-        # Check snapshot metadata
-        snap_path = self.file(f"{base}/snapshot.json")
-        snap = load_json(snap_path)
-        try:
-            stage1_policy.validate_v2_snapshot(snap, ev_dir)
-        except stage1_policy.PolicyError as exc:
-            raise CheckError(f"v2 snapshot error: {exc}") from exc
-
         self.file(f"{base}/audit-summary.md")
-        self.file(f"{base}/review-log.jsonl")
+        self.file(f"{base}/high-impact-review.md")
 
         records = self.records(f"{base}/evidence.jsonl")
         audited = {r["id"]: r for r in records}
         for rid, rec in audited.items():
             require(isinstance(rec.get("audit_reason"), str) and bool(rec["audit_reason"].strip()),
                     f"{rid}: audit reason required")
+
+        # review-log validation
+        rev_path = self.file(f"{base}/review-log.jsonl")
+        review_log_entries = stage1_policy.validate_review_log(rev_path, evidence_records=audited)
+
+        # Check snapshot metadata
+        snap_path = self.file(f"{base}/snapshot.json")
+        snap = load_json(snap_path)
+        try:
+            stage1_policy.validate_v2_snapshot(snap, ev_dir, review_log_entries=review_log_entries, evidence_records=audited)
+        except stage1_policy.PolicyError as exc:
+            raise CheckError(f"v2 snapshot error: {exc}") from exc
 
         mapping = load_json(self.file(f"{base}/scope-map.json"))
         require(isinstance(mapping, dict) and mapping.get("scope_id") == SCOPE, "wrong audit scope")
@@ -321,28 +325,110 @@ class Checker:
         return audited, by_id
 
     def judge(self, policy=None):
-        layout = "reassessment-v2" if policy == "v2" else "legacy"
-        records, scope = self.audit(policy=policy)
-        base = f"ideas/{IDEA}/reassessment-v2/output" if policy == "v2" else f"ideas/{IDEA}/output"
+        if policy == "v2":
+            return self.judge_v2()
+        return self.judge_v1()
+
+    def judge_v1(self):
+        records, scope = self.audit_v1()
+        base = f"ideas/{IDEA}/output"
+        self.file(f"{base}/stage1-report.md")
+        card = load_json(self.file(f"{base}/scorecard.json"))
+        require(isinstance(card, dict), "scorecard must be object")
+        required = {"idea_id", "evaluation_date", "verdict", "rationale", "stage2_authorized",
+                    "evaluated_scope", "gates", "condition", "dimension_scores", "scope_integrity_notes",
+                    "candidate_scope_assessments", "strongest_positive_evidence", "strongest_negative_evidence", "top_unknowns"}
+        require(required <= set(card), f"missing scorecard fields: {required - set(card)}")
+        require(card["idea_id"] == IDEA, "wrong scorecard idea")
+        require(is_date(card["evaluation_date"]), "invalid evaluation date")
+        require(isinstance(card["evaluated_scope"], dict) and card["evaluated_scope"].get("scope_id") == SCOPE,
+                "wrong evaluated scope")
+        require(isinstance(card["rationale"], str) and bool(card["rationale"].strip()), "rationale required")
+        gates = card["gates"]
+        require(isinstance(gates, dict) and set(gates) == {f"G{i}" for i in range(1, 7)}, "expected G1..G6")
+        verdict = card["verdict"]
+        require(verdict in {"PASS", "CONDITIONAL PASS", "FAIL", "INSUFFICIENT EVIDENCE"}, "invalid verdict")
+        for name, gate in gates.items():
+            require(isinstance(gate, dict), f"{name}: gate must be object")
+            fields = {"status", "threshold_or_rule", "independent_count", "counted_evidence_ids",
+                      "contradictory_evidence_ids", "high_impact_excluded", "confidence", "material_unknowns"}
+            require(fields <= set(gate), f"{name}: missing gate fields")
+            require(gate["status"] in {"PASS", "FAIL", "UNKNOWN"}, f"{name}: invalid gate status")
+            require(gate["confidence"] in {"HIGH", "MEDIUM", "LOW", "UNKNOWN"}, f"{name}: invalid confidence")
+            for field in ("counted_evidence_ids", "contradictory_evidence_ids"):
+                ids = gate[field]
+                require(isinstance(ids, list) and all(isinstance(x, str) for x in ids), f"{name}: invalid ID list")
+                require(len(ids) == len(set(ids)), f"{name}: repeated IDs")
+                require(all(x in records and records[x]["audit_status"] == "VERIFIED" for x in ids),
+                        f"{name}: unknown or non-VERIFIED evidence counted/cited as contradiction")
+            ids = gate["counted_evidence_ids"]
+            keys = {records[x]["independence_key"] for x in ids}
+            require(len(keys) == len(ids), f"{name}: repeated independence key")
+            require(type(gate["independent_count"]) is int and gate["independent_count"] == len(keys),
+                    f"{name}: independent count mismatch")
+            if name != "G6":
+                require(all(scope[x]["scope_status"] == "IN_SCOPE" for x in ids), f"{name}: out-of-scope/unknown buyer evidence")
+            if name == "G3":
+                require(all(records[x].get("money_signal") in MONEY_CATEGORIES for x in ids), "G3: non-revealed money signal")
+                counts = dict(Counter(MONEY_CATEGORIES[records[x]["money_signal"]] for x in ids))
+                require(gate.get("breakdown_by_category") == counts, "G3: category breakdown mismatch")
+                if gate["status"] == "PASS":
+                    require(len(keys) >= 5 and len(counts) >= 2, "G3: PASS below 5 signals / 2 categories")
+            if name == "G4":
+                clusters = gate.get("clusters")
+                require(isinstance(clusters, dict) and all(isinstance(v, list) and all(isinstance(x, str) for x in v)
+                        for v in clusters.values()), "G4: clusters required")
+                require({x for v in clusters.values() for x in v} == set(ids), "G4: clusters must cover exactly counted IDs")
+            if gate["status"] == "PASS":
+                if name in {"G1", "G4"}:
+                    require(len(keys) >= {"G1": 20, "G4": 10}[name], f"{name}: PASS below numeric threshold")
+                if name in {"G2", "G5"}:
+                    require(bool(ids) and gate["confidence"] in {"HIGH", "MEDIUM"}, f"{name}: PASS lacks evidence/confidence")
+        states = [g["status"] for g in gates.values()]
+        if verdict == "PASS":
+            require(all(s == "PASS" for s in states), "PASS requires all gates PASS")
+        if verdict == "CONDITIONAL PASS":
+            require(states.count("UNKNOWN") == 1 and states.count("PASS") == 5, "conditional requires one UNKNOWN / five PASS")
+            require(isinstance(card["condition"], str) and bool(card["condition"].strip()), "conditional requires a condition")
+        else:
+            require(card["condition"] is None, "condition must be null unless conditional")
+        if verdict == "FAIL":
+            require(any(g["contradictory_evidence_ids"] for g in gates.values()), "FAIL needs cited contradiction, not only missing evidence")
+        require(type(card["stage2_authorized"]) is bool and
+                card["stage2_authorized"] == (verdict in {"PASS", "CONDITIONAL PASS"}), "stage2_authorized inconsistent")
+        require(isinstance(card["dimension_scores"], dict) and bool(card["dimension_scores"]), "dimension scores required")
+        require(all(type(v) is int and 0 <= v <= 5 for v in card["dimension_scores"].values()), "dimension scores must be integers 0..5")
+        print(f"Judge arithmetic/structure valid: {verdict}; human semantic review remains required")
+
+    def judge_v2(self):
+        records, scope = self.audit_v2()
+        base = f"ideas/{IDEA}/reassessment-v2/output"
         self.file(f"{base}/stage1-report.md")
         card = load_json(self.file(f"{base}/scorecard.json"))
         require(isinstance(card, dict), "scorecard must be object")
 
+        rev_log_path = self.path(f"ideas/{IDEA}/reassessment-v2/evidence/review-log.jsonl")
+        review_log = stage1_policy.validate_review_log(rev_log_path, evidence_records=records)
+        snap = load_json(self.file(f"ideas/{IDEA}/reassessment-v2/evidence/snapshot.json"))
+
         try:
-            detected_policy = stage1_policy.detect_policy_from_scorecard(card, requested_policy=policy, layout_name=layout)
-            stage1_policy.validate_scorecard_against_policy(card, detected_policy, records, scope)
+            detected_policy = stage1_policy.detect_policy_from_scorecard(card, requested_policy="v2", layout_name="reassessment-v2")
+            stage1_policy.validate_scorecard_against_policy(
+                card, detected_policy, records, scope,
+                review_log=review_log, expected_snapshot_id=snap["snapshot_id"],
+            )
         except stage1_policy.PolicyError as exc:
             raise CheckError(f"Judge policy check failed: {exc}") from exc
 
         verdict = card["verdict"]
-        print(f"Judge arithmetic/structure valid ({detected_policy}): {verdict}; human semantic review remains required")
+        print(f"Judge arithmetic/structure valid (v2): {verdict}; human semantic review remains required")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("phase", choices=("preflight", *TRACKS, "raw-all", "audit", "judge"))
-    parser.add_argument("--policy", choices=("v1", "v2"), default=None,
-                        help="Policy version (v1 legacy or v2 SMB reassessment).")
+    parser.add_argument("--policy", choices=("v1", "v2"), default="v1",
+                        help="Policy version (default: v1).")
     args = parser.parse_args()
     try:
         checker = Checker(Path(__file__).resolve().parents[1])

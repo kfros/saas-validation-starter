@@ -269,6 +269,11 @@ class Checker:
         return records
 
     def audit(self):
+        if self.policy == "v2":
+            return self.audit_v2()
+        return self.audit_v1()
+
+    def audit_v1(self):
         raw = {r["id"]: r for r in self.raw_all()}
         base = f"ideas/{IDEA}/evidence"
         records = self.records(f"{base}/evidence.jsonl")
@@ -321,8 +326,62 @@ class Checker:
         print("DATASET_SUMMARY=" + json.dumps(dataset_summary(audited, by_id), sort_keys=True))
         return audited, by_id
 
+    def audit_v2(self):
+        base = f"ideas/{IDEA}/reassessment-v2/evidence"
+        ev_dir = self.path(base)
+        require(ev_dir.is_dir(), f"missing v2 evidence directory: {base}")
+
+        self.file(f"{base}/audit-summary.md")
+        self.file(f"{base}/high-impact-review.md")
+
+        records = self.records(f"{base}/evidence.jsonl")
+        audited = {r["id"]: r for r in records}
+        for rid, rec in audited.items():
+            require(isinstance(rec.get("audit_reason"), str) and bool(rec["audit_reason"].strip()),
+                    f"{rid}: audit reason required")
+
+        rev_path = self.file(f"{base}/review-log.jsonl")
+        review_log_entries = stage1_policy.validate_review_log(rev_path, evidence_records=audited)
+
+        snap_path = self.file(f"{base}/snapshot.json")
+        snap = load_json(snap_path)
+        try:
+            stage1_policy.validate_v2_snapshot(snap, ev_dir, review_log_entries=review_log_entries, evidence_records=audited)
+        except stage1_policy.PolicyError as exc:
+            raise CheckError(f"v2 snapshot error: {exc}") from exc
+
+        mapping = load_json(self.file(f"{base}/scope-map.json"))
+        require(isinstance(mapping, dict) and mapping.get("scope_id") == SCOPE, "wrong audit scope")
+        entries = mapping.get("records")
+        require(isinstance(entries, list), "scope-map.records must be list")
+        by_id = {}
+        for entry in entries:
+            require(isinstance(entry, dict), "scope entry must be object")
+            rid = entry.get("evidence_id")
+            require(isinstance(rid, str) and rid in audited and rid not in by_id, "invalid/duplicate scope-map ID")
+            require(entry.get("scope_status") in {"IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"}, f"{rid}: scope status invalid")
+            require(entry.get("provider_form") in PROVIDER_FORMS, f"{rid}: provider form invalid")
+            require(isinstance(entry.get("reason"), str) and bool(entry["reason"].strip()), f"{rid}: scope reason required")
+            support = entry.get("supporting_evidence_ids")
+            require(isinstance(support, list), f"{rid}: scope support list required")
+            for source_id in support:
+                require(isinstance(source_id, str) and source_id in audited and
+                        audited[source_id]["audit_status"] == "VERIFIED", f"{rid}: scope support must be VERIFIED")
+            if entry["scope_status"] == "IN_SCOPE":
+                require(bool(support), f"{rid}: IN_SCOPE without evidence support")
+            by_id[rid] = entry
+        require(set(by_id) == set(audited), "scope map must cover every audited record")
+        print(f"Audit structure (v2): {dict(Counter(r['audit_status'] for r in records))}")
+        print("DATASET_SUMMARY=" + json.dumps(dataset_summary(audited, by_id), sort_keys=True))
+        return audited, by_id
+
     def judge(self):
-        records, scope = self.audit()
+        if self.policy == "v2":
+            return self.judge_v2()
+        return self.judge_v1()
+
+    def judge_v1(self):
+        records, scope = self.audit_v1()
         base = f"ideas/{IDEA}/output"
         self.file(f"{base}/stage1-report.md")
         card = load_json(self.file(f"{base}/scorecard.json"))
@@ -442,15 +501,31 @@ class Checker:
                     bool(candidate["scope_id"].strip()) and candidate["scope_id"] != SCOPE and
                     candidate.get("status") == "UNVALIDATED" and isinstance(candidate.get("reason"), str) and
                     bool(candidate["reason"].strip()), "adjacent candidates must remain explicitly UNVALIDATED")
-        if self.policy == "v2":
-            try:
-                stage1_policy.validate_scorecard_against_policy(card, "v2", records, scope)
-            except stage1_policy.PolicyError as exc:
-                raise CheckError(f"Judge v2 policy check failed: {exc}") from exc
-            print(f"Judge arithmetic/structure valid (v2): {verdict}; human semantic review remains required")
-            return
 
         print(f"Judge arithmetic/structure valid: {verdict}; human semantic review remains required")
+
+    def judge_v2(self):
+        records, scope = self.audit_v2()
+        base = f"ideas/{IDEA}/reassessment-v2/output"
+        self.file(f"{base}/stage1-report.md")
+        card = load_json(self.file(f"{base}/scorecard.json"))
+        require(isinstance(card, dict), "scorecard must be object")
+
+        rev_log_path = self.path(f"ideas/{IDEA}/reassessment-v2/evidence/review-log.jsonl")
+        review_log = stage1_policy.validate_review_log(rev_log_path, evidence_records=records)
+        snap = load_json(self.file(f"ideas/{IDEA}/reassessment-v2/evidence/snapshot.json"))
+
+        try:
+            detected_policy = stage1_policy.detect_policy_from_scorecard(card, requested_policy="v2", layout_name="reassessment-v2")
+            stage1_policy.validate_scorecard_against_policy(
+                card, detected_policy, records, scope,
+                review_log=review_log, expected_snapshot_id=snap["snapshot_id"],
+            )
+        except stage1_policy.PolicyError as exc:
+            raise CheckError(f"Judge policy check failed: {exc}") from exc
+
+        verdict = card["verdict"]
+        print(f"Judge arithmetic/structure valid (v2): {verdict}; human semantic review remains required")
 
 
 def main():

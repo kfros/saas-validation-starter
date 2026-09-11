@@ -36,8 +36,9 @@ Each step executes in an **isolated fresh conversation** on the same local git r
 - **Conversation Setup**: New conversation. High reasoning. Enable `/browser` and invoke `/evidence-audit`.
 - **Launch Action**: Copy and paste the entire prompt from [`prompts/reassessment-v2/10-review-geo.md`](file:///c:/Work/Projects/saas-validation-starter/prompts/reassessment-v2/10-review-geo.md).
 - **Write Directory**: `ideas/geo-monitoring/reassessment-v2/evidence/`
-- **Supported Terminal Command**:
+- **Supported Terminal Commands**:
   ```bash
+  python scripts/seal_v2_snapshot.py --idea geo-monitoring --snapshot-id snap-geo-v2-001
   python scripts/check_geo_stage1.py audit --policy v2
   ```
 - **Stopping Rules**:
@@ -50,6 +51,7 @@ Each step executes in an **isolated fresh conversation** on the same local git r
   - `ideas/geo-monitoring/reassessment-v2/evidence/scope-map.json`
   - `ideas/geo-monitoring/reassessment-v2/evidence/review-log.jsonl`
   - `ideas/geo-monitoring/reassessment-v2/evidence/audit-summary.md`
+  - `ideas/geo-monitoring/reassessment-v2/evidence/high-impact-review.md`
   - `ideas/geo-monitoring/reassessment-v2/evidence/snapshot.json`
 
 ---
@@ -58,8 +60,9 @@ Each step executes in an **isolated fresh conversation** on the same local git r
 - **Conversation Setup**: New conversation. High reasoning. Enable `/browser` and invoke `/evidence-audit`.
 - **Launch Action**: Copy and paste the entire prompt from [`prompts/reassessment-v2/11-review-deck.md`](file:///c:/Work/Projects/saas-validation-starter/prompts/reassessment-v2/11-review-deck.md).
 - **Write Directory**: `ideas/deck-automation/reassessment-v2/evidence/`
-- **Supported Terminal Command**:
+- **Supported Terminal Commands**:
   ```bash
+  python scripts/seal_v2_snapshot.py --idea deck-automation --snapshot-id snap-deck-v2-001
   python scripts/check_deck_stage1.py audit --policy v2
   ```
 - **Scope Discipline**: Focus review on the single most defensible declared candidate segment (e.g. boutique consultancies or agencies producing client decks). Do not pool across segments.
@@ -69,6 +72,7 @@ Each step executes in an **isolated fresh conversation** on the same local git r
   - `ideas/deck-automation/reassessment-v2/evidence/scope-map.json`
   - `ideas/deck-automation/reassessment-v2/evidence/review-log.jsonl`
   - `ideas/deck-automation/reassessment-v2/evidence/audit-summary.md`
+  - `ideas/deck-automation/reassessment-v2/evidence/high-impact-review.md`
   - `ideas/deck-automation/reassessment-v2/evidence/snapshot.json`
 
 ---

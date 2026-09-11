@@ -43,19 +43,11 @@ Produce all required snapshot files:
 2. `scope-map.json`: scope attribution mapping for GEO-AGENCY-01 with verified support links.
 3. `review-log.jsonl`: line-by-line inspection log of checked URLs, status, timestamps, and findings.
 4. `audit-summary.md`: narrative audit summary detailing reviewed vs unexamined records and budget coverage.
-5. `snapshot.json`: machine-readable snapshot manifest conforming to stage1-policy.json:
-   - `snapshot_id`: unique string (e.g. "snap-geo-v2-001")
-   - `created_at`: ISO timestamp
-   - `base_commit`: "3bf758f"
-   - `idea_id`: "geo-monitoring"
-   - `policy_version`: "v2"
-   - `files`: SHA-256 hashes of evidence.jsonl, scope-map.json, review-log.jsonl, audit-summary.md
-   - `reviewed_evidence_ids`: list of inspected IDs
-   - `blocked_evidence_ids`: list of inaccessible/blocked IDs
-   - `repaired_evidence_ids`: list of IDs with corrected attributes
-   - `unexamined_budget_remaining`: description of unexamined records
+5. `high-impact-review.md`: documentation of excluded, unexamined, or contradictory records.
+6. `snapshot.json`: generated/sealed machine-readable snapshot manifest via `scripts/seal_v2_snapshot.py`.
 
 Terminal Allowlist:
+python scripts/seal_v2_snapshot.py --idea geo-monitoring --snapshot-id snap-geo-v2-001
 python scripts/check_geo_stage1.py audit --policy v2
 
 No python -c experiments or helper scripts. When checks pass, report reviewed IDs, unexamined budget, blockers, and stop. Do not proceed to Judge in this conversation.

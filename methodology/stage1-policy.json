@@ -2,12 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://local.example/saas-validation/stage1-policy.json",
   "title": "Stage 1 Decision Policies",
-  "description": "Machine-readable gate thresholds, resolution contracts, and verdict rules for Stage 1 validation (v1 legacy baseline and v2 SMB reassessment).",
+  "description": "Canonical machine-readable definition of Stage 1 thresholds, allowed money categories, review contracts, and verdict rules.",
   "policy_versions": {
     "v1": {
       "version": "v1",
       "name": "Stage 1 Baseline Policy",
-      "description": "Historical Stage 1 gate thresholds and verdict rules.",
+      "description": "Historical Stage 1 gate thresholds and single-condition verdict rules.",
       "layout": "legacy",
       "gates": {
         "G1": {
@@ -19,18 +19,26 @@
           "name": "Recurrence",
           "min_confidence": "MEDIUM",
           "allowed_confidences": ["HIGH", "MEDIUM"],
-          "description": "At least MEDIUM confidence that core job recurs often enough for a SaaS relationship."
+          "requires_counted_evidence": true,
+          "description": "At least MEDIUM confidence in recurrence of core job."
         },
         "G3": {
           "name": "Existing spend / WTP",
           "min_independent_count": 5,
           "min_categories": 2,
-          "allowed_money_categories": [
-            "paid_tool_or_pilot",
+          "allowed_money_signals": [
+            "actual_purchase",
+            "paid_pilot",
+            "saas_spend",
             "employee_time",
             "contractor_spend",
             "agency_spend",
             "dedicated_role"
+          ],
+          "disallowed_money_signals": [
+            "stated_wtp",
+            "competitor_price",
+            "unknown"
           ],
           "description": "At least 5 independent VERIFIED money signals across at least 2 distinct categories."
         },
@@ -38,42 +46,49 @@
           "name": "Repeatable gap in existing solutions",
           "min_independent_count": 10,
           "cluster_required": true,
+          "min_cluster_size": 1,
           "description": "At least 10 independent VERIFIED gap signals clustered around repeatable problems."
         },
         "G5": {
           "name": "ICP reachability",
           "min_confidence": "MEDIUM",
           "allowed_confidences": ["HIGH", "MEDIUM"],
+          "requires_counted_evidence": true,
           "description": "At least MEDIUM reachability confidence."
         },
         "G6": {
           "name": "No killer substitute",
           "no_killer_substitute": true,
+          "requires_verified_context": false,
           "description": "No low-friction sufficient substitute that defeats planned value proposition."
         }
       },
       "verdict_rules": {
         "PASS": {
-          "all_gates_pass": true
+          "all_gates_pass": true,
+          "condition_allowed": false
         },
         "CONDITIONAL_PASS": {
           "allowed_unknown_gates": 1,
           "required_pass_gates": 5,
           "max_fail_gates": 0,
-          "condition_type": "single_string"
+          "condition_type": "single_string",
+          "condition_required": true
         },
         "FAIL": {
+          "requires_fail_gate": false,
           "requires_cited_contradiction": true
         },
         "INSUFFICIENT_EVIDENCE": {
-          "unmet_thresholds_without_contradiction": true
+          "requires_unknown_gate": true,
+          "max_fail_gates": 0
         }
       }
     },
     "v2": {
       "version": "v2",
       "name": "Stage 1 SMB Reassessment Policy",
-      "description": "Admission policy for SMB product hypotheses to prospect mining and customer discovery interviews (<= 8 interviews). Not MVP approval.",
+      "description": "Admission policy for SMB product hypotheses to customer discovery interviews (<= 8 interviews). Not MVP approval.",
       "layout": "reassessment-v2",
       "discovery_plan": {
         "max_interviews": 8,
@@ -89,18 +104,26 @@
           "name": "Recurrence",
           "min_confidence": "MEDIUM",
           "allowed_confidences": ["HIGH", "MEDIUM"],
+          "requires_counted_evidence": true,
           "description": "At least MEDIUM confidence in recurrence of core job from observed frequency."
         },
         "G3": {
           "name": "Existing spend / WTP",
           "min_independent_count": 3,
           "min_categories": 1,
-          "allowed_money_categories": [
-            "paid_tool_or_pilot",
+          "allowed_money_signals": [
+            "actual_purchase",
+            "paid_pilot",
+            "saas_spend",
             "employee_time",
             "contractor_spend",
             "agency_spend",
             "dedicated_role"
+          ],
+          "disallowed_money_signals": [
+            "stated_wtp",
+            "competitor_price",
+            "unknown"
           ],
           "stated_wtp_in_numeric_count": false,
           "description": "At least 3 independent VERIFIED examples of actual target-job spending or actually performed costly work. One category is sufficient; report full breakdown. Stated WTP excluded from threshold."
@@ -116,34 +139,43 @@
           "name": "ICP reachability",
           "min_confidence": "MEDIUM",
           "allowed_confidences": ["HIGH", "MEDIUM"],
+          "requires_counted_evidence": true,
           "description": "At least MEDIUM confidence that relevant buyers can be found through a concrete acquisition surface."
         },
         "G6": {
           "name": "No killer substitute",
           "no_killer_substitute": true,
-          "description": "No evidenced sufficient substitute defeating value proposition for assessed scope. Unresolved substitute fit remains UNKNOWN."
+          "requires_verified_context": true,
+          "description": "No evidenced sufficient substitute defeating value proposition for assessed scope. Requires verified substitute assessment context."
         }
       },
       "verdict_rules": {
         "PASS": {
           "all_gates_pass": true,
-          "scope_must_be_coherent": true
+          "scope_must_be_coherent": true,
+          "requires_discovery_plan": true,
+          "interview_cap": 8,
+          "recommended_next_action": "LIMITED_CUSTOMER_DISCOVERY"
         },
         "CONDITIONAL_PASS": {
           "required_pass_gates": ["G1", "G5"],
           "max_fail_gates": 0,
+          "requires_unknown_gate": true,
           "allowed_resolution_methods": ["INTERVIEW"],
-          "forbidden_resolution_methods_for_conditional": ["TECHNICAL_CHECK", "SOURCE_RESEARCH"],
+          "forbidden_resolution_methods": ["TECHNICAL_CHECK", "SOURCE_RESEARCH"],
           "all_unknown_gates_must_be_covered": true,
-          "max_interview_cap": 8,
+          "requires_discovery_plan": true,
+          "interview_cap": 8,
           "recommended_next_action": "LIMITED_CUSTOMER_DISCOVERY"
         },
         "FAIL": {
-          "requires_cited_contradiction": true,
+          "requires_fail_gate": true,
+          "all_fail_gates_require_contradiction": true,
           "insufficient_evidence_is_not_fail": true
         },
         "INSUFFICIENT_EVIDENCE": {
-          "unmet_thresholds_or_material_unknowns_without_strong_contradiction": true
+          "requires_unknown_gate": true,
+          "max_fail_gates": 0
         }
       },
       "condition_schema": {
@@ -160,18 +192,45 @@
         ],
         "allowed_resolution_methods": ["INTERVIEW", "TECHNICAL_CHECK", "SOURCE_RESEARCH"]
       },
+      "review_log_schema": {
+        "required_fields": [
+          "evidence_id",
+          "exact_url",
+          "speaker_or_entity",
+          "locator",
+          "retrieved_fragment",
+          "retrieval_outcome",
+          "audit_status",
+          "audit_reason",
+          "scope_status",
+          "scope_support",
+          "eligible_gates",
+          "blocker"
+        ],
+        "allowed_retrieval_outcomes": ["SUCCESS", "BLOCKED", "NOT_FOUND", "ERROR"],
+        "allowed_audit_statuses": ["VERIFIED", "PARTIALLY_VERIFIED", "REJECTED", "PENDING"],
+        "allowed_scope_statuses": ["IN_SCOPE", "OUT_OF_SCOPE", "UNKNOWN"],
+        "allowed_gates": ["G1", "G2", "G3", "G4", "G5", "G6"],
+        "optional_fields": [
+          "modifications",
+          "notes"
+        ]
+      },
       "snapshot_schema": {
+        "source_baseline_commit": "3bf758f",
         "required_files": [
           "evidence.jsonl",
           "scope-map.json",
           "review-log.jsonl",
           "audit-summary.md",
+          "high-impact-review.md",
           "snapshot.json"
         ],
         "snapshot_json_required_fields": [
           "snapshot_id",
           "created_at",
-          "base_commit",
+          "source_baseline_commit",
+          "tooling_commit",
           "idea_id",
           "policy_version",
           "files",
