@@ -41,18 +41,18 @@ This review details the forensic re-examination of candidate money signals in th
 ### Candidate Signal 4: Stanislava Smiljanic / SORN.AI (Counterfactual vs. Performed Labor)
 - **ID**: `geo-workflow-12-manual-workaround-labor`
 - **Speaker / Source**: `Stanislava Smiljanic` on `otterly.ai/blog/geo-case-study-sornai/`
-- **Audit Status**: `PARTIALLY_VERIFIED` | **Scope**: `IN_SCOPE`
+- **Audit Status**: `PARTIALLY_VERIFIED` | **Scope**: `UNKNOWN`
 - **Signal**: `employee_time` (disallowed)
-- **Evidence Review**: Stanislava Smiljanic is an agency co-founder at SORN.AI. However, her quote states: *"Without a specialized tool, tracking prompts would be very manual, with a ton of print screens and manual research of prompts with VPN, Stanislava says of the alternative."* The phrasing explicitly describes a hypothetical alternative ("would be very manual..."), not a verified record of hours actually logged or payroll spent performing manual checks.
-- **Audit Decision**: **EXCLUDED FROM GATE 3**. Reclassified as `PARTIALLY_VERIFIED`. Counterfactual descriptions of what work *would* be needed in the absence of tools cannot substitute for observed labor expenditure.
+- **Evidence Review**: Stanislava Smiljanic is an agency co-founder at SORN.AI. However, her quote states: *“It would be very manual, with a ton of print screens and manual research of prompts with VPN,” Stanislava says of the alternative.* The phrasing explicitly describes a hypothetical alternative ("would be very manual..."), not a verified record of hours actually logged or payroll spent performing manual checks. Additionally, the underlying agency profile (`geo-workflow-04-sornai-profile`) lacks explicit headcount verification, placing the record in `UNKNOWN` scope.
+- **Audit Decision**: **EXCLUDED FROM GATE 3**. Reclassified as `PARTIALLY_VERIFIED` and `UNKNOWN` scope. Counterfactual descriptions of what work *would* be needed in the absence of tools cannot substitute for observed labor expenditure.
 
 ### Candidate Signal 5: maltelandwehr / Peec AI User (Unverified Scope & Spend)
 - **ID**: `geo-wtp-reddit-peec-usage`
 - **Speaker / Source**: `maltelandwehr` on `r/SEO`
-- **Audit Status**: `VERIFIED` | **Scope**: `UNKNOWN`
+- **Audit Status**: `PARTIALLY_VERIFIED` | **Scope**: `UNKNOWN`
 - **Signal**: Normalized from `saas_spend` to `null`
-- **Evidence Review**: The author confirms using Peec AI for visibility reporting and content optimization ("I use Peec AI"). However, the comment does not state or prove payment, and their organizational identity and agency headcount cannot be verified against `GEO-AGENCY-01`.
-- **Audit Decision**: **EXCLUDED FROM GATE 3**. `money_signal` and `money_period` normalized to `null`, and scope is `UNKNOWN`.
+- **Evidence Review**: The author confirms using Peec AI for visibility reporting and content optimization ("I use Peec AI"). However, the comment does not establish paid subscription or revealed willingness to pay, and their organizational identity and agency headcount cannot be verified against `GEO-AGENCY-01`.
+- **Audit Decision**: **EXCLUDED FROM GATE 3**. Reclassified as `PARTIALLY_VERIFIED`; `interpretation`, `recurrence`, `money_signal`, and `money_period` normalized, and scope is `UNKNOWN`.
 
 ### Candidate Signal 6: UK PR Agency Upwork Contract (Access Blocked)
 - **ID**: `geo-wtp-upwork-pr-agency-contract`
@@ -101,7 +101,7 @@ The bounded dataset establishes qualitative evidence for problem existence and o
    - `Clutch Directory Channel` (`geo-workflow-11-reachability-clutch`): Provides verified public directory filters specifically segmenting independent agencies by headcount (2–9 and 10–49 employees) and service line (GEO / SEO).
 3. **Workflow Profiles with Unverified Headcount (UNKNOWN Scope)**:
    - `What IF Web` (`geo-workflow-01-whatifweb-profile`): Blog confirms agency services and Otterly partnership, but does not verify team size (3–5 staff).
-   - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`): Homepage and Otterly case study confirm weekly client reporting cadence, but do not verify team size (2–10 staff).
+   - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`, `geo-workflow-12-manual-workaround-labor`): Homepage and Otterly case study confirm weekly client reporting cadence, but do not verify team size (2–10 staff).
 
 ---
 

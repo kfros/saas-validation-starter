@@ -23,8 +23,8 @@ Rather than reopening all 87 baseline records or performing redundant web crawli
 | **Unexamined Budget Preserved** | 63 | Retained for targeted Stage 2 customer discovery |
 | **Retrieval SUCCESS** | 23 | Exact public sources retrieved and verified |
 | **Retrieval BLOCKED** | 1 | `geo-wtp-upwork-pr-agency-contract` (Cloudflare Turnstile 403) |
-| **Audit Status: VERIFIED** | 20 | Fully verified against source and schema |
-| **Audit Status: PARTIALLY_VERIFIED** | 3 | Vendor arithmetic, counterfactual claims, tier mismatches |
+| **Audit Status: VERIFIED** | 19 | Fully verified against source and schema |
+| **Audit Status: PARTIALLY_VERIFIED** | 4 | Vendor arithmetic, counterfactual claims, tier mismatches, unproven paid tool adoption |
 | **Audit Status: PENDING** | 1 | Preserved blocked record (Upwork) |
 | **Audit Status: REJECTED** | 0 | (0 in this decisive subset; historical rejection preserved in baseline) |
 
@@ -60,7 +60,7 @@ Rather than reopening all 87 baseline records or performing redundant web crawli
   - `ThirdEyesOfTheWorld` (`geo-pain-reddit-thirdeyesoftheworld-bundled-substitute`): agency owner role without headcount verification.
   - `Arash-60` (`geo-pain-reddit-arash60-defensive-monthly-client-reporting`): agency SEO lead role without headcount verification.
   - `What IF Web` (`geo-workflow-01-whatifweb-profile`): cited blog URL confirms studio services, but does not state team size (3–5 staff).
-  - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`): cited homepage/case study does not state team size (2–10 staff).
+  - `SORN.AI` (`geo-workflow-04-sornai-profile`, `geo-workflow-06-sornai-reporting-cadence`, `geo-workflow-12-manual-workaround-labor`): cited homepage/case study does not state team size (2–10 staff).
   - `maltelandwehr` (`geo-wtp-reddit-peec-usage`): practitioner comment without verified agency headcount.
   - `UK PR Agency` (`geo-wtp-upwork-pr-agency-contract`): retrieval blocked; agency headcount unverified.
 
@@ -83,7 +83,7 @@ Rather than reopening all 87 baseline records or performing redundant web crawli
 | :--- | :--- | :---: | :--- | :--- |
 | **G1: Concrete Pain** | $\ge 5$ independent in-scope VERIFIED records | **0** in-scope | None | 6 pain records verified (`Typical-Badger1922`, `nothabkuuys`, `jjnasty`, `erickrealz`, `ThirdEyesOfTheWorld`, `Arash-60`), but all 6 lack explicit headcount verification and are classified UNKNOWN scope. |
 | **G2: Recurrence** | $\ge$ MEDIUM confidence, recurring core job | **0** in-scope | None | Cadence verified in `Typical-Badger1922` (weekly), `Arash-60` (monthly), and `SORN.AI` (weekly), but underlying records have UNKNOWN scope. `ThirdEyesOfTheWorld` recurrence normalized to null. |
-| **G3: Existing Spend / WTP** | $\ge 3$ independent VERIFIED spend/labor records | **0** in-scope | None | `Typical-Badger1922` has UNKNOWN scope; `Topify` and `SORN.AI` workaround are PARTIALLY_VERIFIED; `Upwork` is BLOCKED/PENDING; `Peec usage` is UNKNOWN scope and money_signal null; `Arash-60` money_signal null. |
+| **G3: Existing Spend / WTP** | $\ge 3$ independent VERIFIED spend/labor records | **0** in-scope | None | `Typical-Badger1922` has UNKNOWN scope; `Topify`, `SORN.AI` workaround, and `Peec usage` are PARTIALLY_VERIFIED; `Upwork` is BLOCKED/PENDING; `Arash-60` money_signal null. |
 | **G4: Repeatable Gap** | $\ge 3$ independent records, cluster size $\ge 3$ | **0** in-scope (4 out-of-scope/unknown) | None in-scope | If in-scope required: 0. Across the evaluated subset without scope restriction: 4 records qualify under reporting/attribution pain cluster (`Typical-Badger1922`, `nothabkuuys`, `jjnasty`, `erickrealz`). `Arash-60` excluded as tool use lacked paid spend. |
 | **G5: ICP Reachability** | $\ge$ MEDIUM confidence, concrete channel | **2** in-scope | `geo-workflow-07-butter-marketing-profile`, `geo-workflow-11-reachability-clutch` | `Clutch Directory Channel` verifies searchable directory with 2–9 and 10–49 employee filters, supported by `Butter Marketing` (2–9 staff verified on Clutch). `What IF Web` and `SORN.AI` profiles are UNKNOWN scope. |
 | **G6: No Killer Substitute** | Verified substitute context | **8** context | `geo-market-otterly-pricing`, `geo-market-semrush-plans`, `geo-market-seranking-plans`, `geo-market-seranking-agency-pack`, `geo-skeptic-substitute-semrush-ai-tracking`, `geo-skeptic-risk-sampling-noise-variance`, `geo-skeptic-risk-openai-search-pricing`, `geo-skeptic-risk-openai-tos-scraping` | Comprehensive context verified across incumbent suites, pure-play tools, sampling noise, and API costs/ToS. Commercial substitute fit and sufficiency remain materially unresolved for Judge determination. |

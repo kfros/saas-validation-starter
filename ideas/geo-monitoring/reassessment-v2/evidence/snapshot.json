@@ -2,24 +2,28 @@
   "blocked_evidence_ids": [
     "geo-wtp-upwork-pr-agency-contract"
   ],
-  "created_at": "2026-09-11T18:12:36Z",
+  "created_at": "2026-09-11T18:33:47Z",
   "files": {
-    "audit-summary.md": "f016ddf4ebbf654c59388b5da9a86442c9b4dd72e08c997802152ee8e52b8e6d",
-    "evidence.jsonl": "ce5ac765910a345cae543fdeeef469c66fddc6af6aa6456d33c2aec6c7c7441a",
-    "high-impact-review.md": "7d7dc71aba8f3e2f54c107e9891fefc06ff44c69cbe185228fca63e3c8272a0f",
-    "review-log.jsonl": "e4ac298c713e6ef2c5b99753ca96f9e557460711d26ea57918ca4aa92b4bb3aa",
-    "scope-map.json": "620c23b75408ab06ead8a31b271b980c6983442084a7ece8a7fdf8b415bc6635"
+    "audit-summary.md": "db74ae86e0cbf171c7240a227d6dab4afe9d8319e4ba92d3f4487a10a1576788",
+    "evidence.jsonl": "2b8c2f4fc3ee6f517d786631c1df6a50611cdb6abfab9abf2f7fed0fecc33ca3",
+    "high-impact-review.md": "635c8e4680bb136fc7d3f34bf6511d5a962872f0a207a697f1e4d93d75b94e85",
+    "review-log.jsonl": "ffc2eb33d88276b6da82fca49873ec4858ff44170a4b01654febddac63972788",
+    "scope-map.json": "7320a929a92b887267a350f93dafecc18b7b3455ab93506aa7cecd48b63ff0e4"
   },
   "idea_id": "geo-monitoring",
   "policy_version": "v2",
   "repaired_evidence_ids": [
     "geo-pain-reddit-typicalbadger-patchwork-stack",
+    "geo-pain-reddit-nothabkuuys-small-agency-client-anxiety",
+    "geo-pain-reddit-jjnasty-losing-game-oneoff-audit",
     "geo-pain-reddit-erickrealz-agency-attribution-impossibility",
     "geo-pain-reddit-thirdeyesoftheworld-bundled-substitute",
     "geo-pain-reddit-arash60-defensive-monthly-client-reporting",
     "geo-wtp-reddit-peec-usage",
     "geo-workflow-01-whatifweb-profile",
-    "geo-workflow-04-sornai-profile"
+    "geo-workflow-04-sornai-profile",
+    "geo-workflow-06-sornai-reporting-cadence",
+    "geo-workflow-12-manual-workaround-labor"
   ],
   "reviewed_evidence_ids": [
     "geo-market-otterly-pricing",
@@ -46,8 +50,8 @@
     "geo-skeptic-risk-openai-search-pricing",
     "geo-skeptic-risk-openai-tos-scraping"
   ],
-  "snapshot_id": "snap-geo-v2-002",
+  "snapshot_id": "snap-geo-v2-003",
   "source_baseline_commit": "3bf758f",
-  "tooling_commit": "fe672b18993f40f0fea3bab5a0dd3a83e9ad6510",
+  "tooling_commit": "ad21fba6dd83d368c1a20a8b4d560fa48687389d",
   "unexamined_budget_remaining": "Bounded budget complete."
 }
