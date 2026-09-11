@@ -15,7 +15,7 @@
       "candidate_scope": "boutique_consultancies",
       "scope_status": "OUT_OF_SCOPE",
       "supporting_evidence_ids": [],
-      "reason": "Industry report on 4.2-week enterprise CRM security reviews and SOC 2 audits for sales software; blocked/error URL and not applicable to boutique consultancy scope."
+      "reason": "Enterprise CRM security review and SOC 2 audit report; blocked by HTTP 502 Bad Gateway (PENDING), ineligible, and pertains to enterprise CRM integrations rather than boutique consultancies."
     },
     {
       "evidence_id": "ev-skp-m365-copilot-ppt-features",
@@ -41,65 +41,51 @@
     {
       "evidence_id": "ev-pain-consulting-thirty-percent-time",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-consulting-thirty-percent-time"
-      ],
-      "reason": "First-hand management consultant comment documenting 30% of workday spent formatting PowerPoint slides in client advisory engagements."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Anonymous comment on r/consulting documenting 30% workday slide formatting; membership in r/consulting does not directly establish that the speaker belongs to an SMB/boutique consultancy as opposed to MBB, Big 4, or internal corporate consulting."
     },
     {
       "evidence_id": "ev-pain-consulting-client-theme-rework",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-consulting-client-theme-rework"
-      ],
-      "reason": "First-hand consultant comment documenting slide-by-slide recoloring of a 30-page deck to match client brand theme standards."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Comment on r/consulting documenting slide-by-slide recoloring of a 30-page deck to match client theme; generic client reference does not directly establish speaker affiliation with an SMB/boutique consultancy."
     },
     {
       "evidence_id": "ev-pain-consulting-daily-formatting-hours",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-consulting-daily-formatting-hours"
-      ],
-      "reason": "Consultancy practitioner reports spending at least 3 hours daily on PowerPoint formatting tweaks per manager review notes."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Comment on r/consulting reporting 3+ hours daily formatting slides per manager review notes; firm type and size are unstated, failing to establish SMB/boutique consultancy scope."
     },
     {
       "evidence_id": "ev-pain-llm-thinking-vs-slide-admin",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-llm-thinking-vs-slide-admin"
-      ],
-      "reason": "Consulting practitioner confirms conversational LLMs assist with analytical thinking but leave the manual administrative formatting of slides unsolved."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Post on r/consulting discussing LLM ideation vs slide admin; general knowledge worker observation that does not directly identify an SMB/boutique consultancy practitioner."
     },
     {
       "evidence_id": "ev-wtp-consulting-formatting-time",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-wtp-consulting-formatting-time"
-      ],
-      "reason": "Former consultant confirms ~50% of time spent on slide formatting and internal reviews in consulting deliverables."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Former consultant on r/consulting estimating 50% time on slide formatting and reviews; unstated firm size and type fail to establish SMB/boutique consultancy scope."
     },
     {
       "evidence_id": "ev-wf-consulting-monthly-deck-copy-paste",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-wf-consulting-monthly-deck-copy-paste"
-      ],
-      "reason": "Consultant reports spending 2 hours monthly manually updating 60 figures across a recurring 40-slide leadership deck."
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Post on r/consulting describes recurring monthly 40-slide internal corporate leadership/CFO reporting deck with BI data, representing internal corporate finance/FP&A rather than bespoke client deliverables by a boutique consultancy."
     },
     {
       "evidence_id": "ev-wf-consulting-claude-skills-breakage",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-wf-consulting-claude-skills-breakage"
-      ],
-      "reason": "Consulting project team uses custom Claude skills to assemble recurring PMO/SteerCo decks after Excel-linked think-cell decks proved fragile."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Comment on r/consulting describing Claude skills for PMO/SteerCo decks; does not directly establish that the team belongs to an SMB/boutique consultancy firm."
     },
     {
       "evidence_id": "ev-wtp-consulting-thinkcell-pricing",
@@ -111,74 +97,58 @@
     {
       "evidence_id": "ev-mkt-thinkcell-spend",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-mkt-thinkcell-spend"
-      ],
-      "reason": "Vendr procurement benchmark confirms consulting and advisory teams allocate $260–$325/user/year for think-cell to automate PowerPoint charting and slide layout."
+      "scope_status": "OUT_OF_SCOPE",
+      "supporting_evidence_ids": [],
+      "reason": "Vendr marketplace benchmark for think-cell volume tiers; money_signal is competitor_price, disallowed for G3 under policy v2, and does not establish spend by the evaluated boutique-consultancy scope. Preserved as substitute context for G6."
     },
     {
       "evidence_id": "ev-gap-copilot-firmwide-unusable-decks",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-gap-copilot-firmwide-unusable-decks"
-      ],
-      "reason": "Corporate professional services firmwide rollout of Microsoft Copilot failed because employees across the firm are unable to create usable slide decks."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Post on r/powerpoint by corporate employee reporting firmwide Copilot rollout; generic corporate rollout does not establish an SMB/boutique consultancy scope."
     },
     {
       "evidence_id": "ev-gap-copilot-desktop-custom-template-failure",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-gap-copilot-desktop-custom-template-failure"
-      ],
-      "reason": "PowerPoint desktop user confirms inability to select custom corporate templates when generating decks with Copilot, forcing manual slide-by-slide copy-pasting."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Post on r/powerpoint by generic business user regarding PowerPoint desktop Copilot template selection; does not establish affiliation with an SMB/boutique consultancy."
     },
     {
       "evidence_id": "ev-pain-gamma-ignores-corporate-templates",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-gamma-ignores-corporate-templates"
-      ],
-      "reason": "Presentation designer reports Gamma completely disregards uploaded PowerPoint templates, generating off-brand and unusable layouts for professional deliverables."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Trustpilot review of Gamma by generic presentation designer; does not establish speaker affiliation with an SMB/boutique consultancy."
     },
     {
       "evidence_id": "ev-pain-gamma-export-corrupted-content",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-gamma-export-corrupted-content"
-      ],
-      "reason": "Paying user reports Gamma export to PowerPoint (.pptx) causes content corruption, missing sections, and broken layouts unsuitable for professional client sharing."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Trustpilot review of Gamma by generic business user; does not establish affiliation with an SMB/boutique consultancy."
     },
     {
       "evidence_id": "ev-gap-beautifulai-export-templates-jeff",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-gap-beautifulai-export-templates-jeff"
-      ],
-      "reason": "Client services practitioner reports exporting outside Beautiful.ai smart templates breaks PowerPoint formatting when sharing editable decks with clients, multiplying manual effort 3x."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Trustpilot review of Beautiful.ai by client-facing business professional; generic client interaction does not establish an SMB/boutique consultancy firm."
     },
     {
       "evidence_id": "ev-gap-storydoc-no-pptx-export-nasrullah",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-gap-storydoc-no-pptx-export-nasrullah"
-      ],
-      "reason": "Paying subscriber reports Storydoc lacks native PowerPoint (.pptx) export, providing only unusable multi-slide PDFs incompatible with client deliverable requirements."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Trustpilot review of Storydoc by pitch deck creator; does not establish affiliation with an SMB/boutique consultancy."
     },
     {
       "evidence_id": "ev-pain-pptx-master-slide-corruption",
       "candidate_scope": "boutique_consultancies",
-      "scope_status": "IN_SCOPE",
-      "supporting_evidence_ids": [
-        "ev-pain-pptx-master-slide-corruption"
-      ],
-      "reason": "Corporate presentation creator reports pasting slides between decks corrupts master slide templates, breaks design inheritance, and creates messy layouts."
+      "scope_status": "UNKNOWN",
+      "supporting_evidence_ids": [],
+      "reason": "Post on r/powerpoint by corporate template specialist regarding slide library migration; generic corporate setting does not establish an SMB/boutique consultancy scope."
     },
     {
       "evidence_id": "ev-wtp-contradiction-manual-template-pushback",
