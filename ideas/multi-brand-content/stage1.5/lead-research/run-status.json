@@ -1,10 +1,12 @@
 {
-  "blockers": [],
+  "blockers": [
+    "2026-09-12T21:30Z: All research tools exhausted. search_web returned 'no summary returned from GenerateContent' on 7 consecutive attempts with varied queries. read_url_content received HTTP 403 from designrush.com, goodfirms.co, themanifest.com, clutch.co, sortlist.com. invoke_subagent (lead-browser) hit RESOURCE_EXHAUSTED 429 quota on 2 attempts. Per workspace rule 28 (3+ consecutive research-tool failures), discovery stopped for this run. Zero new candidates examined. Zero new leads added."
+  ],
   "excluded_leads": 0,
   "hold_leads": 0,
   "idea_id": "multi-brand-content",
   "lead_summary_sha256": "e7d47e798984045ada9d05bfe3aec34cef64e331139c17474c0be795b54f0198",
-  "notes": null,
+  "notes": "Run 2026-09-12T21:27Z attempted to resume from mb-lead-028/mb-src-0128. All three research tool categories (search_web, read_url_content, invoke_subagent browser) failed before any new candidate could be examined. Next run should start from lead ID mb-lead-029, source ID mb-src-0129, and try the same diverse discovery surfaces listed in the launch prompt.",
   "phase": "LEAD_RESEARCH",
   "priority_counts": {
     "A": 27,
@@ -14,7 +16,7 @@
   "schema_version": 1,
   "scope_id": "MULTIBRAND-OPERATOR-01",
   "source_records": 128,
-  "status": "IN_PROGRESS",
+  "status": "PARTIAL_BLOCKED",
   "target_qualified_leads": 50,
   "total_leads": 28
 }
