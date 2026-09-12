@@ -1,19 +1,50 @@
 {
-  "contact_channel_counts": {},
-  "country_counts": {},
+  "contact_channel_counts": {
+    "BOOKING_PAGE": 9,
+    "BUSINESS_EMAIL_PAGE": 1,
+    "CONTACT_FORM": 18
+  },
+  "country_counts": {
+    "Australia": 7,
+    "Canada": 6,
+    "New Zealand": 1,
+    "United Kingdom": 6,
+    "United States": 8
+  },
   "idea_id": "multi-brand-content",
   "outreach_authorized": false,
-  "priority_counts": {},
-  "qualified_leads": 0,
+  "priority_counts": {
+    "A": 27,
+    "B": 1
+  },
+  "qualified_leads": 28,
   "ready_for_codex_audit": false,
   "schema_version": 1,
   "scope_id": "MULTIBRAND-OPERATOR-01",
-  "screening_unknown_counts": {},
-  "source_kind_counts": {},
-  "source_outcome_counts": {},
-  "source_records": 0,
-  "status_counts": {},
+  "screening_unknown_counts": {
+    "BUDGET_AUTHORITY": 28,
+    "CURRENT_TOOL_STACK": 28,
+    "OWNER_HANDS_ON_PRODUCTION": 1,
+    "RECURRING_REVISION_PAIN": 28,
+    "SMB_CLIENTELE": 1,
+    "WILLINGNESS_TO_PAY": 28
+  },
+  "source_kind_counts": {
+    "AGENCY_DIRECTORY": 21,
+    "COMPANY_REGISTRY": 2,
+    "OFFICIAL_CONTACT": 25,
+    "OFFICIAL_PORTFOLIO": 26,
+    "OFFICIAL_SITE": 28,
+    "OFFICIAL_TEAM": 26
+  },
+  "source_outcome_counts": {
+    "SUCCESS": 128
+  },
+  "source_records": 128,
+  "status_counts": {
+    "QUALIFIED_FOR_SCREENING": 28
+  },
   "target_qualified_leads": 50,
-  "total_leads": 0,
-  "unique_qualified_domains": 0
+  "total_leads": 28,
+  "unique_qualified_domains": 28
 }

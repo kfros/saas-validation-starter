@@ -1,0 +1,1984 @@
+From 2d21c429c350b627030ab63f391d5619435a2800 Mon Sep 17 00:00:00 2001
+From: Codex <codex@openai.com>
+Date: Sat, 12 Sep 2026 04:08:34 +0600
+Subject: [PATCH] feat(stage1.5): add multibrand lead research kit
+
+---
+ .agent/skills/lead-research/SKILL.md          |  58 ++
+ .../lead-research/references/record-shapes.md |  27 +
+ AGENTS.md                                     |  11 +
+ README.md                                     |   6 +
+ .../stage1.5/lead-research/config.json        |  53 ++
+ .../lead-research/lead-research-report.md     |   9 +
+ .../stage1.5/lead-research/lead-summary.json  |  19 +
+ .../stage1.5/lead-research/leads.csv          |   1 +
+ .../stage1.5/lead-research/leads.jsonl        |   0
+ .../stage1.5/lead-research/reviews/.gitkeep   |   0
+ .../stage1.5/lead-research/run-status.json    |  17 +
+ .../lead-research/source-register.jsonl       |   0
+ methodology/stage1.5-lead-research.md         | 118 +++
+ methodology/stage15-lead-schema.json          | 171 +++++
+ prompts/codex/30-audit-multibrand-leads.md    |  60 ++
+ .../codex/31-final-multibrand-readiness.md    |  38 +
+ .../stage1.5/10-multibrand-lead-research.md   | 107 +++
+ prompts/stage1.5/20-multibrand-lead-repair.md |  54 ++
+ prompts/stage1.5/RUNBOOK.md                   |  88 +++
+ scripts/stage15_leads.py                      | 698 ++++++++++++++++++
+ scripts/test_stage15_leads.py                 | 264 +++++++
+ 21 files changed, 1799 insertions(+)
+ create mode 100644 .agent/skills/lead-research/SKILL.md
+ create mode 100644 .agent/skills/lead-research/references/record-shapes.md
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/config.json
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/lead-research-report.md
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/lead-summary.json
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/leads.csv
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/leads.jsonl
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/reviews/.gitkeep
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/run-status.json
+ create mode 100644 ideas/multi-brand-content/stage1.5/lead-research/source-register.jsonl
+ create mode 100644 methodology/stage1.5-lead-research.md
+ create mode 100644 methodology/stage15-lead-schema.json
+ create mode 100644 prompts/codex/30-audit-multibrand-leads.md
+ create mode 100644 prompts/codex/31-final-multibrand-readiness.md
+ create mode 100644 prompts/stage1.5/10-multibrand-lead-research.md
+ create mode 100644 prompts/stage1.5/20-multibrand-lead-repair.md
+ create mode 100644 prompts/stage1.5/RUNBOOK.md
+ create mode 100644 scripts/stage15_leads.py
+ create mode 100644 scripts/test_stage15_leads.py
+
+diff --git a/.agent/skills/lead-research/SKILL.md b/.agent/skills/lead-research/SKILL.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..51488fad63a8fa27ea3b33788c2dbe32c0121a11
+--- /dev/null
++++ b/.agent/skills/lead-research/SKILL.md
+@@ -0,0 +1,58 @@
++---
++name: lead-research
++description: Builds a source-backed public organization pool for a bounded Stage 1.5 screening scope. Use before outreach; never sends messages, counts interviews or changes a Stage 1 verdict.
++---
++
++# Stage 1.5 Lead Research
++
++Read `AGENTS.md`, `methodology/stage1.5-lead-research.md`,
++`methodology/stage15-lead-schema.json`, the selected idea's `config.json`,
++`hypothesis.yaml`, Stage 1 report and the selected launch prompt.
++Before creating the first row, read
++[`references/record-shapes.md`](references/record-shapes.md). It is a structural
++example only and must never be copied as market data.
++
++## Role boundary
++
++Discover and qualify public business leads. Do not contact anyone, submit forms,
++book meetings, follow accounts, collect private contact details, change Stage 1
++evidence or claim that a lead validates demand. A qualified lead is only ready
++for a separate screening/outreach decision.
++
++Use the browser for public research. Do not use terminal HTTP clients, scrapers,
++Antigravity internal files/cache or guessed data. Search snippets are leads only;
++open each supporting page. Retry a failed page at most once. After three
++consecutive browser/tool failures, checkpoint honestly and stop partial.
++
++## Canonical workflow
++
++1. Read existing `leads.jsonl`, `source-register.jsonl`, generated summary and
++   run status before discovering anything. Do not reopen completed leads unless
++   resolving a documented conflict.
++2. Search broadly across different English-speaking geographies and directory
++   surfaces. One organization is one lead. Check official-domain and normalized
++   organization duplicates before adding it.
++3. Write a source row for every factual claim. Preserve the exact small fragment,
++   locator, page URL, actual outcome and retrieval time. Only `SUCCESS` may
++   support a confirmed claim.
++4. Classify the lead against the hard criteria in `config.json`. Unknown is not
++   confirmed. Conflicting headcount, unclear identity, stale/rebranded sites and
++   an adjacent paid-ads/video-only service remain `HOLD` or `EXCLUDED`.
++5. Store only a public business contact page or company messaging route. Do not
++   copy personal emails/phone numbers or guess an address.
++6. Keep SMB clientele, hands-on owner work, recurring revision pain, current
++   stack, budget authority and WTP explicit for later screening when public
++   evidence does not establish them.
++7. Update the analytical report with source-backed observations and exclusions.
++   Do not hand-edit `leads.csv`, `lead-summary.json` or computed totals.
++8. Run the exact checkpoint command in the launch prompt after each bounded
++   group. Stop at that conversation's candidate/qualification budget even if the
++   50-lead target is not yet reached; a fresh resume conversation continues it.
++
++## Handoff
++
++When the target is reached, seal the package with the tracked script and stop.
++Report the snapshot ID, qualified/hold/excluded counts, priority counts,
++geographies, unresolved screening fields and blockers. Do not commit/push unless
++the launch explicitly authorizes that Git action. Do not start the independent
++Codex audit or outreach.
+diff --git a/.agent/skills/lead-research/references/record-shapes.md b/.agent/skills/lead-research/references/record-shapes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..faa2ca66fde99f4d6cfc96176735eca60029152a
+--- /dev/null
++++ b/.agent/skills/lead-research/references/record-shapes.md
+@@ -0,0 +1,27 @@
++# Stage 1.5 record shapes
++
++These synthetic examples show the complete v1 shape. Replace every value after
++opening actual public sources. Never leave `example.com`, the synthetic fragment
++or an unsupported `CONFIRMED` value in idea data.
++
++## Source row
++
++```json
++{"schema_version":1,"source_id":"mb-src-0001","lead_id":"mb-lead-001","url":"https://agency.example/services","source_kind":"OFFICIAL_SITE","publisher":"Example Agency","retrieved_at":"2026-09-11T10:00:00+00:00","retrieval_outcome":"SUCCESS","retrieval_tool":"Antigravity Browser Agent","locator":"Organic social section","exact_fragment":"Exact small fragment actually visible on the opened page.","supports":["ACTIVE_BUSINESS","ENGLISH_SERVICE","EXTERNAL_SERVICE_PROVIDER","ORGANIC_SOCIAL_MANAGEMENT","RECURRING_CONTENT_SERVICE","STATIC_OR_CAROUSEL_CONTENT"],"notes":null}
++```
++
++A blocked row has `retrieval_outcome: "BLOCKED"`, `exact_fragment: null` and
++`supports: []`. It cannot support a confirmed lead claim.
++
++## Lead row
++
++Every object in `qualification` and `claim_source_ids` contains all 16 canonical
++claim names, even when the status is `UNKNOWN` and the source list is empty.
++
++```json
++{"schema_version":1,"lead_id":"mb-lead-001","idea_id":"multi-brand-content","scope_id":"MULTIBRAND-OPERATOR-01","organization_name":"Example Agency","organization_key":"example","website_url":"https://agency.example","canonical_domain":"agency.example","city":"Example City","country":"Example Country","working_language":"English","team_size_min":2,"team_size_max":9,"team_size_label":"2-9","owner_name":"Example Founder","owner_role":"Founder","qualification":{"ACTIVE_BUSINESS":"CONFIRMED","ENGLISH_SERVICE":"CONFIRMED","EXTERNAL_SERVICE_PROVIDER":"CONFIRMED","TEAM_SIZE_2_20":"CONFIRMED","OWNER_IDENTITY":"CONFIRMED","ORGANIC_SOCIAL_MANAGEMENT":"CONFIRMED","RECURRING_CONTENT_SERVICE":"CONFIRMED","STATIC_OR_CAROUSEL_CONTENT":"CONFIRMED","MULTIPLE_CLIENT_BRANDS":"CONFIRMED","PUBLIC_BUSINESS_CONTACT":"CONFIRMED","SMB_CLIENTELE":"UNKNOWN","OWNER_HANDS_ON_PRODUCTION":"UNKNOWN","RECURRING_REVISION_PAIN":"UNKNOWN","CURRENT_TOOL_STACK":"UNKNOWN","BUDGET_AUTHORITY":"UNKNOWN","WILLINGNESS_TO_PAY":"UNKNOWN"},"claim_source_ids":{"ACTIVE_BUSINESS":["mb-src-0001"],"ENGLISH_SERVICE":["mb-src-0001"],"EXTERNAL_SERVICE_PROVIDER":["mb-src-0001"],"TEAM_SIZE_2_20":["mb-src-0002"],"OWNER_IDENTITY":["mb-src-0003"],"ORGANIC_SOCIAL_MANAGEMENT":["mb-src-0001"],"RECURRING_CONTENT_SERVICE":["mb-src-0001"],"STATIC_OR_CAROUSEL_CONTENT":["mb-src-0001"],"MULTIPLE_CLIENT_BRANDS":["mb-src-0004"],"PUBLIC_BUSINESS_CONTACT":["mb-src-0005"],"SMB_CLIENTELE":[],"OWNER_HANDS_ON_PRODUCTION":[],"RECURRING_REVISION_PAIN":[],"CURRENT_TOOL_STACK":[],"BUDGET_AUTHORITY":[],"WILLINGNESS_TO_PAY":[]},"contact_channel":"CONTACT_FORM","contact_url":"https://agency.example/contact","contact_source_id":"mb-src-0005","source_ids":["mb-src-0001","mb-src-0002","mb-src-0003","mb-src-0004","mb-src-0005"],"screening_unknowns":["BUDGET_AUTHORITY","CURRENT_TOOL_STACK","OWNER_HANDS_ON_PRODUCTION","RECURRING_REVISION_PAIN","SMB_CLIENTELE","WILLINGNESS_TO_PAY"],"status":"QUALIFIED_FOR_SCREENING","priority":"B","exclusion_reasons":[],"duplicate_of":null,"notes":"State only source-backed or explicitly unresolved details.","last_verified_at":"2026-09-11T10:00:00+00:00"}
++```
++
++For `HOLD`, use priority `C` and at least one concrete reason in
++`exclusion_reasons`. For `EXCLUDED`, use priority `NONE`. An excluded duplicate
++also needs reason `DUPLICATE` and a valid retained `duplicate_of` lead ID.
+diff --git a/AGENTS.md b/AGENTS.md
+index c3dc10de294bbb5dafac8231e3a9032e560b6b36..463a335a7de5edcb6672cea262812dab28e34b2c 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -18,6 +18,14 @@ to source evidence; successful code checks do not validate a market.
+   source repair. An inaccessible source does not receive fresh VERIFIED status.
+ - **Judge:** use eligible audited evidence and the existing gates. Do not browse,
+   backfill evidence or silently broaden the hypothesis to improve a verdict.
++- **Stage 1.5 lead research:** build a public, source-backed screening funnel for
++  the explicitly selected exploratory scope. This role may discover candidate
++  organizations, but it does not contact them, count interviews, change a Stage
++  1 verdict or authorize product development.
++- **Stage 1.5 lead audit:** independently test the canonical lead dataset,
++  source bindings, duplicates, totals, public contact routes and qualification
++  claims. Record findings separately; do not silently repair the lead owner's
++  files or perform outreach.
+ 
+ Do not advance to another role/stage merely because the current task finished.
+ 
+@@ -35,6 +43,9 @@ Read the files relevant to the selected task, especially:
+ - `scripts/`: local deterministic checks and tests.
+ - `.agent/`: existing Antigravity instructions; preserve this singular path.
+ - `.agents/skills/` and `prompts/codex/`: Codex workflows and launch tasks.
++- `ideas/<idea>/stage1.5/`: exploratory lead research, screening and interview
++  artifacts. These are not Stage 1 evidence and cannot retroactively alter a
++  Stage 1 scorecard.
+ 
+ The methodology is shared across tools. Do not change thresholds, scope, verdict
+ rules or evidence eligibility unless the user explicitly asks for that change.
+diff --git a/README.md b/README.md
+index bdc393456087b7ca839a7ae6a17c7711142eb4aa..6ce223bf188998ef1049d4334be9125d9e6c473a 100644
+--- a/README.md
++++ b/README.md
+@@ -62,6 +62,12 @@ These are defaults, not discovered facts. Edit `ideas/deck-automation/hypothesis
+ 
+ See `ANTIGRAVITY-RUNBOOK.md`.
+ 
++## Stage 1.5 exploratory lead research
++
++For hypotheses explicitly retained after `INSUFFICIENT EVIDENCE`, the bounded
++lead-research and independent-review workflow is documented in
++`prompts/stage1.5/RUNBOOK.md`. It does not authorize outreach or development.
++
+ ## Important principle
+ 
+ A missing fact remains `UNKNOWN`. Agents must not convert plausible assumptions into evidence.
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/config.json b/ideas/multi-brand-content/stage1.5/lead-research/config.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ce77c7ea9a3182cf0530b14bd7d5090ca197da1
+--- /dev/null
++++ b/ideas/multi-brand-content/stage1.5/lead-research/config.json
+@@ -0,0 +1,53 @@
++{
++  "schema_version": 1,
++  "idea_id": "multi-brand-content",
++  "scope_id": "MULTIBRAND-OPERATOR-01",
++  "working_language": "English",
++  "geography": "GLOBAL_ENGLISH",
++  "target_qualified_leads": 50,
++  "target_substantive_conversations": 5,
++  "max_counted_conversations": 8,
++  "max_new_qualified_per_research_run": 10,
++  "max_candidates_examined_per_research_run": 20,
++  "required_confirmed_claims": [
++    "ACTIVE_BUSINESS",
++    "ENGLISH_SERVICE",
++    "EXTERNAL_SERVICE_PROVIDER",
++    "TEAM_SIZE_2_20",
++    "OWNER_IDENTITY",
++    "ORGANIC_SOCIAL_MANAGEMENT",
++    "RECURRING_CONTENT_SERVICE",
++    "STATIC_OR_CAROUSEL_CONTENT",
++    "MULTIPLE_CLIENT_BRANDS",
++    "PUBLIC_BUSINESS_CONTACT"
++  ],
++  "screening_unknowns_allowed": [
++    "SMB_CLIENTELE",
++    "OWNER_HANDS_ON_PRODUCTION",
++    "RECURRING_REVISION_PAIN",
++    "CURRENT_TOOL_STACK",
++    "BUDGET_AUTHORITY",
++    "WILLINGNESS_TO_PAY"
++  ],
++  "screening_disqualifying_contradictions": [
++    "SMB_CLIENTELE",
++    "OWNER_HANDS_ON_PRODUCTION"
++  ],
++  "priority_a_requires": [
++    "SMB_CLIENTELE",
++    "OWNER_HANDS_ON_PRODUCTION"
++  ],
++  "hard_exclusions": [
++    "SOLO_PROVIDER_OR_TEAM_BELOW_2",
++    "TEAM_ABOVE_20_OR_CONFLICTING_RANGE",
++    "IN_HOUSE_SINGLE_BRAND_TEAM",
++    "SOFTWARE_VENDOR_OR_DIRECTORY",
++    "PAID_ADS_ONLY",
++    "VIDEO_ONLY_OR_INFLUENCER_ONLY",
++    "NO_RECURRING_CONTENT_SERVICE",
++    "NO_MULTIPLE_CLIENT_BRAND_SUPPORT",
++    "NO_PUBLIC_BUSINESS_CONTACT_ROUTE",
++    "INACTIVE_STALE_OR_AMBIGUOUS_IDENTITY"
++  ],
++  "outreach_authorized": false
++}
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/lead-research-report.md b/ideas/multi-brand-content/stage1.5/lead-research/lead-research-report.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..be2f11201d220e70119a4dc0f40bf42e7aac4c32
+--- /dev/null
++++ b/ideas/multi-brand-content/stage1.5/lead-research/lead-research-report.md
+@@ -0,0 +1,9 @@
++# Multi-brand Stage 1.5 Lead Research
++
++Status: `NOT_STARTED`
++
++This report will be maintained by the Antigravity lead researcher. Machine
++totals belong in generated `lead-summary.json`; this narrative must cite lead IDs
++and source IDs for material conclusions.
++
++No outreach has been performed.
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/lead-summary.json b/ideas/multi-brand-content/stage1.5/lead-research/lead-summary.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..1d7912840fbb4541bc338d05671823b004c9671b
+--- /dev/null
++++ b/ideas/multi-brand-content/stage1.5/lead-research/lead-summary.json
+@@ -0,0 +1,19 @@
++{
++  "contact_channel_counts": {},
++  "country_counts": {},
++  "idea_id": "multi-brand-content",
++  "outreach_authorized": false,
++  "priority_counts": {},
++  "qualified_leads": 0,
++  "ready_for_codex_audit": false,
++  "schema_version": 1,
++  "scope_id": "MULTIBRAND-OPERATOR-01",
++  "screening_unknown_counts": {},
++  "source_kind_counts": {},
++  "source_outcome_counts": {},
++  "source_records": 0,
++  "status_counts": {},
++  "target_qualified_leads": 50,
++  "total_leads": 0,
++  "unique_qualified_domains": 0
++}
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/leads.csv b/ideas/multi-brand-content/stage1.5/lead-research/leads.csv
+new file mode 100644
+index 0000000000000000000000000000000000000000..dbea85318fbf77a8885620c768ab3aa94196b317
+--- /dev/null
++++ b/ideas/multi-brand-content/stage1.5/lead-research/leads.csv
+@@ -0,0 +1 @@
++lead_id,organization_name,website_url,canonical_domain,city,country,team_size_label,owner_name,owner_role,contact_channel,contact_url,status,priority,screening_unknowns,source_ids,notes
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/leads.jsonl b/ideas/multi-brand-content/stage1.5/lead-research/leads.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/reviews/.gitkeep b/ideas/multi-brand-content/stage1.5/lead-research/reviews/.gitkeep
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/run-status.json b/ideas/multi-brand-content/stage1.5/lead-research/run-status.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..55c42e608d8d8307e9248767adf37c6da0e3e9b2
+--- /dev/null
++++ b/ideas/multi-brand-content/stage1.5/lead-research/run-status.json
+@@ -0,0 +1,17 @@
++{
++  "blockers": [],
++  "excluded_leads": 0,
++  "hold_leads": 0,
++  "idea_id": "multi-brand-content",
++  "lead_summary_sha256": "9fd8ac4449a27964987bac2f478d6fafcd2d020bcd9e64ff5ba90f5e562d2805",
++  "notes": null,
++  "phase": "LEAD_RESEARCH",
++  "priority_counts": {},
++  "qualified_leads": 0,
++  "schema_version": 1,
++  "scope_id": "MULTIBRAND-OPERATOR-01",
++  "source_records": 0,
++  "status": "IN_PROGRESS",
++  "target_qualified_leads": 50,
++  "total_leads": 0
++}
+diff --git a/ideas/multi-brand-content/stage1.5/lead-research/source-register.jsonl b/ideas/multi-brand-content/stage1.5/lead-research/source-register.jsonl
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/methodology/stage1.5-lead-research.md b/methodology/stage1.5-lead-research.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..170d4e0a358b9dc5b9393ac8d8de7d8e05d80660
+--- /dev/null
++++ b/methodology/stage1.5-lead-research.md
+@@ -0,0 +1,118 @@
++# Stage 1.5 Lead Research Contract
++
++Stage 1.5 is a bounded exploratory bridge for hypotheses whose Stage 1 verdict
++is `INSUFFICIENT EVIDENCE`, but which the founder has explicitly chosen to test
++through direct conversations. It is not a relaxed Stage 1 PASS and does not
++authorize product development, mass outreach or a launch.
++
++## Funnel and counting units
++
++Keep these units separate:
++
++1. **Researched candidate** — an organization inspected during public lead
++   research. It may be qualified, held or excluded.
++2. **Qualified for screening** — the public record establishes all hard lead
++   criteria and a public business contact route. This is a lead, not a validated
++   respondent.
++3. **Contacted candidate** — outreach was actually sent in a separately
++   authorized task.
++4. **Qualified respondent** — screening answers establish the complete target
++   scope, including the facts that public research intentionally leaves unknown.
++5. **Counted substantive conversation** — a qualified respondent gives an
++   answer about the actual workflow, pain, substitute, spend or decision process.
++
++The Stage 1.5 target is **5 counted substantive conversations**. Stop at a hard
++cap of **8 counted conversations** and make a decision. The candidate and
++outreach pools may be much larger. No-response, a bare refusal, trolling,
++off-topic text and a wrong-ICP reply do not count. A substantive negative answer
++from a qualified respondent does count.
++
++## Lead-research boundary
++
++Lead research is public business research only. It may collect public company
++names, founder/owner names and roles, source URLs and public business contact
++routes. Do not collect private contact details, guessed emails, personal phone
++numbers, data behind login walls or sensitive personal data. Do not send a
++message, submit a form, book a call or otherwise interact with a candidate.
++
++Search snippets are discovery leads, never support. Open the public page and
++record the exact relevant fragment. Prefer official company pages for services,
++portfolio, activity and contact routes; use a public company directory or
++professional profile when it is the best available source for team size or
++founder identity. A directory range such as `2-10` may establish the configured
++team range; a conflicting `11-50` range does not establish `<=20`.
++
++## Canonical artifacts
++
++Each idea keeps its lead work under:
++
++`ideas/<idea>/stage1.5/lead-research/`
++
++- `config.json` — locked scope, target and qualification policy.
++- `leads.jsonl` — canonical organization-level lead dataset.
++- `source-register.jsonl` — source-level retrieval ledger and exact fragments.
++- `lead-research-report.md` — analytical narrative. Its totals must agree with
++  generated structured output.
++- `leads.csv` — generated operational view; never edit it by hand.
++- `lead-summary.json` — generated counts and source coverage.
++- `run-status.json` — generated checkpoint state plus honest blockers/notes.
++- `snapshot.json` — hashes of a complete package sealed for independent audit.
++- `reviews/` — reviewer-owned findings and repair responses.
++
++`leads.jsonl` and `source-register.jsonl` are canonical. Repeated fields and
++totals in CSV, status and summaries are generated from them. A passing local
++checker proves structural consistency, not that a public page says what the
++agent recorded.
++
++## Organization identity and deduplication
++
++One lead equals one independent organization, not one office, founder, employee
++or directory listing. Deduplicate on the normalized official domain and on a
++case/punctuation-insensitive organization key. Preserve an excluded duplicate
++only when it points to the retained `duplicate_of` lead. Rebrands, acquisitions
++and parent/subsidiary relationships remain `HOLD` until independence is clear.
++
++## Multi-brand public qualification
++
++For the first run (`MULTIBRAND-OPERATOR-01`), a lead counts toward the 50-lead
++research target only when opened public sources confirm all of the following:
++
++- active English-language external service provider;
++- owner/founder identity and an agency team of 2–20;
++- organic social-media management;
++- recurring content-production service;
++- static post, graphic or carousel work (not video-only or paid-ads-only);
++- work for multiple client brands; and
++- a public business contact route.
++
++Public research does **not** silently infer SMB clientele, the owner's hands-on
++production/revision role, recurring revision pain, current stack, buying
++authority or WTP. Those may remain explicit screening unknowns. Direct evidence
++that the organization does not serve SMBs or that its owner is not materially
++involved makes it ineligible for this scope; a negative view of the pain or WTP
++does not, because disconfirming respondents are valuable. A priority-A lead
++additionally has direct public support for both SMB clientele and the owner's
++hands-on production/review role; other qualified leads are priority B.
++
++## Source binding
++
++Every confirmed lead claim must reference at least one successful
++`source-register.jsonl` row for the same lead whose `supports` list names that
++claim. A blocked, missing or errored page cannot support qualification. A
++contact route must link to the public page where the form, booking route,
++business email route or company messaging surface is actually available.
++
++## Roles and handoff
++
++The lead researcher owns the canonical dataset, source register and analytical
++report. The independent reviewer writes findings under `reviews/` and does not
++repair those canonical files. The researcher then responds to findings and
++creates a new sealed snapshot. Final readiness requires:
++
++- deterministic schema, binding, deduplication and total checks;
++- independent semantic review of qualification and report claims;
++- successful live re-opening of every qualified lead's official site and public
++  contact route, plus the source pages used for decisive hard claims;
++- no open blocker affecting a qualified lead; and
++- an explicit statement that readiness means **ready for bounded outreach**, not
++  that outreach has occurred or that the hypothesis passed.
+diff --git a/methodology/stage15-lead-schema.json b/methodology/stage15-lead-schema.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c2ecce2cd82eae0d59ad79f7ae6ec9aef06554cc
+--- /dev/null
++++ b/methodology/stage15-lead-schema.json
+@@ -0,0 +1,171 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://example.invalid/stage15-lead-schema.json",
++  "title": "Stage 1.5 lead-research records",
++  "schema_version": 1,
++  "$defs": {
++    "claimStatus": {
++      "enum": ["CONFIRMED", "UNKNOWN", "CONTRADICTED"]
++    },
++    "claimName": {
++      "enum": [
++        "ACTIVE_BUSINESS",
++        "ENGLISH_SERVICE",
++        "EXTERNAL_SERVICE_PROVIDER",
++        "TEAM_SIZE_2_20",
++        "OWNER_IDENTITY",
++        "ORGANIC_SOCIAL_MANAGEMENT",
++        "RECURRING_CONTENT_SERVICE",
++        "STATIC_OR_CAROUSEL_CONTENT",
++        "MULTIPLE_CLIENT_BRANDS",
++        "PUBLIC_BUSINESS_CONTACT",
++        "SMB_CLIENTELE",
++        "OWNER_HANDS_ON_PRODUCTION",
++        "RECURRING_REVISION_PAIN",
++        "CURRENT_TOOL_STACK",
++        "BUDGET_AUTHORITY",
++        "WILLINGNESS_TO_PAY"
++      ]
++    },
++    "sourceRecord": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": [
++        "schema_version",
++        "source_id",
++        "lead_id",
++        "url",
++        "source_kind",
++        "publisher",
++        "retrieved_at",
++        "retrieval_outcome",
++        "retrieval_tool",
++        "locator",
++        "exact_fragment",
++        "supports",
++        "notes"
++      ],
++      "properties": {
++        "schema_version": {"const": 1},
++        "source_id": {"type": "string", "pattern": "^mb-src-[0-9]{4}$"},
++        "lead_id": {"type": "string", "pattern": "^mb-lead-[0-9]{3}$"},
++        "url": {"type": "string", "format": "uri"},
++        "source_kind": {
++          "enum": [
++            "OFFICIAL_SITE",
++            "OFFICIAL_CONTACT",
++            "OFFICIAL_TEAM",
++            "OFFICIAL_PORTFOLIO",
++            "LINKEDIN_COMPANY",
++            "LINKEDIN_FOUNDER",
++            "AGENCY_DIRECTORY",
++            "COMPANY_REGISTRY",
++            "OTHER_PUBLIC_PAGE"
++          ]
++        },
++        "publisher": {"type": "string", "minLength": 1},
++        "retrieved_at": {"type": "string", "format": "date-time"},
++        "retrieval_outcome": {"enum": ["SUCCESS", "BLOCKED", "NOT_FOUND", "ERROR"]},
++        "retrieval_tool": {"type": "string", "minLength": 1},
++        "locator": {"type": ["string", "null"]},
++        "exact_fragment": {"type": ["string", "null"], "maxLength": 1200},
++        "supports": {
++          "type": "array",
++          "uniqueItems": true,
++          "items": {"$ref": "#/$defs/claimName"}
++        },
++        "notes": {"type": ["string", "null"]}
++      }
++    },
++    "leadRecord": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": [
++        "schema_version",
++        "lead_id",
++        "idea_id",
++        "scope_id",
++        "organization_name",
++        "organization_key",
++        "website_url",
++        "canonical_domain",
++        "city",
++        "country",
++        "working_language",
++        "team_size_min",
++        "team_size_max",
++        "team_size_label",
++        "owner_name",
++        "owner_role",
++        "qualification",
++        "claim_source_ids",
++        "contact_channel",
++        "contact_url",
++        "contact_source_id",
++        "source_ids",
++        "screening_unknowns",
++        "status",
++        "priority",
++        "exclusion_reasons",
++        "duplicate_of",
++        "notes",
++        "last_verified_at"
++      ],
++      "properties": {
++        "schema_version": {"const": 1},
++        "lead_id": {"type": "string", "pattern": "^mb-lead-[0-9]{3}$"},
++        "idea_id": {"const": "multi-brand-content"},
++        "scope_id": {"const": "MULTIBRAND-OPERATOR-01"},
++        "organization_name": {"type": "string", "minLength": 1},
++        "organization_key": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
++        "website_url": {"type": "string", "format": "uri"},
++        "canonical_domain": {"type": "string", "pattern": "^[a-z0-9.-]+$"},
++        "city": {"type": ["string", "null"]},
++        "country": {"type": ["string", "null"]},
++        "working_language": {"enum": ["English", "UNKNOWN"]},
++        "team_size_min": {"type": ["integer", "null"], "minimum": 1},
++        "team_size_max": {"type": ["integer", "null"], "minimum": 1},
++        "team_size_label": {"type": ["string", "null"]},
++        "owner_name": {"type": ["string", "null"]},
++        "owner_role": {"type": ["string", "null"]},
++        "qualification": {
++          "type": "object",
++          "additionalProperties": {"$ref": "#/$defs/claimStatus"}
++        },
++        "claim_source_ids": {
++          "type": "object",
++          "additionalProperties": {
++            "type": "array",
++            "uniqueItems": true,
++            "items": {"type": "string", "pattern": "^mb-src-[0-9]{4}$"}
++          }
++        },
++        "contact_channel": {
++          "enum": ["CONTACT_FORM", "BOOKING_PAGE", "BUSINESS_EMAIL_PAGE", "COMPANY_LINKEDIN", "NONE"]
++        },
++        "contact_url": {"type": ["string", "null"], "format": "uri"},
++        "contact_source_id": {"type": ["string", "null"], "pattern": "^mb-src-[0-9]{4}$"},
++        "source_ids": {
++          "type": "array",
++          "uniqueItems": true,
++          "items": {"type": "string", "pattern": "^mb-src-[0-9]{4}$"}
++        },
++        "screening_unknowns": {
++          "type": "array",
++          "uniqueItems": true,
++          "items": {"$ref": "#/$defs/claimName"}
++        },
++        "status": {"enum": ["QUALIFIED_FOR_SCREENING", "HOLD", "EXCLUDED"]},
++        "priority": {"enum": ["A", "B", "C", "NONE"]},
++        "exclusion_reasons": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
++        "duplicate_of": {"type": ["string", "null"], "pattern": "^mb-lead-[0-9]{3}$"},
++        "notes": {"type": ["string", "null"]},
++        "last_verified_at": {"type": "string", "format": "date-time"}
++      }
++    }
++  },
++  "oneOf": [
++    {"$ref": "#/$defs/leadRecord"},
++    {"$ref": "#/$defs/sourceRecord"}
++  ]
++}
+diff --git a/prompts/codex/30-audit-multibrand-leads.md b/prompts/codex/30-audit-multibrand-leads.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2c233bcb92eb4c875f9dfeb72761f43964a0ac8b
+--- /dev/null
++++ b/prompts/codex/30-audit-multibrand-leads.md
+@@ -0,0 +1,60 @@
++# Independent Codex audit of the Multi-brand Stage 1.5 lead package
++
++Use this in the existing Stage 1.5+ ChatGPT/Codex thread after the user provides
++the commit containing sealed snapshot `mb-leads-v1-001`.
++
++## Boundary
++
++Audit the Antigravity-owned package. Do not modify `leads.jsonl`,
++`source-register.jsonl`, `lead-research-report.md`, generated files, config or
++snapshot. Do not send outreach, submit contact forms or book calls. Write only
++reviewer artifacts under:
++
++`ideas/multi-brand-content/stage1.5/lead-research/reviews/`
++
++Read `AGENTS.md`, `methodology/stage1.5-lead-research.md`, the lead schema,
++config, sealed snapshot and all package files. First run:
++
++```bash
++python scripts/stage15_leads.py check --idea multi-brand-content --require-final
++```
++
++The command is structural only. Independently inspect public pages with web
++research; do not use terminal HTTP clients or Antigravity internal/cache files.
++
++## Required audit coverage
++
++1. Recompute organization-name/domain duplicates and all dataset/report totals.
++2. Review every qualified lead. Re-open its official website, public business
++   contact route and each decisive source used for hard qualification claims.
++3. Check that exact fragments support the recorded claim without role,
++   headcount, client, recurrence or service inference. Resolve source conflicts
++   conservatively; an `11-50` range does not prove `<=20`.
++4. Confirm that the organization is an active external agency, not software,
++   in-house, inactive/rebranded, paid-ads-only or video-only; that the public
++   owner identity is real; and that work for multiple client brands is shown.
++5. Check every priority-A classification specifically for direct SMB-client and
++   hands-on owner support. Unknown is acceptable for priority B but must remain a
++   screening unknown.
++6. Test all qualified public contact URLs without submitting anything. A page
++   that loads but has no contact surface does not pass.
++7. Review all report-cited holds, exclusions and analytical claims. Do not need
++   to re-open an unmentioned excluded lead unless it affects a duplicate, total
++   or claimed pattern.
++
++Work in batches small enough to preserve reliable source attribution. Maintain:
++
++- `codex-audit-state.json` — snapshot ID, reviewed qualified lead IDs, remaining
++  IDs, blocked IDs and last checkpoint time;
++- `codex-findings.jsonl` — one atomic finding with fields `finding_id`,
++  `severity` (`BLOCKER`, `MAJOR`, `MINOR`, `NOTE`), `category` (`IDENTITY`,
++  `DUPLICATE`, `SCOPE`, `SOURCE_SUPPORT`, `LINK`, `CONTACT`, `TOTAL`, `REPORT`),
++  nullable `lead_id`, nullable `source_id`, exact `url`, `finding`,
++  `required_action`, and `status: OPEN`;
++- `codex-audit.md` — coverage, structural result, live-link result, findings,
++  report accuracy and a clear `REPAIR_REQUIRED` or `READY_FOR_REPAIR_HANDOFF`
++  conclusion.
++
++Do not declare outreach-ready while any qualified lead has an unreviewed or
++blocked decisive source/contact route. Commit only reviewer artifacts, report
++the commit SHA and stop. Canonical repairs belong to Antigravity.
+diff --git a/prompts/codex/31-final-multibrand-readiness.md b/prompts/codex/31-final-multibrand-readiness.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..e55fd99889b9591b9752ad7e1a351b3cca774aff
+--- /dev/null
++++ b/prompts/codex/31-final-multibrand-readiness.md
+@@ -0,0 +1,38 @@
++# Final Codex readiness review of repaired Multi-brand leads
++
++Run in the Stage 1.5+ ChatGPT/Codex thread after Antigravity has resolved the
++independent audit and sealed `mb-leads-v1-002`.
++
++Read both snapshots, Codex findings, Antigravity repair response and the complete
++current package. Do not modify Antigravity-owned canonical files and do not send
++outreach.
++
++Run:
++
++```bash
++python scripts/stage15_leads.py check --idea multi-brand-content --require-final
++```
++
++Then:
++
++1. Re-open every changed/new lead and source identified in the repair response.
++2. Re-test every qualified official website and public contact route, including
++   unchanged leads whose previous check was blocked or materially stale.
++3. Recompute duplicates and totals and compare the analytical report with
++   `lead-summary.json`.
++4. Confirm 50 independently identified qualified organizations remain, every
++   hard qualification claim has direct successful support, and no BLOCKER/MAJOR
++   finding remains unresolved.
++5. Confirm remaining priority-B unknowns are appropriate screening questions and
++   have not been presented as facts.
++
++Write only
++`ideas/multi-brand-content/stage1.5/lead-research/reviews/final-readiness.md`.
++Conclude exactly one of:
++
++- `READY_FOR_BOUNDED_OUTREACH_DESIGN`; or
++- `NOT_READY`, with specific open blockers.
++
++Readiness does not authorize sending messages. Outreach copy, channel cadence,
++screening, consent and interview logging are a subsequent separately authorized
++Stage 1.5 task.
+diff --git a/prompts/stage1.5/10-multibrand-lead-research.md b/prompts/stage1.5/10-multibrand-lead-research.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..20a71f283ea3de05a00ceaa0ed13516694b42096
+--- /dev/null
++++ b/prompts/stage1.5/10-multibrand-lead-research.md
+@@ -0,0 +1,107 @@
++# Multi-brand Stage 1.5 lead research — start or resume one bounded run
++
++Invoke `/browser` and `/lead-research` in a fresh Antigravity conversation using
++High reasoning. This prompt is resumable and must be reused unchanged for each
++subsequent bounded run until the canonical summary reaches 50 qualified leads.
++
++## Read first
++
++- `AGENTS.md`
++- `.agent/skills/lead-research/SKILL.md`
++- `methodology/stage1.5-lead-research.md`
++- `methodology/stage15-lead-schema.json`
++- `ideas/multi-brand-content/hypothesis.yaml`
++- `ideas/multi-brand-content/output/stage1-report.md`
++- `ideas/multi-brand-content/stage1.5/lead-research/config.json`
++- every existing file under
++  `ideas/multi-brand-content/stage1.5/lead-research/`, excluding `reviews/`
++
++The Stage 1 report explains unknowns but is not proof about a lead. The locked
++research target is global English-language, owner-led agencies with 2–20 people
++that provide recurring organic static social content for multiple client brands.
++
++## Resume and deduplicate
++
++Inspect the generated summary and run status before searching. Preserve every
++valid existing lead/source ID and continue from the next unused numeric IDs.
++Never restart or replace the dataset. Before adding a candidate, compare its
++normalized official domain and organization name against all existing leads,
++including holds and exclusions.
++
++## Bounded research budget for this conversation
++
++Inspect at most 20 new candidate organizations and add at most 10 newly
++`QUALIFIED_FOR_SCREENING` leads. Stop when either limit is reached. A future
++fresh conversation will reuse this same prompt and continue.
++
++Search broadly across English-speaking geographies and more than one discovery
++surface. Do not impose a country quota, but do not fill the dataset from a single
++directory page or one city merely because it is convenient.
++
++For each candidate:
++
++1. Open the official website and the actual supporting pages. Search snippets do
++   not count.
++2. Confirm or leave unknown every canonical claim. One public source may support
++   several claims when its exact fragment truly does so.
++3. For a qualified lead, public sources must confirm all hard claims in
++   `config.json`, including a wholly supported 2–20 team range, named
++   founder/owner, recurring organic social-content service, static/graphic or
++   carousel work, multiple client brands and a public business contact route.
++4. Directory-only organizations, conflicting `11-50`/larger headcount,
++   paid-ads-only, video-only, SaaS vendors, inactive/rebranded businesses and
++   ambiguous identities are not qualified. Record an honest `HOLD` or
++   `EXCLUDED` row with a concrete reason.
++5. Do not infer SMB clientele or a hands-on owner role. Those can remain
++   screening unknowns. Priority A requires direct support for both; otherwise a
++   qualified lead is priority B.
++6. Store contact URLs only. Do not copy personal emails/phone numbers, guess an
++   email, enter a login wall or contact the organization.
++
++Maintain only these researcher-owned canonical files:
++
++- `leads.jsonl`
++- `source-register.jsonl`
++- `lead-research-report.md`
++
++The analytical report must distinguish confirmed public facts from screening
++unknowns, cite material claims by lead ID and source ID, summarize exclusions
++and geography/source coverage, and state explicitly that no outreach occurred.
++Do not hand-edit generated CSV, summary, computed status fields or snapshot.
++When a run is blocked, you may edit only `blockers` and `notes` in
++`run-status.json` before rerunning checkpoint; the script owns all other fields.
++
++## Write and terminal boundary
++
++Write only under:
++
++`ideas/multi-brand-content/stage1.5/lead-research/`
++
++Do not alter `config.json`, methodology, scripts, Stage 1 evidence/output or
++reviewer-owned files under `reviews/`.
++
++After each group of at most five finalized candidates, run only:
++
++```powershell
++python scripts/stage15_leads.py checkpoint --idea multi-brand-content
++```
++
++You may then run the read-only consistency check:
++
++```powershell
++python scripts/stage15_leads.py check --idea multi-brand-content
++```
++
++No `python -c`, terminal web retrieval or helper scripts.
++
++If the generated summary reaches at least 50 `QUALIFIED_FOR_SCREENING` leads,
++finish the report and seal the initial package using only:
++
++```powershell
++python scripts/stage15_leads.py seal --idea multi-brand-content --snapshot-id mb-leads-v1-001
++python scripts/stage15_leads.py check --idea multi-brand-content --require-final
++```
++
++If it remains below 50, checkpoint and stop partial without sealing. Report this
++run's examined/qualified IDs, cumulative totals, browser blockers and next
++starting IDs. Do not start Codex review, screening, outreach or interviews.
+diff --git a/prompts/stage1.5/20-multibrand-lead-repair.md b/prompts/stage1.5/20-multibrand-lead-repair.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..490c61b4e12db7f59f929b1ab5bd603ee78d684a
+--- /dev/null
++++ b/prompts/stage1.5/20-multibrand-lead-repair.md
+@@ -0,0 +1,54 @@
++# Multi-brand Stage 1.5 lead repair after independent Codex audit
++
++Invoke `/browser` and `/lead-research` in a fresh Antigravity conversation using
++High reasoning. Run this only after Codex has written a complete audit under:
++
++`ideas/multi-brand-content/stage1.5/lead-research/reviews/`
++
++Read the same contracts and inputs as
++`prompts/stage1.5/10-multibrand-lead-research.md`, plus every Codex audit state,
++finding and report in `reviews/`.
++
++## Task
++
++Resolve every open BLOCKER or MAJOR finding against the original public pages.
++For each finding, either:
++
++- correct the canonical lead/source row with directly supported facts;
++- demote the lead to `HOLD` or `EXCLUDED`; or
++- preserve the row and give source-backed reasons that the finding is not a
++  defect.
++
++If a demotion reduces the qualified pool below 50, research replacements using
++the unchanged qualification contract. Do not lower criteria or keep a broken
++lead to preserve the total. Preserve stable IDs; a replacement gets a new ID.
++Do not edit Codex-owned findings or claim they are closed yourself.
++
++Update `lead-research-report.md` and create:
++
++`ideas/multi-brand-content/stage1.5/lead-research/reviews/antigravity-repair-response.md`
++
++Map every finding ID to the exact changed lead/source IDs or to the reason for
++disagreement. State that no outreach occurred.
++
++Write only in the Stage 1.5 lead-research directory. Do not modify methodology,
++scripts, config, Stage 1 files or Codex-owned audit artifacts.
++
++After each bounded repair group run only:
++
++```powershell
++python scripts/stage15_leads.py checkpoint --idea multi-brand-content
++python scripts/stage15_leads.py check --idea multi-brand-content
++```
++
++When all repair work is complete and 50 qualified leads remain, seal a new
++snapshot and validate it:
++
++```powershell
++python scripts/stage15_leads.py seal --idea multi-brand-content --snapshot-id mb-leads-v1-002
++python scripts/stage15_leads.py check --idea multi-brand-content --require-final
++```
++
++No `python -c`, terminal web retrieval, outreach, screening or interviews. Stop
++after reporting the new snapshot, changed IDs, replacement IDs, unresolved
++findings and structural-check result.
+diff --git a/prompts/stage1.5/RUNBOOK.md b/prompts/stage1.5/RUNBOOK.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c2dc75b9dc5af7e9622aefe9901605b81144d818
+--- /dev/null
++++ b/prompts/stage1.5/RUNBOOK.md
+@@ -0,0 +1,88 @@
++# Stage 1.5 Lead Research Runbook
++
++This runbook separates lead ownership, independent review and outreach. The
++first configured scope is Multi-brand content; GEO and Deck follow only after
++this workflow is proven and receive their own locked configs and launch prompts.
++
++## Decision boundary
++
++Stage 1.5 is an explicitly chosen exploratory exception after `INSUFFICIENT
++EVIDENCE`. It aims for 5 qualified substantive conversations and stops at 8
++counted conversations. Lead research may build a much larger funnel. A lead,
++message, response and counted conversation are different units.
++
++No prompt in this kit authorizes outreach.
++
++## Roles and sequence
++
++| Phase | Owner | Session | Output |
++|---|---|---|---|
++| 1. Broad lead pool | Antigravity | Fresh High conversation per bounded run | 50 source-backed qualified leads plus holds/exclusions |
++| 2. Independent audit | Codex in this Stage 1.5+ thread | One logical audit, checkpointed in small batches | Review state, atomic findings, audit report |
++| 3. Repair | Antigravity | Fresh High conversation | Corrected/replacement leads, response, new snapshot |
++| 4. Final readiness | Codex in this thread | Fresh review turn | Readiness decision; still no outreach |
++| 5. Outreach/screen/interview kit | Built only after readiness | Separate authorization | Messages, funnel log and interview protocol |
++
++## Phase 1 — Antigravity lead research
++
++1. Use branch `stage1.5-multibrand-leads` (or its eventual shared successor).
++2. Start a fresh Antigravity conversation in High reasoning.
++3. Enable `/browser` and invoke `/lead-research`.
++4. Paste the full unchanged file
++   `prompts/stage1.5/10-multibrand-lead-research.md`.
++5. After the agent stops, review its reported diff and commit/push the bounded
++   run yourself (or authorize that Git action separately). The research prompt
++   itself does not grant a broad terminal/Git write allowance.
++6. If `run-status.json.status` is `IN_PROGRESS` or `PARTIAL_BLOCKED`, start a
++   fresh conversation and paste the same prompt again. Do not edit the prompt.
++7. Repeat until the initial snapshot is sealed and the final checker passes.
++
++Each run adds at most 10 qualified leads or examines at most 20 new candidates.
++Therefore 50 qualified leads require at least 5 Antigravity runs; 5–8 is a
++reasonable operational expectation, not a quota. Tool blocks or a high exclusion
++rate may require more. Existing completed rows are preserved between runs.
++
++Bring the final commit SHA and Antigravity report back to the Stage 1.5+ thread.
++
++## Phase 2 — Codex independent audit
++
++Codex follows `prompts/codex/30-audit-multibrand-leads.md`. Structural checks run
++once; live semantic/source review proceeds in small batches while retaining one
++audit state. Every qualified lead, decisive hard-claim source and public contact
++route must be checked. Codex records findings separately and does not repair the
++canonical data.
++
++## Phase 3 — Antigravity repair
++
++After the Codex audit commit is available, start a fresh Antigravity High
++conversation with `/browser` and `/lead-research`, then paste
++`prompts/stage1.5/20-multibrand-lead-repair.md`. It must resolve or answer every
++finding, replace demoted leads when necessary, retain at least 50 qualified
++organizations and seal `mb-leads-v1-002`.
++
++## Phase 4 — joint consistency and readiness
++
++Codex follows `prompts/codex/31-final-multibrand-readiness.md`. This is the joint
++result: Antigravity has re-opened and repaired its source-owned rows; Codex
++independently rechecks changed rows and the final package. Required outcomes:
++
++- no duplicate active organization/domain;
++- generated totals equal canonical JSONL;
++- all 50 qualified leads have live official websites and public business contact
++  routes;
++- decisive hard claims are directly supported;
++- priority and screening unknowns are honest; and
++- no open BLOCKER/MAJOR finding affects the pool.
++
++Only `READY_FOR_BOUNDED_OUTREACH_DESIGN` advances to construction of the next
++kit. It does not send or authorize outreach by itself.
++
++## Later idea order
++
++After Multi-brand, repeat the proven workflow in this order:
++
++1. GEO / AI-search visibility monitoring;
++2. Vertical B2B deck / sales-collateral automation.
++
++Each idea needs a separate config because its hard public qualification criteria
++and screening unknowns differ. Do not reuse Multi-brand claim labels by analogy.
+diff --git a/scripts/stage15_leads.py b/scripts/stage15_leads.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbd7d515d84dc877246a23115a531af2cf438a70
+--- /dev/null
++++ b/scripts/stage15_leads.py
+@@ -0,0 +1,698 @@
++#!/usr/bin/env python3
++"""Offline Stage 1.5 lead dataset validator, renderer and snapshot sealer.
++
++This script never retrieves a URL and never sends outreach. Passing it proves
++local structure and cross-file consistency, not that a public source is true or
++currently reachable.
++"""
++from __future__ import annotations
++
++import argparse
++import csv
++import hashlib
++import io
++import json
++import re
++import sys
++import unicodedata
++from collections import Counter
++from datetime import datetime, timezone
++from pathlib import Path
++from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
++
++
++SCHEMA_VERSION = 1
++CLAIMS = (
++    "ACTIVE_BUSINESS",
++    "ENGLISH_SERVICE",
++    "EXTERNAL_SERVICE_PROVIDER",
++    "TEAM_SIZE_2_20",
++    "OWNER_IDENTITY",
++    "ORGANIC_SOCIAL_MANAGEMENT",
++    "RECURRING_CONTENT_SERVICE",
++    "STATIC_OR_CAROUSEL_CONTENT",
++    "MULTIPLE_CLIENT_BRANDS",
++    "PUBLIC_BUSINESS_CONTACT",
++    "SMB_CLIENTELE",
++    "OWNER_HANDS_ON_PRODUCTION",
++    "RECURRING_REVISION_PAIN",
++    "CURRENT_TOOL_STACK",
++    "BUDGET_AUTHORITY",
++    "WILLINGNESS_TO_PAY",
++)
++CLAIM_STATUSES = {"CONFIRMED", "UNKNOWN", "CONTRADICTED"}
++LEAD_STATUSES = {"QUALIFIED_FOR_SCREENING", "HOLD", "EXCLUDED"}
++PRIORITIES = {"A", "B", "C", "NONE"}
++CONTACT_CHANNELS = {
++    "CONTACT_FORM", "BOOKING_PAGE", "BUSINESS_EMAIL_PAGE", "COMPANY_LINKEDIN", "NONE"
++}
++SOURCE_KINDS = {
++    "OFFICIAL_SITE", "OFFICIAL_CONTACT", "OFFICIAL_TEAM", "OFFICIAL_PORTFOLIO",
++    "LINKEDIN_COMPANY", "LINKEDIN_FOUNDER", "AGENCY_DIRECTORY", "COMPANY_REGISTRY",
++    "OTHER_PUBLIC_PAGE",
++}
++RETRIEVAL_OUTCOMES = {"SUCCESS", "BLOCKED", "NOT_FOUND", "ERROR"}
++SEARCH_HOSTS = {
++    "google.com", "www.google.com", "bing.com", "www.bing.com", "search.yahoo.com",
++    "duckduckgo.com", "www.duckduckgo.com",
++}
++DIRECTORY_HOSTS = {
++    "linkedin.com", "www.linkedin.com", "clutch.co", "www.clutch.co", "sortlist.com",
++    "www.sortlist.com", "designrush.com", "www.designrush.com", "themanifest.com",
++    "www.themanifest.com", "facebook.com", "www.facebook.com", "instagram.com",
++    "www.instagram.com",
++}
++TRACKING_KEYS = {"gclid", "fbclid", "msclkid"}
++LEGAL_SUFFIXES = {
++    "agency", "co", "company", "corp", "corporation", "gmbh", "inc", "incorporated",
++    "limited", "llc", "ltd", "plc", "pty",
++}
++LEAD_FIELDS = {
++    "schema_version", "lead_id", "idea_id", "scope_id", "organization_name",
++    "organization_key", "website_url", "canonical_domain", "city", "country",
++    "working_language", "team_size_min", "team_size_max", "team_size_label",
++    "owner_name", "owner_role", "qualification", "claim_source_ids", "contact_channel",
++    "contact_url", "contact_source_id", "source_ids", "screening_unknowns", "status",
++    "priority", "exclusion_reasons", "duplicate_of", "notes", "last_verified_at",
++}
++SOURCE_FIELDS = {
++    "schema_version", "source_id", "lead_id", "url", "source_kind", "publisher",
++    "retrieved_at", "retrieval_outcome", "retrieval_tool", "locator", "exact_fragment",
++    "supports", "notes",
++}
++RUN_STATUS_FIELDS = {
++    "schema_version", "idea_id", "scope_id", "phase", "status",
++    "target_qualified_leads", "total_leads", "qualified_leads", "hold_leads",
++    "excluded_leads", "priority_counts", "source_records", "blockers", "notes",
++    "lead_summary_sha256",
++}
++CSV_FIELDS = (
++    "lead_id", "organization_name", "website_url", "canonical_domain", "city", "country",
++    "team_size_label", "owner_name", "owner_role", "contact_channel", "contact_url",
++    "status", "priority", "screening_unknowns", "source_ids", "notes",
++)
++
++
++class LeadError(ValueError):
++    pass
++
++
++def require(condition, message):
++    if not condition:
++        raise LeadError(message)
++
++
++def unique_object(pairs):
++    value = {}
++    for key, item in pairs:
++        require(key not in value, f"duplicate JSON property: {key}")
++        value[key] = item
++    return value
++
++
++def parse_json(text):
++    def reject_constant(value):
++        raise LeadError(f"non-finite JSON value: {value}")
++    return json.loads(text, object_pairs_hook=unique_object, parse_constant=reject_constant)
++
++
++def canonical_json_bytes(value):
++    return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")
++
++
++def sha256_bytes(value):
++    return hashlib.sha256(value).hexdigest()
++
++
++def sha256_file(path):
++    return sha256_bytes(Path(path).read_bytes())
++
++
++def read_json(path):
++    path = Path(path)
++    require(path.is_file(), f"missing JSON file: {path}")
++    try:
++        value = parse_json(path.read_text(encoding="utf-8"))
++    except (json.JSONDecodeError, UnicodeDecodeError, LeadError) as exc:
++        raise LeadError(f"invalid JSON {path}: {exc}") from exc
++    require(isinstance(value, dict), f"JSON object required: {path}")
++    return value
++
++
++def read_jsonl(path, label):
++    path = Path(path)
++    require(path.is_file(), f"missing {label}: {path}")
++    rows = []
++    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
++        if not line.strip():
++            continue
++        try:
++            row = parse_json(line)
++        except (json.JSONDecodeError, LeadError) as exc:
++            raise LeadError(f"{label}:{line_number}: {exc}") from exc
++        require(isinstance(row, dict), f"{label}:{line_number}: object required")
++        rows.append(row)
++    return rows
++
++
++def nonempty(value):
++    return isinstance(value, str) and bool(value.strip())
++
++
++def validate_timestamp(value, label):
++    require(nonempty(value), f"{label}: timestamp required")
++    try:
++        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
++    except ValueError as exc:
++        raise LeadError(f"{label}: invalid ISO timestamp {value!r}") from exc
++    require(parsed.tzinfo is not None, f"{label}: timezone required")
++    return parsed
++
++
++def normalized_url(url):
++    require(nonempty(url), "nonempty URL required")
++    parts = urlsplit(url)
++    require(parts.scheme.lower() in {"http", "https"} and parts.hostname and not parts.username,
++            f"public HTTP(S) URL required: {url!r}")
++    query = [
++        (key, value) for key, value in parse_qsl(parts.query, keep_blank_values=True)
++        if not key.lower().startswith("utm_") and key.lower() not in TRACKING_KEYS
++    ]
++    return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), parts.path.rstrip("/"),
++                       urlencode(sorted(query)), parts.fragment))
++
++
++def hostname(url):
++    return (urlsplit(normalized_url(url)).hostname or "").lower().removeprefix("www.")
++
++
++def normalize_organization_name(name):
++    text = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii").lower()
++    tokens = re.findall(r"[a-z0-9]+", text)
++    while len(tokens) > 1 and tokens[-1] in LEGAL_SUFFIXES:
++        tokens.pop()
++    return "-".join(tokens)
++
++
++def validate_config(config):
++    required = {
++        "schema_version", "idea_id", "scope_id", "working_language", "geography",
++        "target_qualified_leads", "target_substantive_conversations",
++        "max_counted_conversations", "max_new_qualified_per_research_run",
++        "max_candidates_examined_per_research_run", "required_confirmed_claims",
++        "screening_unknowns_allowed", "screening_disqualifying_contradictions",
++        "priority_a_requires", "hard_exclusions", "outreach_authorized",
++    }
++    require(set(config) == required,
++            f"config fields differ: missing={sorted(required - set(config))}, "
++            f"unexpected={sorted(set(config) - required)}")
++    require(config["schema_version"] == SCHEMA_VERSION, "unsupported config schema_version")
++    require(nonempty(config["idea_id"]) and nonempty(config["scope_id"]), "idea/scope required")
++    require(config["working_language"] == "English", "this run must use English leads")
++    for field in ("target_qualified_leads", "target_substantive_conversations",
++                  "max_counted_conversations", "max_new_qualified_per_research_run",
++                  "max_candidates_examined_per_research_run"):
++        require(type(config[field]) is int and config[field] > 0, f"positive integer required: {field}")
++    require(config["target_substantive_conversations"] == 5,
++            "Stage 1.5 substantive-conversation target must be 5")
++    require(config["max_counted_conversations"] == 8,
++            "Stage 1.5 counted-conversation cap must be 8")
++    for field in ("required_confirmed_claims", "screening_unknowns_allowed",
++                  "screening_disqualifying_contradictions", "priority_a_requires"):
++        values = config[field]
++        require(isinstance(values, list) and len(values) == len(set(values)),
++                f"unique array required: {field}")
++        require(set(values) <= set(CLAIMS), f"unknown claim in {field}")
++    require(set(config["priority_a_requires"]) <= set(config["screening_unknowns_allowed"]),
++            "priority-A claims must be screening claims")
++    require(set(config["screening_disqualifying_contradictions"])
++            <= set(config["screening_unknowns_allowed"]),
++            "disqualifying contradictions must be screening claims")
++    require(isinstance(config["hard_exclusions"], list) and config["hard_exclusions"],
++            "hard_exclusions required")
++    require(config["outreach_authorized"] is False, "lead research must not authorize outreach")
++
++
++def validate_source(row, config):
++    sid = row.get("source_id", "<missing-source-id>")
++    require(set(row) == SOURCE_FIELDS,
++            f"{sid}: source fields differ: missing={sorted(SOURCE_FIELDS - set(row))}, "
++            f"unexpected={sorted(set(row) - SOURCE_FIELDS)}")
++    require(row["schema_version"] == SCHEMA_VERSION, f"{sid}: unsupported schema_version")
++    require(re.fullmatch(r"mb-src-[0-9]{4}", sid or ""), f"{sid}: invalid source_id")
++    require(re.fullmatch(r"mb-lead-[0-9]{3}", row["lead_id"] or ""),
++            f"{sid}: invalid lead_id")
++    normalized_url(row["url"])
++    require(urlsplit(row["url"]).hostname.lower() not in SEARCH_HOSTS,
++            f"{sid}: search-result URL cannot be evidence")
++    require(row["source_kind"] in SOURCE_KINDS, f"{sid}: invalid source_kind")
++    require(nonempty(row["publisher"]), f"{sid}: publisher required")
++    validate_timestamp(row["retrieved_at"], sid)
++    require(row["retrieval_outcome"] in RETRIEVAL_OUTCOMES, f"{sid}: invalid outcome")
++    require(nonempty(row["retrieval_tool"]), f"{sid}: retrieval_tool required")
++    forbidden = ("curl", "wget", "requests", "httpx", "scraper", "terminal")
++    require(not any(term in row["retrieval_tool"].lower() for term in forbidden),
++            f"{sid}: forbidden retrieval tool description")
++    supports = row["supports"]
++    require(isinstance(supports, list) and len(supports) == len(set(supports)),
++            f"{sid}: supports must be a unique array")
++    require(set(supports) <= set(CLAIMS), f"{sid}: unknown supports claim")
++    if row["retrieval_outcome"] == "SUCCESS":
++        require(nonempty(row["locator"]), f"{sid}: SUCCESS requires locator")
++        require(nonempty(row["exact_fragment"]), f"{sid}: SUCCESS requires exact_fragment")
++        require(len(row["exact_fragment"]) <= 1200, f"{sid}: exact_fragment exceeds 1200 chars")
++        require(supports, f"{sid}: successful source must support at least one recorded claim")
++    else:
++        require(row["exact_fragment"] is None, f"{sid}: unsuccessful source cannot carry fragment")
++        require(not supports, f"{sid}: unsuccessful source cannot support qualification")
++    require(row["notes"] is None or nonempty(row["notes"]), f"{sid}: invalid notes")
++
++
++def validate_lead_shape(row, config):
++    lid = row.get("lead_id", "<missing-lead-id>")
++    require(set(row) == LEAD_FIELDS,
++            f"{lid}: lead fields differ: missing={sorted(LEAD_FIELDS - set(row))}, "
++            f"unexpected={sorted(set(row) - LEAD_FIELDS)}")
++    require(row["schema_version"] == SCHEMA_VERSION, f"{lid}: unsupported schema_version")
++    require(re.fullmatch(r"mb-lead-[0-9]{3}", lid or ""), f"{lid}: invalid lead_id")
++    require(row["idea_id"] == config["idea_id"], f"{lid}: wrong idea_id")
++    require(row["scope_id"] == config["scope_id"], f"{lid}: wrong scope_id")
++    require(nonempty(row["organization_name"]), f"{lid}: organization_name required")
++    expected_key = normalize_organization_name(row["organization_name"])
++    require(row["organization_key"] == expected_key,
++            f"{lid}: organization_key must be {expected_key!r}")
++    normalized_url(row["website_url"])
++    require(re.fullmatch(r"[a-z0-9.-]+", row["canonical_domain"] or ""),
++            f"{lid}: invalid canonical_domain")
++    site_host = hostname(row["website_url"])
++    domain = row["canonical_domain"].lower().removeprefix("www.")
++    require(site_host == domain or site_host.endswith("." + domain),
++            f"{lid}: website host does not match canonical_domain")
++    require(row["city"] is None or nonempty(row["city"]), f"{lid}: invalid city")
++    require(row["country"] is None or nonempty(row["country"]), f"{lid}: invalid country")
++    require(row["working_language"] in {"English", "UNKNOWN"}, f"{lid}: invalid language")
++    for field in ("team_size_min", "team_size_max"):
++        require(row[field] is None or (type(row[field]) is int and row[field] > 0),
++                f"{lid}: invalid {field}")
++    if row["team_size_min"] is not None and row["team_size_max"] is not None:
++        require(row["team_size_min"] <= row["team_size_max"], f"{lid}: reversed team range")
++    require(row["team_size_label"] is None or nonempty(row["team_size_label"]),
++            f"{lid}: invalid team_size_label")
++    for field in ("owner_name", "owner_role", "notes"):
++        require(row[field] is None or nonempty(row[field]), f"{lid}: invalid {field}")
++    qualification = row["qualification"]
++    claim_sources = row["claim_source_ids"]
++    require(isinstance(qualification, dict) and set(qualification) == set(CLAIMS),
++            f"{lid}: qualification must contain every canonical claim exactly once")
++    require(set(qualification.values()) <= CLAIM_STATUSES, f"{lid}: invalid claim status")
++    require(isinstance(claim_sources, dict) and set(claim_sources) == set(CLAIMS),
++            f"{lid}: claim_source_ids must contain every canonical claim exactly once")
++    for claim, source_ids in claim_sources.items():
++        require(isinstance(source_ids, list) and len(source_ids) == len(set(source_ids)),
++                f"{lid}.{claim}: source IDs must be unique array")
++        require(all(re.fullmatch(r"mb-src-[0-9]{4}", value or "") for value in source_ids),
++                f"{lid}.{claim}: invalid source ID")
++        if qualification[claim] == "UNKNOWN":
++            require(not source_ids, f"{lid}.{claim}: UNKNOWN cannot cite a supporting source")
++        else:
++            require(source_ids, f"{lid}.{claim}: {qualification[claim]} requires source")
++    require(row["contact_channel"] in CONTACT_CHANNELS, f"{lid}: invalid contact channel")
++    if row["contact_channel"] == "NONE":
++        require(row["contact_url"] is None and row["contact_source_id"] is None,
++                f"{lid}: NONE contact cannot carry a route")
++    else:
++        normalized_url(row["contact_url"])
++        require(re.fullmatch(r"mb-src-[0-9]{4}", row["contact_source_id"] or ""),
++                f"{lid}: contact_source_id required")
++    require(isinstance(row["source_ids"], list) and len(row["source_ids"]) == len(set(row["source_ids"])),
++            f"{lid}: source_ids must be unique array")
++    require(all(re.fullmatch(r"mb-src-[0-9]{4}", value or "") for value in row["source_ids"]),
++            f"{lid}: invalid source_ids")
++    require(isinstance(row["screening_unknowns"], list)
++            and len(row["screening_unknowns"]) == len(set(row["screening_unknowns"])),
++            f"{lid}: screening_unknowns must be unique array")
++    expected_unknowns = sorted(
++        claim for claim in config["screening_unknowns_allowed"]
++        if qualification[claim] == "UNKNOWN"
++    )
++    require(sorted(row["screening_unknowns"]) == expected_unknowns,
++            f"{lid}: screening_unknowns must equal unresolved allowed claims")
++    require(row["status"] in LEAD_STATUSES, f"{lid}: invalid status")
++    require(row["priority"] in PRIORITIES, f"{lid}: invalid priority")
++    require(isinstance(row["exclusion_reasons"], list)
++            and len(row["exclusion_reasons"]) == len(set(row["exclusion_reasons"])),
++            f"{lid}: exclusion_reasons must be unique array")
++    require(all(nonempty(value) for value in row["exclusion_reasons"]),
++            f"{lid}: invalid exclusion reason")
++    require(row["duplicate_of"] is None or re.fullmatch(r"mb-lead-[0-9]{3}", row["duplicate_of"]),
++            f"{lid}: invalid duplicate_of")
++    validate_timestamp(row["last_verified_at"], lid)
++
++
++def validate_dataset(root, idea, require_final=False):
++    base = Path(root) / "ideas" / idea / "stage1.5" / "lead-research"
++    config = read_json(base / "config.json")
++    validate_config(config)
++    require(config["idea_id"] == idea, "--idea does not match config idea_id")
++    leads = read_jsonl(base / "leads.jsonl", "leads.jsonl")
++    sources = read_jsonl(base / "source-register.jsonl", "source-register.jsonl")
++
++    source_by_id = {}
++    sources_by_lead = {}
++    seen_source_pages = set()
++    for source in sources:
++        validate_source(source, config)
++        sid = source["source_id"]
++        require(sid not in source_by_id, f"duplicate source_id: {sid}")
++        source_by_id[sid] = source
++        sources_by_lead.setdefault(source["lead_id"], []).append(source)
++        page_key = (source["lead_id"], normalized_url(source["url"]))
++        require(page_key not in seen_source_pages,
++                f"duplicate source page for {source['lead_id']}: {source['url']}")
++        seen_source_pages.add(page_key)
++
++    lead_by_id = {}
++    active_domains = {}
++    active_names = {}
++    for lead in leads:
++        validate_lead_shape(lead, config)
++        lid = lead["lead_id"]
++        require(lid not in lead_by_id, f"duplicate lead_id: {lid}")
++        lead_by_id[lid] = lead
++        owned_sources = sources_by_lead.get(lid, [])
++        owned_ids = {source["source_id"] for source in owned_sources}
++        require(set(lead["source_ids"]) == owned_ids,
++                f"{lid}: source_ids must equal all source-register rows for this lead")
++        require(owned_sources, f"{lid}: at least one source row required")
++        latest = max(validate_timestamp(source["retrieved_at"], source["source_id"])
++                     for source in owned_sources)
++        actual_latest = validate_timestamp(lead["last_verified_at"], lid)
++        require(actual_latest == latest, f"{lid}: last_verified_at must equal latest source retrieval")
++
++        for claim, source_ids in lead["claim_source_ids"].items():
++            for sid in source_ids:
++                require(sid in source_by_id, f"{lid}.{claim}: unknown source {sid}")
++                source = source_by_id[sid]
++                require(source["lead_id"] == lid, f"{lid}.{claim}: cross-lead source {sid}")
++                require(source["retrieval_outcome"] == "SUCCESS",
++                        f"{lid}.{claim}: non-success source {sid}")
++                require(claim in source["supports"], f"{lid}.{claim}: {sid} lacks supports binding")
++
++        status = lead["status"]
++        required_claims = config["required_confirmed_claims"]
++        if status == "QUALIFIED_FOR_SCREENING":
++            missing = [claim for claim in required_claims
++                       if lead["qualification"][claim] != "CONFIRMED"]
++            require(not missing, f"{lid}: qualified lead has unconfirmed hard claims: {missing}")
++            require(lead["working_language"] == "English", f"{lid}: qualified lead must be English")
++            require(nonempty(lead["country"]), f"{lid}: qualified lead needs country")
++            require(lead["team_size_min"] is not None and lead["team_size_max"] is not None
++                    and 2 <= lead["team_size_min"] <= lead["team_size_max"] <= 20,
++                    f"{lid}: qualified team range must be wholly within 2..20")
++            require(nonempty(lead["owner_name"]) and nonempty(lead["owner_role"]),
++                    f"{lid}: qualified lead needs public owner identity")
++            require(lead["contact_channel"] != "NONE", f"{lid}: qualified lead needs contact route")
++            require(lead["canonical_domain"] not in DIRECTORY_HOSTS,
++                    f"{lid}: qualified lead needs an official website, not a directory profile")
++            require(not lead["exclusion_reasons"] and lead["duplicate_of"] is None,
++                    f"{lid}: qualified lead cannot be excluded/duplicate")
++            contradicted_scope = [
++                claim for claim in config["screening_disqualifying_contradictions"]
++                if lead["qualification"][claim] == "CONTRADICTED"
++            ]
++            require(not contradicted_scope,
++                    f"{lid}: qualified lead has contradicted scope claims: {contradicted_scope}")
++            a_ready = all(lead["qualification"][claim] == "CONFIRMED"
++                          for claim in config["priority_a_requires"])
++            require(lead["priority"] == ("A" if a_ready else "B"),
++                    f"{lid}: priority must be derived from priority-A claims")
++        elif status == "HOLD":
++            require(lead["priority"] == "C", f"{lid}: HOLD priority must be C")
++            require(lead["exclusion_reasons"], f"{lid}: HOLD needs concrete reason")
++            require(lead["duplicate_of"] is None, f"{lid}: HOLD cannot be duplicate_of")
++        else:
++            require(lead["priority"] == "NONE", f"{lid}: EXCLUDED priority must be NONE")
++            require(lead["exclusion_reasons"], f"{lid}: EXCLUDED needs reason")
++
++        if lead["contact_source_id"] is not None:
++            sid = lead["contact_source_id"]
++            require(sid in source_by_id and source_by_id[sid]["lead_id"] == lid,
++                    f"{lid}: contact source must belong to lead")
++            source = source_by_id[sid]
++            require(source["retrieval_outcome"] == "SUCCESS"
++                    and "PUBLIC_BUSINESS_CONTACT" in source["supports"],
++                    f"{lid}: contact source must successfully support contact route")
++            require(normalized_url(lead["contact_url"]) == normalized_url(source["url"]),
++                    f"{lid}: contact URL must equal its inspected source URL")
++
++        if status != "EXCLUDED":
++            domain = lead["canonical_domain"]
++            key = lead["organization_key"]
++            require(domain not in active_domains,
++                    f"duplicate active canonical_domain: {active_domains.get(domain)} and {lid}")
++            require(key not in active_names,
++                    f"duplicate active organization key: {active_names.get(key)} and {lid}")
++            active_domains[domain] = lid
++            active_names[key] = lid
++
++    for sid, source in source_by_id.items():
++        require(source["lead_id"] in lead_by_id, f"{sid}: orphan source lead_id")
++    for lead in leads:
++        if lead["duplicate_of"] is not None:
++            require(lead["status"] == "EXCLUDED" and "DUPLICATE" in lead["exclusion_reasons"],
++                    f"{lead['lead_id']}: duplicate_of requires EXCLUDED + DUPLICATE")
++            require(lead["duplicate_of"] in lead_by_id, f"{lead['lead_id']}: unknown duplicate target")
++            require(lead_by_id[lead["duplicate_of"]]["status"] != "EXCLUDED",
++                    f"{lead['lead_id']}: duplicate target must be retained")
++
++    qualified_count = sum(row["status"] == "QUALIFIED_FOR_SCREENING" for row in leads)
++    if require_final:
++        require(qualified_count >= config["target_qualified_leads"],
++                f"qualified lead target not reached: {qualified_count}/{config['target_qualified_leads']}")
++        report_path = base / "lead-research-report.md"
++        require(report_path.is_file(), f"missing analytical report: {report_path}")
++        report = report_path.read_text(encoding="utf-8")
++        require(len(report.strip()) >= 600 and "NOT_STARTED" not in report,
++                "analytical report is still a placeholder")
++        require("No outreach" in report or "no outreach" in report,
++                "report must explicitly state that no outreach occurred")
++
++    return base, config, leads, sources
++
++
++def make_csv(leads):
++    output = io.StringIO(newline="")
++    writer = csv.DictWriter(output, fieldnames=CSV_FIELDS, lineterminator="\n")
++    writer.writeheader()
++    for lead in sorted(leads, key=lambda row: row["lead_id"]):
++        writer.writerow({
++            "lead_id": lead["lead_id"],
++            "organization_name": lead["organization_name"],
++            "website_url": lead["website_url"],
++            "canonical_domain": lead["canonical_domain"],
++            "city": lead["city"] or "",
++            "country": lead["country"] or "",
++            "team_size_label": lead["team_size_label"] or "",
++            "owner_name": lead["owner_name"] or "",
++            "owner_role": lead["owner_role"] or "",
++            "contact_channel": lead["contact_channel"],
++            "contact_url": lead["contact_url"] or "",
++            "status": lead["status"],
++            "priority": lead["priority"],
++            "screening_unknowns": ";".join(sorted(lead["screening_unknowns"])),
++            "source_ids": ";".join(sorted(lead["source_ids"])),
++            "notes": lead["notes"] or "",
++        })
++    return output.getvalue().encode("utf-8")
++
++
++def make_summary(config, leads, sources):
++    status_counts = Counter(row["status"] for row in leads)
++    qualified = [row for row in leads if row["status"] == "QUALIFIED_FOR_SCREENING"]
++    source_outcomes = Counter(row["retrieval_outcome"] for row in sources)
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "idea_id": config["idea_id"],
++        "scope_id": config["scope_id"],
++        "target_qualified_leads": config["target_qualified_leads"],
++        "total_leads": len(leads),
++        "status_counts": dict(sorted(status_counts.items())),
++        "qualified_leads": len(qualified),
++        "priority_counts": dict(sorted(Counter(row["priority"] for row in qualified).items())),
++        "country_counts": dict(sorted(Counter(row["country"] for row in qualified).items())),
++        "contact_channel_counts": dict(sorted(Counter(row["contact_channel"] for row in qualified).items())),
++        "screening_unknown_counts": dict(sorted(Counter(
++            claim for row in qualified for claim in row["screening_unknowns"]
++        ).items())),
++        "source_records": len(sources),
++        "source_outcome_counts": dict(sorted(source_outcomes.items())),
++        "source_kind_counts": dict(sorted(Counter(row["source_kind"] for row in sources).items())),
++        "unique_qualified_domains": len({row["canonical_domain"] for row in qualified}),
++        "ready_for_codex_audit": len(qualified) >= config["target_qualified_leads"],
++        "outreach_authorized": False,
++    }
++
++
++def write_bytes(path, content):
++    path = Path(path)
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_bytes(content)
++
++
++def expected_status(config, summary, base):
++    existing = {}
++    status_path = base / "run-status.json"
++    if status_path.is_file():
++        existing = read_json(status_path)
++        require(set(existing) == RUN_STATUS_FIELDS,
++                f"run-status fields differ: {sorted(set(existing) ^ RUN_STATUS_FIELDS)}")
++        require(isinstance(existing["blockers"], list)
++                and all(nonempty(value) for value in existing["blockers"]),
++                "run-status blockers must be nonempty strings")
++        require(existing["notes"] is None or nonempty(existing["notes"]),
++                "invalid run-status notes")
++    blockers = existing.get("blockers", [])
++    if summary["ready_for_codex_audit"]:
++        status = "READY_FOR_CODEX_AUDIT"
++    elif blockers:
++        status = "PARTIAL_BLOCKED"
++    else:
++        status = "IN_PROGRESS"
++    summary_bytes = canonical_json_bytes(summary)
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "idea_id": config["idea_id"],
++        "scope_id": config["scope_id"],
++        "phase": "LEAD_RESEARCH",
++        "status": status,
++        "target_qualified_leads": config["target_qualified_leads"],
++        "total_leads": summary["total_leads"],
++        "qualified_leads": summary["qualified_leads"],
++        "hold_leads": summary["status_counts"].get("HOLD", 0),
++        "excluded_leads": summary["status_counts"].get("EXCLUDED", 0),
++        "priority_counts": summary["priority_counts"],
++        "source_records": summary["source_records"],
++        "blockers": blockers,
++        "notes": existing.get("notes"),
++        "lead_summary_sha256": sha256_bytes(summary_bytes),
++    }
++
++
++def checkpoint(root, idea, require_final=False):
++    base, config, leads, sources = validate_dataset(root, idea, require_final=require_final)
++    csv_bytes = make_csv(leads)
++    summary = make_summary(config, leads, sources)
++    summary_bytes = canonical_json_bytes(summary)
++    status = expected_status(config, summary, base)
++    write_bytes(base / "leads.csv", csv_bytes)
++    write_bytes(base / "lead-summary.json", summary_bytes)
++    write_bytes(base / "run-status.json", canonical_json_bytes(status))
++    return base, config, leads, sources, summary, status
++
++
++def check_generated(root, idea, require_final=False):
++    base, config, leads, sources = validate_dataset(root, idea, require_final=require_final)
++    expected_csv = make_csv(leads)
++    expected_summary = make_summary(config, leads, sources)
++    expected_summary_bytes = canonical_json_bytes(expected_summary)
++    require((base / "leads.csv").is_file()
++            and (base / "leads.csv").read_bytes() == expected_csv,
++            "leads.csv is missing or stale; run checkpoint")
++    require((base / "lead-summary.json").is_file()
++            and (base / "lead-summary.json").read_bytes() == expected_summary_bytes,
++            "lead-summary.json is missing or stale; run checkpoint")
++    expected_run = expected_status(config, expected_summary, base)
++    actual_run = read_json(base / "run-status.json")
++    require(actual_run == expected_run, "run-status.json is stale or inconsistent")
++    if require_final:
++        snapshot_path = base / "snapshot.json"
++        require(snapshot_path.is_file(), "final check requires snapshot.json")
++        snapshot = read_json(snapshot_path)
++        required_snapshot = {
++            "schema_version", "snapshot_id", "idea_id", "scope_id", "sealed_at",
++            "qualified_leads", "files",
++        }
++        require(set(snapshot) == required_snapshot, "snapshot fields differ from contract")
++        require(snapshot["schema_version"] == SCHEMA_VERSION, "snapshot schema mismatch")
++        require(snapshot["idea_id"] == config["idea_id"] and snapshot["scope_id"] == config["scope_id"],
++                "snapshot identity mismatch")
++        validate_timestamp(snapshot["sealed_at"], "snapshot")
++        require(snapshot["qualified_leads"] == expected_summary["qualified_leads"],
++                "snapshot qualified total mismatch")
++        expected_files = {
++            "config.json", "leads.jsonl", "source-register.jsonl", "lead-research-report.md",
++            "leads.csv", "lead-summary.json", "run-status.json",
++        }
++        require(set(snapshot["files"]) == expected_files, "snapshot file set mismatch")
++        for filename, expected_hash in snapshot["files"].items():
++            require(re.fullmatch(r"[0-9a-f]{64}", expected_hash or ""),
++                    f"snapshot invalid hash for {filename}")
++            require(sha256_file(base / filename) == expected_hash,
++                    f"snapshot hash mismatch: {filename}")
++    return base, expected_summary
++
++
++def seal(root, idea, snapshot_id):
++    require(re.fullmatch(r"[a-z0-9][a-z0-9._-]{5,80}", snapshot_id or ""),
++            "invalid snapshot ID")
++    base, config, _, _, summary, _ = checkpoint(root, idea, require_final=True)
++    files = [
++        "config.json", "leads.jsonl", "source-register.jsonl", "lead-research-report.md",
++        "leads.csv", "lead-summary.json", "run-status.json",
++    ]
++    snapshot = {
++        "schema_version": SCHEMA_VERSION,
++        "snapshot_id": snapshot_id,
++        "idea_id": config["idea_id"],
++        "scope_id": config["scope_id"],
++        "sealed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
++        "qualified_leads": summary["qualified_leads"],
++        "files": {filename: sha256_file(base / filename) for filename in files},
++    }
++    write_bytes(base / "snapshot.json", canonical_json_bytes(snapshot))
++    return base, summary
++
++
++def build_parser():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("command", choices=("checkpoint", "check", "seal"))
++    parser.add_argument("--idea", required=True)
++    parser.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
++    parser.add_argument("--require-final", action="store_true")
++    parser.add_argument("--snapshot-id")
++    return parser
++
++
++def main(argv=None):
++    args = build_parser().parse_args(argv)
++    try:
++        if args.command == "checkpoint":
++            require(not args.snapshot_id, "checkpoint does not accept --snapshot-id")
++            base, _, _, _, summary, status = checkpoint(args.root, args.idea,
++                                                        require_final=args.require_final)
++            print(f"OK: checkpointed {base}")
++            print(json.dumps({"total": summary["total_leads"],
++                              "qualified": summary["qualified_leads"],
++                              "status": status["status"]}, sort_keys=True))
++        elif args.command == "check":
++            require(not args.snapshot_id, "check does not accept --snapshot-id")
++            _, summary = check_generated(args.root, args.idea, require_final=args.require_final)
++            print("OK: Stage 1.5 lead package is structurally consistent")
++            print(json.dumps({"total": summary["total_leads"],
++                              "qualified": summary["qualified_leads"],
++                              "ready_for_codex_audit": summary["ready_for_codex_audit"]},
++                             sort_keys=True))
++            print("NOTE: this does not verify live sources or authorize outreach")
++        else:
++            require(args.snapshot_id, "seal requires --snapshot-id")
++            base, summary = seal(args.root, args.idea, args.snapshot_id)
++            print(f"OK: sealed {args.snapshot_id} in {base / 'snapshot.json'}")
++            print(json.dumps({"qualified": summary["qualified_leads"]}, sort_keys=True))
++    except (LeadError, OSError, UnicodeError) as exc:
++        print(f"FAILED: {exc}", file=sys.stderr)
++        return 1
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/test_stage15_leads.py b/scripts/test_stage15_leads.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..5f22f41383197ec5e06f119cc04331a3fee1b480
+--- /dev/null
++++ b/scripts/test_stage15_leads.py
+@@ -0,0 +1,264 @@
++"""Offline tests for the Stage 1.5 lead-research contract."""
++from __future__ import annotations
++
++import copy
++import importlib.util
++import json
++import tempfile
++import unittest
++from contextlib import redirect_stdout
++from io import StringIO
++from pathlib import Path
++
++
++SPEC = importlib.util.spec_from_file_location(
++    "stage15_leads", Path(__file__).with_name("stage15_leads.py")
++)
++stage15 = importlib.util.module_from_spec(SPEC)
++SPEC.loader.exec_module(stage15)
++ROOT = Path(__file__).resolve().parents[1]
++CONFIG = json.loads((ROOT / "ideas/multi-brand-content/stage1.5/lead-research/config.json")
++                    .read_text(encoding="utf-8"))
++STAMP = "2026-09-11T10:00:00+00:00"
++
++
++class Stage15LeadTests(unittest.TestCase):
++    def setUp(self):
++        capture = redirect_stdout(StringIO())
++        capture.__enter__()
++        self.addCleanup(capture.__exit__, None, None, None)
++        self.temp = tempfile.TemporaryDirectory(prefix="stage15-leads-")
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name)
++        self.base = self.root / "ideas/multi-brand-content/stage1.5/lead-research"
++        self.base.mkdir(parents=True)
++        self.write_json("config.json", CONFIG)
++        self.write_text("leads.jsonl", "")
++        self.write_text("source-register.jsonl", "")
++        self.write_text("lead-research-report.md", "# Synthetic\n\nNo outreach occurred.\n")
++
++    def write_text(self, relative, value):
++        (self.base / relative).write_text(value, encoding="utf-8")
++
++    def write_json(self, relative, value):
++        self.write_text(relative, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
++
++    def write_jsonl(self, relative, rows):
++        self.write_text(relative, "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows))
++
++    def source(self, lead_index, source_index, path, kind, supports, outcome="SUCCESS"):
++        lead_id = f"mb-lead-{lead_index:03d}"
++        base_index = (lead_index - 1) * 4 + source_index
++        official = f"https://agency-{lead_index}.example"
++        url = f"{official}/{path}" if path else official
++        return {
++            "schema_version": 1,
++            "source_id": f"mb-src-{base_index:04d}",
++            "lead_id": lead_id,
++            "url": url,
++            "source_kind": kind,
++            "publisher": f"Agency {lead_index}",
++            "retrieved_at": STAMP,
++            "retrieval_outcome": outcome,
++            "retrieval_tool": "Synthetic browser fixture",
++            "locator": "Synthetic visible section" if outcome == "SUCCESS" else None,
++            "exact_fragment": "Synthetic source fragment for structural tests only."
++            if outcome == "SUCCESS" else None,
++            "supports": supports if outcome == "SUCCESS" else [],
++            "notes": None,
++        }
++
++    def fixture(self, lead_index=1, priority_a=False):
++        common = [
++            "ACTIVE_BUSINESS", "ENGLISH_SERVICE", "EXTERNAL_SERVICE_PROVIDER",
++            "ORGANIC_SOCIAL_MANAGEMENT", "RECURRING_CONTENT_SERVICE",
++            "STATIC_OR_CAROUSEL_CONTENT", "MULTIPLE_CLIENT_BRANDS",
++        ]
++        if priority_a:
++            common += ["SMB_CLIENTELE", "OWNER_HANDS_ON_PRODUCTION"]
++        sources = [
++            self.source(lead_index, 1, "", "OFFICIAL_SITE", common),
++            self.source(lead_index, 2, "team-size", "AGENCY_DIRECTORY", ["TEAM_SIZE_2_20"]),
++            self.source(lead_index, 3, "about", "OFFICIAL_TEAM", ["OWNER_IDENTITY"]),
++            self.source(lead_index, 4, "contact", "OFFICIAL_CONTACT", ["PUBLIC_BUSINESS_CONTACT"]),
++        ]
++        by_claim = {claim: [] for claim in stage15.CLAIMS}
++        qualification = {claim: "UNKNOWN" for claim in stage15.CLAIMS}
++        for source in sources:
++            for claim in source["supports"]:
++                qualification[claim] = "CONFIRMED"
++                by_claim[claim].append(source["source_id"])
++        unknowns = sorted(claim for claim in CONFIG["screening_unknowns_allowed"]
++                          if qualification[claim] == "UNKNOWN")
++        lead = {
++            "schema_version": 1,
++            "lead_id": f"mb-lead-{lead_index:03d}",
++            "idea_id": "multi-brand-content",
++            "scope_id": "MULTIBRAND-OPERATOR-01",
++            "organization_name": f"Agency {lead_index}",
++            "organization_key": f"agency-{lead_index}",
++            "website_url": f"https://agency-{lead_index}.example",
++            "canonical_domain": f"agency-{lead_index}.example",
++            "city": "Test City",
++            "country": "Testland",
++            "working_language": "English",
++            "team_size_min": 2,
++            "team_size_max": 9,
++            "team_size_label": "2-9",
++            "owner_name": f"Owner {lead_index}",
++            "owner_role": "Founder",
++            "qualification": qualification,
++            "claim_source_ids": by_claim,
++            "contact_channel": "CONTACT_FORM",
++            "contact_url": f"https://agency-{lead_index}.example/contact",
++            "contact_source_id": sources[3]["source_id"],
++            "source_ids": [source["source_id"] for source in sources],
++            "screening_unknowns": unknowns,
++            "status": "QUALIFIED_FOR_SCREENING",
++            "priority": "A" if priority_a else "B",
++            "exclusion_reasons": [],
++            "duplicate_of": None,
++            "notes": "Synthetic lead for checker tests only.",
++            "last_verified_at": STAMP,
++        }
++        return lead, sources
++
++    def save(self, leads, sources):
++        self.write_jsonl("leads.jsonl", leads)
++        self.write_jsonl("source-register.jsonl", sources)
++
++    def complete_report(self):
++        self.write_text(
++            "lead-research-report.md",
++            "# Synthetic final report\n\n" +
++            "This test-only narrative contains no market evidence. " * 20 +
++            "\n\nNo outreach occurred.\n",
++        )
++
++    def test_empty_checkpoint_and_check(self):
++        stage15.checkpoint(self.root, "multi-brand-content")
++        _, summary = stage15.check_generated(self.root, "multi-brand-content")
++        self.assertEqual(summary["qualified_leads"], 0)
++        status = json.loads((self.base / "run-status.json").read_text(encoding="utf-8"))
++        self.assertEqual(status["status"], "IN_PROGRESS")
++
++    def test_valid_qualified_lead_and_generated_totals(self):
++        lead, sources = self.fixture()
++        self.save([lead], sources)
++        stage15.checkpoint(self.root, "multi-brand-content")
++        _, summary = stage15.check_generated(self.root, "multi-brand-content")
++        self.assertEqual(summary["qualified_leads"], 1)
++        self.assertEqual(summary["unique_qualified_domains"], 1)
++        self.assertEqual(summary["source_records"], 4)
++        self.assertIn("mb-lead-001", (self.base / "leads.csv").read_text(encoding="utf-8"))
++
++    def test_final_requires_target_and_real_report(self):
++        lead, sources = self.fixture()
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.checkpoint(self.root, "multi-brand-content", require_final=True)
++
++    def test_exact_target_seals_and_hashes(self):
++        leads, sources = [], []
++        for index in range(1, 51):
++            lead, source_rows = self.fixture(index)
++            leads.append(lead)
++            sources.extend(source_rows)
++        self.save(leads, sources)
++        self.complete_report()
++        stage15.seal(self.root, "multi-brand-content", "mb-leads-test-001")
++        _, summary = stage15.check_generated(self.root, "multi-brand-content", require_final=True)
++        self.assertEqual(summary["qualified_leads"], 50)
++        self.assertTrue(summary["ready_for_codex_audit"])
++
++    def test_duplicate_domain_and_name_rejected(self):
++        first, first_sources = self.fixture(1)
++        second, second_sources = self.fixture(2)
++        second["canonical_domain"] = first["canonical_domain"]
++        second["website_url"] = first["website_url"]
++        self.save([first, second], first_sources + second_sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++        second["canonical_domain"] = "agency-2.example"
++        second["website_url"] = "https://agency-2.example"
++        second["organization_name"] = first["organization_name"]
++        second["organization_key"] = first["organization_key"]
++        self.save([first, second], first_sources + second_sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_cross_lead_source_binding_rejected(self):
++        first, first_sources = self.fixture(1)
++        second, second_sources = self.fixture(2)
++        first["claim_source_ids"]["TEAM_SIZE_2_20"] = [second_sources[1]["source_id"]]
++        self.save([first, second], first_sources + second_sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_blocked_source_cannot_support_claim(self):
++        lead, sources = self.fixture()
++        sources[1]["retrieval_outcome"] = "BLOCKED"
++        sources[1]["locator"] = None
++        sources[1]["exact_fragment"] = None
++        sources[1]["supports"] = []
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_team_range_and_priority_are_fail_closed(self):
++        lead, sources = self.fixture()
++        lead["team_size_max"] = 50
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_scope_contradiction_cannot_remain_qualified(self):
++        lead, sources = self.fixture()
++        lead["qualification"]["SMB_CLIENTELE"] = "CONTRADICTED"
++        lead["claim_source_ids"]["SMB_CLIENTELE"] = [sources[0]["source_id"]]
++        sources[0]["supports"].append("SMB_CLIENTELE")
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++        lead, sources = self.fixture()
++        lead["priority"] = "A"
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_contact_url_must_be_inspected_route(self):
++        lead, sources = self.fixture()
++        lead["contact_url"] = "https://agency-1.example/another-contact"
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_stale_generated_and_snapshot_rejected(self):
++        lead, sources = self.fixture()
++        self.save([lead], sources)
++        stage15.checkpoint(self.root, "multi-brand-content")
++        lead["notes"] = "Changed after rendering."
++        self.save([lead], sources)
++        with self.assertRaises(stage15.LeadError):
++            stage15.check_generated(self.root, "multi-brand-content")
++
++    def test_duplicate_json_property_rejected(self):
++        self.write_text("leads.jsonl", '{"lead_id":"a","lead_id":"b"}\n')
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_dataset(self.root, "multi-brand-content")
++
++    def test_config_cannot_authorize_outreach_or_expand_interview_cap(self):
++        config = copy.deepcopy(CONFIG)
++        config["outreach_authorized"] = True
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_config(config)
++        config = copy.deepcopy(CONFIG)
++        config["max_counted_conversations"] = 9
++        with self.assertRaises(stage15.LeadError):
++            stage15.validate_config(config)
++
++
++if __name__ == "__main__":
++    unittest.main()
+-- 
+2.51.1
+
